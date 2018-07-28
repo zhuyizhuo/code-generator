@@ -3,29 +3,16 @@ package com.zhuyizhuo.generator.mybatis.database.vo;
 import java.util.List;
 
 public class JavaTableInfo {
-	/**
-	 * 数据库名称
-	 */
+	/** 数据库名称 */
 	private String tableSchema;
-
-	/**
-	 * 转换成驼峰命名的表名
-	 */
-	private String tableName;
-	
-	/**
-	 * 数据库原表名
-	 */
+	/** 数据库原表名 */
 	private String dbTableName;
-	
-	/**
-	 * 表注释
-	 */
+	/** 表注释 */
 	private String tableComment;
-	
-	/**
-	 * 列信息
-	 */
+
+	/**  转换成驼峰命名的表名 */
+	private String tableName;
+	/** 列信息 */
 	private List<ColmJavaBean> javaColmBeans;
 
 	public String getTableSchema() {

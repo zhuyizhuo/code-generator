@@ -9,28 +9,20 @@ public class ColmJavaBean {
 
 	// 数据库原字段名
 	private String dbColmName;
-	
 	//数据库数据类型
 	private String dbColmType;
-	
 	//可否为空
 	private String nullable;
-	
 	//字段长度
 	private String dataLength;
-	
 	//转为驼峰命名后的字段名
 	private String javaName;
-	
 	//java字段类型
 	private String typeName;
-	
 	//java字段类型全称
 	private String typeImport;
-	
 	// 字段备注
 	private String comment;
-	
 	//JDBC类型
 	private String colmJdbcType;
 

@@ -1,4 +1,4 @@
-package com.zhuyizhuo.generator.mybatis.database.vo;
+package com.zhuyizhuo.generator.mybatis.database.pojo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +12,17 @@ import java.util.List;
  * @version 1.0
  */
 public class MysqlDbInfo {
+    private String tableSchema;
 
     private List<DbTableInfo> tableInfoList = new ArrayList<>();
+
+    public String getTableSchema() {
+        return tableSchema;
+    }
+
+    public void setTableSchema(String tableSchema) {
+        this.tableSchema = tableSchema;
+    }
 
     public List<DbTableInfo> getTableInfoList() {
         return tableInfoList;

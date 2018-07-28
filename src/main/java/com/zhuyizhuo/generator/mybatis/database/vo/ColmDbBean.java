@@ -9,18 +9,11 @@ public class ColmDbBean {
 
 	// 数据库字段名
 	private String colmName;
-
 	// 数据库字段类型
 	private String colmType;
-
 	// 字段备注
 	private String comment;
-	
-	//可否为空
-	private String nullable;
-	
-	//字段长度
-	private String dataLength;
+
 
 	public String getColmName() {
 		return colmName;
@@ -46,20 +39,5 @@ public class ColmDbBean {
 		this.comment = comment;
 	}
 
-	public String getNullable() {
-		return nullable;
-	}
-
-	public void setNullable(String nullable) {
-		this.nullable = nullable;
-	}
-
-	public String getDataLength() {
-		return dataLength;
-	}
-
-	public void setDataLength(String dataLength) {
-		this.dataLength = dataLength;
-	}
 
 }

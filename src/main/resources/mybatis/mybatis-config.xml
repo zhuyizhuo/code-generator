@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <properties resource="generate-config.properties"/>
+
+    <!-- 扫描包内的bean自动注册别名,如果没有注解的情况下,别名默认为首字母小写 -->
+    <typeAliases>
+        <package name="com.zhuyizhuo.generator.mybatis.database.pojo"/>
+    </typeAliases>
+
+    <!-- 数据库连接 -->
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${DRIVER}"/>
+                <property name="url" value="${URL}"/>
+                <property name="username" value="${USERNAME}"/>
+                <property name="password" value="${PASSWORD}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <mapper resource="mybatis/mappers/MysqlDataBaseMapper.xml"/>
+    </mappers>
+
+</configuration>

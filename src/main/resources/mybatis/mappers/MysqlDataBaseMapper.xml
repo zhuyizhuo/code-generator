@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhuyizhuo.generator.mybatis.database.mapper.MysqlDataBaseMapper">
+
+    <select id="getTableNameListBySchema" resultType="dbTableInfo" parameterType="dbTableInfo">
+        SELECT
+            TABLE_SCHEMA as tableSchema,
+            TABLE_NAME as tableName,
+            TABLE_COMMENT as tableComment
+         FROM
+            INFORMATION_SCHEMA.TABLES
+        WHERE 1 = 1
+        <if test="tableSchema != null and '' != tableSchema">
+          AND TABLE_SCHEMA = #{tableSchema}
+        </if>
+        <if test="tableName != null and '' != tableName">
+          AND TABLE_NAME = #{tableName}
+        </if>
+    </select>
+
+    <!-- QUERY PRIMARY KEY -->
+    <select id="ss">
+        SELECT
+          T.TABLE_NAME,
+          C.COLUMN_NAME,
+          C.ORDINAL_POSITION
+        FROM
+          INFORMATION_SCHEMA.TABLE_CONSTRAINTS AS T,
+          INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS C
+        WHERE
+          T.TABLE_NAME = C.TABLE_NAME
+        AND T.TABLE_NAME = 'SIMPLE_MYBATIS_ORDER'
+        AND T.TABLE_SCHEMA = 'YIZHUO'
+        AND T.CONSTRAINT_TYPE = 'PRIMARY KEY'
+    </select>
+
+    <select id="getColumnListByTableName" resultType="columnInfo" parameterType="dbTableInfo">
+        SELECT
+            COLUMN_NAME columnName,
+            COLUMN_COMMENT columnComment,
+            DATA_TYPE dataType
+        FROM
+          INFORMATION_SCHEMA.COLUMNS
+        WHERE 1 = 1
+        <if test="tableSchema != null and '' != tableSchema">
+            AND TABLE_SCHEMA = #{tableSchema}
+        </if>
+        <if test="tableName != null and '' != tableName">
+            AND TABLE_NAME = #{tableName}
+        </if>
+    </select>
+
+</mapper>
