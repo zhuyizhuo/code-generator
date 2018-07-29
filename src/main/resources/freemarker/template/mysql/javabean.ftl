@@ -10,7 +10,7 @@ import ${import};
  * description : ${dbTableInfo.tableComment}POJO <br/>
 <#include "base/java/comment.ftl"/>
  */
-public class ${javaTableInfo.javaTableName} {
+public class ${stratificationInfo.pojoName} {
 
 <#list dbTableInfo.javaColumnLists as colm>
 	<#if colm??>

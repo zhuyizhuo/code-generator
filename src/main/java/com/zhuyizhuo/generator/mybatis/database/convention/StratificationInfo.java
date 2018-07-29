@@ -14,13 +14,13 @@ public class StratificationInfo {
     private String basePackage = "cn.zhuyizhuo";
 
     /** 实体名称 */
-    public static final String pojoNameFormat = "{0}POJO";
+    public static final String POJO_NAME_FORMAT = "{0}POJO";
     /** service 层名称 */
-    public static final String serviceNameFormat = "{0}Service";
+    public static final String SERVICE_NAME_FORMAT = "{0}Service";
     /** service 实现类名称 */
-    public static final String serviceImplNameFormat = "{0}ServiceImpl";
+    public static final String SERVICE_IMPL_NAME_FORMAT = "{0}ServiceImpl";
     /** dao 层名称 */
-    public static final String daoNameFormat = "{0}Dao";
+    public static final String DAO_NAME_FORMAT = "{0}Dao";
 
     /** dao包路径 */
     private String daoPackage = "dao";
@@ -110,7 +110,7 @@ public class StratificationInfo {
     }
 
     public void setPojoName(String pojoName) {
-        this.pojoName = pojoName;
+        this.pojoName = formatName(POJO_NAME_FORMAT,pojoName);
     }
 
     public String getServiceName() {
@@ -118,7 +118,7 @@ public class StratificationInfo {
     }
 
     public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
+        this.serviceName = formatName(SERVICE_NAME_FORMAT,serviceName);
     }
 
     public String getServiceImplName() {
@@ -126,7 +126,7 @@ public class StratificationInfo {
     }
 
     public void setServiceImplName(String serviceImplName) {
-        this.serviceImplName = serviceImplName;
+        this.serviceImplName = formatName(SERVICE_IMPL_NAME_FORMAT,serviceImplName);
     }
 
     public String getDaoName() {
@@ -134,10 +134,10 @@ public class StratificationInfo {
     }
 
     public void setDaoName(String daoName) {
-        this.daoName = formatName(daoNameFormat,daoName);
+        this.daoName = formatName(DAO_NAME_FORMAT,daoName);
     }
 
-    private String formatName(String daoNameFormat, String daoName) {
+    public String formatName(String daoNameFormat, String daoName) {
         return MessageFormat.format(daoNameFormat, daoName);
     }
 

@@ -1,5 +1,5 @@
     <!-- 新增 -->
-	<insert id="${methodInfo.insertMethodName}" parameterType="${stratificationInfo.pojoFullPackage}.${javaTableInfo.javaTableName}">
+	<insert id="${methodInfo.insertMethodName}" parameterType="${stratificationInfo.pojoFullPackage}.${stratificationInfo.pojoName}">
 		<![CDATA[
 			INSERT INTO ${dbTableInfo.tableName}(
         <#list dbTableInfo.columnLists as colm>

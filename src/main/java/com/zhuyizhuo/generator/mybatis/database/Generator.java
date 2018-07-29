@@ -26,36 +26,49 @@ public class Generator {
             System.out.println("ftlFilePath:" + ftlFilePath);
             String xmlFtlFileName = GeneratorStringUtils.getFileName(ftlPathInfo.getMysqlXmlFtlPath());
             String pojoFtlFileName = GeneratorStringUtils.getFileName(ftlPathInfo.getPojoFtlPath());
+            String daoFtlFileName = GeneratorStringUtils.getFileName(ftlPathInfo.getDaoFtlPath());
             System.out.println("xmlFtlFileName:" + xmlFtlFileName);
+            System.out.println("pojoFtlFileName:" + pojoFtlFileName);
+            System.out.println("daoFtlFileName:" + daoFtlFileName);
 
             Ftl ftl = new Ftl();
             ftl.setJavaTableInfo(javaTableInfo);
-
+            StratificationInfo stratificationInfo = new StratificationInfo();
             for (int i = 0; i < dbTableInfoList.size(); i++) {
                 DbTableInfo tableInfo = dbTableInfoList.get(i);
-                javaTableInfo.setJavaTableName(getJavaTableName(tableInfo.getTableName()));
-                ftl.getStratificationInfo().setDaoName(getJavaTableName(tableInfo.getTableName()));
+                String javaTableName = getJavaTableName(tableInfo.getTableName());
+                javaTableInfo.setJavaTableName(javaTableName);
+                ftl.getStratificationInfo().setDaoName(javaTableName);
+                ftl.getStratificationInfo().setPojoName(javaTableName);
+
                 ftl.getMethodInfo().setInsertMethodName(javaTableInfo.getJavaTableName());
                 ftl.setDbTableInfo(tableInfo);
 
-                String xmlOutPutPath = getXmlOutPutPath(tableInfo.getTableName().toLowerCase());
-                String pojoOutPutPath = getPOJOOutPutPath(javaTableInfo.getJavaTableName());
+
+                String fileOutPutPath = getFileOutPutPath();
+                String xmlOutPutPath = fileOutPutPath + getXmlOutPutPath(stratificationInfo.getXmlFullPackage(),tableInfo.getTableName().toLowerCase());
+                String pojoOutPutPath = fileOutPutPath + getJavaOutPutPath(stratificationInfo.getPojoFullPackage(),ftl.getStratificationInfo().getPojoName());
+                String daoOutPutPath = fileOutPutPath + getJavaOutPutPath(stratificationInfo.getDaoFullPackage(),ftl.getStratificationInfo().getDaoName());
                 System.out.println("xmlOutPutPath: " + xmlOutPutPath);
                 System.out.println("pojoOutPutPath: " + pojoOutPutPath);
+                System.out.println("daoOutPutPath: " + daoOutPutPath);
+
                 Freemarker.printFile(ftlFilePath, xmlFtlFileName, xmlOutPutPath, ftl);
                 Freemarker.printFile(ftlFilePath, pojoFtlFileName, pojoOutPutPath, ftl);
+                Freemarker.printFile(ftlFilePath, daoFtlFileName, daoOutPutPath, ftl);
+                Freemarker.printFile(ftlFilePath, "bootStrap.ftl", fileOutPutPath+getJavaOutPutPath(stratificationInfo.getBasePackage(),"BootStrap"), ftl);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private static String getPOJOOutPutPath(String javaTaleName) {
-        return getFileOutPutPath() + changePackage2Path(new StratificationInfo().getPojoFullPackage()) + "/" + javaTaleName + ".java";
+    private static String getJavaOutPutPath(String pojoFullPackage, String javaTaleName) {
+        return changePackage2Path(pojoFullPackage) + "/" + javaTaleName + ".java";
     }
 
-    private static String getXmlOutPutPath(String javaTaleName) {
-        return getFileOutPutPath() + changePackage2Path(new StratificationInfo().getXmlFullPackage()) + "/" + javaTaleName + ".xml";
+    private static String getXmlOutPutPath(String xmlFullPackage, String javaTaleName) {
+        return changePackage2Path(xmlFullPackage) + "/" + javaTaleName + ".xml";
     }
 
     public static String getFileOutPutPath(){
