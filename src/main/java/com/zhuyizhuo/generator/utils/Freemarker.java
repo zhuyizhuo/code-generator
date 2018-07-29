@@ -24,7 +24,7 @@ public class Freemarker {
 	 * 打印到控制台(测试用)
 	 *  @param ftlName
 	 */
-	public static void print(String ftlName, Map<String,Object> root, String ftlPath) throws Exception{
+	public static void print(String ftlPath, String ftlName, Object root) throws Exception{
 		try {
 			//通过Template可以将模板文件输出到相应的流
 			Template temp = getTemplate(ftlName, ftlPath);
@@ -35,7 +35,7 @@ public class Freemarker {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 输出到输出到文件
 	 * @param ftlName   ftl文件名

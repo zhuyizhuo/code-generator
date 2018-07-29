@@ -7,18 +7,49 @@ package com.zhuyizhuo.generator.mybatis.database.convention;
  * @date 2018/7/29 16:19
  */
 public class StratificationInfo {
+    public static final String point = ".";
     /** 基础路径 */
     private String basePackage = "cn.zhuyizhuo";
-    /** dao 层包路径*/
+
+    /** 实体名称 */
+    private String pojoNameFormat = "{0}POJO";
+    /** service 层名称 */
+    private String serviceNameFormat = "{0}Service";
+    /** service 实现类名称 */
+    private String serviceImplNameFormat = "{0}ServiceImpl";
+    /** dao 层名称 */
+    private String daoNameFormat = "{0}Dao";
+
+    /** dao包路径 */
     private String daoPackage = "dao";
     /** service 接口层包路径 */
     private String servicePackage = "service";
     /** service 实现类包路径 */
     private String serviceImplPackage = "service.impl";
-    /** xml文件路径 */
-    private String xmlPackage = "xml";
     /** 实体路径 */
     private String pojoPackage = "pojo";
+    /** xml文件路径 */
+    private String xmlPackage = "xml";
+
+    /** 实体名称 */
+    private String pojoName;
+    /** service 层名称 */
+    private String serviceName;
+    /** service 实现类名称 */
+    private String serviceImplName;
+    /** dao 层名称 */
+    private String daoName;
+
+    /** dao层包全路径 */
+    private String daoFullPackage = basePackage + point + daoPackage;
+    /** service 接口层包全路径 */
+    private String serviceFullPackage = basePackage + point + servicePackage;
+    /** service 实现类包全路径 */
+    private String serviceImplFullPackage = basePackage + point + serviceImplPackage;
+    /** 实体包全路径 */
+    private String pojoFullPackage = basePackage + point + pojoPackage;
+    /** xml包全路径*/
+    private String xmlFullPackage = basePackage + point + xmlPackage;
 
     public String getBasePackage() {
         return basePackage;
@@ -66,5 +97,89 @@ public class StratificationInfo {
 
     public void setPojoPackage(String pojoPackage) {
         this.pojoPackage = pojoPackage;
+    }
+
+    public String getDaoNameFormat() {
+        return daoNameFormat;
+    }
+
+    public void setDaoNameFormat(String daoNameFormat) {
+        this.daoNameFormat = daoNameFormat;
+    }
+
+    public String getServiceNameFormat() {
+        return serviceNameFormat;
+    }
+
+    public void setServiceNameFormat(String serviceNameFormat) {
+        this.serviceNameFormat = serviceNameFormat;
+    }
+
+    public String getServiceImplNameFormat() {
+        return serviceImplNameFormat;
+    }
+
+    public void setServiceImplNameFormat(String serviceImplNameFormat) {
+        this.serviceImplNameFormat = serviceImplNameFormat;
+    }
+
+    public String getPojoNameFormat() {
+        return pojoNameFormat;
+    }
+
+    public void setPojoNameFormat(String pojoNameFormat) {
+        this.pojoNameFormat = pojoNameFormat;
+    }
+
+    public String getPojoName() {
+        return pojoName;
+    }
+
+    public void setPojoName(String pojoName) {
+        this.pojoName = pojoName;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    public String getServiceImplName() {
+        return serviceImplName;
+    }
+
+    public void setServiceImplName(String serviceImplName) {
+        this.serviceImplName = serviceImplName;
+    }
+
+    public String getDaoName() {
+        return daoName;
+    }
+
+    public void setDaoName(String daoName) {
+        this.daoName = daoName;
+    }
+
+    public String getDaoFullPackage() {
+        return daoFullPackage;
+    }
+
+    public String getServiceFullPackage() {
+        return serviceFullPackage;
+    }
+
+    public String getServiceImplFullPackage() {
+        return serviceImplFullPackage;
+    }
+
+    public String getPojoFullPackage() {
+        return pojoFullPackage;
+    }
+
+    public String getXmlFullPackage() {
+        return xmlFullPackage;
     }
 }

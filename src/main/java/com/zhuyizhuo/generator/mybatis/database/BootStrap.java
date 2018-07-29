@@ -1,9 +1,14 @@
 package com.zhuyizhuo.generator.mybatis.database;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Maps;
+import com.zhuyizhuo.generator.mybatis.database.dto.JavaColumnInfo;
+import com.zhuyizhuo.generator.mybatis.database.dto.JavaTableInfo;
 import com.zhuyizhuo.generator.mybatis.database.mapper.MysqlDataBaseMapper;
 import com.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
 import com.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
 import com.zhuyizhuo.generator.mybatis.database.pojo.MysqlDbInfo;
+import com.zhuyizhuo.generator.mybatis.database.vo.FreeMarkerVO;
 import com.zhuyizhuo.generator.utils.Freemarker;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.logging.LogFactory;
@@ -43,29 +48,18 @@ public class BootStrap {
 
         DbTableInfo tableInfo = new DbTableInfo();
         tableInfo.setTableSchema("yizhuo");
-        List<DbTableInfo> l  = mapper.getTableNameListBySchema(tableInfo);
-        System.out.println("共" + l.size() + "张表.");
+        List<DbTableInfo> tableList  = mapper.getTableNameListBySchema(tableInfo);
+        System.out.println("共" + tableList.size() + "张表.");
 
-        for (int i = 0; i < l.size(); i++) {
-            DbTableInfo tableInfo1 = l.get(i);
-            List<ColumnInfo> columnListByTableName = mapper.getColumnListByTableName(tableInfo1);
-            System.out.println(tableInfo1.getTableName() + "表共" + columnListByTableName.size() + "列");
-            for (int j = 0; j < columnListByTableName.size(); j++) {
-                ColumnInfo columnInfo = columnListByTableName.get(j);
-                System.out.println(columnInfo);
-            }
-            tableInfo1.setColumnLists(columnListByTableName);
+        for (int i = 0; i < tableList.size(); i++) {
+            DbTableInfo dbTableInfo = tableList.get(i);
+            List<ColumnInfo> columnListByTableName = mapper.getColumnListByTableName(dbTableInfo);
+            dbTableInfo.setColumnLists(columnListByTableName);
+            System.out.println(dbTableInfo.getTableName() + "表共" + columnListByTableName.size() + "列");
+            Generator.printAll(dbTableInfo);
         }
-        /*Map<String, Object> root = new HashMap<>();
-        List l = new ArrayList();
-        Map n = new HashMap();
-        n.put("dbColmName","1212");
-        l.add(n);
-        l.add(n);
-        l.add(n);
-        root.put("javaColmBeans",l);
-        String ftlPath = "E:\\github\\code-generator\\src\\main\\resources\\freemarker\\template\\mysql";
-        Freemarker.print("insert.ftl",root,ftlPath);*/
+        sqlSession.close();
     }
+
 
 }

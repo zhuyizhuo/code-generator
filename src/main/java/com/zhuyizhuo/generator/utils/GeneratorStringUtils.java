@@ -1,14 +1,42 @@
 package com.zhuyizhuo.generator.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
- * class: StringUtils <br>
+ * class: GeneratorStringUtils <br>
  * description: 字符串工具类 <br>
  * time: 2018/7/27 11:35
  *
  * @author yizhuo <br>
  * @version 1.0
  */
-public class StringUtils {
+public class GeneratorStringUtils {
+
+    /**
+     * 获取传入文件全路径的路径信息
+     * @param fileFullpath
+     * @return
+     */
+    public static String getFrontPath(String fileFullpath){
+        if (StringUtils.isBlank(fileFullpath)){
+            return "";
+        }
+        String fullPath = fileFullpath.replaceAll("\\\\","/");
+        return fullPath.substring(0,fullPath.lastIndexOf("/") + 1);
+    }
+
+    /**
+     * 获取传入文件全路径的文件名称
+     * @param fileFullpath
+     * @return
+     */
+    public static String getFileName(String fileFullpath){
+        if (StringUtils.isBlank(fileFullpath)){
+            return "";
+        }
+        String fullPath = fileFullpath.replaceAll("\\\\","/");
+        return fullPath.substring(fullPath.lastIndexOf("/") + 1);
+    }
 
     /**
      * 表名转java驼峰命名(首字母大写)

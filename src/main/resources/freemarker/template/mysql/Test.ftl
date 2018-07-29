@@ -1,3 +1,7 @@
-<#list javaColmBeans as colm>
-    ${colm.dbColmName}
+**********************************
+    ${tableName}
+    ${tableComment}
+<#list javaColumnLists as colm>
+    ${colm.javaColumnName}
 </#list>
+**********************************

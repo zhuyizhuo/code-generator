@@ -1,8 +1,11 @@
 package com.zhuyizhuo.generator.mybatis.database.vo;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Maps;
 import com.zhuyizhuo.generator.mybatis.database.dto.JavaTableInfo;
 import com.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,5 +33,16 @@ public class FreeMarkerVO {
 
     public void setDbTableInfos(Map<String, DbTableInfo> dbTableInfos) {
         this.dbTableInfos = dbTableInfos;
+    }
+
+    public void setDbTableInfos(List<DbTableInfo> dbTableInfos) {
+        if (dbTableInfos == null){
+            return;
+        }
+         this.dbTableInfos = Maps.uniqueIndex(dbTableInfos.iterator(), new Function<DbTableInfo,String>() {
+            public String apply(DbTableInfo info) {
+                return info.getTableName();
+            }
+        });
     }
 }

@@ -1,5 +1,5 @@
     <!-- 新增 -->
-	<insert id="${insertMethodName}" parameterType="${parameterType}">
+	<insert id="${javaTableName}" parameterType="${parameterType}">
 		<![CDATA[
 			INSERT INTO ${tableInfo.dbTableName}(
         <#list tableInfo.javaColmBeans as colm>

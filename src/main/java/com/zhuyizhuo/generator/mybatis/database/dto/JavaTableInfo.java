@@ -10,6 +10,8 @@ import java.util.LinkedHashSet;
 public class JavaTableInfo {
     /** java表名 */
     private String javaTableName;
+    /** 生成文件名称 */
+    private String fileName;
     /** 导入的类路径 */
     private LinkedHashSet<String> importPackages = new LinkedHashSet<String>();
 
@@ -27,5 +29,13 @@ public class JavaTableInfo {
 
     public void setImportPackages(LinkedHashSet<String> importPackages) {
         this.importPackages = importPackages;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }
