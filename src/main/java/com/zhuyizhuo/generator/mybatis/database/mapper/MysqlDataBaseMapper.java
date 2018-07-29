@@ -1,6 +1,7 @@
 package com.zhuyizhuo.generator.mybatis.database.mapper;
 
 import com.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
+import com.zhuyizhuo.generator.mybatis.database.pojo.DataBaseInfo;
 import com.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface MysqlDataBaseMapper {
      * @param schema
      * @return
      */
-    List<DbTableInfo> getTableNameListBySchema(DbTableInfo schema);
+    List<DbTableInfo> getTableNameListBySchema(DataBaseInfo schema);
 
     /***
      * 根据表信息查询所有列信息

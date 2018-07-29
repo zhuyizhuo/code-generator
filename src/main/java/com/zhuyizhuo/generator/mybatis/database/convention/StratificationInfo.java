@@ -1,5 +1,7 @@
 package com.zhuyizhuo.generator.mybatis.database.convention;
 
+import java.text.MessageFormat;
+
 /**
  * 分层信息
  * @author yizhuo
@@ -12,13 +14,13 @@ public class StratificationInfo {
     private String basePackage = "cn.zhuyizhuo";
 
     /** 实体名称 */
-    private String pojoNameFormat = "{0}POJO";
+    public static final String pojoNameFormat = "{0}POJO";
     /** service 层名称 */
-    private String serviceNameFormat = "{0}Service";
+    public static final String serviceNameFormat = "{0}Service";
     /** service 实现类名称 */
-    private String serviceImplNameFormat = "{0}ServiceImpl";
+    public static final String serviceImplNameFormat = "{0}ServiceImpl";
     /** dao 层名称 */
-    private String daoNameFormat = "{0}Dao";
+    public static final String daoNameFormat = "{0}Dao";
 
     /** dao包路径 */
     private String daoPackage = "dao";
@@ -50,6 +52,10 @@ public class StratificationInfo {
     private String pojoFullPackage = basePackage + point + pojoPackage;
     /** xml包全路径*/
     private String xmlFullPackage = basePackage + point + xmlPackage;
+
+    public static String getPoint() {
+        return point;
+    }
 
     public String getBasePackage() {
         return basePackage;
@@ -83,14 +89,6 @@ public class StratificationInfo {
         this.serviceImplPackage = serviceImplPackage;
     }
 
-    public String getXmlPackage() {
-        return xmlPackage;
-    }
-
-    public void setXmlPackage(String xmlPackage) {
-        this.xmlPackage = xmlPackage;
-    }
-
     public String getPojoPackage() {
         return pojoPackage;
     }
@@ -99,36 +97,12 @@ public class StratificationInfo {
         this.pojoPackage = pojoPackage;
     }
 
-    public String getDaoNameFormat() {
-        return daoNameFormat;
+    public String getXmlPackage() {
+        return xmlPackage;
     }
 
-    public void setDaoNameFormat(String daoNameFormat) {
-        this.daoNameFormat = daoNameFormat;
-    }
-
-    public String getServiceNameFormat() {
-        return serviceNameFormat;
-    }
-
-    public void setServiceNameFormat(String serviceNameFormat) {
-        this.serviceNameFormat = serviceNameFormat;
-    }
-
-    public String getServiceImplNameFormat() {
-        return serviceImplNameFormat;
-    }
-
-    public void setServiceImplNameFormat(String serviceImplNameFormat) {
-        this.serviceImplNameFormat = serviceImplNameFormat;
-    }
-
-    public String getPojoNameFormat() {
-        return pojoNameFormat;
-    }
-
-    public void setPojoNameFormat(String pojoNameFormat) {
-        this.pojoNameFormat = pojoNameFormat;
+    public void setXmlPackage(String xmlPackage) {
+        this.xmlPackage = xmlPackage;
     }
 
     public String getPojoName() {
@@ -160,26 +134,50 @@ public class StratificationInfo {
     }
 
     public void setDaoName(String daoName) {
-        this.daoName = daoName;
+        this.daoName = formatName(daoNameFormat,daoName);
+    }
+
+    private String formatName(String daoNameFormat, String daoName) {
+        return MessageFormat.format(daoNameFormat, daoName);
     }
 
     public String getDaoFullPackage() {
         return daoFullPackage;
     }
 
+    public void setDaoFullPackage(String daoFullPackage) {
+        this.daoFullPackage = daoFullPackage;
+    }
+
     public String getServiceFullPackage() {
         return serviceFullPackage;
+    }
+
+    public void setServiceFullPackage(String serviceFullPackage) {
+        this.serviceFullPackage = serviceFullPackage;
     }
 
     public String getServiceImplFullPackage() {
         return serviceImplFullPackage;
     }
 
+    public void setServiceImplFullPackage(String serviceImplFullPackage) {
+        this.serviceImplFullPackage = serviceImplFullPackage;
+    }
+
     public String getPojoFullPackage() {
         return pojoFullPackage;
     }
 
+    public void setPojoFullPackage(String pojoFullPackage) {
+        this.pojoFullPackage = pojoFullPackage;
+    }
+
     public String getXmlFullPackage() {
         return xmlFullPackage;
+    }
+
+    public void setXmlFullPackage(String xmlFullPackage) {
+        this.xmlFullPackage = xmlFullPackage;
     }
 }

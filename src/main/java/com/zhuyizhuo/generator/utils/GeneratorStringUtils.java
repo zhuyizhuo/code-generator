@@ -39,7 +39,7 @@ public class GeneratorStringUtils {
     }
 
     /**
-     * 表名转java驼峰命名(首字母大写)
+     * 表名转java驼峰命名(首字母小写)
      * @param tableName
      * @return
      */
@@ -47,6 +47,20 @@ public class GeneratorStringUtils {
         String[] split = tableName.split(tableRegex);
         StringBuffer s = new StringBuffer(split[0]);
         for (int i = 1; i < split.length; i++) {
+            s.append(firstUpper(split[i]));
+        }
+        return s.toString();
+    }
+
+    /**
+     * 表名转java驼峰命名(首字母大写)
+     * @param tableName
+     * @return
+     */
+    public static String changeTableName2Java1(String tableName,String tableRegex) {
+        String[] split = tableName.split(tableRegex);
+        StringBuffer s = new StringBuffer();
+        for (int i = 0; i < split.length; i++) {
             s.append(firstUpper(split[i]));
         }
         return s.toString();

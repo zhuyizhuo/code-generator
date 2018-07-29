@@ -2,19 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhuyizhuo.generator.mybatis.database.mapper.MysqlDataBaseMapper">
 
-    <select id="getTableNameListBySchema" resultType="dbTableInfo" parameterType="dbTableInfo">
+    <select id="getTableNameListBySchema" resultType="dbTableInfo" parameterType="dataBaseInfo">
         SELECT
-            TABLE_SCHEMA as tableSchema,
-            TABLE_NAME as tableName,
-            TABLE_COMMENT as tableComment
+        upper(TABLE_SCHEMA) as tableSchema,
+        upper(TABLE_NAME) as tableName,
+        upper(TABLE_COMMENT) as tableComment
          FROM
             INFORMATION_SCHEMA.TABLES
         WHERE 1 = 1
         <if test="tableSchema != null and '' != tableSchema">
           AND TABLE_SCHEMA = #{tableSchema}
         </if>
-        <if test="tableName != null and '' != tableName">
-          AND TABLE_NAME = #{tableName}
+        <if test="tableNames != null">
+            AND TABLE_NAME IN
+            <foreach collection="tableNames" index="index" item="tableName" open="(" separator="," close=")">
+                #{tableName}
+            </foreach>
         </if>
     </select>
 
@@ -36,9 +39,9 @@
 
     <select id="getColumnListByTableName" resultType="columnInfo" parameterType="dbTableInfo">
         SELECT
-            COLUMN_NAME columnName,
-            COLUMN_COMMENT columnComment,
-            DATA_TYPE dataType
+        upper(COLUMN_NAME) columnName,
+        upper(COLUMN_COMMENT) columnComment,
+        upper(DATA_TYPE) dataType
         FROM
           INFORMATION_SCHEMA.COLUMNS
         WHERE 1 = 1

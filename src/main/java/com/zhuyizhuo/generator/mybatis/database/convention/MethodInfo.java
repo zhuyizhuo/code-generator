@@ -25,6 +25,16 @@ public class MethodInfo {
     /** 查询总数方法名 */
     private static final String COUNT_METHOD_FORMAT = "countTotal{0}";
 
+    private String insertMethodName;
+
+    public String getInsertMethodName() {
+        return insertMethodName;
+    }
+
+    public void setInsertMethodName(String insertMethodName) {
+        this.insertMethodName = formatMethodName(INSERT_METHOD_FORMAT,insertMethodName);
+    }
+
     /**
      * 格式化方法名
      * @param format 方法名格式化模板 例如 countTotal{0}

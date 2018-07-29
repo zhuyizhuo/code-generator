@@ -1,6 +1,8 @@
 package com.zhuyizhuo.generator.mybatis.database.pojo;
 
 import com.zhuyizhuo.generator.mybatis.database.dto.JavaColumnInfo;
+import com.zhuyizhuo.generator.utils.GeneratorStringUtils;
+import com.zhuyizhuo.generator.utils.TypeConversion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,9 +68,9 @@ public class DbTableInfo {
 
 	private static JavaColumnInfo conversionColumn(ColumnInfo columnInfo) {
 		JavaColumnInfo javaColumnInfo = new JavaColumnInfo();
-		javaColumnInfo.setJavaColumnName(columnInfo.getColumnName());
-		javaColumnInfo.setJavaDataType(columnInfo.getDataType());
-		javaColumnInfo.setJavaDataTypeFullPath(columnInfo.getDataType());
+		javaColumnInfo.setJavaColumnName(GeneratorStringUtils.changeColmName2Java(columnInfo.getColumnName(),"_"));
+		javaColumnInfo.setJavaDataType(TypeConversion.mySqlDbType2Java(columnInfo.getDataType()));
+		javaColumnInfo.setJavaDataTypeFullPath(TypeConversion.javaDataTypeFullPathMap.get(javaColumnInfo.getJavaDataType()));
 		return javaColumnInfo;
 	}
 

@@ -27,7 +27,7 @@ public class Freemarker {
 	public static void print(String ftlPath, String ftlName, Object root) throws Exception{
 		try {
 			//通过Template可以将模板文件输出到相应的流
-			Template temp = getTemplate(ftlName, ftlPath);
+			Template temp = getTemplate(ftlPath, ftlName);
 			temp.process(root, new PrintWriter(System.out));
 		} catch (TemplateException e) {
 			e.printStackTrace();
@@ -41,18 +41,18 @@ public class Freemarker {
 	 * @param ftlName   ftl文件名
 	 * @param root		传入的map
 	 * @param outFile	输出后的文件全部路径
-	 * @param filePath	输出前的文件上部路径
+	 * @param outFilePath 输出前的文件上部路径
 	 */
-	public static void printFile(String ftlName, Map<String,Object> root, String outFile, String filePath, String ftlPath) throws Exception{
+	public static void printFile(String ftlPath, String ftlName, Map<String,Object> root,String outFilePath, String outFile) throws Exception{
 		try {
-			File file = new File(filePath + outFile);
+			File file = new File(outFilePath + outFile);
 			//判断有没有父路径，就是判断文件整个路径是否存在
 			if(!file.getParentFile().exists()){
 				//不存在就全部创建
 				file.getParentFile().mkdirs();
 			}
 			Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "utf-8"));
-			Template template = getTemplate(ftlName, ftlPath);
+			Template template = getTemplate(ftlPath, ftlName);
 			//模版输出
 			template.process(root, out);
 			out.flush();
@@ -64,7 +64,7 @@ public class Freemarker {
 		}
 	}
 
-	public static void printFile(String ftlPath,String ftlName, String outPutPath, Object outPutObject) throws Exception{
+	public static void printFile(String ftlPath, String ftlName, String outPutPath, Object outPutObject) throws Exception{
 		try {
 			File file = new File(outPutPath);
 			//判断有没有父路径，就是判断文件整个路径是否存在
@@ -73,7 +73,7 @@ public class Freemarker {
 				file.getParentFile().mkdirs();
 			}
 			Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "utf-8"));
-			Template template = getTemplate(ftlName, ftlPath);
+			Template template = getTemplate(ftlPath, ftlName);
 			//模版输出
 			template.process(outPutObject, out);
 			out.flush();
@@ -89,7 +89,7 @@ public class Freemarker {
 	 * 通过文件名加载模版
 	 * @param ftlName
 	 */
-	public static Template getTemplate(String ftlName, String ftlPath) throws Exception{
+	public static Template getTemplate(String ftlPath, String ftlName) throws Exception{
 		try {
 			//通过Freemaker的Configuration读取相应的ftl
 			Configuration cfg = new Configuration(Configuration.VERSION_2_3_0);

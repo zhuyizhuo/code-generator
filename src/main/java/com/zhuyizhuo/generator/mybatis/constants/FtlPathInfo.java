@@ -1,4 +1,4 @@
-package com.zhuyizhuo.generator.mybatis.database.convention;
+package com.zhuyizhuo.generator.mybatis.constants;
 
 /**
  * @author yizhuo
@@ -8,7 +8,8 @@ package com.zhuyizhuo.generator.mybatis.database.convention;
 public class FtlPathInfo {
 
     private String resourcesPath = getResourcesPath();
-    private String mysqlXmlFtlPath = resourcesPath + "freemarker/template/mysql/Test.ftl";
+    private String mysqlXmlFtlPath = resourcesPath + "freemarker/template/mysql/mysql_mapper_template_v1.ftl";
+    private String pojoFtlPath = resourcesPath + "freemarker/template/mysql/javabean.ftl";
 
     private static String getResourcesPath() {
         return FtlPathInfo.class.getResource("/").getPath();
@@ -26,4 +27,11 @@ public class FtlPathInfo {
         this.mysqlXmlFtlPath = mysqlXmlFtlPath;
     }
 
+    public String getPojoFtlPath() {
+        return pojoFtlPath;
+    }
+
+    public void setPojoFtlPath(String pojoFtlPath) {
+        this.pojoFtlPath = pojoFtlPath;
+    }
 }
