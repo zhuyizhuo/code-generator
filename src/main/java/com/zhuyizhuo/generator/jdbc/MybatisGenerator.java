@@ -1,7 +1,6 @@
-package com.zhuyizhuo.generator.mybatis.client;
+package com.zhuyizhuo.generator.jdbc;
 
 import com.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
-import com.zhuyizhuo.generator.mybatis.database.DBConnector;
 import org.apache.ibatis.io.Resources;
 
 import java.io.IOException;

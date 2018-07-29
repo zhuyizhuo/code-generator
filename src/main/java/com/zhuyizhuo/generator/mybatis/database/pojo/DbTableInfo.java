@@ -1,6 +1,7 @@
 package com.zhuyizhuo.generator.mybatis.database.pojo;
 
-import java.util.Date;
+import com.zhuyizhuo.generator.mybatis.database.dto.JavaColumnInfo;
+
 import java.util.List;
 
 /**
@@ -18,6 +19,8 @@ public class DbTableInfo {
 	private String tableComment;
 	/** 表字段 */
 	private List<ColumnInfo> columnLists;
+	/** java字段 */
+	private List<JavaColumnInfo> javaColumnLists;
 
 	public String getTableSchema() {
 		return tableSchema;

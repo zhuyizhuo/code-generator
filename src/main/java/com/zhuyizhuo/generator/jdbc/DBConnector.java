@@ -1,4 +1,4 @@
-package com.zhuyizhuo.generator.mybatis.database;
+package com.zhuyizhuo.generator.jdbc;
 
 import com.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 

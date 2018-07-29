@@ -11,8 +11,18 @@ import java.util.List;
  * @date 2018/7/27 20:55
  */
 public interface MysqlDataBaseMapper {
+    /***
+     * 根据表空间查询所有的表信息
+     * @param schema
+     * @return
+     */
     List<DbTableInfo> getTableNameListBySchema(DbTableInfo schema);
 
+    /***
+     * 根据表信息查询所有列信息
+     * @param schema
+     * @return
+     */
     List<ColumnInfo> getColumnListByTableName(DbTableInfo schema);
 }
 
