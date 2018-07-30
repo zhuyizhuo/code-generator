@@ -1,14 +1,15 @@
-package com.zhuyizhuo.generator.mybatis.database;
+package com.zhuyizhuo.generator.mybatis;
 
 import com.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.zhuyizhuo.generator.mybatis.constants.FtlPathInfo;
-import com.zhuyizhuo.generator.mybatis.database.convention.StratificationInfo;
-import com.zhuyizhuo.generator.mybatis.database.dto.JavaTableInfo;
+import com.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
+import com.zhuyizhuo.generator.mybatis.dto.JavaTableInfo;
 import com.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
-import com.zhuyizhuo.generator.mybatis.database.vo.Ftl;
+import com.zhuyizhuo.generator.mybatis.vo.Ftl;
 import com.zhuyizhuo.generator.utils.Freemarker;
 import com.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.zhuyizhuo.generator.utils.PropertiesUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class Generator {
 
             Ftl ftl = new Ftl();
             ftl.setJavaTableInfo(javaTableInfo);
-            StratificationInfo stratificationInfo = new StratificationInfo();
+            StratificationInfo stratificationInfo = new StratificationInfo(getBasePkg());
             for (int i = 0; i < dbTableInfoList.size(); i++) {
                 DbTableInfo tableInfo = dbTableInfoList.get(i);
                 String javaTableName = getJavaTableName(tableInfo.getTableName());
@@ -46,6 +47,7 @@ public class Generator {
 
 
                 String fileOutPutPath = getFileOutPutPath();
+                System.out.println("fileOutPutPath: "+ fileOutPutPath);
                 String xmlOutPutPath = fileOutPutPath + getXmlOutPutPath(stratificationInfo.getXmlFullPackage(),tableInfo.getTableName().toLowerCase());
                 String pojoOutPutPath = fileOutPutPath + getJavaOutPutPath(stratificationInfo.getPojoFullPackage(),ftl.getStratificationInfo().getPojoName());
                 String daoOutPutPath = fileOutPutPath + getJavaOutPutPath(stratificationInfo.getDaoFullPackage(),ftl.getStratificationInfo().getDaoName());
@@ -63,6 +65,10 @@ public class Generator {
         }
     }
 
+    private static String getBasePkg() {
+        return PropertiesUtils.getProperties(ConfigConstants.BASE_PACKAGE);
+    }
+
     private static String getJavaOutPutPath(String pojoFullPackage, String javaTaleName) {
         return changePackage2Path(pojoFullPackage) + "/" + javaTaleName + ".java";
     }
@@ -72,7 +78,11 @@ public class Generator {
     }
 
     public static String getFileOutPutPath(){
-        return PropertiesUtils.getProperties(ConfigConstants.FILE_OUT_PUT_PATH) + "/";
+        String path = PropertiesUtils.getProperties(ConfigConstants.FILE_OUT_PUT_PATH);
+        if (StringUtils.isBlank(path)){
+             path = System.getProperty("user.dir") + "/src/main/java/";
+        }
+        return path + "/";
     }
 
     public static String changePackage2Path(String packagePath){

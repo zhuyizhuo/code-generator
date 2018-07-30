@@ -1,4 +1,4 @@
-package com.zhuyizhuo.generator.mybatis.database.convention;
+package com.zhuyizhuo.generator.mybatis.convention;
 
 import java.text.MessageFormat;
 
@@ -52,6 +52,23 @@ public class StratificationInfo {
     private String pojoFullPackage = basePackage + point + pojoPackage;
     /** xml包全路径*/
     private String xmlFullPackage = basePackage + point + xmlPackage;
+
+    public StratificationInfo() {
+    }
+
+    public StratificationInfo(String basePackage) {
+        this.basePackage = basePackage;
+        /** dao层包全路径 */
+        this.daoFullPackage = basePackage + point + daoPackage;
+        /** service 接口层包全路径 */
+        this.serviceFullPackage = basePackage + point + servicePackage;
+        /** service 实现类包全路径 */
+        this.serviceImplFullPackage = basePackage + point + serviceImplPackage;
+        /** 实体包全路径 */
+        this.pojoFullPackage = basePackage + point + pojoPackage;
+        /** xml包全路径*/
+        this.xmlFullPackage = basePackage + point + xmlPackage;
+    }
 
     public static String getPoint() {
         return point;

@@ -1,6 +1,6 @@
 package com.zhuyizhuo.generator.mybatis.database.pojo;
 
-import com.zhuyizhuo.generator.mybatis.database.dto.JavaColumnInfo;
+import com.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
 import com.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.zhuyizhuo.generator.utils.TypeConversion;
 

@@ -1,4 +1,4 @@
-package com.zhuyizhuo.generator.mybatis.database.dto;
+package com.zhuyizhuo.generator.mybatis.dto;
 
 import java.util.LinkedHashSet;
 

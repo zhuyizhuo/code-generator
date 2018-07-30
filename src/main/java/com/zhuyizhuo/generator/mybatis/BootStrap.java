@@ -1,20 +1,12 @@
-package com.zhuyizhuo.generator.mybatis.database;
+package com.zhuyizhuo.generator.mybatis;
 
-import com.google.common.base.Function;
 import com.google.common.base.Splitter;
-import com.google.common.collect.Maps;
 import com.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
-import com.zhuyizhuo.generator.mybatis.database.dto.JavaColumnInfo;
-import com.zhuyizhuo.generator.mybatis.database.dto.JavaTableInfo;
 import com.zhuyizhuo.generator.mybatis.database.mapper.MysqlDataBaseMapper;
 import com.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
 import com.zhuyizhuo.generator.mybatis.database.pojo.DataBaseInfo;
 import com.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
-import com.zhuyizhuo.generator.mybatis.database.pojo.MysqlDbInfo;
-import com.zhuyizhuo.generator.mybatis.database.vo.FreeMarkerVO;
-import com.zhuyizhuo.generator.utils.Freemarker;
 import com.zhuyizhuo.generator.utils.PropertiesUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
@@ -22,10 +14,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * mybatis代码生成器

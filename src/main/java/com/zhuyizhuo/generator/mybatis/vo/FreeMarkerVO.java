@@ -1,8 +1,8 @@
-package com.zhuyizhuo.generator.mybatis.database.vo;
+package com.zhuyizhuo.generator.mybatis.vo;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
-import com.zhuyizhuo.generator.mybatis.database.dto.JavaTableInfo;
+import com.zhuyizhuo.generator.mybatis.dto.JavaTableInfo;
 import com.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
 
 import java.util.List;

@@ -1,12 +1,10 @@
-package com.zhuyizhuo.generator.mybatis.database.vo;
+package com.zhuyizhuo.generator.mybatis.vo;
 
-import com.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
-import com.zhuyizhuo.generator.mybatis.database.convention.CommentInfo;
-import com.zhuyizhuo.generator.mybatis.database.convention.MethodInfo;
-import com.zhuyizhuo.generator.mybatis.database.convention.StratificationInfo;
-import com.zhuyizhuo.generator.mybatis.database.dto.JavaTableInfo;
+import com.zhuyizhuo.generator.mybatis.convention.CommentInfo;
+import com.zhuyizhuo.generator.mybatis.convention.MethodInfo;
+import com.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
+import com.zhuyizhuo.generator.mybatis.dto.JavaTableInfo;
 import com.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
-import com.zhuyizhuo.generator.utils.PropertiesUtils;
 
 /**
  * @author yizhuo

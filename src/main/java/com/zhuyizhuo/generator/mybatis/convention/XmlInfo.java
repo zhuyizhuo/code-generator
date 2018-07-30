@@ -1,4 +1,4 @@
-package com.zhuyizhuo.generator.mybatis.database.convention;
+package com.zhuyizhuo.generator.mybatis.convention;
 
 /**
  * @author yizhuo

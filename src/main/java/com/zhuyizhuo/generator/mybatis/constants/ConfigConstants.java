@@ -9,4 +9,5 @@ public class ConfigConstants {
     public static final String PASSWORD = "PASSWORD";
     public static final String INCLUDE_TABLE_NAME = "INCLUDE_TABLE_NAME";
     public static final String FILE_OUT_PUT_PATH = "FILE_OUT_PUT_PATH";
+    public static final String BASE_PACKAGE = "BASE_PACKAGE";
 }
