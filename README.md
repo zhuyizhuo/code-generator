@@ -3,8 +3,22 @@
 ###### 轻量级的代码生成器
 
 * 配置简单轻量
-
 * 基于freemarker,可轻松自定义生成模板
+
+###### 配置文件入口
+
+* generate-config.properties
+
+  部分配置摘要:
+
+  ```properties
+  # 需生成的表 多张表用英文逗号隔开,大小写不敏感,不配置此项则生成全部表  USER,order
+  INCLUDE_TABLE_NAME=SIMPLE_MYBATIS_USER,simple_mybatis_order
+  #生成文件输出路径 不配置则默认为本项目路径
+  #FILE_OUT_PUT_PATH=E:/github/code-generator/src/main/java/
+  #生成文件的包名  不配置则默认为test.generator
+  #BASE_PACKAGE=com.baidu.search
+  ```
 
 ###### 支持的数据库
 

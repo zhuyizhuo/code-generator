@@ -21,13 +21,17 @@ public class SqlSessionUtils {
     /**
      *  相对路径加载配置文件
      */
-    public static SqlSession getSqlSession() throws Exception {
-        //配置文件
-        String resource = "mybatis/mybatis-config.xml";
-        InputStream inputStream = Resources.getResourceAsStream(resource);
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-        LogFactory.useStdOutLogging();
-        return sqlSessionFactory.openSession();
+    public static SqlSession getSqlSession() throws RuntimeException {
+        try {
+            //配置文件
+            String resource = "mybatis/mybatis-config.xml";
+            InputStream inputStream = Resources.getResourceAsStream(resource);
+            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+            LogFactory.useStdOutLogging();
+            return sqlSessionFactory.openSession();
+        } catch (Exception e){
+            throw new RuntimeException("SqlSessionUtils.getSqlSession Exception",e);
+        }
     }
 
 }
