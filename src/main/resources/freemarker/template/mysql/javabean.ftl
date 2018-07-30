@@ -1,7 +1,9 @@
 package ${stratificationInfo.pojoFullPackage};
 
 <#list javaTableInfo.importPackages as import>
+	<#if import??>
 import ${import};
+	</#if>
 </#list>
 
 /**

@@ -18,9 +18,9 @@ public class TypeConversion {
     static{
         mySqlDbType2JavaMap.put("INT","Integer");
         mySqlDbType2JavaMap.put("VARCHAR","String");
+        mySqlDbType2JavaMap.put("TIMESTAMP","Date");
 
-        javaDataTypeFullPathMap.put("Integer","java.lang.Integer");
-        javaDataTypeFullPathMap.put("String","java.lang.String");
+        javaDataTypeFullPathMap.put("Date","java.util.Date");
     }
 
     public static String mySqlDbType2Java(String type) {

@@ -6,14 +6,10 @@ import com.zhuyizhuo.generator.mybatis.database.mapper.MysqlDataBaseMapper;
 import com.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
 import com.zhuyizhuo.generator.mybatis.database.pojo.DataBaseInfo;
 import com.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
+import com.zhuyizhuo.generator.mybatis.utils.SqlSessionUtils;
 import com.zhuyizhuo.generator.utils.PropertiesUtils;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
-import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -24,30 +20,22 @@ import java.util.List;
  */
 public class BootStrap {
 
-    /**
-     *  相对路径加载配置文件
-     */
-    public static SqlSession getSqlSession() throws Exception {
-        //配置文件
-        String resource = "mybatis/mybatis-config.xml";
-        InputStream inputStream = Resources.getResourceAsStream(resource);
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-        LogFactory.useStdOutLogging();
-        return sqlSessionFactory.openSession();
+    public static void main(String[] args) throws Exception {
+
+        Generator.printAll(getTableColumns());
+
     }
 
-    public static void main(String[] args) throws Exception {
-        SqlSession sqlSession = getSqlSession();
+    private static List<DbTableInfo> getTableColumns() throws Exception {
+        SqlSession sqlSession = SqlSessionUtils.getSqlSession();
         MysqlDataBaseMapper mapper = sqlSession.getMapper(MysqlDataBaseMapper.class);
 
         List<DbTableInfo> tableList  = mapper.getTableNameListBySchema(getDataBaseInfo());
         System.out.println("共" + tableList.size() + "张表.");
 
         getTableColumns(mapper, tableList);
-
-        Generator.printAll(tableList);
-
         sqlSession.close();
+        return tableList;
     }
 
     private static void getTableColumns(MysqlDataBaseMapper mapper, List<DbTableInfo> tableList) {

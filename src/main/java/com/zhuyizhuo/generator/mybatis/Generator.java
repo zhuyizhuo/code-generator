@@ -3,6 +3,7 @@ package com.zhuyizhuo.generator.mybatis;
 import com.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.zhuyizhuo.generator.mybatis.constants.FtlPathInfo;
 import com.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
+import com.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
 import com.zhuyizhuo.generator.mybatis.dto.JavaTableInfo;
 import com.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
 import com.zhuyizhuo.generator.mybatis.vo.Ftl;
@@ -21,7 +22,7 @@ import java.util.List;
 public class Generator {
     public static void printAll(List<DbTableInfo> dbTableInfoList) {
         try {
-            JavaTableInfo javaTableInfo = new JavaTableInfo();
+            JavaTableInfo javaTableInfo = null;
             FtlPathInfo ftlPathInfo = new FtlPathInfo();
             String ftlFilePath = GeneratorStringUtils.getFrontPath(ftlPathInfo.getMysqlXmlFtlPath());
             System.out.println("ftlFilePath:" + ftlFilePath);
@@ -33,18 +34,22 @@ public class Generator {
             System.out.println("daoFtlFileName:" + daoFtlFileName);
 
             Ftl ftl = new Ftl();
-            ftl.setJavaTableInfo(javaTableInfo);
             StratificationInfo stratificationInfo = new StratificationInfo(getBasePkg());
             for (int i = 0; i < dbTableInfoList.size(); i++) {
+                javaTableInfo = new JavaTableInfo();
+                ftl.setJavaTableInfo(javaTableInfo);
                 DbTableInfo tableInfo = dbTableInfoList.get(i);
                 String javaTableName = getJavaTableName(tableInfo.getTableName());
                 javaTableInfo.setJavaTableName(javaTableName);
+                List<JavaColumnInfo> javaColumnLists = tableInfo.getJavaColumnLists();
+                for (int j = 0; j < javaColumnLists.size(); j++) {
+                    javaTableInfo.addImportPackages(javaColumnLists.get(j).getJavaDataTypeFullPath());
+                }
                 stratificationInfo.setDaoName(javaTableName);
                 stratificationInfo.setPojoName(javaTableName);
                 ftl.setStratificationInfo(stratificationInfo);
                 ftl.getMethodInfo().setInsertMethodName(javaTableInfo.getJavaTableName());
                 ftl.setDbTableInfo(tableInfo);
-
 
                 String fileOutPutPath = getFileOutPutPath();
                 System.out.println("fileOutPutPath: "+ fileOutPutPath);

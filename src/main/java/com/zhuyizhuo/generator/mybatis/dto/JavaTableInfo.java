@@ -31,6 +31,11 @@ public class JavaTableInfo {
         this.importPackages = importPackages;
     }
 
+    public void addImportPackages(String importPackage) {
+        this.importPackages.add(importPackage);
+    }
+
+
     public String getFileName() {
         return fileName;
     }
