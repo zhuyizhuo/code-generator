@@ -64,6 +64,10 @@ public class Freemarker {
 		}
 	}
 
+	public static void printFile(String ftlFullPath, String outPutPath, Object outPutObject) throws Exception{
+		printFile(GeneratorStringUtils.getFrontPath(ftlFullPath),GeneratorStringUtils.getFileName(ftlFullPath),outPutPath,outPutObject);
+	}
+
 	public static void printFile(String ftlPath, String ftlName, String outPutPath, Object outPutObject) throws Exception{
 		try {
 			File file = new File(outPutPath);

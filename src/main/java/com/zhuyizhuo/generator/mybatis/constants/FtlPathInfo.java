@@ -11,6 +11,7 @@ public class FtlPathInfo {
     private String mysqlXmlFtlPath = resourcesPath + "freemarker/template/mysql/mysql_mapper_template_v1.ftl";
     private String pojoFtlPath = resourcesPath + "freemarker/template/mysql/javabean.ftl";
     private String daoFtlPath = resourcesPath + "freemarker/template/mysql/dao.ftl";
+    private String bootStrapFtlPath = resourcesPath + "freemarker/template/mysql//bootStrap.ftl";
 
     private static String getResourcesPath() {
         return FtlPathInfo.class.getResource("/").getPath();
@@ -42,5 +43,13 @@ public class FtlPathInfo {
 
     public void setDaoFtlPath(String daoFtlPath) {
         this.daoFtlPath = daoFtlPath;
+    }
+
+    public String getBootStrapFtlPath() {
+        return bootStrapFtlPath;
+    }
+
+    public void setBootStrapFtlPath(String bootStrapFtlPath) {
+        this.bootStrapFtlPath = bootStrapFtlPath;
     }
 }

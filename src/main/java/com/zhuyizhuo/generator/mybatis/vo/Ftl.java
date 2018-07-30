@@ -15,7 +15,7 @@ public class Ftl {
 
     private StratificationInfo stratificationInfo;
     private MethodInfo methodInfo = new MethodInfo();
-    private CommentInfo commentInfo = new CommentInfo();
+    private CommentInfo commentInfo;
     private JavaTableInfo javaTableInfo;
     private DbTableInfo dbTableInfo;
     private String fileOutPutPath;
