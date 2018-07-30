@@ -13,7 +13,7 @@ import com.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
  */
 public class Ftl {
 
-    private StratificationInfo stratificationInfo = new StratificationInfo();
+    private StratificationInfo stratificationInfo;
     private MethodInfo methodInfo = new MethodInfo();
     private CommentInfo commentInfo = new CommentInfo();
     private JavaTableInfo javaTableInfo;

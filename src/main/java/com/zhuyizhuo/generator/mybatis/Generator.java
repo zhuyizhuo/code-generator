@@ -39,9 +39,9 @@ public class Generator {
                 DbTableInfo tableInfo = dbTableInfoList.get(i);
                 String javaTableName = getJavaTableName(tableInfo.getTableName());
                 javaTableInfo.setJavaTableName(javaTableName);
-                ftl.getStratificationInfo().setDaoName(javaTableName);
-                ftl.getStratificationInfo().setPojoName(javaTableName);
-
+                stratificationInfo.setDaoName(javaTableName);
+                stratificationInfo.setPojoName(javaTableName);
+                ftl.setStratificationInfo(stratificationInfo);
                 ftl.getMethodInfo().setInsertMethodName(javaTableInfo.getJavaTableName());
                 ftl.setDbTableInfo(tableInfo);
 

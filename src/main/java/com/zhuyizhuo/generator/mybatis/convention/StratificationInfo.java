@@ -1,5 +1,7 @@
 package com.zhuyizhuo.generator.mybatis.convention;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.text.MessageFormat;
 
 /**
@@ -11,7 +13,7 @@ import java.text.MessageFormat;
 public class StratificationInfo {
     public static final String point = ".";
     /** 基础路径 */
-    private String basePackage = "cn.zhuyizhuo";
+    private String basePackage = "test.generator";
 
     /** 实体名称 */
     public static final String POJO_NAME_FORMAT = "{0}POJO";
@@ -57,17 +59,19 @@ public class StratificationInfo {
     }
 
     public StratificationInfo(String basePackage) {
-        this.basePackage = basePackage;
-        /** dao层包全路径 */
-        this.daoFullPackage = basePackage + point + daoPackage;
-        /** service 接口层包全路径 */
-        this.serviceFullPackage = basePackage + point + servicePackage;
-        /** service 实现类包全路径 */
-        this.serviceImplFullPackage = basePackage + point + serviceImplPackage;
-        /** 实体包全路径 */
-        this.pojoFullPackage = basePackage + point + pojoPackage;
-        /** xml包全路径*/
-        this.xmlFullPackage = basePackage + point + xmlPackage;
+        if(StringUtils.isNotBlank(basePackage)){
+            this.basePackage = basePackage;
+            /** dao层包全路径 */
+            this.daoFullPackage = basePackage + point + daoPackage;
+            /** service 接口层包全路径 */
+            this.serviceFullPackage = basePackage + point + servicePackage;
+            /** service 实现类包全路径 */
+            this.serviceImplFullPackage = basePackage + point + serviceImplPackage;
+            /** 实体包全路径 */
+            this.pojoFullPackage = basePackage + point + pojoPackage;
+            /** xml包全路径*/
+            this.xmlFullPackage = basePackage + point + xmlPackage;
+        }
     }
 
     public static String getPoint() {

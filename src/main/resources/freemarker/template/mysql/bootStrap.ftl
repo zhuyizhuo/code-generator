@@ -1,7 +1,7 @@
 package ${stratificationInfo.basePackage};
 
-import cn.zhuyizhuo.dao.SimpleMybatisUserDao;
-import cn.zhuyizhuo.pojo.SimpleMybatisUserPOJO;
+import ${stratificationInfo.daoFullPackage}.${stratificationInfo.daoName};
+import ${stratificationInfo.pojoFullPackage}.${stratificationInfo.pojoName};
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
