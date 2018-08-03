@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.InputStream;
+import java.util.List;
 
 public class BootStrap {
 
@@ -27,6 +28,10 @@ public class BootStrap {
     public static void main(String[] args) throws Exception {
         SqlSession sqlSession = getSqlSession();
         ${stratificationInfo.daoName} mapper = sqlSession.getMapper(${stratificationInfo.daoName}.class);
+
+        List<${stratificationInfo.pojoName}> lists =
+            mapper.${methodInfo.queryMethodName}(null);
+        System.out.println(lists.size());
 
         ${stratificationInfo.pojoName}  aaa = new ${stratificationInfo.pojoName}();
         aaa.setName("testInsertAuto");

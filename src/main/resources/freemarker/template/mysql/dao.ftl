@@ -12,5 +12,9 @@ public interface ${stratificationInfo.daoName} {
 
 	void ${methodInfo.insertMethodName}(${stratificationInfo.pojoName} ${stratificationInfo.pojoName?uncap_first});
 
+    int ${methodInfo.deleteMethodName}(${stratificationInfo.pojoName} ${stratificationInfo.pojoName?uncap_first});
+
     int ${methodInfo.updateMethodName}(${stratificationInfo.pojoName} ${stratificationInfo.pojoName?uncap_first});
+
+    List<${stratificationInfo.pojoName}> ${methodInfo.queryMethodName}(${stratificationInfo.pojoName} ${stratificationInfo.pojoName?uncap_first});
 }

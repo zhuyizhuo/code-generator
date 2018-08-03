@@ -5,6 +5,10 @@
 
 <#include "base/xml/insert.ftl"/>
 
+<#include "base/xml/delete.ftl"/>
+
 <#include "base/xml/update.ftl"/>
+
+<#include "base/xml/query.ftl"/>
 
 </mapper>

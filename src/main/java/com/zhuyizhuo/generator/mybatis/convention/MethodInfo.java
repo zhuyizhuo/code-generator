@@ -17,7 +17,7 @@ public class MethodInfo {
     /** 更新方法名 */
     private static final String UPDATE_METHOD_FORMAT = "update{0}";
     /** 查询方法名 */
-    private static final String QUERY_METHOD_FORMAT = "query{0}";
+    private static final String QUERY_METHOD_FORMAT = "query{0}List";
     /** 批量新增方法名*/
     private static final String BATCH_INSERT_METHOD_FORMAT = "batchInsert{0}";
     /** 分页查询方法名 */
