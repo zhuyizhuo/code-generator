@@ -1,6 +1,6 @@
 package com.zhuyizhuo.generator.mybatis.service;
 
-import com.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
+import com.zhuyizhuo.generator.mybatis.vo.TableInfoFtl;
 
 import java.util.List;
 
@@ -14,6 +14,6 @@ import java.util.List;
  */
 public interface DbService {
 
-    List<DbTableInfo> getTableColumns();
+    List<TableInfoFtl> getTableColumns();
 
 }

@@ -1,18 +1,18 @@
     <!-- 新增 -->
 	<insert id="${methodInfo.insertMethodName}" parameterType="${stratificationInfo.pojoFullPackage}.${stratificationInfo.pojoName}">
-			INSERT INTO ${dbTableInfo.tableName}(
+			INSERT INTO ${tableInfo.tableName}(
             <trim suffixOverrides=",">
-        <#list dbTableInfo.columnLists as colm>
+        <#list tableInfo.columnLists as colm>
             <#if colm??>
-                <if test="null != ${dbTableInfo.javaColumnLists[colm_index].javaColumnName}">${colm.columnName},</if>
+                <if test="null != ${colm.javaColumnName}">${colm.columnName},</if>
             </#if>
         </#list>
             </trim>
 			) VALUES (
             <trim suffixOverrides=",">
-        <#list dbTableInfo.javaColumnLists as colm>
+        <#list tableInfo.columnLists as colm>
             <#if colm??>
-                <if test="null != ${colm.javaColumnName}">${'#{'}${colm.javaColumnName},jdbcType=${dbTableInfo.columnLists[colm_index].dataType}},</if>
+                <if test="null != ${colm.javaColumnName}">${'#{'}${colm.javaColumnName},jdbcType=${colm.dataType}},</if>
             </#if>
         </#list>
             </trim>

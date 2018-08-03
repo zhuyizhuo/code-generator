@@ -14,20 +14,9 @@ import com.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
 public class Ftl {
 
     private StratificationInfo stratificationInfo;
-    private MethodInfo methodInfo = new MethodInfo();
+    private MethodInfo methodInfo;
     private CommentInfo commentInfo;
-    private JavaTableInfo javaTableInfo;
-    private DbTableInfo dbTableInfo;
-    private String fileOutPutPath;
-    private String fileName;
-
-    public MethodInfo getMethodInfo() {
-        return methodInfo;
-    }
-
-    public void setMethodInfo(MethodInfo methodInfo) {
-        this.methodInfo = methodInfo;
-    }
+    private TableInfoFtl tableInfo;
 
     public StratificationInfo getStratificationInfo() {
         return stratificationInfo;
@@ -37,36 +26,12 @@ public class Ftl {
         this.stratificationInfo = stratificationInfo;
     }
 
-    public JavaTableInfo getJavaTableInfo() {
-        return javaTableInfo;
+    public MethodInfo getMethodInfo() {
+        return methodInfo;
     }
 
-    public void setJavaTableInfo(JavaTableInfo javaTableInfo) {
-        this.javaTableInfo = javaTableInfo;
-    }
-
-    public String getFileOutPutPath() {
-        return fileOutPutPath;
-    }
-
-    public void setFileOutPutPath(String fileOutPutPath) {
-        this.fileOutPutPath = fileOutPutPath;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public DbTableInfo getDbTableInfo() {
-        return dbTableInfo;
-    }
-
-    public void setDbTableInfo(DbTableInfo dbTableInfo) {
-        this.dbTableInfo = dbTableInfo;
+    public void setMethodInfo(MethodInfo methodInfo) {
+        this.methodInfo = methodInfo;
     }
 
     public CommentInfo getCommentInfo() {
@@ -75,5 +40,13 @@ public class Ftl {
 
     public void setCommentInfo(CommentInfo commentInfo) {
         this.commentInfo = commentInfo;
+    }
+
+    public TableInfoFtl getTableInfo() {
+        return tableInfo;
+    }
+
+    public void setTableInfo(TableInfoFtl tableInfo) {
+        this.tableInfo = tableInfo;
     }
 }

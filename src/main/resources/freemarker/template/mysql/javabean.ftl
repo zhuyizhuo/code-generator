@@ -1,27 +1,27 @@
 package ${stratificationInfo.pojoFullPackage};
 
-<#list javaTableInfo.importPackages as import>
+<#list tableInfo.importPackages as import>
 	<#if import??>
 import ${import};
 	</#if>
 </#list>
 
 /**
- * database	: ${dbTableInfo.tableSchema} <br/>
- * table	: ${dbTableInfo.tableName} <br/>
- * description : ${dbTableInfo.tableComment}POJO <br/>
+ * database	: ${tableInfo.tableSchema} <br/>
+ * table	: ${tableInfo.tableName} <br/>
+ * description : ${tableInfo.tableComment}POJO <br/>
 <#include "base/java/comment.ftl"/>
  */
 public class ${stratificationInfo.pojoName} {
 
-<#list dbTableInfo.javaColumnLists as colm>
+<#list tableInfo.columnLists as colm>
 	<#if colm??>
-	/** ${dbTableInfo.columnLists[colm_index].columnComment} */
+	/** ${colm.columnComment} */
 	private ${colm.javaDataType} ${colm.javaColumnName};
 	</#if>
 </#list>
 
-<#list dbTableInfo.javaColumnLists as colm>
+<#list tableInfo.columnLists as colm>
 	<#if colm??>
 	public ${colm.javaDataType} get${colm.javaColumnName?cap_first}() {
 		return ${colm.javaColumnName};

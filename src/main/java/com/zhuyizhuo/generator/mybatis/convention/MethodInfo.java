@@ -45,4 +45,8 @@ public class MethodInfo {
         return MessageFormat.format(format,tableName);
     }
 
+    public void initMethodName(String javaTableName) {
+        setInsertMethodName(javaTableName);
+    }
+
 }

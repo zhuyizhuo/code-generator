@@ -22,8 +22,6 @@ public class DbTableInfo {
 	private String tableComment;
 	/** 表字段 */
 	private List<ColumnInfo> columnLists;
-	/** java字段 */
-	private List<JavaColumnInfo> javaColumnLists = new ArrayList<JavaColumnInfo>();
 
 	public String getTableSchema() {
 		return tableSchema;
@@ -55,35 +53,6 @@ public class DbTableInfo {
 
 	public void setColumnLists(List<ColumnInfo> columnLists) {
 		this.columnLists = columnLists;
-		if (columnLists == null) {
-			return;
-		}
-		ColumnInfo columnInfo = null;
-		for (int j = 0; j < columnLists.size(); j++) {
-			columnInfo = columnLists.get(j);
-//			System.out.println(columnInfo);
-			this.addJavaColumn(conversionColumn(columnInfo));
-		}
-	}
-
-	private static JavaColumnInfo conversionColumn(ColumnInfo columnInfo) {
-		JavaColumnInfo javaColumnInfo = new JavaColumnInfo();
-		javaColumnInfo.setJavaColumnName(GeneratorStringUtils.changeColmName2Java(columnInfo.getColumnName(),"_"));
-		javaColumnInfo.setJavaDataType(TypeConversion.mySqlDbType2Java(columnInfo.getDataType()));
-		javaColumnInfo.setJavaDataTypeFullPath(TypeConversion.javaDataTypeFullPathMap.get(javaColumnInfo.getJavaDataType()));
-		return javaColumnInfo;
-	}
-
-	public void addJavaColumn(JavaColumnInfo javaColumnInfo){
-		this.javaColumnLists.add(javaColumnInfo);
-	}
-
-	public List<JavaColumnInfo> getJavaColumnLists() {
-		return javaColumnLists;
-	}
-
-	public void setJavaColumnLists(List<JavaColumnInfo> javaColumnLists) {
-		this.javaColumnLists = javaColumnLists;
 	}
 
 	@Override

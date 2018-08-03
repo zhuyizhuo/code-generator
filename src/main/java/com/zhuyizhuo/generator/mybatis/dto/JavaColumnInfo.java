@@ -1,5 +1,7 @@
 package com.zhuyizhuo.generator.mybatis.dto;
 
+import com.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
+
 /**
  * class: JavaColumnInfo <br>
  * description: java字段实体 <br>
@@ -8,7 +10,7 @@ package com.zhuyizhuo.generator.mybatis.dto;
  * @author yizhuo <br>
  * @version 1.0
  */
-public class JavaColumnInfo {
+public class JavaColumnInfo extends ColumnInfo {
 	/** 转为驼峰命名后的字段名 */
 	private String javaColumnName;
 	/** java字段类型 */
@@ -38,5 +40,14 @@ public class JavaColumnInfo {
 
 	public void setJavaDataTypeFullPath(String javaDataTypeFullPath) {
 		this.javaDataTypeFullPath = javaDataTypeFullPath;
+	}
+
+	@Override
+	public String toString() {
+		return super.toString() + "{" +
+				"javaColumnName='" + javaColumnName + '\'' +
+				", javaDataType='" + javaDataType + '\'' +
+				", javaDataTypeFullPath='" + javaDataTypeFullPath + '\'' +
+				'}';
 	}
 }

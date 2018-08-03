@@ -1,6 +1,10 @@
 package com.zhuyizhuo.generator.mybatis.dto;
 
+import com.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
+
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 
 /**
  * @author yizhuo
@@ -34,7 +38,6 @@ public class JavaTableInfo {
     public void addImportPackages(String importPackage) {
         this.importPackages.add(importPackage);
     }
-
 
     public String getFileName() {
         return fileName;

@@ -1,5 +1,8 @@
 package com.zhuyizhuo.generator.mybatis.convention;
 
+import com.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
+import com.zhuyizhuo.generator.mybatis.vo.TableInfoFtl;
+import com.zhuyizhuo.generator.utils.PropertiesUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.MessageFormat;
@@ -43,6 +46,8 @@ public class StratificationInfo {
     private String serviceImplName;
     /** dao 层名称 */
     private String daoName;
+    /** xml名称 */
+    private String xmlName;
 
     /** dao层包全路径 */
     private String daoFullPackage = basePackage + point + daoPackage;
@@ -56,6 +61,7 @@ public class StratificationInfo {
     private String xmlFullPackage = basePackage + point + xmlPackage;
 
     public StratificationInfo() {
+        this(PropertiesUtils.getProperties(ConfigConstants.BASE_PACKAGE));
     }
 
     public StratificationInfo(String basePackage) {
@@ -158,8 +164,12 @@ public class StratificationInfo {
         this.daoName = formatName(DAO_NAME_FORMAT,daoName);
     }
 
-    public String formatName(String daoNameFormat, String daoName) {
-        return MessageFormat.format(daoNameFormat, daoName);
+    public String getXmlName() {
+        return xmlName;
+    }
+
+    public void setXmlName(String xmlName) {
+        this.xmlName = xmlName;
     }
 
     public String getDaoFullPackage() {
@@ -200,5 +210,18 @@ public class StratificationInfo {
 
     public void setXmlFullPackage(String xmlFullPackage) {
         this.xmlFullPackage = xmlFullPackage;
+    }
+
+    public String formatName(String daoNameFormat, String daoName) {
+        return MessageFormat.format(daoNameFormat, daoName);
+    }
+
+    public void initFilesName(TableInfoFtl tableInfoFtl) {
+        String javaTableName = tableInfoFtl.getJavaTableName();
+        setPojoName(javaTableName);
+        setDaoName(javaTableName);
+        setServiceName(javaTableName);
+        setServiceImplName(javaTableName);
+        setXmlName(tableInfoFtl.getTableName().toLowerCase());
     }
 }

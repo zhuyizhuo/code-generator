@@ -1,8 +1,8 @@
-    <!-- resultMap定义  ${dbTableInfo.tableComment} ${dbTableInfo.tableName}与实体对应关系 -->
-	<resultMap id="${javaTableInfo.javaTableName?lower_case}ResultMap" type="${stratificationInfo.pojoFullPackage}.${stratificationInfo.pojoName}">
-<#list dbTableInfo.columnLists as colm>
+    <!-- resultMap定义  ${tableInfo.tableComment} ${tableInfo.tableName}与实体对应关系 -->
+	<resultMap id="${tableInfo.javaTableName?uncap_first}ResultMap" type="${stratificationInfo.pojoFullPackage}.${stratificationInfo.pojoName}">
+<#list tableInfo.columnLists as colm>
 	<#if colm??>
-        <#if colm_index = 0><id <#else><result </#if>column="${colm.columnName}" property="${dbTableInfo.javaColumnLists[colm_index].javaColumnName}"/>
+        <#if colm_index = 0><id <#else><result </#if>column="${colm.columnName}" property="${colm.javaColumnName}"/>
     </#if>
 </#list>
     </resultMap>

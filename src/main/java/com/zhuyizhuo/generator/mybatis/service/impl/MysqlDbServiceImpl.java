@@ -1,16 +1,17 @@
 package com.zhuyizhuo.generator.mybatis.service.impl;
 
-import com.google.common.base.Splitter;
-import com.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
+import com.google.common.collect.Lists;
 import com.zhuyizhuo.generator.mybatis.database.mapper.MysqlDataBaseMapper;
 import com.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
-import com.zhuyizhuo.generator.mybatis.database.pojo.DataBaseInfo;
 import com.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
-import com.zhuyizhuo.generator.mybatis.service.DbService;
+import com.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
 import com.zhuyizhuo.generator.mybatis.service.abst.AbstractDbService;
 import com.zhuyizhuo.generator.mybatis.utils.SqlSessionUtils;
-import com.zhuyizhuo.generator.utils.PropertiesUtils;
+import com.zhuyizhuo.generator.mybatis.vo.TableInfoFtl;
+import com.zhuyizhuo.generator.utils.GeneratorStringUtils;
+import com.zhuyizhuo.generator.utils.TypeConversion;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 
@@ -23,26 +24,59 @@ import java.util.List;
  * @version 1.0
  */
 public class MysqlDbServiceImpl extends AbstractDbService {
+
     @Override
-    public List<DbTableInfo> getTableColumns() {
+    public List<TableInfoFtl> getTableColumns() {
         SqlSession sqlSession = SqlSessionUtils.getSqlSession();
         MysqlDataBaseMapper mapper = sqlSession.getMapper(MysqlDataBaseMapper.class);
 
         List<DbTableInfo> tableList  = mapper.getTableNameListBySchema(getDataBaseInfo());
         System.out.println("共" + tableList.size() + "张表.");
 
-        getTableColumns(mapper, tableList);
+        List<TableInfoFtl> tableColumns = getTableColumns(mapper, tableList);
+
         sqlSession.close();
-        return tableList;
+        return tableColumns;
     }
 
-    private static void getTableColumns(MysqlDataBaseMapper mapper, List<DbTableInfo> tableList) {
+    private static List<TableInfoFtl> getTableColumns(MysqlDataBaseMapper mapper, List<DbTableInfo> tableList) {
+        List<TableInfoFtl> lists = Lists.newArrayList();
+        TableInfoFtl ftlTableInfo = null;
         for (int i = 0; i < tableList.size(); i++) {
+            ftlTableInfo = new TableInfoFtl();
             DbTableInfo dbTableInfo = tableList.get(i);
-            List<ColumnInfo> columnListByTableName = mapper.getColumnListByTableName(dbTableInfo);
-            dbTableInfo.setColumnLists(columnListByTableName);
-            System.out.println(dbTableInfo.getTableName() + "表共" + columnListByTableName.size() + "列");
+            dbTableInfo.setColumnLists(getColumnInfos(mapper, dbTableInfo));
+            //设置值
+            setTableInfoFtl(dbTableInfo,ftlTableInfo);
+            ftlTableInfo.setJavaTableName(getJavaTableName(dbTableInfo.getTableName()));
+            lists.add(ftlTableInfo);
+            System.out.println(dbTableInfo.getTableName() + "表共" + getColumnInfos(mapper, dbTableInfo).size() + "列");
         }
+        return lists;
+    }
+
+    private static void setTableInfoFtl(DbTableInfo dbTableInfo, TableInfoFtl ftlTableInfo) {
+        BeanUtils.copyProperties(dbTableInfo,ftlTableInfo);
+        List<ColumnInfo> columnLists = dbTableInfo.getColumnLists();
+        JavaColumnInfo javaColumnInfo;
+        for (int i = 0; i < columnLists.size(); i++) {
+            ColumnInfo columnInfo = columnLists.get(i);
+            javaColumnInfo = new JavaColumnInfo();
+            BeanUtils.copyProperties(columnInfo,javaColumnInfo);
+            javaColumnInfo.setJavaColumnName(GeneratorStringUtils.changeColmName2Java(columnInfo.getColumnName(),"_"));
+            javaColumnInfo.setJavaDataType(TypeConversion.mySqlDbType2Java(columnInfo.getDataType()));
+            javaColumnInfo.setJavaDataTypeFullPath(TypeConversion.javaDataTypeFullPathMap.get(javaColumnInfo.getJavaDataType()));
+            ftlTableInfo.addJavaColumnInfo(javaColumnInfo);
+            ftlTableInfo.addImportPackages(javaColumnInfo.getJavaDataTypeFullPath());
+        }
+    }
+
+    private static String getJavaTableName(String tableName) {
+        return GeneratorStringUtils.changeTableName2Java1(tableName,"_");
+    }
+
+    private static List<ColumnInfo> getColumnInfos(MysqlDataBaseMapper mapper, DbTableInfo dbTableInfo) {
+        return mapper.getColumnListByTableName(dbTableInfo);
     }
 
 }
