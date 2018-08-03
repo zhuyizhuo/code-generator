@@ -63,12 +63,22 @@ public class MysqlDbServiceImpl extends AbstractDbService {
             ColumnInfo columnInfo = columnLists.get(i);
             javaColumnInfo = new JavaColumnInfo();
             BeanUtils.copyProperties(columnInfo,javaColumnInfo);
+            javaColumnInfo.setColumnComment(replaceEnter(javaColumnInfo.getColumnComment()));
             javaColumnInfo.setJavaColumnName(GeneratorStringUtils.changeColmName2Java(columnInfo.getColumnName(),"_"));
             javaColumnInfo.setJavaDataType(TypeConversion.mySqlDbType2Java(columnInfo.getDataType()));
             javaColumnInfo.setJavaDataTypeFullPath(TypeConversion.javaDataTypeFullPathMap.get(javaColumnInfo.getJavaDataType()));
             ftlTableInfo.addJavaColumnInfo(javaColumnInfo);
             ftlTableInfo.addImportPackages(javaColumnInfo.getJavaDataTypeFullPath());
         }
+    }
+
+    /**
+     * 备注去除回车换行
+     * @param columnComment 字段备注
+     * @return
+     */
+    private static String replaceEnter(String columnComment) {
+        return columnComment.replaceAll("\r"," ").replaceAll("\n"," ").replaceAll("\r\n"," ");
     }
 
     private static String getJavaTableName(String tableName) {
