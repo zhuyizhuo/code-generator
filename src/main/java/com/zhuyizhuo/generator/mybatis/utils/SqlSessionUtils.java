@@ -10,7 +10,7 @@ import java.io.InputStream;
 
 /**
  * class: SqlSessionUtils <br>
- * description: TODO <br>
+ * description: 获取SqlSession <br>
  * time: 2018/7/30 12:34
  *
  * @author yizhuo <br>

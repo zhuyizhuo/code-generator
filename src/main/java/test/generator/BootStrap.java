@@ -1,7 +1,7 @@
-package ${stratificationInfo.basePackage};
+package test.generator;
 
-import ${stratificationInfo.daoFullPackage}.${stratificationInfo.daoName};
-import ${stratificationInfo.pojoFullPackage}.${stratificationInfo.pojoName};
+import test.generator.dao.SimpleMybatisUserDao;
+import test.generator.pojo.SimpleMybatisUserPOJO;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
@@ -26,9 +26,9 @@ public class BootStrap {
 
     public static void main(String[] args) throws Exception {
         SqlSession sqlSession = getSqlSession();
-        ${stratificationInfo.daoName} mapper = sqlSession.getMapper(${stratificationInfo.daoName}.class);
+        SimpleMybatisUserDao mapper = sqlSession.getMapper(SimpleMybatisUserDao.class);
 
-        ${stratificationInfo.pojoName}  aaa = new ${stratificationInfo.pojoName}();
+        SimpleMybatisUserPOJO  aaa = new SimpleMybatisUserPOJO();
         aaa.setName("testInsertAuto");
         mapper.insertSimpleMybatisUser(aaa);
 

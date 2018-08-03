@@ -12,4 +12,5 @@ public interface ${stratificationInfo.daoName} {
 
 	void ${methodInfo.insertMethodName}(${stratificationInfo.pojoName} ${stratificationInfo.pojoName?uncap_first});
 
+    int ${methodInfo.updateMethodName}(${stratificationInfo.pojoName} ${stratificationInfo.pojoName?uncap_first});
 }

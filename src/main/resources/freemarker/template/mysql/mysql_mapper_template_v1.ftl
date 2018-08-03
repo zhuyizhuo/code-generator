@@ -5,4 +5,6 @@
 
 <#include "base/xml/insert.ftl"/>
 
+<#include "base/xml/update.ftl"/>
+
 </mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="test.generator.dao.SimpleMybatisUserDao">
+
+    <!-- resultMap定义  用户表 SIMPLE_MYBATIS_USER与实体对应关系 -->
+	<resultMap id="simpleMybatisUserResultMap" type="test.generator.pojo.SimpleMybatisUserPOJO">
+        <id column="ID" property="id"/>
+        <result column="NAME" property="name"/>
+        <result column="AGE" property="age"/>
+    </resultMap>
+
+    <!-- 新增 -->
+	<insert id="insertSimpleMybatisUser" parameterType="test.generator.pojo.SimpleMybatisUserPOJO">
+			INSERT INTO SIMPLE_MYBATIS_USER(
+            <trim suffixOverrides=",">
+                <if test="null != id">ID,</if>
+                <if test="null != name">NAME,</if>
+                <if test="null != age">AGE,</if>
+            </trim>
+			) VALUES (
+            <trim suffixOverrides=",">
+                <if test="null != id">#{id,jdbcType=INT},</if>
+                <if test="null != name">#{name,jdbcType=VARCHAR},</if>
+                <if test="null != age">#{age,jdbcType=VARCHAR},</if>
+            </trim>
+			)
+	</insert>
+
+    <!-- 根据传入条件更新数据 -->
+	<update id="updateSimpleMybatisUser" parameterType="test.generator.pojo.SimpleMybatisUserPOJO">
+		UPDATE SIMPLE_MYBATIS_USER
+		<trim prefix="set" suffixOverrides=",">
+			<if test="null != name">NAME = #{name},</if>
+			<if test="null != age">AGE = #{age},</if>
+		</trim>
+		WHERE ID = #{id}
+	</update>
+
+</mapper>

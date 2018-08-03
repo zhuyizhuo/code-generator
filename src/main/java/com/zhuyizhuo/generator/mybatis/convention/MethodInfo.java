@@ -26,6 +26,9 @@ public class MethodInfo {
     private static final String COUNT_METHOD_FORMAT = "countTotal{0}";
 
     private String insertMethodName;
+    private String updateMethodName;
+    private String deleteMethodName;
+    private String queryMethodName;
 
     public String getInsertMethodName() {
         return insertMethodName;
@@ -33,6 +36,30 @@ public class MethodInfo {
 
     public void setInsertMethodName(String insertMethodName) {
         this.insertMethodName = formatMethodName(INSERT_METHOD_FORMAT,insertMethodName);
+    }
+
+    public String getUpdateMethodName() {
+        return updateMethodName;
+    }
+
+    public void setUpdateMethodName(String updateMethodName) {
+        this.updateMethodName = formatMethodName(UPDATE_METHOD_FORMAT,updateMethodName);
+    }
+
+    public String getDeleteMethodName() {
+        return deleteMethodName;
+    }
+
+    public void setDeleteMethodName(String deleteMethodName) {
+        this.deleteMethodName = formatMethodName(DELETE_METHOD_FORMAT,deleteMethodName);
+    }
+
+    public String getQueryMethodName() {
+        return queryMethodName;
+    }
+
+    public void setQueryMethodName(String queryMethodName) {
+        this.queryMethodName = formatMethodName(QUERY_METHOD_FORMAT,queryMethodName);
     }
 
     /**
@@ -47,6 +74,9 @@ public class MethodInfo {
 
     public void initMethodName(String javaTableName) {
         setInsertMethodName(javaTableName);
+        setDeleteMethodName(javaTableName);
+        setUpdateMethodName(javaTableName);
+        setQueryMethodName(javaTableName);
     }
 
 }
