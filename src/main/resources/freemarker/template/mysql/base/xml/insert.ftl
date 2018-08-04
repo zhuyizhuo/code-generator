@@ -1,6 +1,6 @@
     <!-- 新增 -->
 	<insert id="${methodInfo.insertMethodName}" parameterType="${parameterType}">
-			INSERT INTO ${tableInfo.tableName}(
+        INSERT INTO ${tableInfo.tableName}(
             <trim suffixOverrides=",">
         <#list tableInfo.columnLists as colm>
             <#if colm??>
@@ -8,7 +8,7 @@
             </#if>
         </#list>
             </trim>
-			) VALUES (
+        ) VALUES (
             <trim suffixOverrides=",">
         <#list tableInfo.columnLists as colm>
             <#if colm??>
@@ -16,5 +16,5 @@
             </#if>
         </#list>
             </trim>
-			)
+        )
 	</insert>

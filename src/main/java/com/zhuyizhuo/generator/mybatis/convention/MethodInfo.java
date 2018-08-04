@@ -23,12 +23,13 @@ public class MethodInfo {
     /** 分页查询方法名 */
     private static final String PAGING_QUERY_METHOD_FORMAT = "pagingQuery{0}";
     /** 查询总数方法名 */
-    private static final String COUNT_METHOD_FORMAT = "countTotal{0}";
+    private static final String COUNT_METHOD_FORMAT = "count{0}";
 
     private String insertMethodName;
     private String updateMethodName;
     private String deleteMethodName;
     private String queryMethodName;
+    private String countMethodName;
 
     public String getInsertMethodName() {
         return insertMethodName;
@@ -62,6 +63,14 @@ public class MethodInfo {
         this.queryMethodName = formatMethodName(QUERY_METHOD_FORMAT,queryMethodName);
     }
 
+    public String getCountMethodName() {
+        return countMethodName;
+    }
+
+    public void setCountMethodName(String countMethodName) {
+        this.countMethodName = formatMethodName(COUNT_METHOD_FORMAT,countMethodName);;
+    }
+
     /**
      * 格式化方法名
      * @param format 方法名格式化模板 例如 countTotal{0}
@@ -77,6 +86,7 @@ public class MethodInfo {
         setDeleteMethodName(javaTableName);
         setUpdateMethodName(javaTableName);
         setQueryMethodName(javaTableName);
+        setCountMethodName(javaTableName);
     }
 
 }

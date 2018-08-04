@@ -21,7 +21,7 @@ public class TableInfoFtl {
     private String tableName;
     /** 表注释 */
     private String tableComment;
-    /** java表名 驼峰 */
+    /** java表名 驼峰 首字母大写 */
     private String javaTableName;
     /** 导入的类路径 */
     private LinkedHashSet<String> importPackages = new LinkedHashSet<String>();

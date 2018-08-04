@@ -20,6 +20,8 @@ public class Ftl {
     private TableInfoFtl tableInfo;
     /** 参数类型 */
     private String parameterType;
+    /** 返回map*/
+    private String resultMap;
 
     public StratificationInfo getStratificationInfo() {
         return stratificationInfo;
@@ -61,8 +63,17 @@ public class Ftl {
         this.parameterType = parameterType;
     }
 
+    public String getResultMap() {
+        return resultMap;
+    }
+
+    public void setResultMap(String resultMap) {
+        this.resultMap = resultMap;
+    }
+
     public void init() {
 //        setParameterType(stratificationInfo.getPojoFullPackage()+"."+stratificationInfo.getPojoName());
         setParameterType(GeneratorStringUtils.firstLower(stratificationInfo.getPojoName()));
+        setResultMap(GeneratorStringUtils.firstLower(tableInfo.getJavaTableName())+"ResultMap");
     }
 }
