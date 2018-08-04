@@ -45,6 +45,7 @@ public class Generator {
                 methodInfo.initMethodName(tableInfo.getJavaTableName());
                 stratificationInfo.initFilesName(tableInfo);
                 ftl.setTableInfo(tableInfo);
+                ftl.init();
 
                 String xmlOutPutPath = fileOutPutPath + getXmlOutPutPath(stratificationInfo.getXmlFullPackage(), stratificationInfo.getXmlName());
                 String pojoOutPutPath = fileOutPutPath + getJavaOutPutPath(stratificationInfo.getPojoFullPackage(), stratificationInfo.getPojoName());

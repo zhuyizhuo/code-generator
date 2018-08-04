@@ -1,5 +1,5 @@
     <!-- 根据传入条件更新数据 -->
-	<update id="${methodInfo.updateMethodName}" parameterType="${stratificationInfo.pojoFullPackage}.${stratificationInfo.pojoName}">
+	<update id="${methodInfo.updateMethodName}" parameterType="${parameterType}">
 		UPDATE ${tableInfo.tableName}
 		<trim prefix="set" suffixOverrides=",">
     <#list tableInfo.columnLists as colm>

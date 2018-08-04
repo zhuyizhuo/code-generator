@@ -99,6 +99,17 @@ public class GeneratorStringUtils {
     }
 
     /**
+     * 首字母小写
+     * @param name
+     * @return
+     */
+    public static String firstLower(String name) {
+        char[] cs = name.toCharArray();
+        cs[0] = toL(cs[0]);
+        return String.valueOf(cs);
+    }
+
+    /**
      * 字母转大写
      * @param c
      * @return

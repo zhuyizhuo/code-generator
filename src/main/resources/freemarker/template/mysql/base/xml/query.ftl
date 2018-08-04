@@ -33,6 +33,6 @@
   	</sql>
 
 	<!-- 根据条件查询  -->
-	<select id="${methodInfo.queryMethodName}" resultMap="${tableInfo.javaTableName?uncap_first}ResultMap" parameterType="${stratificationInfo.pojoFullPackage}.${stratificationInfo.pojoName}">
+	<select id="${methodInfo.queryMethodName}" resultMap="${tableInfo.javaTableName?uncap_first}ResultMap" parameterType="${parameterType}">
         <include refid="base_query_by_where_sql" />
     </select>

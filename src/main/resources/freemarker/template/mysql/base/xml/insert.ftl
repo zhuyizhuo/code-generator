@@ -1,5 +1,5 @@
     <!-- 新增 -->
-	<insert id="${methodInfo.insertMethodName}" parameterType="${stratificationInfo.pojoFullPackage}.${stratificationInfo.pojoName}">
+	<insert id="${methodInfo.insertMethodName}" parameterType="${parameterType}">
 			INSERT INTO ${tableInfo.tableName}(
             <trim suffixOverrides=",">
         <#list tableInfo.columnLists as colm>
