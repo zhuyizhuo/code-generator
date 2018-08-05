@@ -10,7 +10,7 @@ import ${stratificationInfo.pojoFullPackage}.${stratificationInfo.pojoName};
  */
 public interface ${stratificationInfo.daoName} {
 
-	void ${methodInfo.insertMethodName}(${stratificationInfo.pojoName} ${stratificationInfo.pojoName?uncap_first});
+	int ${methodInfo.insertMethodName}(${stratificationInfo.pojoName} ${stratificationInfo.pojoName?uncap_first});
 
     int ${methodInfo.deleteMethodName}(${stratificationInfo.pojoName} ${stratificationInfo.pojoName?uncap_first});
 
