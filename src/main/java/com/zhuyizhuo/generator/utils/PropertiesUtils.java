@@ -1,5 +1,6 @@
 package com.zhuyizhuo.generator.utils;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.io.Resources;
 
 import java.io.InputStream;
@@ -26,7 +27,21 @@ public class PropertiesUtils {
         return proInfo.getProperty(key);
     }
 
+    /**
+     * 获取配置信息 不存在 返回false
+     * @param key
+     * @return
+     */
     public static boolean getBooleanProperties(String key){
-        return Boolean.parseBoolean(getProperties(key));
+        String properties = getProperties(key);
+        if (StringUtils.isBlank(properties)){
+            return false;
+        }
+        try {
+            return Boolean.parseBoolean(properties);
+        } catch(Exception e) {
+            System.out.println("配置有误,key="+key+",值应为 true false");
+        }
+        return false;
     }
 }

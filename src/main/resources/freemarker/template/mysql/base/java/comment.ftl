@@ -1,4 +1,4 @@
  * @date ${commentInfo.createTime} <br/>
  * @author ${commentInfo.author} <br/>
- * @since ${commentInfo.version} <br/>
+ * @since ${commentInfo.sinceVersion} <br/>
  * @version ${commentInfo.version} <br/>

@@ -1,11 +1,11 @@
 package com.zhuyizhuo.generator.mybatis.vo;
 
+import com.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.zhuyizhuo.generator.mybatis.convention.CommentInfo;
 import com.zhuyizhuo.generator.mybatis.convention.MethodInfo;
 import com.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
-import com.zhuyizhuo.generator.mybatis.dto.JavaTableInfo;
-import com.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
 import com.zhuyizhuo.generator.utils.GeneratorStringUtils;
+import com.zhuyizhuo.generator.utils.PropertiesUtils;
 
 /**
  * @author yizhuo
@@ -22,6 +22,10 @@ public class Ftl {
     private String parameterType;
     /** 返回map*/
     private String resultMap;
+
+    public Ftl() {
+
+    }
 
     public StratificationInfo getStratificationInfo() {
         return stratificationInfo;
@@ -72,8 +76,12 @@ public class Ftl {
     }
 
     public void init() {
-//        setParameterType(stratificationInfo.getPojoFullPackage()+"."+stratificationInfo.getPojoName());
-        setParameterType(GeneratorStringUtils.firstLower(stratificationInfo.getPojoName()));
+        boolean useTypeAliases = PropertiesUtils.getBooleanProperties(ConfigConstants.PARAMETER_TYPE_USE_TYPE_ALIASES);
+        if (useTypeAliases){
+            setParameterType(GeneratorStringUtils.firstLower(stratificationInfo.getPojoName()));
+        } else {
+            setParameterType(stratificationInfo.getPojoFullPackage()+"."+stratificationInfo.getPojoName());
+        }
         setResultMap(GeneratorStringUtils.firstLower(tableInfo.getJavaTableName())+"ResultMap");
     }
 }
