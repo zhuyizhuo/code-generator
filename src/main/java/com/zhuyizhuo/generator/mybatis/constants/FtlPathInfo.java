@@ -8,10 +8,10 @@ package com.zhuyizhuo.generator.mybatis.constants;
 public class FtlPathInfo {
 
     private String resourcesPath = getResourcesPath();
-    private String mysqlXmlFtlPath = resourcesPath + "freemarker/template/mysql/mysql_mapper_template_v1.ftl";
-    private String pojoFtlPath = resourcesPath + "freemarker/template/mysql/javabean.ftl";
-    private String daoFtlPath = resourcesPath + "freemarker/template/mysql/dao.ftl";
-    private String bootStrapFtlPath = resourcesPath + "freemarker/template/mysql/bootStrap.ftl";
+    private String mysqlXmlFtlPath = resourcesPath + "freemarker/template/common/mysql_mapper_template_v1.ftl";
+    private String pojoFtlPath = resourcesPath + "freemarker/template/common/javabean.ftl";
+    private String daoFtlPath = resourcesPath + "freemarker/template/common/dao.ftl";
+    private String bootStrapFtlPath = resourcesPath + "freemarker/template/common/bootStrap.ftl";
 
     private static String getResourcesPath() {
         return FtlPathInfo.class.getResource("/").getPath();
