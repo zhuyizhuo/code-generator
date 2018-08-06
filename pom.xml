@@ -8,7 +8,7 @@
   <artifactId>code-generator</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>code-generator</name>
+  <name>代码生成器</name>
   <url>https://github.com/zhuyizhuo/code-generator</url>
 
   <properties>

@@ -7,19 +7,10 @@ package com.zhuyizhuo.generator.mybatis.constants;
  */
 public class FtlPathInfo {
 
-    private String resourcesPath = getResourcesPath();
-    private String mysqlXmlFtlPath = resourcesPath + "freemarker/template/common/mysql_mapper_template_v1.ftl";
-    private String pojoFtlPath = resourcesPath + "freemarker/template/common/javabean.ftl";
-    private String daoFtlPath = resourcesPath + "freemarker/template/common/dao.ftl";
-    private String bootStrapFtlPath = resourcesPath + "freemarker/template/common/bootStrap.ftl";
-
-    private static String getResourcesPath() {
-        return FtlPathInfo.class.getResource("/").getPath();
-    }
-
-    public void setResourcesPath(String resourcesPath) {
-        this.resourcesPath = resourcesPath;
-    }
+    private String mysqlXmlFtlPath = "/freemarker/template/common/mybatis_mapper_template_v1.ftl";
+    private String pojoFtlPath = "/freemarker/template/common/javabean.ftl";
+    private String daoFtlPath = "/freemarker/template/common/dao.ftl";
+    private String bootStrapFtlPath = "/freemarker/template/common/bootStrap.ftl";
 
     public String getMysqlXmlFtlPath() {
         return mysqlXmlFtlPath;
@@ -51,5 +42,15 @@ public class FtlPathInfo {
 
     public void setBootStrapFtlPath(String bootStrapFtlPath) {
         this.bootStrapFtlPath = bootStrapFtlPath;
+    }
+
+    @Override
+    public String toString() {
+        return "模板路径:\n{" +
+                "mysqlXmlFtlPath='" + mysqlXmlFtlPath + '\'' +
+                ",\n pojoFtlPath='" + pojoFtlPath + '\'' +
+                ",\n daoFtlPath='" + daoFtlPath + '\'' +
+                ",\n bootStrapFtlPath='" + bootStrapFtlPath + '\'' +
+                '}';
     }
 }

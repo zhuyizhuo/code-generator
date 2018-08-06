@@ -17,6 +17,14 @@ public class PropertiesUtils {
 
     static{
         try(InputStream resourceAsStream = Resources.getResourceAsStream(PROPERTIES_FILE_PATH)) {
+            loadProperties(resourceAsStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadProperties(InputStream resourceAsStream){
+        try {
             proInfo.load(resourceAsStream);
         } catch (Exception e) {
             e.printStackTrace();

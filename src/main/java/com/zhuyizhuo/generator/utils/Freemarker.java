@@ -1,12 +1,6 @@
 package com.zhuyizhuo.generator.utils;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.Writer;
+import java.io.*;
 import java.util.Locale;
 import java.util.Map;
 
@@ -65,6 +59,7 @@ public class Freemarker {
 	}
 
 	public static void printFile(String ftlFullPath, String outPutPath, Object outPutObject) throws Exception{
+		LogUtils.printInfo("文件输出路径:"+outPutPath);
 		printFile(GeneratorStringUtils.getFrontPath(ftlFullPath),GeneratorStringUtils.getFileName(ftlFullPath),outPutPath,outPutObject);
 	}
 
@@ -99,7 +94,7 @@ public class Freemarker {
 			Configuration cfg = new Configuration(Configuration.VERSION_2_3_0);
 			cfg.setEncoding(Locale.CHINA, "utf-8");
 			//设定去哪里读取相应的ftl模板文件
-			cfg.setDirectoryForTemplateLoading(new File(ftlPath));
+			cfg.setClassLoaderForTemplateLoading(Freemarker.class.getClassLoader(), ftlPath);
 			//在模板文件目录中找到名称为name的文件
 			Template temp = cfg.getTemplate(ftlName);
 			return temp;

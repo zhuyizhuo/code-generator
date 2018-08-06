@@ -41,7 +41,7 @@ public class Generator {
             }
             String fileOutPutPath = getFileOutPutPath();
             LogUtils.printInfo("fileOutPutPath: "+ fileOutPutPath);
-
+            LogUtils.printInfo(ftlPathInfo.toString());
             for (int i = 0; i < dbTableInfoList.size(); i++) {
                 TableInfoFtl tableInfo = dbTableInfoList.get(i);
 
@@ -53,9 +53,6 @@ public class Generator {
                 String xmlOutPutPath = fileOutPutPath + getXmlOutPutPath(stratificationInfo.getXmlFullPackage(), stratificationInfo.getXmlName());
                 String pojoOutPutPath = fileOutPutPath + getJavaOutPutPath(stratificationInfo.getPojoFullPackage(), stratificationInfo.getPojoName());
                 String daoOutPutPath = fileOutPutPath + getJavaOutPutPath(stratificationInfo.getDaoFullPackage(), stratificationInfo.getDaoName());
-                LogUtils.printInfo("xmlOutPutPath: " + xmlOutPutPath);
-                LogUtils.printInfo("pojoOutPutPath: " + pojoOutPutPath);
-                LogUtils.printInfo("daoOutPutPath: " + daoOutPutPath);
 
                 Freemarker.printFile(ftlPathInfo.getMysqlXmlFtlPath(), xmlOutPutPath, ftl);
                 Freemarker.printFile(ftlPathInfo.getPojoFtlPath(), pojoOutPutPath, ftl);
