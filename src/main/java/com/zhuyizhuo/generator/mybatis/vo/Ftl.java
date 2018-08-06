@@ -76,7 +76,7 @@ public class Ftl {
     }
 
     public void init() {
-        boolean useTypeAliases = PropertiesUtils.getBooleanProperties(ConfigConstants.PARAMETER_TYPE_USE_TYPE_ALIASES);
+        boolean useTypeAliases = PropertiesUtils.getBooleanPropertiesDefaultFalse(ConfigConstants.PARAMETER_TYPE_USE_TYPE_ALIASES);
         if (useTypeAliases){
             setParameterType(GeneratorStringUtils.firstLower(stratificationInfo.getPojoName()));
         } else {

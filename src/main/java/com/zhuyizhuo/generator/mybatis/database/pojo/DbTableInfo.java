@@ -1,5 +1,6 @@
 package com.zhuyizhuo.generator.mybatis.database.pojo;
 
+import com.google.common.collect.Lists;
 import com.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
 import com.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.zhuyizhuo.generator.utils.TypeConversion;
@@ -21,7 +22,7 @@ public class DbTableInfo {
 	/** 表注释 */
 	private String tableComment;
 	/** 表字段 */
-	private List<ColumnInfo> columnLists;
+	private List<ColumnInfo> columnLists = Lists.newArrayList();
 
 	public String getTableSchema() {
 		return tableSchema;
@@ -61,6 +62,7 @@ public class DbTableInfo {
 				"tableSchema='" + tableSchema + '\'' +
 				", tableName='" + tableName + '\'' +
 				", tableComment='" + tableComment + '\'' +
-				'}';
+				columnLists
+				+'}';
 	}
 }

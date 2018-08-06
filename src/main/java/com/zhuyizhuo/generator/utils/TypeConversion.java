@@ -12,7 +12,8 @@ import java.util.Map;
  */
 public class TypeConversion {
 
-    private static final Map<String,String> mySqlDbType2JavaMap = new HashMap<>();
+    public static final Map<String,String> mySqlDbType2JavaMap = new HashMap<>();
+    public static final Map<String,String> oracleDbType2JavaMap = new HashMap<>();
     public static final Map<String,String> javaDataTypeFullPathMap = new HashMap<>();
 
     static{
@@ -20,11 +21,18 @@ public class TypeConversion {
         mySqlDbType2JavaMap.put("VARCHAR","String");
         mySqlDbType2JavaMap.put("TIMESTAMP","Date");
 
+        oracleDbType2JavaMap.put("NUMBER","Integer");
+        oracleDbType2JavaMap.put("VARCHAR2","String");
+        oracleDbType2JavaMap.put("NVARCHAR2","String");
+        oracleDbType2JavaMap.put("CLOB","String");
+        oracleDbType2JavaMap.put("TIMESTAMP","Date");
+        oracleDbType2JavaMap.put("DATE","Date");
+
         javaDataTypeFullPathMap.put("Date","java.util.Date");
     }
 
-    public static String mySqlDbType2Java(String type) {
-        String javaDataType = mySqlDbType2JavaMap.get(type);
+    public static String dbType2Java(Map<String,String> dbTypeMap, String type) {
+        String javaDataType = dbTypeMap.get(type);
         if (StringUtils.isNotBlank(javaDataType)){
             return javaDataType;
         }

@@ -10,7 +10,8 @@ package com.zhuyizhuo.generator.mybatis.enums;
  */
 public enum  DbTypeEnums {
     /** mysql数据库 */
-    MYSQL
+    MYSQL,
+    ORACLE,
     ;
 
 }

@@ -14,18 +14,19 @@ import java.text.MessageFormat;
  * @date 2018/7/29 16:19
  */
 public class StratificationInfo {
-    public static final String point = ".";
+    private static final String point = ".";
+
     /** 基础路径 */
     private String basePackage = "test.generator";
 
     /** 实体名称 */
-    public static final String POJO_NAME_FORMAT = "{0}POJO";
+    private String POJO_NAME_FORMAT = "{0}POJO";
     /** service 层名称 */
-    public static final String SERVICE_NAME_FORMAT = "{0}Service";
+    private String SERVICE_NAME_FORMAT = "{0}Service";
     /** service 实现类名称 */
-    public static final String SERVICE_IMPL_NAME_FORMAT = "{0}ServiceImpl";
+    private String SERVICE_IMPL_NAME_FORMAT = "{0}ServiceImpl";
     /** dao 层名称 */
-    public static final String DAO_NAME_FORMAT = "{0}Dao";
+    private String DAO_NAME_FORMAT = "{0}Dao";
 
     /** dao包路径 */
     private String daoPackage = "dao";
@@ -65,6 +66,23 @@ public class StratificationInfo {
     }
 
     public StratificationInfo(String basePackage) {
+        String daoNameFormat = PropertiesUtils.getProperties(ConfigConstants.DAO_NAME_FORMAT);
+        String serviceImplNameFormat = PropertiesUtils.getProperties(ConfigConstants.SERVICE_IMPL_NAME_FORMAT);
+        String serviceNameFormat = PropertiesUtils.getProperties(ConfigConstants.SERVICE_NAME_FORMAT);
+        String pojoNameFormat = PropertiesUtils.getProperties(ConfigConstants.POJO_NAME_FORMAT);
+        if(StringUtils.isNotBlank(daoNameFormat)){
+            this.DAO_NAME_FORMAT = daoNameFormat;
+        }
+        if(StringUtils.isNotBlank(serviceImplNameFormat)){
+            this.SERVICE_IMPL_NAME_FORMAT = serviceImplNameFormat;
+        }
+        if(StringUtils.isNotBlank(serviceNameFormat)){
+            this.SERVICE_NAME_FORMAT = serviceNameFormat;
+        }
+        if(StringUtils.isNotBlank(pojoNameFormat)){
+            this.POJO_NAME_FORMAT = pojoNameFormat;
+        }
+
         if(StringUtils.isNotBlank(basePackage)){
             this.basePackage = basePackage;
             /** dao层包全路径 */

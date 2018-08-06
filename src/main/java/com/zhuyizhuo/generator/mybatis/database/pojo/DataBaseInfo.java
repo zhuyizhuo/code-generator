@@ -27,4 +27,12 @@ public class DataBaseInfo {
     public void setTableNames(List<String> tableNames) {
         this.tableNames = tableNames;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "tableSchema='" + tableSchema + '\'' +
+                ", tableNames=" + tableNames +
+                '}';
+    }
 }

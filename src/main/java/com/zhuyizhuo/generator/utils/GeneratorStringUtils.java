@@ -40,6 +40,7 @@ public class GeneratorStringUtils {
 
     /**
      * 表名转java驼峰命名(首字母小写)
+     * mybatis_user_info -> mybatisUserInfo
      * @param tableName
      * @return
      */
@@ -54,10 +55,11 @@ public class GeneratorStringUtils {
 
     /**
      * 表名转java驼峰命名(首字母大写)
+     * mybatis_user_info -> MybatisUserInfo
      * @param tableName
      * @return
      */
-    public static String changeTableName2Java1(String tableName,String tableRegex) {
+    public static String changeTableName2JavaFirstUpper(String tableName, String tableRegex) {
         String[] split = tableName.split(tableRegex);
         StringBuffer s = new StringBuffer();
         for (int i = 0; i < split.length; i++) {

@@ -3,6 +3,7 @@ package com.zhuyizhuo.generator.mybatis.database.mapper;
 import com.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
 import com.zhuyizhuo.generator.mybatis.database.pojo.DataBaseInfo;
 import com.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * @version 1.0
  * @date 2018/7/27 20:55
  */
-public interface MysqlDataBaseMapper {
+public interface OracleDataBaseMapper {
     /***
      * 根据表空间和表名查询所有的表信息
      * @param schema
@@ -19,11 +20,13 @@ public interface MysqlDataBaseMapper {
      */
     List<DbTableInfo> getTableNameListBySchema(DataBaseInfo schema);
 
-    /***
+    /**
      * 根据表信息查询所有列信息
-     * @param schema
+     * @param tableSchema 表空间
+     * @param tableName 表名
      * @return
      */
-    List<ColumnInfo> getColumnListByTableName(DbTableInfo schema);
+    DbTableInfo getAllColumnsByTable(@Param("tableSchema") String tableSchema, @Param("tableName") String tableName);
+
 }
 

@@ -28,11 +28,11 @@ public class PropertiesUtils {
     }
 
     /**
-     * 获取配置信息 不存在 返回false
+     * 获取配置信息 不存在 返回FALSE
      * @param key
      * @return
      */
-    public static boolean getBooleanProperties(String key){
+    public static boolean getBooleanPropertiesDefaultFalse(String key){
         String properties = getProperties(key);
         if (StringUtils.isBlank(properties)){
             return false;
@@ -40,8 +40,26 @@ public class PropertiesUtils {
         try {
             return Boolean.parseBoolean(properties);
         } catch(Exception e) {
-            System.out.println("配置有误,key="+key+",值应为 true false");
+            LogUtils.printInfo("配置有误,key="+key+",值应为 true false");
         }
         return false;
+    }
+
+    /**
+     * 获取配置信息 不存在 返回TRUE
+     * @param key
+     * @return
+     */
+    public static boolean getBooleanPropertiesDefaultTrue(String key){
+        String properties = getProperties(key);
+        if (StringUtils.isBlank(properties)){
+            return true;
+        }
+        try {
+            return Boolean.parseBoolean(properties);
+        } catch(Exception e) {
+            LogUtils.printInfo("配置有误,key="+key+",值应为 true false");
+        }
+        return true;
     }
 }

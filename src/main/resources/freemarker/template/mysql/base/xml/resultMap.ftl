@@ -1,4 +1,4 @@
-    <!-- resultMap定义  ${tableInfo.tableComment} ${tableInfo.tableName}与实体对应关系 -->
+    <!-- resultMap定义  <#if tableInfo.tableComment != "TODO">${tableInfo.tableComment} </#if>${tableInfo.tableName}与实体对应关系 -->
 	<resultMap id="${resultMap}" type="${parameterType}">
 <#list tableInfo.columnLists as colm>
 	<#if colm??>

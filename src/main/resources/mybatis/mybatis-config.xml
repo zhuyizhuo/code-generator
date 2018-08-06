@@ -16,16 +16,17 @@
         <environment id="development">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
-                <property name="driver" value="${DRIVER}"/>
-                <property name="url" value="${URL}"/>
-                <property name="username" value="${USERNAME}"/>
-                <property name="password" value="${PASSWORD}"/>
+                <property name="driver" value="${DB_DRIVER}"/>
+                <property name="url" value="${DB_URL}"/>
+                <property name="username" value="${DB_USERNAME}"/>
+                <property name="password" value="${DB_PASSWORD}"/>
             </dataSource>
         </environment>
     </environments>
 
     <mappers>
         <mapper resource="mybatis/mappers/MysqlDataBaseMapper.xml"/>
+        <mapper resource="mybatis/mappers/OracleDataBaseMapper.xml"/>
     </mappers>
 
 </configuration>

@@ -15,7 +15,7 @@ import java.util.Date;
  */
 public class CommentInfo {
     /** 文件创建时版本号 */
-    private String sinceVersion = "1.0";
+    private String sinceVersion = "";
     /** 当前版本号 */
     private String version = "1.0";
     /** 默认作者 */

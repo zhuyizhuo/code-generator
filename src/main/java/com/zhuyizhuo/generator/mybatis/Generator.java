@@ -9,6 +9,7 @@ import com.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
 import com.zhuyizhuo.generator.mybatis.vo.Ftl;
 import com.zhuyizhuo.generator.mybatis.vo.TableInfoFtl;
 import com.zhuyizhuo.generator.utils.Freemarker;
+import com.zhuyizhuo.generator.utils.LogUtils;
 import com.zhuyizhuo.generator.utils.PropertiesUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -34,11 +35,13 @@ public class Generator {
 
     public static void printAll(List<TableInfoFtl> dbTableInfoList) {
         try {
+            if (dbTableInfoList == null || dbTableInfoList.size() == 0){
+                LogUtils.printInfo("不存在需生成的数据.");
+                return;
+            }
             String fileOutPutPath = getFileOutPutPath();
-            System.out.println("fileOutPutPath: "+ fileOutPutPath);
+            LogUtils.printInfo("fileOutPutPath: "+ fileOutPutPath);
 
-            String bootStrapOutPath = fileOutPutPath + getJavaOutPutPath(stratificationInfo.getBasePackage(), "BootStrap");
-            System.out.println("bootStrapOutPath: " + bootStrapOutPath);
             for (int i = 0; i < dbTableInfoList.size(); i++) {
                 TableInfoFtl tableInfo = dbTableInfoList.get(i);
 
@@ -50,14 +53,13 @@ public class Generator {
                 String xmlOutPutPath = fileOutPutPath + getXmlOutPutPath(stratificationInfo.getXmlFullPackage(), stratificationInfo.getXmlName());
                 String pojoOutPutPath = fileOutPutPath + getJavaOutPutPath(stratificationInfo.getPojoFullPackage(), stratificationInfo.getPojoName());
                 String daoOutPutPath = fileOutPutPath + getJavaOutPutPath(stratificationInfo.getDaoFullPackage(), stratificationInfo.getDaoName());
-                System.out.println("xmlOutPutPath: " + xmlOutPutPath);
-                System.out.println("pojoOutPutPath: " + pojoOutPutPath);
-                System.out.println("daoOutPutPath: " + daoOutPutPath);
+                LogUtils.printInfo("xmlOutPutPath: " + xmlOutPutPath);
+                LogUtils.printInfo("pojoOutPutPath: " + pojoOutPutPath);
+                LogUtils.printInfo("daoOutPutPath: " + daoOutPutPath);
 
                 Freemarker.printFile(ftlPathInfo.getMysqlXmlFtlPath(), xmlOutPutPath, ftl);
                 Freemarker.printFile(ftlPathInfo.getPojoFtlPath(), pojoOutPutPath, ftl);
                 Freemarker.printFile(ftlPathInfo.getDaoFtlPath(), daoOutPutPath, ftl);
-                Freemarker.printFile(ftlPathInfo.getBootStrapFtlPath(), bootStrapOutPath, ftl);
             }
         } catch (Exception e) {
             e.printStackTrace();
