@@ -10,7 +10,7 @@
     <version>7</version>
   </parent>
 
-  <groupId>com.zhuyizhuo.generator</groupId>
+  <groupId>com.github.zhuyizhuo</groupId>
   <artifactId>code-generator</artifactId>
   <version>1.0-SNAPSHOT</version>
 

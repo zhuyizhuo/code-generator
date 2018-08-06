@@ -8,7 +8,7 @@
 
     <!-- 扫描包内的bean自动注册别名,如果没有注解的情况下,别名默认为首字母小写 -->
     <typeAliases>
-        <package name="com.zhuyizhuo.generator.mybatis.database.pojo"/>
+        <package name="com.github.zhuyizhuo.generator.mybatis.database.pojo"/>
     </typeAliases>
 
     <!-- 数据库连接 -->

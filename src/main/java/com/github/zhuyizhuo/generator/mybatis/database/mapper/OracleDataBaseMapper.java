@@ -1,0 +1,32 @@
+package com.github.zhuyizhuo.generator.mybatis.database.mapper;
+
+import com.github.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
+import com.github.zhuyizhuo.generator.mybatis.database.pojo.DataBaseInfo;
+import com.github.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
+/**
+ * @author yizhuo
+ * @version 1.0
+ * @date 2018/7/27 20:55
+ */
+public interface OracleDataBaseMapper {
+    /***
+     * 根据表空间和表名查询所有的表信息
+     * @param schema
+     * @return
+     */
+    List<DbTableInfo> getTableNameListBySchema(DataBaseInfo schema);
+
+    /**
+     * 根据表信息查询所有列信息
+     * @param tableSchema 表空间
+     * @param tableName 表名
+     * @return
+     */
+    DbTableInfo getAllColumnsByTable(@Param("tableSchema") String tableSchema, @Param("tableName") String tableName);
+
+}
+
