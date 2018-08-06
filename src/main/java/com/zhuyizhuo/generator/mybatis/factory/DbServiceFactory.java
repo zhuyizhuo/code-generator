@@ -30,13 +30,14 @@ public class DbServiceFactory {
     }
 
     public static DbService getDbService() {
-        String properties = PropertiesUtils.getProperties(ConfigConstants.DB_TYPE);
-        if (StringUtils.isBlank(properties)){
+        String dbType = PropertiesUtils.getProperties(ConfigConstants.DB_TYPE);
+        if (StringUtils.isBlank(dbType)){
             String errorMsg = "未指定数据库类型:" + ConfigConstants.DB_TYPE + ",请在generate-config.properties中指定.DB_TYPE 值列表请参照 DbTypeEnums.java";
             LogUtils.printInfo(errorMsg);
             throw new RuntimeException(errorMsg);
         }
-        DbService dbService = serviceMap.get(properties);
+        LogUtils.printInfo("数据库类型:" + dbType);
+        DbService dbService = serviceMap.get(dbType);
         if (dbService == null){
             String errorMsg =  ConfigConstants.DB_TYPE + "配置类型不支持,所支持类型请参照 DbTypeEnums.java";
             LogUtils.printInfo(errorMsg);

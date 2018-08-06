@@ -9,10 +9,10 @@ package com.zhuyizhuo.generator.mybatis.constants;
  */
 public class ConfigConstants {
 
-//    public static final String DRIVER = "DB_DRIVER";
-//    public static final String URL = "DB_URL";
-//    public static final String USERNAME = "DB_USERNAME";
-//    public static final String PASSWORD = "DB_PASSWORD";
+    public static final String DRIVER = "DB_DRIVER";
+    public static final String URL = "DB_URL";
+    public static final String USERNAME = "DB_USERNAME";
+    public static final String PASSWORD = "DB_PASSWORD";
 
     public static final String TABLE_SCHEMA = "DB_TABLE_SCHEMA";
     public static final String DB_TYPE = "DB_TYPE";
@@ -33,5 +33,5 @@ public class ConfigConstants {
     public static final String SERVICE_NAME_FORMAT = "SERVICE_NAME_FORMAT";
     public static final String POJO_NAME_FORMAT = "POJO_NAME_FORMAT";
 
-
+    public static final String PROPERTIES_FILE_PATH = "generate-config.properties";
 }

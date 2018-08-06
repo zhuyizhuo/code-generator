@@ -1,8 +1,10 @@
 package com.zhuyizhuo.generator.utils;
 
+import com.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.io.Resources;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -12,23 +14,30 @@ import java.util.Properties;
  * @date 2018/7/29 18:39
  */
 public class PropertiesUtils {
-    private static final String PROPERTIES_FILE_PATH = "generate-config.properties";
+
     private static final Properties proInfo = new Properties();
 
-    static{
-        try(InputStream resourceAsStream = Resources.getResourceAsStream(PROPERTIES_FILE_PATH)) {
-            loadProperties(resourceAsStream);
-        } catch (Exception e) {
-            e.printStackTrace();
+    private static final String[] needProperties = {ConfigConstants.URL,ConfigConstants.DB_TYPE,ConfigConstants.DRIVER,ConfigConstants.USERNAME,ConfigConstants.PASSWORD,ConfigConstants.TABLE_SCHEMA};
+
+    public static void loadProperties(InputStream resourceAsStream) throws IOException,IllegalArgumentException {
+        proInfo.load(resourceAsStream);
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < needProperties.length; i++) {
+            if (isBlank(getProperties(needProperties[i]))){
+                sb.append(needProperties[i] + "未配置 \n");
+            }
+        }
+        if (sb.length() > 0){
+            LogUtils.printInfo(sb.toString());
+            throw new IllegalArgumentException(sb.toString());
         }
     }
 
-    public static void loadProperties(InputStream resourceAsStream){
-        try {
-            proInfo.load(resourceAsStream);
-        } catch (Exception e) {
-            e.printStackTrace();
+    private static boolean isBlank(String properties) {
+        if (StringUtils.isBlank(properties)) {
+            return true;
         }
+        return false;
     }
 
     public static String getProperties(String key){

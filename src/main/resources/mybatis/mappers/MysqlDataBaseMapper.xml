@@ -21,22 +21,6 @@
         </if>
     </select>
 
-    <!-- QUERY PRIMARY KEY -->
-    <select id="ss">
-        SELECT
-          T.TABLE_NAME,
-          C.COLUMN_NAME,
-          C.ORDINAL_POSITION
-        FROM
-          INFORMATION_SCHEMA.TABLE_CONSTRAINTS AS T,
-          INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS C
-        WHERE
-          T.TABLE_NAME = C.TABLE_NAME
-        AND T.TABLE_NAME = 'SIMPLE_MYBATIS_ORDER'
-        AND T.TABLE_SCHEMA = 'YIZHUO'
-        AND T.CONSTRAINT_TYPE = 'PRIMARY KEY'
-    </select>
-
     <select id="getColumnListByTableName" resultType="columnInfo" parameterType="dbTableInfo">
         SELECT
         upper(COLUMN_NAME) columnName,
