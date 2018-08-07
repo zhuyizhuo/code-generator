@@ -11,11 +11,11 @@ import java.util.Properties;
 /**
  * @author yizhuo
  * @version 1.0
- * @date 2018/7/29 18:39
+ * time: 2018/7/29 18:39
  */
 public class PropertiesUtils {
 
-    private static final Properties proInfo = new Properties();
+    public static final Properties proInfo = new Properties();
 
     private static final String[] needProperties = {ConfigConstants.URL,ConfigConstants.DB_TYPE,ConfigConstants.DRIVER,ConfigConstants.USERNAME,ConfigConstants.PASSWORD,ConfigConstants.TABLE_SCHEMA};
 
@@ -45,9 +45,9 @@ public class PropertiesUtils {
     }
 
     /**
-     * 获取配置信息 不存在 返回FALSE
+     * 获取配置信息
      * @param key
-     * @return
+     * @return 不存在 返回FALSE
      */
     public static boolean getBooleanPropertiesDefaultFalse(String key){
         String properties = getProperties(key);
@@ -63,9 +63,9 @@ public class PropertiesUtils {
     }
 
     /**
-     * 获取配置信息 不存在 返回TRUE
+     * 获取配置信息
      * @param key
-     * @return
+     * @return 不存在则 返回TRUE
      */
     public static boolean getBooleanPropertiesDefaultTrue(String key){
         String properties = getProperties(key);

@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * @author yizhuo
  * @version 1.0
- * @date 2018/7/29 18:12
+ * time: 2018/7/29 18:12
  */
 public class Generator {
     private static FtlPathInfo ftlPathInfo = new FtlPathInfo();

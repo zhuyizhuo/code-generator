@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * @author yizhuo
  * @version 1.0
- * @date 2018/7/29 19:16
+ * time: 2018/7/29 19:16
  */
 public class DataBaseInfo {
     /** 数据库名称 */

@@ -14,8 +14,8 @@ public class GeneratorStringUtils {
 
     /**
      * 获取传入文件全路径的路径信息
-     * @param fileFullpath
-     * @return
+     * @param fileFullpath d:/e/a/1.txt
+     * @return d:/e/a/
      */
     public static String getFrontPath(String fileFullpath){
         if (StringUtils.isBlank(fileFullpath)){
@@ -27,8 +27,8 @@ public class GeneratorStringUtils {
 
     /**
      * 获取传入文件全路径的文件名称
-     * @param fileFullpath
-     * @return
+     * @param fileFullpath d:/e/a/1.txt
+     * @return 1.txt
      */
     public static String getFileName(String fileFullpath){
         if (StringUtils.isBlank(fileFullpath)){
@@ -40,9 +40,8 @@ public class GeneratorStringUtils {
 
     /**
      * 表名转java驼峰命名(首字母小写)
-     * mybatis_user_info -> mybatisUserInfo
-     * @param tableName
-     * @return
+     * @param tableName  e.g mybatis_user_info
+     * @return mybatisUserInfo
      */
     public static String changeTableName2Java(String tableName,String tableRegex) {
         String[] split = tableName.split(tableRegex);
@@ -55,9 +54,8 @@ public class GeneratorStringUtils {
 
     /**
      * 表名转java驼峰命名(首字母大写)
-     * mybatis_user_info -> MybatisUserInfo
-     * @param tableName
-     * @return
+     * @param tableName  e.g mybatis_user_info
+     * @return MybatisUserInfo
      */
     public static String changeTableName2JavaFirstUpper(String tableName, String tableRegex) {
         String[] split = tableName.split(tableRegex);
@@ -71,7 +69,7 @@ public class GeneratorStringUtils {
     /**
      * 数据库字段名转java驼峰命名(首字母小写 驼峰处转大写)  连接符colmRegex可指定  默认为_
      * @param columnName
-     * @return
+     * @return java驼峰命名
      */
     public static String changeColmName2Java(String columnName,String colmRegex) {
         String[] split = columnName.split(colmRegex);
@@ -88,11 +86,11 @@ public class GeneratorStringUtils {
 
     /**
      * 首字母大写 其他字母小写
-     * @param name
-     * @return
+     * @param str 传入纯字母字符串
+     * @return 首字母大写 其他字母小写
      */
-    public static String firstUpper(String name) {
-        char[] cs = name.toCharArray();
+    public static String firstUpper(String str) {
+        char[] cs = str.toCharArray();
         cs[0] = toU(cs[0]);
         for (int i = 1; i < cs.length; i++) {
             cs[i] = toL(cs[i]);
@@ -102,19 +100,19 @@ public class GeneratorStringUtils {
 
     /**
      * 首字母小写
-     * @param name
-     * @return
+     * @param str 传入纯字母字符串
+     * @return 将首字母小写后返回
      */
-    public static String firstLower(String name) {
-        char[] cs = name.toCharArray();
+    public static String firstLower(String str) {
+        char[] cs = str.toCharArray();
         cs[0] = toL(cs[0]);
         return String.valueOf(cs);
     }
 
     /**
      * 字母转大写
-     * @param c
-     * @return
+     * @param c a-z
+     * @return A-Z
      */
     public static char toU(char c) {
         if (c >= 'a' && c <= 'z') {
@@ -125,8 +123,8 @@ public class GeneratorStringUtils {
 
     /**
      * 字母转小写
-     * @param c
-     * @return
+     * @param c A-Z
+     * @return a-z
      */
     public static char toL(char c) {
         if (c >= 'A' && c <= 'Z') {

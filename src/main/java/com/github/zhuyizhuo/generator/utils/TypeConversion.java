@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * @author yizhuo
  * @version 1.0
- * @date 2018/7/29 18:36
+ * time: 2018/7/29 18:36
  */
 public class TypeConversion {
 

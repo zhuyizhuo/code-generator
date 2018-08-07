@@ -8,9 +8,8 @@ import org.apache.ibatis.io.Resources;
 
 /**
  * mybatis代码生成器
- * @author yizhuo
+ * @author yizhuo 2018/7/27 20:55
  * @version 1.0
- * @date 2018/7/27 20:55
  */
 public class BootStrap {
 

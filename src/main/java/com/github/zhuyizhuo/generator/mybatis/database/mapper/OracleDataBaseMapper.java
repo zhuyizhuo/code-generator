@@ -10,13 +10,13 @@ import java.util.List;
 /**
  * @author yizhuo
  * @version 1.0
- * @date 2018/7/27 20:55
+ * time: 2018/7/27 20:55
  */
 public interface OracleDataBaseMapper {
     /***
      * 根据表空间和表名查询所有的表信息
-     * @param schema
-     * @return
+     * @param schema 查询参数对象
+     * @return 所有表信息
      */
     List<DbTableInfo> getTableNameListBySchema(DataBaseInfo schema);
 
@@ -24,7 +24,7 @@ public interface OracleDataBaseMapper {
      * 根据表信息查询所有列信息
      * @param tableSchema 表空间
      * @param tableName 表名
-     * @return
+     * @return 所有表和对应列信息
      */
     DbTableInfo getAllColumnsByTable(@Param("tableSchema") String tableSchema, @Param("tableName") String tableName);
 

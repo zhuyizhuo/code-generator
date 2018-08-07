@@ -14,7 +14,7 @@ import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 /**
  * @author yizhuo
  * @version 1.0
- * @date 2018/7/29 17:44
+ * time: 2018/7/29 17:44
  */
 public class Ftl {
 

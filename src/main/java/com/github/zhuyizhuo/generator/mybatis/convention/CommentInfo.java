@@ -11,7 +11,7 @@ import java.util.Date;
  * 方法注释
  * @author yizhuo
  * @version 1.0
- * @date 2018/7/29 16:10
+ * time: 2018/7/29 16:10
  */
 public class CommentInfo {
     /** 文件创建时版本号 */

@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * @author yizhuo
  * @version 1.0
- * @date 2018/7/29 16:30
+ * time: 2018/7/29 16:30
  */
 public class FreeMarkerVO {
     /** 表名 和java表信息对应数据*/

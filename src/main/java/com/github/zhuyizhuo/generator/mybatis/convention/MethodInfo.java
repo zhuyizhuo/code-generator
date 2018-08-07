@@ -6,7 +6,7 @@ import java.text.MessageFormat;
  * 方法名信息
  * @author yizhuo
  * @version 1.0
- * @date 2018/7/29 15:40
+ * time: 2018/7/29 15:40
  */
 public class MethodInfo {
 

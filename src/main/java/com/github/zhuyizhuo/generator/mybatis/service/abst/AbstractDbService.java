@@ -77,7 +77,7 @@ public abstract class AbstractDbService implements DbService {
     /**
      * 备注去除回车换行
      * @param columnComment 字段备注
-     * @return
+     * @return 去除回车换行后返回
      */
     protected String replaceEnter(String columnComment) {
         if (StringUtils.isBlank(columnComment)) {

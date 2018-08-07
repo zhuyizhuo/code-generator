@@ -3,7 +3,7 @@ package com.github.zhuyizhuo.generator.mybatis.constants;
 /**
  * @author yizhuo
  * @version 1.0
- * @date 2018/7/29 18:15
+ * time: 2018/7/29 18:15
  */
 public class FtlPathInfo {
 

@@ -13,7 +13,7 @@ import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
  */
 public class LogUtils {
 
-    private static final boolean booleanProperties = PropertiesUtils.getBooleanPropertiesDefaultFalse(ConfigConstants.LOG_ENABLED);
+    private static final boolean booleanProperties = PropertiesUtils.getBooleanPropertiesDefaultTrue(ConfigConstants.LOG_ENABLED);
 
     public static void printInfo(String info){
         if (booleanProperties){

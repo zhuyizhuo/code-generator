@@ -11,13 +11,13 @@ import java.text.MessageFormat;
  * 分层信息
  * @author yizhuo
  * @version 1.0
- * @date 2018/7/29 16:19
+ * time: 2018/7/29 16:19
  */
 public class StratificationInfo {
     private static final String point = ".";
 
     /** 基础路径 */
-    private String basePackage = "test.generator";
+    private String basePackage = "com.github.generator";
 
     /** 实体名称 */
     private String POJO_NAME_FORMAT = "{0}POJO";

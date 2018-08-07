@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author yizhuo
  * @version 1.0
- * @date 2018/7/29 16:39
+ * time: 2018/7/29 16:39
  */
 public class JavaTableInfo {
     /** java表名 */

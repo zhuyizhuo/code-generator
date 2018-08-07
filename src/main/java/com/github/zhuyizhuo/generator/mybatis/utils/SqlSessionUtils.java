@@ -1,5 +1,6 @@
 package com.github.zhuyizhuo.generator.mybatis.utils;
 
+import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
@@ -26,7 +27,7 @@ public class SqlSessionUtils {
             //配置文件
             String resource = "mybatis/mybatis-config.xml";
             InputStream inputStream = Resources.getResourceAsStream(resource);
-            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream,PropertiesUtils.proInfo);
 //            LogFactory.useStdOutLogging();
             return sqlSessionFactory.openSession();
         } catch (Exception e){
