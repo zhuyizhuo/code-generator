@@ -27,14 +27,24 @@
 
 ###### 所需环境
 
-* jdk1.8 +
+* jdk1.7 +
+
+###### 版本信息
+
+| 版本 |                             功能                             |
+| :--: | :----------------------------------------------------------: |
+| v1.0 | 从指定mysql或oracle数据库生成dao、pojo及mybatis3.x 的xml文件 |
+
+##### 参考文档
+
+- ##### [快速开始](./quickstart.md)
 
 ## License
 
 The code generator is released under version 2.0 of the [Apache License](http://www.apache.org/licenses/LICENSE-2.0).
 
 ```
-本项目用于工作中代码生成. 为本人将工作中使用的代码生成工具整理并开源,尚在开发,暂未发布第一版.
+本项目用于工作中代码生成. 为本人将工作中使用的代码生成工具整理并开源,已发布第一版
 欢迎各位补充或issue留言交流.
 ```
 

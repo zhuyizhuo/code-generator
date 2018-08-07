@@ -12,7 +12,21 @@
 
   <groupId>com.github.zhuyizhuo</groupId>
   <artifactId>code-generator</artifactId>
-  <version>1.0</version>
+  <version>${project.release.version}</version>
+
+  <properties>
+    <project.release.version>1.0-SNAPSHOT</project.release.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <profiles>
+    <profile>
+      <id>release</id>
+      <properties>
+        <project.release.version>1.0</project.release.version>
+      </properties>
+    </profile>
+  </profiles>
 
   <name>代码生成器</name>
   <url>https://github.com/zhuyizhuo/code-generator</url>
@@ -25,12 +39,6 @@
       <comments>A business-friendly OSS license</comments>
     </license>
   </licenses>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
-  </properties>
 
   <dependencies>
     <dependency>
@@ -51,17 +59,6 @@
           <artifactId>log4j</artifactId>
           <version>1.2.17</version>
       </dependency>
-
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <version>8.0.11</version>
-    </dependency>
-    <dependency>
-      <groupId>com.oracle</groupId>
-      <artifactId>ojdbc14</artifactId>
-      <version>11.2.0.4</version>
-    </dependency>
 
     <dependency>
       <groupId>org.freemarker</groupId>
@@ -117,7 +114,22 @@
         </plugin>
       </plugins>
     </pluginManagement>
+
   </build>
+
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>OSS Snapshots Repository</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>OSS Staging Repository</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
   <issueManagement>
     <system>github</system>

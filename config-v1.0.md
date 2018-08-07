@@ -1,3 +1,6 @@
+##### 必须的配置项:
+
+```properties
 # 数据库配置
 
 # 数据库驱动 DB_DRIVER
@@ -7,7 +10,7 @@
 # 数据库密码 DB_PASSWORD
 # 数据库类型 DB_TYPE
 
-# MYSQL数据库配置
+#MYSQL数据库配置
 #DB_TYPE=MYSQL
 #DB_DRIVER=com.mysql.cj.jdbc.Driver
 #DB_URL=jdbc:mysql://localhost:3306/
@@ -22,7 +25,12 @@
 #DB_TABLE_SCHEMA=test
 #DB_USERNAME=root
 #DB_PASSWORD=root
+```
 
+##### 可选的配置项：
+
+
+```properties
 # 需生成的表 多张表用英文逗号隔开,大小写不敏感,不配置则默认为全部  USER,order
 #DB_INCLUDE_TABLE_NAME=Test
 
@@ -64,3 +72,4 @@
 
 # DAO 层名称 用法参照实体名称用法
 #DAO_NAME_FORMAT={0}Dao
+```
