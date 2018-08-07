@@ -1,9 +1,5 @@
 package com.github.zhuyizhuo.generator.mybatis.service.abst;
 
-import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
-import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
-import com.github.zhuyizhuo.generator.utils.TypeConversion;
-import com.google.common.base.Splitter;
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.pojo.DataBaseInfo;
@@ -14,8 +10,8 @@ import com.github.zhuyizhuo.generator.mybatis.vo.TableInfoFtl;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import com.github.zhuyizhuo.generator.utils.TypeConversion;
+import com.google.common.base.Splitter;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 
@@ -53,17 +49,22 @@ public abstract class AbstractDbService implements DbService {
     }
 
     protected void setTableInfoFtl(DbTableInfo dbTableInfo, TableInfoFtl ftlTableInfo) {
-        BeanUtils.copyProperties(dbTableInfo,ftlTableInfo);
+
+        ftlTableInfo.setTableName(dbTableInfo.getTableName());
+        ftlTableInfo.setTableSchema(dbTableInfo.getTableSchema());
         if (StringUtils.isBlank(ftlTableInfo.getTableComment())){
             ftlTableInfo.setTableComment("TODO");
+        } else {
+            ftlTableInfo.setTableComment(dbTableInfo.getTableComment());
         }
         List<ColumnInfo> columnLists = dbTableInfo.getColumnLists();
         JavaColumnInfo javaColumnInfo;
         for (int i = 0; i < columnLists.size(); i++) {
             ColumnInfo columnInfo = columnLists.get(i);
             javaColumnInfo = new JavaColumnInfo();
-            BeanUtils.copyProperties(columnInfo,javaColumnInfo);
-            javaColumnInfo.setColumnComment(replaceEnter(javaColumnInfo.getColumnComment()));
+            javaColumnInfo.setDataType(columnInfo.getDataType());
+            javaColumnInfo.setColumnName(columnInfo.getColumnName());
+            javaColumnInfo.setColumnComment(replaceEnter(columnInfo.getColumnComment()));
             javaColumnInfo.setJavaColumnName(GeneratorStringUtils.changeColmName2Java(columnInfo.getColumnName(),"_"));
             javaColumnInfo.setJavaDataType(getJavaDataType(columnInfo));
             javaColumnInfo.setJavaDataTypeFullPath(TypeConversion.javaDataTypeFullPathMap.get(javaColumnInfo.getJavaDataType()));
