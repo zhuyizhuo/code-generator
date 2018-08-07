@@ -66,7 +66,8 @@ import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 public class TestGenerator {
 
 	public static void main(String[] args) throws Exception {
-	/** 此处使用 配置文件的绝对路径或者在项目中的相对路径  */		 	 PropertiesUtils.loadProperties(Resources.getResourceAsStream("config.properties"));
+		/** 此处使用 配置文件的绝对路径或者在项目中的相对路径  */
+        PropertiesUtils.loadProperties(Resources.getResourceAsStream("config.properties"));
 		BootStrap.generate();
 	}
 }

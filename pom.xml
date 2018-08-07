@@ -12,21 +12,13 @@
 
   <groupId>com.github.zhuyizhuo</groupId>
   <artifactId>code-generator</artifactId>
-  <version>${project.release.version}</version>
+  <version>1.1</version>
 
   <properties>
-    <project.release.version>1.0-SNAPSHOT</project.release.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
   </properties>
-
-  <profiles>
-    <profile>
-      <id>release</id>
-      <properties>
-        <project.release.version>1.0</project.release.version>
-      </properties>
-    </profile>
-  </profiles>
 
   <name>代码生成器</name>
   <url>https://github.com/zhuyizhuo/code-generator</url>
