@@ -29,17 +29,19 @@
 
 * jdk1.7 +
 
-###### 版本信息
+#### 版本信息
 
-| 版本 |                             功能                             |
-| :--: | :----------------------------------------------------------: |
-| v1.0 | 从指定mysql或oracle数据库生成dao、pojo及mybatis3.x 的xml文件 |
+| 版本 |                             功能                             | 主键策略                                                     |
+| :--: | :----------------------------------------------------------: | ------------------------------------------------------------ |
+| v1.0 | 从指定mysql或oracle数据库生成dao、pojo及mybatis3.x 的xml文件 | 默认取表的创建时间最早字段为主键                             |
+| v1.1 |    移除oracle及mysql驱动依赖,由使用者自己按需引用对应驱动    | 默认取表的创建时间最早字段为主键                             |
+| v1.2 |                            待发布                            | 支持多种主键策略<br/>1.生成的表无主键情况:<br/>  a.则取创建时间最早字段为主键<br/>  b.配置指定字段<br/>2.使用数据库主键为主键 |
 
-##### 参考文档
+#### 参考文档
 
 - ##### [快速开始](./quickstart.md)
 
-## License
+#### License
 
 The code generator is released under version 2.0 of the [Apache License](http://www.apache.org/licenses/LICENSE-2.0).
 
@@ -48,7 +50,9 @@ The code generator is released under version 2.0 of the [Apache License](http://
 欢迎各位补充或issue留言交流.
 ```
 
-##### 个人联系方式,添加请注明:来自gitHub
+#### 联系作者
+
+添加请注明:来自gitHub
 
 ##### QQ: 2361883887
 
