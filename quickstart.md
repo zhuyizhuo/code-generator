@@ -30,9 +30,11 @@ oracle数据库引入：
 </dependency>
 ```
 
-###### 新增配置文件config.properties,内容参考:
+###### 新增配置文件config.properties,可使用默认配置如下:
 
-- [配置文件详解](config-v1.0.md)
+- [默认配置](config.md)
+
+并根据需要配置数据源
 
 ```properties
 #MYSQL数据库配置
@@ -51,6 +53,10 @@ oracle数据库引入：
 #DB_USERNAME=root
 #DB_PASSWORD=root
 ```
+
+配置文件内容参考:
+
+- [配置文件详解](config-v1.0.md)
 
 ###### java代码如下:
 
@@ -75,4 +81,4 @@ public class TestGenerator {
 
 执行main方法,即可生成代码.
 
-其他详细配置参考[配置文件详解](config-v1.0.md)
+详细配置信息参考[配置文件详解](config-v1.0.md)
