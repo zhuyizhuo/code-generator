@@ -1,9 +1,11 @@
-package com.github.zhuyizhuo.generator.mybatis;
+package com.github.zhuyizhuo.generator.mybatis.generator;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.FtlPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.CommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.MethodInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
+import com.github.zhuyizhuo.generator.mybatis.factory.DbServiceFactory;
+import com.github.zhuyizhuo.generator.mybatis.service.DbService;
 import com.github.zhuyizhuo.generator.mybatis.vo.Ftl;
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.constants.FtlPathInfo;
@@ -17,7 +19,9 @@ import com.github.zhuyizhuo.generator.utils.Freemarker;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.io.Resources;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -36,6 +40,11 @@ public class Generator {
         ftl.setCommentInfo(commentInfo);
         ftl.setMethodInfo(methodInfo);
         ftl.setStratificationInfo(stratificationInfo);
+    }
+
+    public void generate(){
+        DbService service =  DbServiceFactory.getDbService();
+        Generator.printAll(service.getTableColumns());
     }
 
     public static void printAll(List<TableInfoFtl> dbTableInfoList) {

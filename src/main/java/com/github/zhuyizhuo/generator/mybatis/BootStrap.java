@@ -2,6 +2,8 @@ package com.github.zhuyizhuo.generator.mybatis;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.factory.DbServiceFactory;
+import com.github.zhuyizhuo.generator.mybatis.generator.Generator;
+import com.github.zhuyizhuo.generator.mybatis.generator.GeneratorBuilder;
 import com.github.zhuyizhuo.generator.mybatis.service.DbService;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import org.apache.ibatis.io.Resources;
@@ -14,13 +16,8 @@ import org.apache.ibatis.io.Resources;
 public class BootStrap {
 
     public static void main(String[] args) throws Exception {
-        PropertiesUtils.loadProperties(Resources.getResourceAsStream(ConfigConstants.PROPERTIES_FILE_PATH));
-        generate();
-    }
-
-    public static void generate(){
-        DbService service =  DbServiceFactory.getDbService();
-        Generator.printAll(service.getTableColumns());
+        Generator build = GeneratorBuilder.build(Resources.getResourceAsStream(ConfigConstants.PROPERTIES_FILE_PATH));
+        build.generate();
     }
 
 }
