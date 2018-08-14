@@ -5,9 +5,11 @@
 
 <#include "xml/insert.ftl"/>
 
+<#if tableInfo.hasPrimaryKey>
 <#include "xml/delete.ftl"/>
 
 <#include "xml/update.ftl"/>
+</#if>
 
 <#include "xml/query.ftl"/>
 

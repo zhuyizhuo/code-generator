@@ -1,5 +1,5 @@
 	<!-- 查询用 条件判断 -->
-  	<sql id="condition_list">
+  	<sql id="Where_Clause">
       <where>
 <#list tableInfo.columnLists as colm>
     <#if colm??>
@@ -11,38 +11,34 @@
       </where>
   	</sql>
 
-    <sql id="select_columns">
-        SELECT
+    <sql id="Base_Column_List">
     <#list tableInfo.columnLists as colm>
     <#if colm??>
-        <#if colm_has_next>
-            ${colm.columnName?upper_case},
-        <#else>
-            ${colm.columnName?upper_case}
-        </#if>
+    <#if colm_has_next>
+        ${colm.columnName?upper_case},
+    <#else>
+        ${colm.columnName?upper_case}
+    </#if>
     </#if>
     </#list>
     </sql>
 
-    <sql id="count">
-        SELECT COUNT(*)
+    <sql id="Table_Name">
+        ${tableInfo.tableName}
     </sql>
 
-  	<!-- 基本多条件查询 -->
-  	<sql id="base_query_by_where_sql">
-		FROM
-			 ${tableInfo.tableName}
-		<include refid="condition_list" />
-  	</sql>
-
 	<!-- 根据条件查询  -->
-	<select id="${methodInfo.queryMethodName}" resultMap="${resultMap}" parameterType="${parameterType}">
-        <include refid="select_columns" />
-        <include refid="base_query_by_where_sql" />
+	<select id="${methodInfo.queryMethodName}" resultMap="${resultMapId}" parameterType="${parameterType}">
+        SELECT
+  	     <include refid="Base_Column_List" />
+  	     FROM
+  	     <include refid="Table_Name" />
+        <include refid="Where_Clause" />
     </select>
 
 	<!-- 查询总数  -->
 	<select id="${methodInfo.countMethodName}" resultType="int" parameterType="${parameterType}">
-		<include refid="count" />
-		<include refid="base_query_by_where_sql" />
+		SELECT COUNT(*) FROM
+		<include refid="Table_Name" />
+		<include refid="Where_Clause" />
 	</select>

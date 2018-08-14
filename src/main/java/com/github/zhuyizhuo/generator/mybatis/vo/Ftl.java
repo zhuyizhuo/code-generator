@@ -1,9 +1,5 @@
 package com.github.zhuyizhuo.generator.mybatis.vo;
 
-import com.github.zhuyizhuo.generator.mybatis.convention.CommentInfo;
-import com.github.zhuyizhuo.generator.mybatis.convention.MethodInfo;
-import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
-import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.convention.CommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.MethodInfo;
@@ -22,10 +18,10 @@ public class Ftl {
     private MethodInfo methodInfo;
     private CommentInfo commentInfo;
     private TableInfoFtl tableInfo;
-    /** 参数类型 */
+    /** xml 参数类型 */
     private String parameterType;
-    /** 返回map*/
-    private String resultMap;
+    /** xml resultMap id */
+    private String resultMapId;
 
     public Ftl() {
 
@@ -71,12 +67,12 @@ public class Ftl {
         this.parameterType = parameterType;
     }
 
-    public String getResultMap() {
-        return resultMap;
+    public String getResultMapId() {
+        return resultMapId;
     }
 
-    public void setResultMap(String resultMap) {
-        this.resultMap = resultMap;
+    public void setResultMapId(String resultMapId) {
+        this.resultMapId = resultMapId;
     }
 
     public void init() {
@@ -86,6 +82,6 @@ public class Ftl {
         } else {
             setParameterType(stratificationInfo.getPojoFullPackage()+"."+stratificationInfo.getPojoName());
         }
-        setResultMap(GeneratorStringUtils.firstLower(tableInfo.getJavaTableName())+"ResultMap");
+        setResultMapId(GeneratorStringUtils.firstLower(tableInfo.getJavaTableName())+"ResultMap");
     }
 }

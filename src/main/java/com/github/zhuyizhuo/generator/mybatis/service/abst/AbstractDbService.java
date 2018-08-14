@@ -11,7 +11,6 @@ import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import com.github.zhuyizhuo.generator.utils.TypeConversion;
 import com.google.common.base.Splitter;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -34,7 +33,7 @@ public abstract class AbstractDbService implements DbService {
 
     protected String getTableSchema() {
         String tableSchema = PropertiesUtils.getProperties(ConfigConstants.TABLE_SCHEMA);
-        if (StringUtils.isNotBlank(tableSchema)){
+        if (GeneratorStringUtils.isNotBlank(tableSchema)){
             tableSchema = tableSchema.toUpperCase();
         }
         return tableSchema;
@@ -42,7 +41,7 @@ public abstract class AbstractDbService implements DbService {
 
     protected List<String> getTables() {
         String includeTableName = PropertiesUtils.getProperties(ConfigConstants.INCLUDE_TABLE_NAME);
-        if (StringUtils.isNotBlank(includeTableName)){
+        if (GeneratorStringUtils.isNotBlank(includeTableName)){
             return Splitter.on(",").splitToList(includeTableName);
         }
         return null;
@@ -52,7 +51,7 @@ public abstract class AbstractDbService implements DbService {
 
         ftlTableInfo.setTableName(dbTableInfo.getTableName());
         ftlTableInfo.setTableSchema(dbTableInfo.getTableSchema());
-        if (StringUtils.isBlank(ftlTableInfo.getTableComment())){
+        if (GeneratorStringUtils.isBlank(ftlTableInfo.getTableComment())){
             ftlTableInfo.setTableComment("TODO");
         } else {
             ftlTableInfo.setTableComment(dbTableInfo.getTableComment());
@@ -69,7 +68,7 @@ public abstract class AbstractDbService implements DbService {
             javaColumnInfo.setJavaDataType(getJavaDataType(columnInfo));
             javaColumnInfo.setJavaDataTypeFullPath(TypeConversion.javaDataTypeFullPathMap.get(javaColumnInfo.getJavaDataType()));
             ftlTableInfo.addJavaColumnInfo(javaColumnInfo);
-            ftlTableInfo.addImportPackages(javaColumnInfo.getJavaDataTypeFullPath());
+            ftlTableInfo.addImportPackage(javaColumnInfo.getJavaDataTypeFullPath());
         }
     }
 
@@ -81,7 +80,7 @@ public abstract class AbstractDbService implements DbService {
      * @return 去除回车换行后返回
      */
     protected String replaceEnter(String columnComment) {
-        if (StringUtils.isBlank(columnComment)) {
+        if (GeneratorStringUtils.isBlank(columnComment)) {
             return "";
         }
         return columnComment.replaceAll("\r"," ").replaceAll("\n"," ").replaceAll("\r\n"," ");

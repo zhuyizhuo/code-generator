@@ -1,27 +1,24 @@
 package com.github.zhuyizhuo.generator.mybatis.generator;
 
-import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
+import com.github.zhuyizhuo.generator.utils.LogUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
-import org.apache.ibatis.io.Resources;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 /**
  * class: GeneratorBuilder <br>
- * description: TODO <br>
+ * description: Builds {@link Generator} instances. <br>
  *
  * @author yizhuo <br>
  * @version 1.0
  */
 public class GeneratorBuilder {
 
-    public static Generator build(InputStream resourceAsStream){
+    public static Generator build(InputStream inputStream){
         try {
-            PropertiesUtils.loadProperties(resourceAsStream);
-        } catch (IOException e) {
-            System.out.println("加载配置文件失败.");
-            e.printStackTrace();
+            PropertiesUtils.loadProperties(inputStream);
+        } catch (Exception e) {
+            LogUtils.printInfo("加载配置文件失败.");
         }
         return new Generator();
     }

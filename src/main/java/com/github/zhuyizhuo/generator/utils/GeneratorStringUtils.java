@@ -1,7 +1,5 @@
 package com.github.zhuyizhuo.generator.utils;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * class: GeneratorStringUtils <br>
  * description: 字符串工具类 <br>
@@ -18,7 +16,7 @@ public class GeneratorStringUtils {
      * @return d:/e/a/
      */
     public static String getFrontPath(String fileFullpath){
-        if (StringUtils.isBlank(fileFullpath)){
+        if (isBlank(fileFullpath)){
             return "";
         }
         String fullPath = fileFullpath.replaceAll("\\\\","/");
@@ -31,11 +29,57 @@ public class GeneratorStringUtils {
      * @return 1.txt
      */
     public static String getFileName(String fileFullpath){
-        if (StringUtils.isBlank(fileFullpath)){
+        if (isBlank(fileFullpath)){
             return "";
         }
         String fullPath = fileFullpath.replaceAll("\\\\","/");
         return fullPath.substring(fullPath.lastIndexOf("/") + 1);
+    }
+
+    /**
+     * <p>Checks if a CharSequence is whitespace, empty ("") or null.</p>
+     *
+     * <pre>
+     * GeneratorStringUtils.isBlank(null)      = true
+     * GeneratorStringUtils.isBlank("")        = true
+     * GeneratorStringUtils.isBlank(" ")       = true
+     * GeneratorStringUtils.isBlank("bob")     = false
+     * GeneratorStringUtils.isBlank("  bob  ") = false
+     * </pre>
+     *
+     * @param cs  the CharSequence to check, may be null
+     * @return {@code true} if the CharSequence is null, empty or whitespace
+     */
+    public static boolean isBlank(final CharSequence cs) {
+        int strLen;
+        if (cs == null || (strLen = cs.length()) == 0) {
+            return true;
+        }
+        for (int i = 0; i < strLen; i++) {
+            if (Character.isWhitespace(cs.charAt(i)) == false) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * <p>Checks if a CharSequence is not empty (""), not null and not whitespace only.</p>
+     *
+     * <pre>
+     * StringUtils.isNotBlank(null)      = false
+     * StringUtils.isNotBlank("")        = false
+     * StringUtils.isNotBlank(" ")       = false
+     * StringUtils.isNotBlank("bob")     = true
+     * StringUtils.isNotBlank("  bob  ") = true
+     * </pre>
+     *
+     * @param cs  the CharSequence to check, may be null
+     * @return {@code true} if the CharSequence is
+     *  not empty and not null and not whitespace
+     */
+    public static boolean isNotBlank(final CharSequence cs) {
+        return !isBlank(cs);
     }
 
     /**

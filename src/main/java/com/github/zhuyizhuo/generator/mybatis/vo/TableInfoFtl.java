@@ -1,5 +1,6 @@
 package com.github.zhuyizhuo.generator.mybatis.vo;
 
+import com.github.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
 import com.google.common.collect.Lists;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
@@ -28,6 +29,10 @@ public class TableInfoFtl {
     private LinkedHashSet<String> importPackages = new LinkedHashSet<String>();
     /** 表字段 */
     private List<JavaColumnInfo> columnLists = Lists.newArrayList();
+    /** 主键字段 */
+    private List<JavaColumnInfo> primaryKeyColumns = Lists.newArrayList();
+
+    private boolean hasPrimaryKey = true;
 
     public String getTableSchema() {
         return tableSchema;
@@ -73,8 +78,39 @@ public class TableInfoFtl {
         return importPackages;
     }
 
-    public void addImportPackages(String importPackage) {
+    public void addImportPackage(String importPackage) {
         this.importPackages.add(importPackage);
+    }
+
+    public void addPrimaryKeyColumn(List<ColumnInfo> keyName) {
+        if (keyName == null || keyName.size() == 0){
+            this.hasPrimaryKey = false;
+            return;
+        }
+        for (int i = 0; i < keyName.size(); i++) {
+            ColumnInfo columnInfo = keyName.get(i);
+            String columnName = columnInfo.getColumnName();
+            for (int j = 0; j < columnLists.size(); j++) {
+                JavaColumnInfo javaColumnInfo = columnLists.get(j);
+                if (columnName.equalsIgnoreCase(javaColumnInfo.getColumnName())){
+                    this.primaryKeyColumns.add(javaColumnInfo);
+                    break;
+                }
+            }
+        }
+        this.hasPrimaryKey = true;
+    }
+
+    public List<JavaColumnInfo> getPrimaryKeyColumns() {
+        return primaryKeyColumns;
+    }
+
+    public boolean isHasPrimaryKey() {
+        return hasPrimaryKey;
+    }
+
+    public void setHasPrimaryKey(boolean hasPrimaryKey) {
+        this.hasPrimaryKey = hasPrimaryKey;
     }
 
     @Override

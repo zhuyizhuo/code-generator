@@ -10,11 +10,11 @@ import ${stratificationInfo.pojoFullPackage}.${stratificationInfo.pojoName};
  */
 public interface ${stratificationInfo.daoName} {
 
-	int ${methodInfo.insertMethodName}(${stratificationInfo.pojoName} ${stratificationInfo.pojoName?uncap_first});
+	int ${methodInfo.insertMethodName}(${stratificationInfo.pojoName} ${stratificationInfo.pojoName?uncap_first});<#if tableInfo.hasPrimaryKey>
 
-    int ${methodInfo.deleteMethodName}(${stratificationInfo.pojoName} ${stratificationInfo.pojoName?uncap_first});
+    int ${methodInfo.deleteByPrimaryKeyMethodName}(${stratificationInfo.pojoName} ${stratificationInfo.pojoName?uncap_first});
 
-    int ${methodInfo.updateMethodName}(${stratificationInfo.pojoName} ${stratificationInfo.pojoName?uncap_first});
+    int ${methodInfo.updateByPrimaryKeyMethodName}(${stratificationInfo.pojoName} ${stratificationInfo.pojoName?uncap_first});</#if>
 
     int ${methodInfo.countMethodName}(${stratificationInfo.pojoName} ${stratificationInfo.pojoName?uncap_first});
 

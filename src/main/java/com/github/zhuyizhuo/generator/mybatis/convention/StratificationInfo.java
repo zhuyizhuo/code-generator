@@ -3,7 +3,7 @@ package com.github.zhuyizhuo.generator.mybatis.convention;
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfoFtl;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
-import org.apache.commons.lang3.StringUtils;
+import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 
 import java.text.MessageFormat;
 
@@ -70,20 +70,20 @@ public class StratificationInfo {
         String serviceImplNameFormat = PropertiesUtils.getProperties(ConfigConstants.SERVICE_IMPL_NAME_FORMAT);
         String serviceNameFormat = PropertiesUtils.getProperties(ConfigConstants.SERVICE_NAME_FORMAT);
         String pojoNameFormat = PropertiesUtils.getProperties(ConfigConstants.POJO_NAME_FORMAT);
-        if(StringUtils.isNotBlank(daoNameFormat)){
+        if(GeneratorStringUtils.isNotBlank(daoNameFormat)){
             this.DAO_NAME_FORMAT = daoNameFormat;
         }
-        if(StringUtils.isNotBlank(serviceImplNameFormat)){
+        if(GeneratorStringUtils.isNotBlank(serviceImplNameFormat)){
             this.SERVICE_IMPL_NAME_FORMAT = serviceImplNameFormat;
         }
-        if(StringUtils.isNotBlank(serviceNameFormat)){
+        if(GeneratorStringUtils.isNotBlank(serviceNameFormat)){
             this.SERVICE_NAME_FORMAT = serviceNameFormat;
         }
-        if(StringUtils.isNotBlank(pojoNameFormat)){
+        if(GeneratorStringUtils.isNotBlank(pojoNameFormat)){
             this.POJO_NAME_FORMAT = pojoNameFormat;
         }
 
-        if(StringUtils.isNotBlank(basePackage)){
+        if(GeneratorStringUtils.isNotBlank(basePackage)){
             this.basePackage = basePackage;
             /** dao层包全路径 */
             this.daoFullPackage = basePackage + point + daoPackage;

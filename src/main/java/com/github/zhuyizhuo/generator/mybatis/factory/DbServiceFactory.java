@@ -9,7 +9,7 @@ import com.github.zhuyizhuo.generator.mybatis.service.impl.MysqlDbServiceImpl;
 import com.github.zhuyizhuo.generator.mybatis.service.impl.OracleDbServiceImpl;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
-import org.apache.commons.lang3.StringUtils;
+import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,7 +33,7 @@ public class DbServiceFactory {
 
     public static DbService getDbService() {
         String dbType = PropertiesUtils.getProperties(ConfigConstants.DB_TYPE);
-        if (StringUtils.isBlank(dbType)){
+        if (GeneratorStringUtils.isBlank(dbType)){
             String errorMsg = "未指定数据库类型:" + ConfigConstants.DB_TYPE + ",请在generate-config.properties中指定.DB_TYPE 值列表请参照 DbTypeEnums.java";
             LogUtils.printInfo(errorMsg);
             throw new RuntimeException(errorMsg);

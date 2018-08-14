@@ -1,5 +1,5 @@
-    <!-- 根据传入条件更新数据 -->
-	<update id="${methodInfo.updateMethodName}" parameterType="${parameterType}">
+    <!-- 根据主键更新数据 -->
+	<update id="${methodInfo.updateByPrimaryKeyMethodName}" parameterType="${parameterType}">
 		UPDATE ${tableInfo.tableName}
 		<trim prefix="set" suffixOverrides=",">
     <#list tableInfo.columnLists as colm>
@@ -10,5 +10,8 @@
 		</#if>
 	</#list>
 		</trim>
-		WHERE ${tableInfo.columnLists[0].columnName} = ${'#{'}${tableInfo.columnLists[0].javaColumnName}}
+		WHERE
+	<#list tableInfo.primaryKeyColumns as colm>
+		 <#if colm_index != 0>AND </#if>${colm.columnName} = ${'#{'}${colm.javaColumnName}}
+	</#list>
 	</update>

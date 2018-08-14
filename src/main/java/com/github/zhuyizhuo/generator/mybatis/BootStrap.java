@@ -8,6 +8,8 @@ import com.github.zhuyizhuo.generator.mybatis.service.DbService;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import org.apache.ibatis.io.Resources;
 
+import java.io.IOException;
+
 /**
  * mybatis代码生成器
  * @author yizhuo 2018/7/27 20:55
@@ -15,9 +17,10 @@ import org.apache.ibatis.io.Resources;
  */
 public class BootStrap {
 
-    public static void main(String[] args) throws Exception {
-        Generator build = GeneratorBuilder.build(Resources.getResourceAsStream(ConfigConstants.PROPERTIES_FILE_PATH));
-        build.generate();
+    public static void main(String[] args) throws IOException {
+        //        Generator build = GeneratorBuilder.build(Resources.getResourceAsStream(ConfigConstants.PROPERTIES_FILE_PATH));
+        Generator build = GeneratorBuilder.build(Resources.getResourceAsStream(""));
+//        build.generate();
     }
 
 }

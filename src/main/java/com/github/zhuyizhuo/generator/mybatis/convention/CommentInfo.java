@@ -2,7 +2,7 @@ package com.github.zhuyizhuo.generator.mybatis.convention;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
-import org.apache.commons.lang3.StringUtils;
+import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,15 +25,15 @@ public class CommentInfo {
 
     public CommentInfo() {
         String author = PropertiesUtils.getProperties(ConfigConstants.AUTHOR);
-        if (StringUtils.isNotBlank(author)){
+        if (GeneratorStringUtils.isNotBlank(author)){
             this.author = author;
         }
         String sinceVersion = PropertiesUtils.getProperties(ConfigConstants.SINCE_VERSION);
-        if (StringUtils.isNotBlank(sinceVersion)){
+        if (GeneratorStringUtils.isNotBlank(sinceVersion)){
             this.sinceVersion = sinceVersion;
         }
         String version = PropertiesUtils.getProperties(ConfigConstants.VERSION);
-        if (StringUtils.isNotBlank(version)){
+        if (GeneratorStringUtils.isNotBlank(version)){
             this.version = version;
         }
     }

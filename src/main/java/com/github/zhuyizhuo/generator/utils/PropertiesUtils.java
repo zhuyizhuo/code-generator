@@ -1,7 +1,7 @@
 package com.github.zhuyizhuo.generator.utils;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
-import org.apache.commons.lang3.StringUtils;
+import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import org.apache.ibatis.io.Resources;
 
 import java.io.IOException;
@@ -24,7 +24,7 @@ public class PropertiesUtils {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < needProperties.length; i++) {
             if (isBlank(getProperties(needProperties[i]))){
-                sb.append(needProperties[i] + "未配置 \n");
+                sb.append("未配置 " + needProperties[i] + "  \n");
             }
         }
         if (sb.length() > 0){
@@ -34,7 +34,7 @@ public class PropertiesUtils {
     }
 
     private static boolean isBlank(String properties) {
-        if (StringUtils.isBlank(properties)) {
+        if (GeneratorStringUtils.isBlank(properties)) {
             return true;
         }
         return false;
@@ -51,7 +51,7 @@ public class PropertiesUtils {
      */
     public static boolean getBooleanPropertiesDefaultFalse(String key){
         String properties = getProperties(key);
-        if (StringUtils.isBlank(properties)){
+        if (GeneratorStringUtils.isBlank(properties)){
             return false;
         }
         try {
@@ -69,7 +69,7 @@ public class PropertiesUtils {
      */
     public static boolean getBooleanPropertiesDefaultTrue(String key){
         String properties = getProperties(key);
-        if (StringUtils.isBlank(properties)){
+        if (GeneratorStringUtils.isBlank(properties)){
             return true;
         }
         try {

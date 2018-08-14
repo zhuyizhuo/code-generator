@@ -18,7 +18,7 @@ import com.github.zhuyizhuo.generator.mybatis.vo.TableInfoFtl;
 import com.github.zhuyizhuo.generator.utils.Freemarker;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
-import org.apache.commons.lang3.StringUtils;
+import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import org.apache.ibatis.io.Resources;
 
 import java.io.IOException;
@@ -87,7 +87,7 @@ public class Generator {
 
     public static String getFileOutPutPath(){
         String path = PropertiesUtils.getProperties(ConfigConstants.FILE_OUT_PUT_PATH);
-        if (StringUtils.isBlank(path)){
+        if (GeneratorStringUtils.isBlank(path)){
              path = System.getProperty("user.dir") + "/src/main/java/";
         }
         return path + "/";
