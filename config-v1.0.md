@@ -64,12 +64,6 @@
 #3.指定别名 生成的POJO名为POJO_NAME_FORMAT指定名称 以下配置生成的实体类名为User
 # POJO_NAME_FORMAT= User
 
-# Service 层名称 用法参照实体名称用法
-#SERVICE_NAME_FORMAT={0}Service
-
-# Service 实现类名称 用法参照实体名称用法
-#SERVICE_IMPL_NAME_FORMAT={0}ServiceImpl
-
 # DAO 层名称 用法参照实体名称用法
 #DAO_NAME_FORMAT={0}Dao
 ```
