@@ -25,5 +25,12 @@ public interface MysqlDataBaseMapper {
      * @return 所有表和对应列信息
      */
     List<ColumnInfo> getColumnListByTableName(DbTableInfo schema);
+
+    /**
+     * 根据表信息查询主键信息
+     * @param schema
+     * @return
+     */
+    List<ColumnInfo> getPrimaryKeys(DbTableInfo schema);
 }
 

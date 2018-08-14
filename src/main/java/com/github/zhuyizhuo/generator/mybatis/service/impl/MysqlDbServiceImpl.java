@@ -49,10 +49,15 @@ public class MysqlDbServiceImpl extends AbstractDbService {
             //设置值
             setTableInfoFtl(dbTableInfo,ftlTableInfo);
             ftlTableInfo.setJavaTableName(getJavaTableName(dbTableInfo.getTableName()));
+            ftlTableInfo.addPrimaryKeyColumn(getPrimaryKeys(mapper,dbTableInfo));
             lists.add(ftlTableInfo);
             LogUtils.printInfo(dbTableInfo.getTableName() + "表共" + dbTableInfo.getColumnLists().size() + "列");
         }
         return lists;
+    }
+
+    private List<ColumnInfo> getPrimaryKeys(MysqlDataBaseMapper mapper, DbTableInfo dbTableInfo) {
+        return mapper.getPrimaryKeys(dbTableInfo);
     }
 
     private List<ColumnInfo> getColumnInfos(MysqlDataBaseMapper mapper, DbTableInfo dbTableInfo) {

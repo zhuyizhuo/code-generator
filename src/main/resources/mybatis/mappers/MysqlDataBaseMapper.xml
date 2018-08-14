@@ -9,16 +9,17 @@
         upper(TABLE_COMMENT) as tableComment
          FROM
             INFORMATION_SCHEMA.TABLES
-        WHERE 1 = 1
-        <if test="tableSchema != null and '' != tableSchema">
-          AND TABLE_SCHEMA = #{tableSchema}
-        </if>
-        <if test="tableNames != null">
-            AND TABLE_NAME IN
-            <foreach collection="tableNames" index="index" item="tableName" open="(" separator="," close=")">
-                #{tableName}
-            </foreach>
-        </if>
+        <where>
+            <if test="tableSchema != null and '' != tableSchema">
+                TABLE_SCHEMA = #{tableSchema}
+            </if>
+            <if test="tableNames != null">
+                AND TABLE_NAME IN
+                <foreach collection="tableNames" index="index" item="tableName" open="(" separator="," close=")">
+                    #{tableName}
+                </foreach>
+            </if>
+        </where>
     </select>
 
     <select id="getColumnListByTableName" resultType="columnInfo" parameterType="dbTableInfo">
@@ -28,13 +29,33 @@
         upper(DATA_TYPE) dataType
         FROM
           INFORMATION_SCHEMA.COLUMNS
-        WHERE 1 = 1
+        <where>
+            <if test="tableSchema != null and '' != tableSchema">
+                TABLE_SCHEMA = #{tableSchema}
+            </if>
+            <if test="tableName != null and '' != tableName">
+                AND TABLE_NAME = #{tableName}
+            </if>
+        </where>
+    </select>
+
+    <select id="getPrimaryKeys" resultType="columnInfo" parameterType="dbTableInfo">
+        SELECT
+          upper(COLUMN_NAME) columnName
+        FROM
+            INFORMATION_SCHEMA.STATISTICS
+        WHERE INDEX_NAME = 'PRIMARY'
         <if test="tableSchema != null and '' != tableSchema">
-            AND TABLE_SCHEMA = #{tableSchema}
+             AND TABLE_SCHEMA = #{tableSchema}
         </if>
         <if test="tableName != null and '' != tableName">
             AND TABLE_NAME = #{tableName}
         </if>
+        ORDER BY
+            TABLE_SCHEMA,
+            TABLE_NAME,
+            INDEX_NAME,
+            SEQ_IN_INDEX
     </select>
 
 </mapper>

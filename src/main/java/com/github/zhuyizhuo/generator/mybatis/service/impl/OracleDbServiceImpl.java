@@ -13,7 +13,7 @@ import com.github.zhuyizhuo.generator.mybatis.utils.SqlSessionUtils;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfoFtl;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 import com.github.zhuyizhuo.generator.utils.TypeConversion;
-import org.apache.commons.lang3.StringUtils;
+import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
@@ -51,16 +51,21 @@ public class OracleDbServiceImpl extends AbstractDbService {
             ftlTableInfo = new TableInfoFtl();
             setTableInfoFtl(allColumnsByTable,ftlTableInfo);
             ftlTableInfo.setJavaTableName(getJavaTableName(tableName));
+            ftlTableInfo.addPrimaryKeyColumn(getPrimaryKeys(mapper,dbTableInfo));
             tableInfoFtls.add(ftlTableInfo);
             LogUtils.printInfo(tableName + "表共" + allColumnsByTable.getColumnLists().size() + "列");
         }
         return tableInfoFtls;
     }
 
+    private List<ColumnInfo> getPrimaryKeys(OracleDataBaseMapper mapper, DbTableInfo dbTableInfo) {
+        return mapper.getPrimaryKeys(dbTableInfo);
+    }
+
     @Override
     protected String getJavaDataType(ColumnInfo columnInfo) {
         String dataType = columnInfo.getDataType();
-        if (StringUtils.isNotBlank(dataType) && dataType.contains("TIMESTAMP")){
+        if (GeneratorStringUtils.isNotBlank(dataType) && dataType.contains("TIMESTAMP")){
             dataType = "TIMESTAMP";
         }
         return TypeConversion.dbType2Java(TypeConversion.oracleDbType2JavaMap, dataType);

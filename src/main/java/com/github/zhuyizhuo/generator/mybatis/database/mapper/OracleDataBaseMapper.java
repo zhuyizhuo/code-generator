@@ -28,5 +28,11 @@ public interface OracleDataBaseMapper {
      */
     DbTableInfo getAllColumnsByTable(@Param("tableSchema") String tableSchema, @Param("tableName") String tableName);
 
+    /**
+     * 根据表信息查询主键信息
+     * @param schema
+     * @return
+     */
+    List<ColumnInfo> getPrimaryKeys(DbTableInfo schema);
 }
 
