@@ -3,6 +3,8 @@
 
 <#include "xml/resultMap.ftl"/>
 
+<#include "xml/commonSql.ftl"/>
+
 <#include "xml/insert.ftl"/>
 
 <#if tableInfo.hasPrimaryKey>

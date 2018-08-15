@@ -7,11 +7,9 @@ import com.github.zhuyizhuo.generator.mybatis.database.mapper.MysqlDataBaseMappe
 import com.github.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.pojo.DataBaseInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
-import com.github.zhuyizhuo.generator.mybatis.service.abst.AbstractDbService;
 import com.github.zhuyizhuo.generator.mybatis.utils.SqlSessionUtils;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfoFtl;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
-import com.github.zhuyizhuo.generator.utils.TypeConversion;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
@@ -66,6 +64,6 @@ public class MysqlDbServiceImpl extends AbstractDbService {
 
     @Override
     protected String getJavaDataType(ColumnInfo columnInfo) {
-        return TypeConversion.dbType2Java(TypeConversion.mySqlDbType2JavaMap,columnInfo.getDataType());
+        return TypeConversion.getTypeByMap(TypeConversion.mySqlDbType2JavaMap,columnInfo.getDataType());
     }
 }

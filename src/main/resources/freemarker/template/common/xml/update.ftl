@@ -1,17 +1,38 @@
-    <!-- 根据主键更新数据 -->
-	<update id="${methodInfo.updateByPrimaryKeyMethodName}" parameterType="${parameterType}">
-		UPDATE ${tableInfo.tableName}
-		<trim prefix="set" suffixOverrides=",">
+    <!-- ${methodInfo.updateByPrimaryKeyMethodDescription} -->
+<#if tableInfo.singlePrimaryKey>
+	<update id="${methodInfo.updateByPrimaryKeyMethodName}" parameterType="${tableInfo.primaryKeyColumns[0].parameterType}">
+<#else>
+    <update id="${methodInfo.updateByPrimaryKeyMethodName}" parameterType="${parameterType}">
+</#if>
+		UPDATE
+		<include refid="Table_Name" />
+		<set>
     <#list tableInfo.columnLists as colm>
         <#if colm??>
             <#if colm_index != 0>
-			<if test="null != ${colm.javaColumnName}">${colm.columnName} = ${'#{'}${colm.javaColumnName}},</if>
+			<if test="${colm.javaColumnName} != null">${colm.columnName} = ${'#{'}${colm.javaColumnName}},</if>
 		    </#if>
 		</#if>
 	</#list>
-		</trim>
+		</set>
 		WHERE
 	<#list tableInfo.primaryKeyColumns as colm>
 		 <#if colm_index != 0>AND </#if>${colm.columnName} = ${'#{'}${colm.javaColumnName}}
 	</#list>
+	</update>
+
+	<!-- ${methodInfo.updateMethodDescription} -->
+	<update id="${methodInfo.updateMethodName}" parameterType="${parameterType}">
+		UPDATE
+		<include refid="Table_Name" />
+		<set>
+    <#list tableInfo.columnLists as colm>
+        <#if colm??>
+            <#if colm_index != 0>
+			<if test="${colm.javaColumnName} != null">${colm.columnName} = ${'#{'}${colm.javaColumnName}},</if>
+		    </#if>
+		</#if>
+	</#list>
+		</set>
+		<include refid="Where_Clause" />
 	</update>

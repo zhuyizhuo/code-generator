@@ -27,12 +27,16 @@ public class TableInfoFtl {
     private String javaTableName;
     /** 导入的类路径 */
     private LinkedHashSet<String> importPackages = new LinkedHashSet<String>();
-    /** 表字段 */
+    /** 表所有字段 */
     private List<JavaColumnInfo> columnLists = Lists.newArrayList();
     /** 主键字段 */
     private List<JavaColumnInfo> primaryKeyColumns = Lists.newArrayList();
-
+    /** 非主键字段 */
+    private List<JavaColumnInfo> otherColumns = Lists.newArrayList();
+    /** 是否有主键 */
     private boolean hasPrimaryKey = true;
+    /** 是否单个主键 */
+    private boolean singlePrimaryKey = true;
 
     public String getTableSchema() {
         return tableSchema;
@@ -92,13 +96,25 @@ public class TableInfoFtl {
             String columnName = columnInfo.getColumnName();
             for (int j = 0; j < columnLists.size(); j++) {
                 JavaColumnInfo javaColumnInfo = columnLists.get(j);
-                if (columnName.equalsIgnoreCase(javaColumnInfo.getColumnName())){
+                if (columnName != null && columnName.equalsIgnoreCase(javaColumnInfo.getColumnName())){
                     this.primaryKeyColumns.add(javaColumnInfo);
                     break;
                 }
             }
         }
+
+        initOtherColumns();
         this.hasPrimaryKey = true;
+        this.singlePrimaryKey = primaryKeyColumns.size() == 1;
+    }
+
+    private void initOtherColumns() {
+        for (int i = 0; i < columnLists.size(); i++) {
+            JavaColumnInfo javaColumnInfo = columnLists.get(i);
+            if (!primaryKeyColumns.contains(javaColumnInfo)){
+                this.otherColumns.add(javaColumnInfo);
+            }
+        }
     }
 
     public List<JavaColumnInfo> getPrimaryKeyColumns() {
@@ -111,6 +127,22 @@ public class TableInfoFtl {
 
     public void setHasPrimaryKey(boolean hasPrimaryKey) {
         this.hasPrimaryKey = hasPrimaryKey;
+    }
+
+    public List<JavaColumnInfo> getOtherColumns() {
+        return otherColumns;
+    }
+
+    public void setOtherColumns(List<JavaColumnInfo> otherColumns) {
+        this.otherColumns = otherColumns;
+    }
+
+    public boolean isSinglePrimaryKey() {
+        return singlePrimaryKey;
+    }
+
+    public void setSinglePrimaryKey(boolean singlePrimaryKey) {
+        this.singlePrimaryKey = singlePrimaryKey;
     }
 
     @Override

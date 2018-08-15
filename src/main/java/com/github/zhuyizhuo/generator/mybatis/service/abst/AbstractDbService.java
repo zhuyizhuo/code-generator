@@ -61,15 +61,25 @@ public abstract class AbstractDbService implements DbService {
         for (int i = 0; i < columnLists.size(); i++) {
             ColumnInfo columnInfo = columnLists.get(i);
             javaColumnInfo = new JavaColumnInfo();
-            javaColumnInfo.setDataType(columnInfo.getDataType());
+            javaColumnInfo.setDataType(getDataType(columnInfo.getDataType()));
             javaColumnInfo.setColumnName(columnInfo.getColumnName());
             javaColumnInfo.setColumnComment(replaceEnter(columnInfo.getColumnComment()));
             javaColumnInfo.setJavaColumnName(GeneratorStringUtils.changeColmName2Java(columnInfo.getColumnName(),"_"));
             javaColumnInfo.setJavaDataType(getJavaDataType(columnInfo));
+            javaColumnInfo.setColumnJdbcType(TypeConversion.type2JdbcType(columnInfo.getDataType()));
+            javaColumnInfo.setParameterType(TypeConversion.getTypeByMap(TypeConversion.parameterTypeMap,javaColumnInfo.getJavaDataType()));
+            /** 设置类全路径 java.lang包下的类不需要import */
             javaColumnInfo.setJavaDataTypeFullPath(TypeConversion.javaDataTypeFullPathMap.get(javaColumnInfo.getJavaDataType()));
             ftlTableInfo.addJavaColumnInfo(javaColumnInfo);
             ftlTableInfo.addImportPackage(javaColumnInfo.getJavaDataTypeFullPath());
         }
+    }
+
+    protected String getDataType(String dataType) {
+        if (GeneratorStringUtils.isNotBlank(dataType) && dataType.contains("TIMESTAMP")){
+            return "TIMESTAMP";
+        }
+        return dataType;
     }
 
     protected abstract String getJavaDataType(ColumnInfo columnInfo);

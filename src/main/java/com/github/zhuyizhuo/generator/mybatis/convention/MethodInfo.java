@@ -29,6 +29,7 @@ public class MethodInfo {
     /** 查询总数方法名 */
     private static final String COUNT_METHOD_FORMAT = "count{0}";
 
+    /** 方法名 */
     private String insertMethodName;
     private String updateMethodName;
     private String updateByPrimaryKeyMethodName;
@@ -36,6 +37,15 @@ public class MethodInfo {
     private String deleteMethodName;
     private String queryMethodName;
     private String countMethodName;
+
+    /** 方法描述 */
+    private String insertMethodDescription = "新增数据";
+    private String updateMethodDescription = "根据传入参数更新数据";
+    private String updateByPrimaryKeyMethodDescription = "根据主键更新数据";
+    private String deleteByPrimaryKeyMethodDescription = "根据主键删除数据";
+    private String deleteMethodDescription = "根据传入参数删除数据";
+    private String queryMethodDescription = "根据传入参数查询数据列表";
+    private String countMethodDescription = "统计符合条件的数据数量";
 
     public String getInsertMethodName() {
         return insertMethodName;
@@ -101,6 +111,62 @@ public class MethodInfo {
      */
     public static String formatMethodName(String format,String tableName){
         return MessageFormat.format(format,tableName);
+    }
+
+    public String getInsertMethodDescription() {
+        return insertMethodDescription;
+    }
+
+    public void setInsertMethodDescription(String insertMethodDescription) {
+        this.insertMethodDescription = insertMethodDescription;
+    }
+
+    public String getUpdateMethodDescription() {
+        return updateMethodDescription;
+    }
+
+    public void setUpdateMethodDescription(String updateMethodDescription) {
+        this.updateMethodDescription = updateMethodDescription;
+    }
+
+    public String getUpdateByPrimaryKeyMethodDescription() {
+        return updateByPrimaryKeyMethodDescription;
+    }
+
+    public void setUpdateByPrimaryKeyMethodDescription(String updateByPrimaryKeyMethodDescription) {
+        this.updateByPrimaryKeyMethodDescription = updateByPrimaryKeyMethodDescription;
+    }
+
+    public String getDeleteByPrimaryKeyMethodDescription() {
+        return deleteByPrimaryKeyMethodDescription;
+    }
+
+    public void setDeleteByPrimaryKeyMethodDescription(String deleteByPrimaryKeyMethodDescription) {
+        this.deleteByPrimaryKeyMethodDescription = deleteByPrimaryKeyMethodDescription;
+    }
+
+    public String getDeleteMethodDescription() {
+        return deleteMethodDescription;
+    }
+
+    public void setDeleteMethodDescription(String deleteMethodDescription) {
+        this.deleteMethodDescription = deleteMethodDescription;
+    }
+
+    public String getQueryMethodDescription() {
+        return queryMethodDescription;
+    }
+
+    public void setQueryMethodDescription(String queryMethodDescription) {
+        this.queryMethodDescription = queryMethodDescription;
+    }
+
+    public String getCountMethodDescription() {
+        return countMethodDescription;
+    }
+
+    public void setCountMethodDescription(String countMethodDescription) {
+        this.countMethodDescription = countMethodDescription;
     }
 
     public void initMethodName(String javaTableName) {

@@ -18,6 +18,7 @@ public class Ftl {
     private MethodInfo methodInfo;
     private CommentInfo commentInfo;
     private TableInfoFtl tableInfo;
+
     /** xml 参数类型 */
     private String parameterType;
     /** xml resultMap id */

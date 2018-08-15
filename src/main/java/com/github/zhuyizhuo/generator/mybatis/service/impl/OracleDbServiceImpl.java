@@ -8,12 +8,8 @@ import com.github.zhuyizhuo.generator.mybatis.database.mapper.OracleDataBaseMapp
 import com.github.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.pojo.DataBaseInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
-import com.github.zhuyizhuo.generator.mybatis.service.abst.AbstractDbService;
 import com.github.zhuyizhuo.generator.mybatis.utils.SqlSessionUtils;
-import com.github.zhuyizhuo.generator.mybatis.vo.TableInfoFtl;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
-import com.github.zhuyizhuo.generator.utils.TypeConversion;
-import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
@@ -64,10 +60,6 @@ public class OracleDbServiceImpl extends AbstractDbService {
 
     @Override
     protected String getJavaDataType(ColumnInfo columnInfo) {
-        String dataType = columnInfo.getDataType();
-        if (GeneratorStringUtils.isNotBlank(dataType) && dataType.contains("TIMESTAMP")){
-            dataType = "TIMESTAMP";
-        }
-        return TypeConversion.dbType2Java(TypeConversion.oracleDbType2JavaMap, dataType);
+        return TypeConversion.getTypeByMap(TypeConversion.oracleDbType2JavaMap, getDataType(columnInfo.getDataType()));
     }
 }

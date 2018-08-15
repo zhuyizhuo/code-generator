@@ -15,6 +15,8 @@ public class TypeConversion {
     public static final Map<String,String> mySqlDbType2JavaMap = new HashMap<String,String>();
     public static final Map<String,String> oracleDbType2JavaMap = new HashMap<String,String>();
     public static final Map<String,String> javaDataTypeFullPathMap = new HashMap<String,String>();
+    public static final Map<String,String> type2JdbcTypeMap = new HashMap<String,String>();
+    public static final Map<String,String> parameterTypeMap = new HashMap<String,String>();
 
     static{
         initMysqlType2JavaMap();
@@ -22,7 +24,41 @@ public class TypeConversion {
         initOracleType2JavaMap();
 
         initJavaDataTypeFullPathMap();
+
+        initType2JdbcTypeMap();
+        
+        initParameterTypeMap();
     }
+
+    private static void initParameterTypeMap() {
+        parameterTypeMap.put("byte","_byte");
+        parameterTypeMap.put("long","_long");
+        parameterTypeMap.put("short","_short");
+        parameterTypeMap.put("int","_int");
+        parameterTypeMap.put("double","_double");
+        parameterTypeMap.put("float","_float");
+        parameterTypeMap.put("boolean","_boolean");
+        parameterTypeMap.put("String","string");
+        parameterTypeMap.put("Byte","byte");
+        parameterTypeMap.put("Long","long");
+        parameterTypeMap.put("Short","short");
+        parameterTypeMap.put("Integer","int");
+        parameterTypeMap.put("Double","double");
+        parameterTypeMap.put("Float","float");
+        parameterTypeMap.put("Boolean","boolean");
+        parameterTypeMap.put("Date","date");
+        parameterTypeMap.put("BigDecimal","bigdecimal");
+    }
+
+    private static void initType2JdbcTypeMap() {
+        type2JdbcTypeMap.put("INT","INTEGER");
+        type2JdbcTypeMap.put("NUMBER","NUMERIC");
+        type2JdbcTypeMap.put("TIMESTAMP(6)","TIMESTAMP");
+        type2JdbcTypeMap.put("DATETIME","TIMESTAMP");
+        type2JdbcTypeMap.put("VARCHAR2","VARCHAR");
+        type2JdbcTypeMap.put("NUMBER","NUMERIC");
+        type2JdbcTypeMap.put("DATE","TIMESTAMP");
+     }
 
     private static void initJavaDataTypeFullPathMap() {
         javaDataTypeFullPathMap.put("Date","java.util.Date");
@@ -39,6 +75,7 @@ public class TypeConversion {
         oracleDbType2JavaMap.put("CLOB","String");
         oracleDbType2JavaMap.put("BLOB","String");
         oracleDbType2JavaMap.put("TIMESTAMP","Date");
+        oracleDbType2JavaMap.put("TIMESTAMP(6)","Date");
         oracleDbType2JavaMap.put("DATE","Date");
     }
 
@@ -64,12 +101,20 @@ public class TypeConversion {
         mySqlDbType2JavaMap.put("YEAR","Integer");
     }
 
-    public static String dbType2Java(Map<String,String> dbTypeMap, String type) {
+    public static String getTypeByMap(Map<String,String> dbTypeMap, String type) {
         String javaDataType = dbTypeMap.get(type);
         if (GeneratorStringUtils.isNotBlank(javaDataType)){
             return javaDataType;
         }
         return type;
+    }
+
+    public static String type2JdbcType(String dbColmType) {
+        String jdbcType = type2JdbcTypeMap.get(dbColmType);
+        if (GeneratorStringUtils.isNotBlank(jdbcType)){
+            return jdbcType;
+        }
+        return dbColmType;
     }
 
 }

@@ -1,10 +1,11 @@
-    <!-- 新增 -->
+    <!-- ${methodInfo.insertMethodDescription} -->
 	<insert id="${methodInfo.insertMethodName}" parameterType="${parameterType}">
-        INSERT INTO ${tableInfo.tableName}(
+        INSERT INTO
+        <include refid="Table_Name" />
             <trim suffixOverrides=",">
         <#list tableInfo.columnLists as colm>
             <#if colm??>
-                <if test="null != ${colm.javaColumnName}">${colm.columnName},</if>
+                <if test="${colm.javaColumnName} != null">${colm.columnName},</if>
             </#if>
         </#list>
             </trim>
@@ -12,7 +13,7 @@
             <trim suffixOverrides=",">
         <#list tableInfo.columnLists as colm>
             <#if colm??>
-                <if test="null != ${colm.javaColumnName}">${'#{'}${colm.javaColumnName},jdbcType=${colm.dataType}},</if>
+                <if test="${colm.javaColumnName} != null">${'#{'}${colm.javaColumnName},jdbcType=${colm.columnJdbcType}},</if>
             </#if>
         </#list>
             </trim>
