@@ -31,7 +31,7 @@ public class FileOutPathInfo {
     private String xmlOutPutFullPath;
 
     public FileOutPathInfo() {
-        initBasePath();
+
     }
 
     public String initBasePath(){
@@ -39,7 +39,8 @@ public class FileOutPathInfo {
         if (GeneratorStringUtils.isBlank(basePath)){
             basePath = System.getProperty("user.dir") + "/src/main/java/";
         }
-        return basePath + "/";
+        this.basePath += "/";
+        return this.basePath;
     }
 
     public void init(StratificationInfo stratificationInfo) {

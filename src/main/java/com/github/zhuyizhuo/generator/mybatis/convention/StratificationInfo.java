@@ -1,6 +1,7 @@
 package com.github.zhuyizhuo.generator.mybatis.convention;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
+import com.github.zhuyizhuo.generator.mybatis.service.FormatService;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfoFtl;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
@@ -17,7 +18,7 @@ public class StratificationInfo {
     private static final String point = ".";
 
     /** 基础路径 */
-    private String basePackage = "com.github.generator";
+    private String basePackage = "";
 
     /** 实体名称 */
     private String POJO_NAME_FORMAT = "{0}";
@@ -51,21 +52,67 @@ public class StratificationInfo {
     private String xmlName;
 
     /** dao层包全路径 */
-    private String daoFullPackage = basePackage + point + daoPackage;
+    private String daoFullPackage;
     /** service 接口层包全路径 */
-    private String serviceFullPackage = basePackage + point + servicePackage;
+    private String serviceFullPackage;
     /** service 实现类包全路径 */
-    private String serviceImplFullPackage = basePackage + point + serviceImplPackage;
+    private String serviceImplFullPackage;
     /** 实体包全路径 */
-    private String pojoFullPackage = basePackage + point + pojoPackage;
+    private String pojoFullPackage;
     /** xml包全路径*/
-    private String xmlFullPackage = basePackage + point + xmlPackage;
+    private String xmlFullPackage;
+
+    private FormatService formatService = new FormatService() {
+        @Override
+        public String formatTableName(String tableName) {
+            return tableName.toLowerCase();
+        }
+    };
 
     public StratificationInfo() {
-        this(PropertiesUtils.getProperties(ConfigConstants.BASE_PACKAGE));
+
     }
 
     public StratificationInfo(String basePackage) {
+        initEachFormat();
+
+        initEachPackage();
+
+        if(GeneratorStringUtils.isNotBlank(basePackage)) {
+            this.basePackage = basePackage;
+            basePackage = basePackage + point;
+        } else {
+            basePackage = "";
+        }
+        /** dao层包全路径 */
+        this.daoFullPackage = basePackage + this.daoPackage;
+        /** service 接口层包全路径 */
+        this.serviceFullPackage = basePackage + this.servicePackage;
+        /** service 实现类包全路径 */
+        this.serviceImplFullPackage = basePackage + this.serviceImplPackage;
+        /** 实体包全路径 */
+        this.pojoFullPackage = basePackage + this.pojoPackage;
+        /** xml包全路径*/
+        this.xmlFullPackage = basePackage + this.xmlPackage;
+
+    }
+
+    private void initEachPackage() {
+        String pojoPackage = PropertiesUtils.getProperties(ConfigConstants.POJO_PACKAGE);
+        String daoPackage = PropertiesUtils.getProperties(ConfigConstants.DAO_PACKAGE);
+        String xmlPackage = PropertiesUtils.getProperties(ConfigConstants.XML_PACKAGE);
+        if(GeneratorStringUtils.isNotBlank(pojoPackage)){
+            this.pojoPackage = pojoPackage;
+        }
+        if(GeneratorStringUtils.isNotBlank(daoPackage)){
+            this.daoPackage = daoPackage;
+        }
+        if(GeneratorStringUtils.isNotBlank(xmlPackage)){
+            this.xmlPackage = xmlPackage;
+        }
+    }
+
+    private void initEachFormat() {
         String daoNameFormat = PropertiesUtils.getProperties(ConfigConstants.DAO_NAME_FORMAT);
         String serviceImplNameFormat = PropertiesUtils.getProperties(ConfigConstants.SERVICE_IMPL_NAME_FORMAT);
         String serviceNameFormat = PropertiesUtils.getProperties(ConfigConstants.SERVICE_NAME_FORMAT);
@@ -81,20 +128,6 @@ public class StratificationInfo {
         }
         if(GeneratorStringUtils.isNotBlank(pojoNameFormat)){
             this.POJO_NAME_FORMAT = pojoNameFormat;
-        }
-
-        if(GeneratorStringUtils.isNotBlank(basePackage)){
-            this.basePackage = basePackage;
-            /** dao层包全路径 */
-            this.daoFullPackage = basePackage + point + daoPackage;
-            /** service 接口层包全路径 */
-            this.serviceFullPackage = basePackage + point + servicePackage;
-            /** service 实现类包全路径 */
-            this.serviceImplFullPackage = basePackage + point + serviceImplPackage;
-            /** 实体包全路径 */
-            this.pojoFullPackage = basePackage + point + pojoPackage;
-            /** xml包全路径*/
-            this.xmlFullPackage = basePackage + point + xmlPackage;
         }
     }
 
@@ -240,6 +273,12 @@ public class StratificationInfo {
         setDaoName(javaTableName);
         setServiceName(javaTableName);
         setServiceImplName(javaTableName);
-        setXmlName(tableInfoFtl.getTableName().toLowerCase());
+        String xmlNameFormat = PropertiesUtils.getProperties(ConfigConstants.XML_NAME_FORMAT);
+        if ("camel".equalsIgnoreCase(xmlNameFormat)){
+            setXmlName(tableInfoFtl.getJavaTableName());
+        } else {
+            setXmlName(formatService.formatTableName(tableInfoFtl.getTableName()));
+        }
     }
+
 }

@@ -38,37 +38,31 @@ DB_PASSWORD=root
 # 多张表用英文逗号隔开,大小写不敏感,不配置则默认为DB_TABLE_SCHEMA下的全部表
 DB_INCLUDE_TABLE_NAME=需生成的表名1,需生成的表名2
 ```
-
-##### 指定输出路径
+##### 指定生成路径
 
 ```properties
-# 生成文件输出路径 不配置则默认为当前项目路径 路径请使用/ 或\\分隔 建议使用/
+# 生成文件输出路径 不配置则默认为 [当前项目路径] 路径请使用/ 或\\分隔 建议使用/
 FILE_OUT_PUT_PATH=C:/Users/admin/Desktop
-# 文件输出路径支持多层路径
-# xml文件输出路径 如下配置 最终输出路径为C:/Users/admin/Desktop/resources/xml
-XML_OUT_PUT_PATH=resources/xml
-# mapper文件输出路径 如下配置 最终输出路径为C:/Users/admin/Desktop/test/dao
-DAO_OUT_PUT_PATH=/test/dao
-# pojo文件输出路径 如下配置 最终输出路径为C:/Users/admin/Desktop/pojo
-POJO_OUT_PUT_PATH=pojo
 ```
 ##### 指定生成类所在的包名
 
 ```properties
-# 生成文件的包名 不配置则默认为com.github.generator
+# 生成文件的公共包名 不配置则默认无公共包
 BASE_PACKAGE=com.github.generator
-# MAPPER包名 如下配置 MAPPER所在包路径为com.github.generator.dao
+# MAPPER包名 如下配置 MAPPER所在包路径为 {BASE_PACKAGE}.dao
 DAO_PACKAGE=dao
-# POJO包名 如下配置 POJO所在包路径为com.github.generator.pojo
+# POJO包名 如下配置 POJO所在包路径为 {BASE_PACKAGE}.pojo
 POJO_PACKAGE=pojo
+# XML包名 如下配置 XML文件所在包路径为 {BASE_PACKAGE}.xml
+XML_PACKAGE=xml
 ```
 
 ##### 指定生成类名称
 
 ```properties
-# 实体名称 默认配置 驼峰命名 {0} 
+# 实体名称 默认配置 驼峰命名 {0}
 POJO_NAME_FORMAT={0}
-# MAPPER 名称 默认配置 驼峰命名+Dao {0}Dao
+# MAPPER 名称 默认配置 驼峰命名 + Dao {0}Dao
 DAO_NAME_FORMAT={0}Dao
 ```
 
@@ -95,12 +89,12 @@ DAO_NAME_FORMAT={0}Dao
 ##### 指定生成xml名称策略
 
 ```properties
-# XML 名称 默认数据库名称小写
-# 支持两种配置 默认 TABLE_NAME_LOWERCASE  其他不识别的配置默认为表名称小写
-# 表名称小写
+# XML 名称 默认表名称小写  非CAMEL 则默认为表名称小写
+# 支持两种配置 
+# 默认 TABLE_NAME_LOWERCASE 表名称小写
 XML_NAME_FORMAT=TABLE_NAME_LOWERCASE
 # 表名称转驼峰
-# XML_NAME_FORMAT=camel
+# XML_NAME_FORMAT=CAMEL
 ```
 
 ##### `paameterType`别名
@@ -132,4 +126,22 @@ VERSION=1.0
 ```properties
 #是否启用日志 默认开启
 LOG_ENABLED=true
+```
+
+##### 指定单个文件输出路径
+
+> 适用场景: 当将类生成至指定位置(例如桌面)时,为了减少路径层级,可指定文件路径,该配置不影响生成类所在的包结构
+
+```properties
+# 如不指定输出路径,则默认输出路径为: {FILE_OUT_PUT_PATH}/{BASE_PACKAGE}/{生成类所在的包名}
+# 指定文件输出路径则以文件输出路径为准.
+
+# 文件输出路径支持多层路径
+
+# xml文件输出路径 如下配置 最终输出路径为 {FILE_OUT_PUT_PATH}/xml
+XML_OUT_PUT_PATH=xml
+# mapper文件输出路径 如下配置 最终输出路径为 {FILE_OUT_PUT_PATH}/dao
+DAO_OUT_PUT_PATH=/dao
+# pojo文件输出路径 如下配置 最终输出路径为 {FILE_OUT_PUT_PATH}/MultiCatalog/pojo
+POJO_OUT_PUT_PATH=MultiCatalog/pojo
 ```

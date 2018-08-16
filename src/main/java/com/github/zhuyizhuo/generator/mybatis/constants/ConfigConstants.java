@@ -33,5 +33,15 @@ public class ConfigConstants {
     public static final String SERVICE_NAME_FORMAT = "SERVICE_NAME_FORMAT";
     public static final String POJO_NAME_FORMAT = "POJO_NAME_FORMAT";
 
-    public static final String PROPERTIES_FILE_PATH = "generate-config.properties";
+    public static final String XML_OUT_PUT_PATH = "XML_OUT_PUT_PATH";
+    public static final String DAO_OUT_PUT_PATH = "DAO_OUT_PUT_PATH";
+    public static final String POJO_OUT_PUT_PATH = "POJO_OUT_PUT_PATH";
+
+    public static final String POJO_PACKAGE = "POJO_PACKAGE";
+    public static final String DAO_PACKAGE = "DAO_PACKAGE";
+    public static final String XML_PACKAGE = "XML_PACKAGE";
+
+    public static final String XML_NAME_FORMAT = "XML_NAME_FORMAT";
+
+//    public static final String PROPERTIES_FILE_PATH = "generate-config.properties";
 }

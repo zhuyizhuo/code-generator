@@ -41,7 +41,17 @@ public class PropertiesUtils {
     }
 
     public static String getProperties(String key){
-        return proInfo.getProperty(key);
+        String property = proInfo.getProperty(key);
+        return property == null ? null : property.trim();
+    }
+
+    /**
+     * 判断是否包含对应配置
+     * @param key
+     * @return
+     */
+    public static boolean containsKey(String key){
+        return GeneratorStringUtils.isNotBlank(proInfo.getProperty(key));
     }
 
     /**
