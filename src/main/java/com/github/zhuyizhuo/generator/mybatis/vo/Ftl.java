@@ -76,7 +76,12 @@ public class Ftl {
         this.resultMapId = resultMapId;
     }
 
-    public void init() {
+    public void init(TableInfoFtl tableInfo) {
+        setTableInfo(tableInfo);
+
+        this.methodInfo.initMethodName(tableInfo.getJavaTableName());
+        this.stratificationInfo.initFilesName(tableInfo);
+
         boolean useTypeAliases = PropertiesUtils.getBooleanPropertiesDefaultFalse(ConfigConstants.PARAMETER_TYPE_USE_TYPE_ALIASES);
         if (useTypeAliases){
             setParameterType(GeneratorStringUtils.firstLower(stratificationInfo.getPojoName()));

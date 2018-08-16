@@ -31,7 +31,7 @@ public class Freemarker {
 	}
 
 	/**
-	 * 输出到输出到文件
+	 * 将root对象输出到文件
 	 * @param ftlName   ftl文件名
 	 * @param root		传入的map
 	 * @param outFile	输出后的文件全部路径
@@ -58,11 +58,26 @@ public class Freemarker {
 		}
 	}
 
+	/**
+	 * 输出对象到文件
+	 * @param ftlFullPath ftl模板路径
+	 * @param outPutPath 输出文件全路径
+	 * @param outPutObject 输出对象
+	 * @throws Exception
+	 */
 	public static void printFile(String ftlFullPath, String outPutPath, Object outPutObject) throws Exception{
 		LogUtils.printInfo("文件输出路径:"+outPutPath);
 		printFile(GeneratorStringUtils.getFrontPath(ftlFullPath),GeneratorStringUtils.getFileName(ftlFullPath),outPutPath,outPutObject);
 	}
 
+	/**
+	 * 将root对象输出到文件
+	 * @param ftlPath   ftl文件路径
+	 * @param ftlName	 ftl文件名
+	 * @param outPutPath	输出后的文件全部路径
+	 * @param outPutObject 输出对象
+	 * @throws Exception
+	 */
 	public static void printFile(String ftlPath, String ftlName, String outPutPath, Object outPutObject) throws Exception{
 		try {
 			File file = new File(outPutPath);

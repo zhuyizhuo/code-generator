@@ -7,17 +7,17 @@ package com.github.zhuyizhuo.generator.mybatis.constants;
  */
 public class FtlPathInfo {
 
-    private String mysqlXmlFtlPath = "/freemarker/template/common/mybatis_mapper_template_v1.ftl";
+    private String mybatisXmlFtlPath = "/freemarker/template/common/mybatis_mapper_template_v1.ftl";
     private String pojoFtlPath = "/freemarker/template/common/javabean.ftl";
     private String daoFtlPath = "/freemarker/template/common/dao.ftl";
     private String bootStrapFtlPath = "/freemarker/template/common/bootStrap.ftl";
 
-    public String getMysqlXmlFtlPath() {
-        return mysqlXmlFtlPath;
+    public String getMybatisXmlFtlPath() {
+        return mybatisXmlFtlPath;
     }
 
-    public void setMysqlXmlFtlPath(String mysqlXmlFtlPath) {
-        this.mysqlXmlFtlPath = mysqlXmlFtlPath;
+    public void setMybatisXmlFtlPath(String mybatisXmlFtlPath) {
+        this.mybatisXmlFtlPath = mybatisXmlFtlPath;
     }
 
     public String getPojoFtlPath() {
@@ -47,7 +47,7 @@ public class FtlPathInfo {
     @Override
     public String toString() {
         return "模板路径:\n{" +
-                "mysqlXmlFtlPath='" + mysqlXmlFtlPath + '\'' +
+                "mybatisXmlFtlPath='" + mybatisXmlFtlPath + '\'' +
                 ",\n pojoFtlPath='" + pojoFtlPath + '\'' +
                 ",\n daoFtlPath='" + daoFtlPath + '\'' +
                 ",\n bootStrapFtlPath='" + bootStrapFtlPath + '\'' +

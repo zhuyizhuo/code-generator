@@ -1,15 +1,13 @@
 package com.github.zhuyizhuo.generator.mybatis.factory;
 
-import com.github.zhuyizhuo.generator.mybatis.enums.DbTypeEnums;
-import com.github.zhuyizhuo.generator.mybatis.service.impl.MysqlDbServiceImpl;
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.enums.DbTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.service.DbService;
 import com.github.zhuyizhuo.generator.mybatis.service.impl.MysqlDbServiceImpl;
 import com.github.zhuyizhuo.generator.mybatis.service.impl.OracleDbServiceImpl;
+import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
-import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class DbServiceFactory {
 
-    private static Map<String,DbService> serviceMap = new ConcurrentHashMap<>();
+    private static Map<String,DbService> serviceMap = new ConcurrentHashMap<String,DbService>();
 
     static{
         serviceMap.put(DbTypeEnums.MYSQL.toString(), new MysqlDbServiceImpl());
