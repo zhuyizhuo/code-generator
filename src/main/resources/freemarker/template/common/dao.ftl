@@ -23,8 +23,13 @@ public interface ${stratificationInfo.daoName} {
 </#if>
 
 	<#include "java/updateByWhere.ftl"/>
+<#if tableInfo.hasPrimaryKey>
+
+    <#include "java/queryByPrimaryKey.ftl"/>
+</#if>
 
 	<#include "java/queryByWhere.ftl"/>
+
 
 	<#include "java/countByWhere.ftl"/>
 

@@ -21,13 +21,15 @@ public class MethodInfo {
     /** 根据主键更新方法名 */
     private static final String UPDATE_BY_PRIMARY_KEY_METHOD_FORMAT = "update{0}ByPrimaryKey";
     /** 查询方法名 */
-    private static final String QUERY_METHOD_FORMAT = "query{0}List";
+    private static final String QUERY_METHOD_FORMAT = "query{0}ListByWhere";
+    /** 根据主键查询 */
+    private static final String QUERY_BY_PRIMARY_KEY_METHOD_FORMAT = "query{0}ByPrimaryKey";
+    /** 查询总数方法名 */
+    private static final String COUNT_METHOD_FORMAT = "count{0}ByWhere";
     /** 批量新增方法名*/
     private static final String BATCH_INSERT_METHOD_FORMAT = "batchInsert{0}";
     /** 分页查询方法名 */
     private static final String PAGING_QUERY_METHOD_FORMAT = "pagingQuery{0}";
-    /** 查询总数方法名 */
-    private static final String COUNT_METHOD_FORMAT = "count{0}";
 
     /** 方法名 */
     private String insertMethodName;
@@ -36,16 +38,28 @@ public class MethodInfo {
     private String deleteByPrimaryKeyMethodName;
     private String deleteMethodName;
     private String queryMethodName;
+    private String queryByPrimaryKeyMethodName;
     private String countMethodName;
 
     /** 方法描述 */
     private String insertMethodDescription = "新增数据";
+    private String deleteMethodDescription = "根据传入参数删除数据";
+    private String deleteByPrimaryKeyMethodDescription = "根据主键删除数据";
     private String updateMethodDescription = "根据传入参数更新数据";
     private String updateByPrimaryKeyMethodDescription = "根据主键更新数据";
-    private String deleteByPrimaryKeyMethodDescription = "根据主键删除数据";
-    private String deleteMethodDescription = "根据传入参数删除数据";
     private String queryMethodDescription = "根据传入参数查询数据列表";
+    private String queryByPrimaryKeyDescription = "根据主键查询数据";
     private String countMethodDescription = "统计符合条件的数据数量";
+
+    /**
+     * 格式化方法名
+     * @param format 方法名格式化模板 例如 countTotal{0}
+     * @param tableName 表名
+     * @return 格式化后的方法名
+     */
+    public static String formatMethodName(String format,String tableName){
+        return MessageFormat.format(format,tableName);
+    }
 
     public String getInsertMethodName() {
         return insertMethodName;
@@ -103,14 +117,12 @@ public class MethodInfo {
         this.updateByPrimaryKeyMethodName = formatMethodName(UPDATE_BY_PRIMARY_KEY_METHOD_FORMAT,updateByPrimaryKeyMethodName);
     }
 
-    /**
-     * 格式化方法名
-     * @param format 方法名格式化模板 例如 countTotal{0}
-     * @param tableName 表名
-     * @return 格式化后的方法名
-     */
-    public static String formatMethodName(String format,String tableName){
-        return MessageFormat.format(format,tableName);
+    public String getQueryByPrimaryKeyMethodName() {
+        return queryByPrimaryKeyMethodName;
+    }
+
+    public void setQueryByPrimaryKeyMethodName(String queryByPrimaryKeyMethodName) {
+        this.queryByPrimaryKeyMethodName = formatMethodName(QUERY_BY_PRIMARY_KEY_METHOD_FORMAT,queryByPrimaryKeyMethodName);
     }
 
     public String getInsertMethodDescription() {
@@ -169,6 +181,14 @@ public class MethodInfo {
         this.countMethodDescription = countMethodDescription;
     }
 
+    public String getQueryByPrimaryKeyDescription() {
+        return queryByPrimaryKeyDescription;
+    }
+
+    public void setQueryByPrimaryKeyDescription(String queryByPrimaryKeyDescription) {
+        this.queryByPrimaryKeyDescription = queryByPrimaryKeyDescription;
+    }
+
     public void initMethodName(String javaTableName) {
         setInsertMethodName(javaTableName);
         setDeleteMethodName(javaTableName);
@@ -176,6 +196,7 @@ public class MethodInfo {
         setUpdateMethodName(javaTableName);
         setUpdateByPrimaryKeyMethodName(javaTableName);
         setQueryMethodName(javaTableName);
+        setQueryByPrimaryKeyMethodName(javaTableName);
         setCountMethodName(javaTableName);
     }
 
