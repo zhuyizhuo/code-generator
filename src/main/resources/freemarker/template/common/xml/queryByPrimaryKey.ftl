@@ -1,8 +1,8 @@
 	<!-- ${methodInfo.queryByPrimaryKeyDescription}  -->
 <#if tableInfo.singlePrimaryKey>
-	<update id="${methodInfo.queryByPrimaryKeyMethodName}" parameterType="${tableInfo.primaryKeyColumns[0].parameterType}">
+	<select id="${methodInfo.queryByPrimaryKeyMethodName}" resultMap="${resultMapId}" parameterType="${tableInfo.primaryKeyColumns[0].parameterType}">
 <#else>
-    <update id="${methodInfo.queryByPrimaryKeyMethodName}" parameterType="${parameterType}">
+    <select id="${methodInfo.queryByPrimaryKeyMethodName}" resultMap="${resultMapId}" parameterType="${parameterType}">
 </#if>
         SELECT
         <include refid="Base_Column_List" />

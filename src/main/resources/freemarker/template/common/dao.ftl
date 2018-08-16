@@ -30,7 +30,6 @@ public interface ${stratificationInfo.daoName} {
 
 	<#include "java/queryByWhere.ftl"/>
 
-
 	<#include "java/countByWhere.ftl"/>
 
 }
