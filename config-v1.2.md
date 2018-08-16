@@ -66,9 +66,9 @@ POJO_PACKAGE=pojo
 ##### 指定生成类名称
 
 ```properties
-# 实体名称 默认配置{0}
+# 实体名称 默认配置 驼峰命名 {0} 
 POJO_NAME_FORMAT={0}
-# MAPPER 名称 默认配置{0}Dao
+# MAPPER 名称 默认配置 驼峰命名+Dao {0}Dao
 DAO_NAME_FORMAT={0}Dao
 ```
 
@@ -96,7 +96,7 @@ DAO_NAME_FORMAT={0}Dao
 
 ```properties
 # XML 名称 默认数据库名称小写
-# 支持两种配置 默认 TABLE_NAME_LOWERCASE
+# 支持两种配置 默认 TABLE_NAME_LOWERCASE  其他不识别的配置默认为表名称小写
 # 表名称小写
 XML_NAME_FORMAT=TABLE_NAME_LOWERCASE
 # 表名称转驼峰

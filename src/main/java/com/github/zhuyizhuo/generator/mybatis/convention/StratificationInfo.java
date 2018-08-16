@@ -20,13 +20,13 @@ public class StratificationInfo {
     private String basePackage = "com.github.generator";
 
     /** 实体名称 */
-    private String POJO_NAME_FORMAT = "{0}POJO";
+    private String POJO_NAME_FORMAT = "{0}";
     /** service 层名称 */
     private String SERVICE_NAME_FORMAT = "{0}Service";
     /** service 实现类名称 */
     private String SERVICE_IMPL_NAME_FORMAT = "{0}ServiceImpl";
     /** dao 层名称 */
-    private String DAO_NAME_FORMAT = "{0}Dao";
+    private String DAO_NAME_FORMAT = "{0}Mapper";
 
     /** dao包路径 */
     private String daoPackage = "dao";
