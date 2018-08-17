@@ -8,7 +8,7 @@ import java.text.MessageFormat;
  * @version 1.0
  * time: 2018/7/29 15:40
  */
-public class MethodInfo {
+public class MethodInfo extends MethodCommentInfo{
 
     /** 新增方法名 */
     private static final String INSERT_METHOD_FORMAT = "insert{0}";
@@ -41,15 +41,14 @@ public class MethodInfo {
     private String queryByPrimaryKeyMethodName;
     private String countMethodName;
 
-    /** 方法描述 */
-    private String insertMethodDescription = "新增数据";
-    private String deleteMethodDescription = "根据传入参数删除数据";
-    private String deleteByPrimaryKeyMethodDescription = "根据主键删除数据";
-    private String updateMethodDescription = "根据传入参数更新数据";
-    private String updateByPrimaryKeyMethodDescription = "根据主键更新数据";
-    private String queryMethodDescription = "根据传入参数查询数据列表";
-    private String queryByPrimaryKeyDescription = "根据主键查询数据";
-    private String countMethodDescription = "统计符合条件的数据数量";
+    private boolean insertMethodEnabled = true;
+    private boolean deleteMethodEnabled = true;
+    private boolean deleteByPrimaryKeyMethodEnabled = true;
+    private boolean updateMethodEnabled = true;
+    private boolean updateByPrimaryKeyMethodEnabled = true;
+    private boolean queryMethodEnabled = true;
+    private boolean queryByPrimaryKeyEnabled = true;
+    private boolean countMethodEnabled = true;
 
     /**
      * 格式化方法名
@@ -125,68 +124,68 @@ public class MethodInfo {
         this.queryByPrimaryKeyMethodName = formatMethodName(QUERY_BY_PRIMARY_KEY_METHOD_FORMAT,queryByPrimaryKeyMethodName);
     }
 
-    public String getInsertMethodDescription() {
-        return insertMethodDescription;
+    public boolean isInsertMethodEnabled() {
+        return insertMethodEnabled;
     }
 
-    public void setInsertMethodDescription(String insertMethodDescription) {
-        this.insertMethodDescription = insertMethodDescription;
+    public void setInsertMethodEnabled(boolean insertMethodEnabled) {
+        this.insertMethodEnabled = insertMethodEnabled;
     }
 
-    public String getUpdateMethodDescription() {
-        return updateMethodDescription;
+    public boolean isDeleteMethodEnabled() {
+        return deleteMethodEnabled;
     }
 
-    public void setUpdateMethodDescription(String updateMethodDescription) {
-        this.updateMethodDescription = updateMethodDescription;
+    public void setDeleteMethodEnabled(boolean deleteMethodEnabled) {
+        this.deleteMethodEnabled = deleteMethodEnabled;
     }
 
-    public String getUpdateByPrimaryKeyMethodDescription() {
-        return updateByPrimaryKeyMethodDescription;
+    public boolean isDeleteByPrimaryKeyMethodEnabled() {
+        return deleteByPrimaryKeyMethodEnabled;
     }
 
-    public void setUpdateByPrimaryKeyMethodDescription(String updateByPrimaryKeyMethodDescription) {
-        this.updateByPrimaryKeyMethodDescription = updateByPrimaryKeyMethodDescription;
+    public void setDeleteByPrimaryKeyMethodEnabled(boolean deleteByPrimaryKeyMethodEnabled) {
+        this.deleteByPrimaryKeyMethodEnabled = deleteByPrimaryKeyMethodEnabled;
     }
 
-    public String getDeleteByPrimaryKeyMethodDescription() {
-        return deleteByPrimaryKeyMethodDescription;
+    public boolean isUpdateMethodEnabled() {
+        return updateMethodEnabled;
     }
 
-    public void setDeleteByPrimaryKeyMethodDescription(String deleteByPrimaryKeyMethodDescription) {
-        this.deleteByPrimaryKeyMethodDescription = deleteByPrimaryKeyMethodDescription;
+    public void setUpdateMethodEnabled(boolean updateMethodEnabled) {
+        this.updateMethodEnabled = updateMethodEnabled;
     }
 
-    public String getDeleteMethodDescription() {
-        return deleteMethodDescription;
+    public boolean isUpdateByPrimaryKeyMethodEnabled() {
+        return updateByPrimaryKeyMethodEnabled;
     }
 
-    public void setDeleteMethodDescription(String deleteMethodDescription) {
-        this.deleteMethodDescription = deleteMethodDescription;
+    public void setUpdateByPrimaryKeyMethodEnabled(boolean updateByPrimaryKeyMethodEnabled) {
+        this.updateByPrimaryKeyMethodEnabled = updateByPrimaryKeyMethodEnabled;
     }
 
-    public String getQueryMethodDescription() {
-        return queryMethodDescription;
+    public boolean isQueryMethodEnabled() {
+        return queryMethodEnabled;
     }
 
-    public void setQueryMethodDescription(String queryMethodDescription) {
-        this.queryMethodDescription = queryMethodDescription;
+    public void setQueryMethodEnabled(boolean queryMethodEnabled) {
+        this.queryMethodEnabled = queryMethodEnabled;
     }
 
-    public String getCountMethodDescription() {
-        return countMethodDescription;
+    public boolean isQueryByPrimaryKeyEnabled() {
+        return queryByPrimaryKeyEnabled;
     }
 
-    public void setCountMethodDescription(String countMethodDescription) {
-        this.countMethodDescription = countMethodDescription;
+    public void setQueryByPrimaryKeyEnabled(boolean queryByPrimaryKeyEnabled) {
+        this.queryByPrimaryKeyEnabled = queryByPrimaryKeyEnabled;
     }
 
-    public String getQueryByPrimaryKeyDescription() {
-        return queryByPrimaryKeyDescription;
+    public boolean isCountMethodEnabled() {
+        return countMethodEnabled;
     }
 
-    public void setQueryByPrimaryKeyDescription(String queryByPrimaryKeyDescription) {
-        this.queryByPrimaryKeyDescription = queryByPrimaryKeyDescription;
+    public void setCountMethodEnabled(boolean countMethodEnabled) {
+        this.countMethodEnabled = countMethodEnabled;
     }
 
     public void initMethodName(String javaTableName) {

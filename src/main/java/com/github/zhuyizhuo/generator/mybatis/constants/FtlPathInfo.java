@@ -10,7 +10,6 @@ public class FtlPathInfo {
     private String mybatisXmlFtlPath = "/freemarker/template/common/mybatis_mapper_template_v1.ftl";
     private String pojoFtlPath = "/freemarker/template/common/javabean.ftl";
     private String daoFtlPath = "/freemarker/template/common/dao.ftl";
-    private String bootStrapFtlPath = "/freemarker/template/common/bootStrap.ftl";
 
     public String getMybatisXmlFtlPath() {
         return mybatisXmlFtlPath;
@@ -36,21 +35,12 @@ public class FtlPathInfo {
         this.daoFtlPath = daoFtlPath;
     }
 
-    public String getBootStrapFtlPath() {
-        return bootStrapFtlPath;
-    }
-
-    public void setBootStrapFtlPath(String bootStrapFtlPath) {
-        this.bootStrapFtlPath = bootStrapFtlPath;
-    }
-
     @Override
     public String toString() {
-        return "模板路径:\n{" +
+        return "模板路径:{" +
                 "mybatisXmlFtlPath='" + mybatisXmlFtlPath + '\'' +
-                ",\n pojoFtlPath='" + pojoFtlPath + '\'' +
-                ",\n daoFtlPath='" + daoFtlPath + '\'' +
-                ",\n bootStrapFtlPath='" + bootStrapFtlPath + '\'' +
+                ", pojoFtlPath='" + pojoFtlPath + '\'' +
+                ", daoFtlPath='" + daoFtlPath + '\'' +
                 '}';
     }
 }

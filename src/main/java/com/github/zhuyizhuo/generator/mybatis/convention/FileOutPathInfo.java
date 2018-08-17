@@ -44,6 +44,18 @@ public class FileOutPathInfo {
     }
 
     public void init(StratificationInfo stratificationInfo) {
+        initBasePath();
+
+        if (PropertiesUtils.containsKey(ConfigConstants.XML_OUT_PUT_PATH)){
+            setXmlOutPutPath(PropertiesUtils.getProperties(ConfigConstants.XML_OUT_PUT_PATH));
+        };
+        if (PropertiesUtils.containsKey(ConfigConstants.DAO_OUT_PUT_PATH)){
+            setDaoOutPutPath(PropertiesUtils.getProperties(ConfigConstants.DAO_OUT_PUT_PATH));
+        };
+        if (PropertiesUtils.containsKey(ConfigConstants.POJO_OUT_PUT_PATH)){
+            setPojoOutPutPath(PropertiesUtils.getProperties(ConfigConstants.POJO_OUT_PUT_PATH));
+        };
+
         if (GeneratorStringUtils.isBlank(pojoOutPutPath)){
             this.pojoOutPutPath = getJavaFileOutPutFullPath(changePackage2Path(stratificationInfo.getPojoFullPackage()));
         } else {

@@ -80,7 +80,7 @@ DAO_NAME_FORMAT={0}Dao
    POJO_NAME_FORMAT={0}POJO
    ```
 
-3. 指定别名 以下配置生成的`POJO`类名为`User`
+3. 指定别名 以下配置生成的`POJO`类名为`User` , 适用于单表生成
 
    ```properties
    POJO_NAME_FORMAT= User
@@ -121,6 +121,27 @@ SINCE_VERSION=1.0
 #当前版本号 不配置此项默认1.0
 VERSION=1.0
 ```
+指定生成方法
+
+```properties
+# 新增数据   默认为true
+INSERT_METHOD_ENABLED=true
+# 根据传入参数删除数据   默认为true
+DELETE_METHOD_ENABLED=true
+# 根据主键删除数据   默认为true
+DELETE_BY_PRIMARY_KEY_METHOD_ENABLED=true
+# 根据传入参数更新数据   默认为true
+UPDATE_METHOD_ENABLED=true
+# 根据主键更新数据   默认为true
+UPDATE_BY_PRIMARY_KEY_METHOD_ENABLED=true
+# 根据传入参数查询数据列表   默认为true
+QUERY_METHOD_ENABLED=true
+# 根据主键查询数据   默认为true
+QUERY_BY_PRIMARY_KEY_ENABLED=true
+# 统计符合条件的数据数量   默认为true
+COUNT_METHOD_ENABLED=true
+```
+
 ##### 开启关闭日志
 
 ```properties

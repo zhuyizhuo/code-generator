@@ -3,10 +3,12 @@ package com.github.zhuyizhuo.generator.mybatis.convention;
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.service.FormatService;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfoFtl;
-import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
+import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 分层信息
@@ -62,6 +64,8 @@ public class StratificationInfo {
     /** xml包全路径*/
     private String xmlFullPackage;
 
+    private Map<String,FormatService> nameFormatMap = new HashMap<String,FormatService>();
+
     private FormatService formatService = new FormatService() {
         @Override
         public String formatTableName(String tableName) {
@@ -74,6 +78,19 @@ public class StratificationInfo {
     }
 
     public StratificationInfo(String basePackage) {
+        init(basePackage);
+    }
+
+    public void init() {
+        this.init(PropertiesUtils.getProperties(ConfigConstants.BASE_PACKAGE));
+    }
+
+    /**
+     *  初始化分层信息
+     * @since 1.3.0
+     * @param basePackage
+     */
+    public void init(String basePackage) {
         initEachFormat();
 
         initEachPackage();
@@ -94,7 +111,6 @@ public class StratificationInfo {
         this.pojoFullPackage = basePackage + this.pojoPackage;
         /** xml包全路径*/
         this.xmlFullPackage = basePackage + this.xmlPackage;
-
     }
 
     private void initEachPackage() {
@@ -188,7 +204,11 @@ public class StratificationInfo {
     }
 
     public void setPojoName(String pojoName) {
-        this.pojoName = formatName(POJO_NAME_FORMAT,pojoName);
+        if (nameFormatMap.get(ConfigConstants.POJO_NAME_FORMAT) != null){
+            this.pojoName = nameFormatMap.get(ConfigConstants.POJO_NAME_FORMAT).formatTableName(pojoName);
+        } else {
+            this.pojoName = formatName(POJO_NAME_FORMAT,pojoName);
+        }
     }
 
     public String getServiceName() {
@@ -212,7 +232,11 @@ public class StratificationInfo {
     }
 
     public void setDaoName(String daoName) {
-        this.daoName = formatName(DAO_NAME_FORMAT,daoName);
+        if (nameFormatMap.get(ConfigConstants.DAO_NAME_FORMAT) != null){
+            this.daoName = nameFormatMap.get(ConfigConstants.DAO_NAME_FORMAT).formatTableName(daoName);
+        } else {
+            this.daoName = formatName(DAO_NAME_FORMAT,daoName);
+        }
     }
 
     public String getXmlName() {
@@ -263,16 +287,7 @@ public class StratificationInfo {
         this.xmlFullPackage = xmlFullPackage;
     }
 
-    public String formatName(String daoNameFormat, String daoName) {
-        return MessageFormat.format(daoNameFormat, daoName);
-    }
-
-    public void initFilesName(TableInfoFtl tableInfoFtl) {
-        String javaTableName = tableInfoFtl.getJavaTableName();
-        setPojoName(javaTableName);
-        setDaoName(javaTableName);
-        setServiceName(javaTableName);
-        setServiceImplName(javaTableName);
+    private void initXmlName(TableInfoFtl tableInfoFtl) {
         String xmlNameFormat = PropertiesUtils.getProperties(ConfigConstants.XML_NAME_FORMAT);
         if ("camel".equalsIgnoreCase(xmlNameFormat)){
             setXmlName(tableInfoFtl.getJavaTableName());
@@ -281,4 +296,38 @@ public class StratificationInfo {
         }
     }
 
+    /**
+     *  格式化生成
+     * @param format
+     * @param javaTableName
+     * @return
+     */
+    public String formatName(String format, String javaTableName) {
+        return MessageFormat.format(format, javaTableName);
+    }
+
+    public void addXmlNameFormat(FormatService formatService) {
+        this.formatService = formatService;
+    }
+
+    public void initFilesName(TableInfoFtl tableInfoFtl) {
+        String javaTableName = tableInfoFtl.getJavaTableName();
+        setPojoName(javaTableName);
+        setDaoName(javaTableName);
+        setServiceName(javaTableName);
+        setServiceImplName(javaTableName);
+        initXmlName(tableInfoFtl);
+    }
+
+    private void addFormatService(FormatService formatService, String pojoNameFormat) {
+        this.nameFormatMap.put(pojoNameFormat, formatService);
+    }
+
+    public void addBeanNameFormat(FormatService formatService) {
+        addFormatService(formatService, ConfigConstants.POJO_NAME_FORMAT);
+    }
+
+    public void addDaoNameFormat(FormatService formatService) {
+        addFormatService(formatService, ConfigConstants.DAO_NAME_FORMAT);
+    }
 }

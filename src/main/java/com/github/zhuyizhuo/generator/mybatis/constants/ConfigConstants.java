@@ -43,5 +43,4 @@ public class ConfigConstants {
 
     public static final String XML_NAME_FORMAT = "XML_NAME_FORMAT";
 
-//    public static final String PROPERTIES_FILE_PATH = "generate-config.properties";
 }

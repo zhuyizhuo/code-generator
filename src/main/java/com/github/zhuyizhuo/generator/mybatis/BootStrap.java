@@ -19,8 +19,8 @@ public class BootStrap {
 
     public static void main(String[] args) throws IOException {
         //        Generator build = GeneratorBuilder.build(Resources.getResourceAsStream(ConfigConstants.PROPERTIES_FILE_PATH));
-        Generator build = GeneratorBuilder.build(Resources.getResourceAsStream(""));
-//        build.generate();
+        Generator build = new GeneratorBuilder().build(Resources.getResourceAsStream(""));
+        build.generate();
     }
 
 }
