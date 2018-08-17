@@ -53,7 +53,6 @@
 ###### java代码如下:
 
 ```java
-
 import org.apache.ibatis.io.Resources;
 
 import com.github.zhuyizhuo.generator.mybatis.BootStrap;
@@ -95,7 +94,7 @@ public static void main(String[] args) throws Exception {
             Resources.getResourceAsStream("config.properties"));
 		
 		build.generate();
-	}
+}
 ```
 
 ###### 自定义生成类名称[自定义后将覆盖配置文件配置]
@@ -104,15 +103,17 @@ public static void main(String[] args) throws Exception {
 - 支持自定义生成pojo名称
 - 支持自定义生成mapper名称
 
+此处以自定义生成xml名称为例:
+
 ```java
 //自定义生成xml文件名称 
 	public static void main(String[] args) throws Exception{
 		Generator generator = new GeneratorBuilder().addXmlNameFormat(new FormatService() {
 			@Override
 			public String formatTableName(String arg0) {
-                //此处为xml原默认名称 即配置文件配置名称 
-                System.out.println("xml原默认生成名称为：" + arg0);
-				return arg0.toUpperCase();
+                //此处为数据库表名称大写,用户可将参数自定义处理后返回
+                System.out.println("数据库表名称大写：" + arg0);
+				return arg0 + "_sql";
 			}
 		}).build(Resources.getResourceAsStream("config.properties"));
 		generator.generate();

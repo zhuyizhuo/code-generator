@@ -118,7 +118,7 @@ public class GeneratorBuilder {
             this.typeMapper.put(dataBaseType,javaTypeClass);
         }
         if (GeneratorStringUtils.isNotBlank(dataBaseType) && jdbcType != null) {
-            TypeConversion.type2JdbcTypeMap.put(dataBaseType,jdbcType.toString());
+            TypeConversion.addType2JdbcType(dataBaseType, jdbcType.toString());
         }
         return this;
     }
@@ -148,16 +148,16 @@ public class GeneratorBuilder {
     }
 
     private void initTypeCoversion() {
-        if (!typeMapper.isEmpty()){
+        if (!typeMapper.isEmpty()) {
             String dbType = PropertiesUtils.getProperties(ConfigConstants.DB_TYPE);
-            for(Map.Entry<String,Class<?>> entry : typeMapper.entrySet()){
+            for (Map.Entry<String, Class<?>> entry : typeMapper.entrySet()) {
                 Class<?> value = entry.getValue();
-                TypeConversion.javaDataTypeFullPathMap.put(value.getSimpleName(), value.getName());
-                TypeConversion.parameterTypeMap.put(value.getSimpleName(), value.getName());
-                if (DbTypeEnums.MYSQL.toString().equals(dbType)){
-                    TypeConversion.mySqlDbType2JavaMap.put(entry.getKey().toUpperCase(), value.getSimpleName());
+                TypeConversion.addJavaDataTypeFullPath(value);
+                TypeConversion.addParameterType(value);
+                if (DbTypeEnums.MYSQL.toString().equals(dbType)) {
+                    TypeConversion.addMySqlDbType2Java(entry.getKey(),value.getSimpleName());
                 } else {
-                    TypeConversion.oracleDbType2JavaMap.put(entry.getKey().toUpperCase(), value.getSimpleName());
+                    TypeConversion.addOracleDbType2Java(entry.getKey(),value.getSimpleName());
                 }
             }
         }

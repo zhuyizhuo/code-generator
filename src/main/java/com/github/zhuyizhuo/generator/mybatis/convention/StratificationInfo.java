@@ -235,7 +235,7 @@ public class StratificationInfo {
         if (nameFormatMap.get(ConfigConstants.DAO_NAME_FORMAT) != null){
             this.daoName = nameFormatMap.get(ConfigConstants.DAO_NAME_FORMAT).formatTableName(tableName);
         } else {
-            this.daoName = formatName(DAO_NAME_FORMAT,tableName);
+            this.daoName = formatName(DAO_NAME_FORMAT,GeneratorStringUtils.changeTableName2JavaFirstUpper(tableName,ConfigConstants.tableRegex));
         }
     }
 

@@ -136,4 +136,27 @@ public class TypeConversion {
         return dbColmType;
     }
 
+    public static void addJavaDataTypeFullPath(Class<?> value){
+        String name = value.getName();
+        if (name.startsWith("java.lang.") && name.split("\\.").length == 3){
+            return;
+        }
+        javaDataTypeFullPathMap.put(value.getSimpleName(), name);
+    }
+
+    public static void addParameterType(Class<?> value) {
+        parameterTypeMap.put(value.getSimpleName(), value.getName());
+    }
+
+    public static void addMySqlDbType2Java(String key, String javaType) {
+        mySqlDbType2JavaMap.put(key.toUpperCase(), javaType);
+    }
+
+    public static void addOracleDbType2Java(String key, String javaType) {
+        oracleDbType2JavaMap.put(key.toUpperCase(), javaType);
+    }
+
+    public static void addType2JdbcType(String dataBaseType, String jdbcType) {
+        type2JdbcTypeMap.put(dataBaseType,jdbcType);
+    }
 }
