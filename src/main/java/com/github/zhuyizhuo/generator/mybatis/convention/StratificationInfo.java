@@ -203,11 +203,11 @@ public class StratificationInfo {
         return pojoName;
     }
 
-    public void setPojoName(String pojoName) {
+    public void setPojoName(String tableName) {
         if (nameFormatMap.get(ConfigConstants.POJO_NAME_FORMAT) != null){
-            this.pojoName = nameFormatMap.get(ConfigConstants.POJO_NAME_FORMAT).formatTableName(pojoName);
+            this.pojoName = nameFormatMap.get(ConfigConstants.POJO_NAME_FORMAT).formatTableName(tableName);
         } else {
-            this.pojoName = formatName(POJO_NAME_FORMAT,pojoName);
+            this.pojoName = formatName(POJO_NAME_FORMAT,GeneratorStringUtils.changeTableName2JavaFirstUpper(tableName,ConfigConstants.tableRegex));
         }
     }
 
@@ -231,11 +231,11 @@ public class StratificationInfo {
         return daoName;
     }
 
-    public void setDaoName(String daoName) {
+    public void setDaoName(String tableName) {
         if (nameFormatMap.get(ConfigConstants.DAO_NAME_FORMAT) != null){
-            this.daoName = nameFormatMap.get(ConfigConstants.DAO_NAME_FORMAT).formatTableName(daoName);
+            this.daoName = nameFormatMap.get(ConfigConstants.DAO_NAME_FORMAT).formatTableName(tableName);
         } else {
-            this.daoName = formatName(DAO_NAME_FORMAT,daoName);
+            this.daoName = formatName(DAO_NAME_FORMAT,tableName);
         }
     }
 
@@ -312,8 +312,8 @@ public class StratificationInfo {
 
     public void initFilesName(TableInfoFtl tableInfoFtl) {
         String javaTableName = tableInfoFtl.getJavaTableName();
-        setPojoName(javaTableName);
-        setDaoName(javaTableName);
+        setPojoName(tableInfoFtl.getTableName());
+        setDaoName(tableInfoFtl.getTableName());
         setServiceName(javaTableName);
         setServiceImplName(javaTableName);
         initXmlName(tableInfoFtl);

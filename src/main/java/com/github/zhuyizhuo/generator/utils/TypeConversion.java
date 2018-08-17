@@ -11,11 +11,30 @@ import java.util.Map;
  * time: 2018/7/29 18:36
  */
 public class TypeConversion {
-
+    /**
+     * key mysql 数据库字段类型
+     * value java数据类型
+     */
     public static final Map<String,String> mySqlDbType2JavaMap = new HashMap<String,String>();
+    /**
+     * key oracle 数据库字段类型
+     * value java数据类型
+     */
     public static final Map<String,String> oracleDbType2JavaMap = new HashMap<String,String>();
+    /**
+     * key java 数据类型
+     * value 该类型全路径
+     */
     public static final Map<String,String> javaDataTypeFullPathMap = new HashMap<String,String>();
+    /**
+     * key 数据库字段类型
+     * value mybatis JDBC type
+     */
     public static final Map<String,String> type2JdbcTypeMap = new HashMap<String,String>();
+    /**
+     * key java 数据类型
+     * value mybatis内置对应别名
+     */
     public static final Map<String,String> parameterTypeMap = new HashMap<String,String>();
 
     static{

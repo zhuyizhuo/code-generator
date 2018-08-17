@@ -29,9 +29,8 @@ public class OracleDbServiceImpl extends AbstractDbService {
         SqlSession sqlSession = SqlSessionUtils.getSqlSession();
         OracleDataBaseMapper mapper = sqlSession.getMapper(OracleDataBaseMapper.class);
         DataBaseInfo dataBaseInfo = getDataBaseInfo();
-        LogUtils.printInfo("dataBaseInfo:" + dataBaseInfo);
         List<DbTableInfo> tableList  = mapper.getTableNameListBySchema(dataBaseInfo);
-        LogUtils.printInfo("DataBaseInfo:" + dataBaseInfo +",共查询出" + tableList.size() + "张表.");
+        LogUtils.printInfo("共查询出" + tableList.size() + "张表.");
         List<TableInfoFtl> tableInfos = getTableInfos(mapper, tableList);
         sqlSession.close();
         return tableInfos;

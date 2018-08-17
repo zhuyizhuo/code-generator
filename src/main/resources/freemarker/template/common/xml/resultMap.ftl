@@ -1,4 +1,3 @@
-    <!-- resultMap定义  <#if tableInfo.tableComment != "TODO">${tableInfo.tableComment} </#if>${tableInfo.tableName}与实体对应关系 -->
 	<resultMap id="${resultMapId}" type="${parameterType}">
 <#if tableInfo.hasPrimaryKey>
     <#list tableInfo.primaryKeyColumns as colm>

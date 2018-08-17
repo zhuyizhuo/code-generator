@@ -121,22 +121,22 @@ SINCE_VERSION=1.0
 #当前版本号 不配置此项默认1.0
 VERSION=1.0
 ```
-指定生成方法
+##### 生成指定方法配置
 
 ```properties
 # 新增数据   默认为true
 INSERT_METHOD_ENABLED=true
 # 根据传入参数删除数据   默认为true
 DELETE_METHOD_ENABLED=true
-# 根据主键删除数据   默认为true
+# 根据主键删除数据  默认为true 如果表未设置主键则不生成此方法
 DELETE_BY_PRIMARY_KEY_METHOD_ENABLED=true
 # 根据传入参数更新数据   默认为true
 UPDATE_METHOD_ENABLED=true
-# 根据主键更新数据   默认为true
+# 根据主键更新数据  默认为true 如果表未设置主键则不生成此方法
 UPDATE_BY_PRIMARY_KEY_METHOD_ENABLED=true
 # 根据传入参数查询数据列表   默认为true
 QUERY_METHOD_ENABLED=true
-# 根据主键查询数据   默认为true
+# 根据主键查询数据 默认为true 如果表未设置主键则不生成此方法 
 QUERY_BY_PRIMARY_KEY_ENABLED=true
 # 统计符合条件的数据数量   默认为true
 COUNT_METHOD_ENABLED=true

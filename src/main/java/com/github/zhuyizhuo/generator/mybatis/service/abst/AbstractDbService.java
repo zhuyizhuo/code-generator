@@ -28,6 +28,7 @@ public abstract class AbstractDbService implements DbService {
         DataBaseInfo tableInfo = new DataBaseInfo();
         tableInfo.setTableSchema(getTableSchema());
         tableInfo.setTableNames(getTables());
+
         return tableInfo;
     }
 
@@ -64,7 +65,7 @@ public abstract class AbstractDbService implements DbService {
             javaColumnInfo.setDataType(getDataType(columnInfo.getDataType()));
             javaColumnInfo.setColumnName(columnInfo.getColumnName());
             javaColumnInfo.setColumnComment(replaceEnter(columnInfo.getColumnComment()));
-            javaColumnInfo.setJavaColumnName(GeneratorStringUtils.changeColmName2Java(columnInfo.getColumnName(),"_"));
+            javaColumnInfo.setJavaColumnName(GeneratorStringUtils.changeColmName2Java(columnInfo.getColumnName(),ConfigConstants.tableRegex));
             javaColumnInfo.setJavaDataType(getJavaDataType(columnInfo));
             javaColumnInfo.setColumnJdbcType(TypeConversion.type2JdbcType(columnInfo.getDataType()));
             javaColumnInfo.setParameterType(TypeConversion.getTypeByMap(TypeConversion.parameterTypeMap,javaColumnInfo.getJavaDataType()));
@@ -97,6 +98,6 @@ public abstract class AbstractDbService implements DbService {
     }
 
     protected String getJavaTableName(String tableName) {
-        return GeneratorStringUtils.changeTableName2JavaFirstUpper(tableName,"_");
+        return GeneratorStringUtils.changeTableName2JavaFirstUpper(tableName,ConfigConstants.tableRegex);
     }
 }

@@ -1,5 +1,8 @@
 package com.github.zhuyizhuo.generator.mybatis.convention;
 
+import com.github.zhuyizhuo.generator.mybatis.constants.MethodEnableConstants;
+import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
+
 import java.text.MessageFormat;
 
 /**
@@ -41,6 +44,7 @@ public class MethodInfo extends MethodCommentInfo{
     private String queryByPrimaryKeyMethodName;
     private String countMethodName;
 
+    /** 是否生成指定方法 */
     private boolean insertMethodEnabled = true;
     private boolean deleteMethodEnabled = true;
     private boolean deleteByPrimaryKeyMethodEnabled = true;
@@ -197,6 +201,19 @@ public class MethodInfo extends MethodCommentInfo{
         setQueryMethodName(javaTableName);
         setQueryByPrimaryKeyMethodName(javaTableName);
         setCountMethodName(javaTableName);
+
+        initEnabledMethod();
+    }
+
+    private void initEnabledMethod() {
+        setInsertMethodEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.INSERT_METHOD_ENABLED));
+        setDeleteMethodEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.DELETE_METHOD_ENABLED));
+        setDeleteByPrimaryKeyMethodEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.DELETE_BY_PRIMARY_KEY_METHOD_ENABLED));
+        setUpdateMethodEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.UPDATE_METHOD_ENABLED));
+        setUpdateByPrimaryKeyMethodEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.UPDATE_BY_PRIMARY_KEY_METHOD_ENABLED));
+        setQueryMethodEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.QUERY_METHOD_ENABLED));
+        setQueryByPrimaryKeyEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.QUERY_BY_PRIMARY_KEY_ENABLED));
+        setCountMethodEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.COUNT_METHOD_ENABLED));
     }
 
 }

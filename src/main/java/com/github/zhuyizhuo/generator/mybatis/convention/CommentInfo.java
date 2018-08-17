@@ -24,6 +24,10 @@ public class CommentInfo {
     private String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
     public CommentInfo() {
+
+    }
+
+    public void init() {
         String author = PropertiesUtils.getProperties(ConfigConstants.AUTHOR);
         if (GeneratorStringUtils.isNotBlank(author)){
             this.author = author;
