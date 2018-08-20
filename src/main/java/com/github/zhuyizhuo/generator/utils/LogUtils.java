@@ -20,4 +20,10 @@ public class LogUtils {
             System.out.println(info);
         }
     }
+
+    public static void printErrInfo(String info){
+        if (booleanProperties){
+            System.err.println(info);
+        }
+    }
 }

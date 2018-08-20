@@ -28,7 +28,7 @@ public class PropertiesUtils {
             }
         }
         if (sb.length() > 0){
-            LogUtils.printInfo(sb.toString());
+            LogUtils.printErrInfo(sb.toString());
             throw new IllegalArgumentException(sb.toString());
         }
     }
@@ -67,7 +67,7 @@ public class PropertiesUtils {
         try {
             return Boolean.parseBoolean(properties);
         } catch(Exception e) {
-            LogUtils.printInfo("配置有误,key="+key+",值应为 true false");
+            LogUtils.printErrInfo("配置有误,key="+key+",值应为 true false");
         }
         return false;
     }
@@ -85,7 +85,7 @@ public class PropertiesUtils {
         try {
             return Boolean.parseBoolean(properties);
         } catch(Exception e) {
-            LogUtils.printInfo("配置有误,key="+key+",值应为 true false");
+            LogUtils.printErrInfo("配置有误,key="+key+",值应为 true false");
         }
         return true;
     }

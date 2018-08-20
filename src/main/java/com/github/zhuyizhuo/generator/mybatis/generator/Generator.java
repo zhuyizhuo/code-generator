@@ -32,7 +32,23 @@ public class Generator {
     }
 
     public void generate(){
-        printAll(service.getTableColumns());
+        try {
+            List<TableInfoFtl> tableColumns = service.getTableColumns();
+            try {
+                printAll(tableColumns);
+            } catch (Exception e){
+                LogUtils.printErrInfo("生成数据异常!Exception:" + e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (Exception e){
+            Throwable cause = e.getCause();
+            if (cause != null && cause.toString().contains("Error setting driver on UnpooledDataSource.")){
+                LogUtils.printErrInfo("请检查是否添加对应数据库驱动依赖!");
+                LogUtils.printErrInfo("Exception: " + cause.toString());
+            } else {
+                LogUtils.printErrInfo("查询数据库结构异常!Exception:" + e.getMessage());
+            }
+        }
     }
 
     public void printAll(List<TableInfoFtl> dbTableInfoList) {
@@ -50,7 +66,7 @@ public class Generator {
                 Freemarker.printFile(ftlPathInfo.getMybatisXmlFtlPath(), fileOutPathInfo.getXmlOutPutFullPath(), ftl);
             }
         } catch (Exception e) {
-            LogUtils.printInfo("生成数据异常!");
+            LogUtils.printErrInfo("生成数据异常!");
             e.printStackTrace();
         }
     }

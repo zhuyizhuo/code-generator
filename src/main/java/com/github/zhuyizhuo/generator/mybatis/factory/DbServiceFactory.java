@@ -36,7 +36,7 @@ public class DbServiceFactory {
         DbService dbService = serviceMap.get(dbType);
         if (dbService == null){
             String errorMsg =  ConfigConstants.DB_TYPE + "配置类型不支持,所支持类型请参照 DbTypeEnums.java";
-            LogUtils.printInfo(errorMsg);
+            LogUtils.printErrInfo(errorMsg);
             throw new RuntimeException(errorMsg);
         }
         return dbService;

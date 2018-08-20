@@ -147,7 +147,7 @@ public class GeneratorBuilder {
         try {
             PropertiesUtils.loadProperties(inputStream);
         } catch (Exception e) {
-            LogUtils.printInfo("加载配置文件失败.");
+            LogUtils.printErrInfo("加载配置文件失败.");
         }
         TypeConversion.init(typeMapper);
         stratificationInfo.init();

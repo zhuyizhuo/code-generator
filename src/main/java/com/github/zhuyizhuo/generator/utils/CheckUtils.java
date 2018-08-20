@@ -16,7 +16,7 @@ public class CheckUtils {
         String dbType = PropertiesUtils.getProperties(ConfigConstants.DB_TYPE);
         if (GeneratorStringUtils.isBlank(dbType)){
             String errorMsg = "未指定数据库类型:" + ConfigConstants.DB_TYPE + ",请在generate-config.properties中指定.DB_TYPE 值列表请参照 DbTypeEnums.java";
-            LogUtils.printInfo(errorMsg);
+            LogUtils.printErrInfo(errorMsg);
             throw new RuntimeException(errorMsg);
         }
         return dbType;
