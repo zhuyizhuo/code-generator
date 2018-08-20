@@ -13,17 +13,17 @@ import java.util.Date;
  * @version 1.0
  * time: 2018/7/29 16:10
  */
-public class CommentInfo {
+public class ClassCommentInfo {
     /** 文件创建时版本号 */
     private String sinceVersion = "";
     /** 当前版本号 */
     private String version = "1.0";
-    /** 默认作者 */
-    private String author = "TODO";
+    /** 作者 */
+    private String author = "";
     /** 默认生成时间 */
     private String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
-    public CommentInfo() {
+    public ClassCommentInfo() {
 
     }
 

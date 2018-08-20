@@ -43,6 +43,8 @@ public class ConfigConstants {
 
     public static final String XML_NAME_FORMAT = "XML_NAME_FORMAT";
 
+    public static final String COMMENT_ENABLED = "COMMENT_ENABLED";
+
     /** 数据库表的分隔符 */
     public static String tableRegex = "_";
 }

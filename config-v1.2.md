@@ -111,11 +111,9 @@ PARAMETER_TYPE_USE_TYPE_ALIASES=false
 
 
 ```properties
-# 是否生成注释 默认为true
-COMMENT_ENABLED=true
-# 作者 不配置此项则生成类无此注释
+# 作者 不配置此项则默认不生成@author注释信息
 AUTHOR=TODO
-# 创建版本号 不配置此项则生成类无此注释
+# 创建版本号 不配置此项则默认不生成@since注释信息
 SINCE_VERSION=1.0
 #当前版本号 不配置此项默认1.0
 VERSION=1.0

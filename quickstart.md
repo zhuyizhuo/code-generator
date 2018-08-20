@@ -82,18 +82,14 @@ public class TestGenerator {
 ###### 自定义方法注释
 
 ```java
-public static void main(String[] args) throws Exception {
-		GeneratorBuilder generatorBuilder = new GeneratorBuilder();
-    	//设置自定义方法注释
-		MethodCommentInfo methodComment = generatorBuilder.getMethodComment();
-    	//设置count方法注释
-		methodComment.setCountMethodDescription(" this is count method ");
-    	//设置@Param 参数对象注释
-		methodComment.setParamsDescription(" this is param ");
-		Generator build = generatorBuilder.build(
-            Resources.getResourceAsStream("config.properties"));
-		
-		build.generate();
+public static void main(String[] args) throws IOException {
+    MethodCommentInfo methodCommentInfo = new MethodCommentInfo();
+    //修改count方法注释
+    methodCommentInfo.setCountMethodDescription(" count method description ");
+    Generator generator = new GeneratorBuilder()
+        .addMethodComment(methodCommentInfo)
+        .build(Resources.getResourceAsStream("config.properties"));
+    generator.generate();
 }
 ```
 
@@ -107,22 +103,45 @@ public static void main(String[] args) throws Exception {
 
 ```java
 //自定义生成xml文件名称 
-	public static void main(String[] args) throws Exception{
-		Generator generator = new GeneratorBuilder().addXmlNameFormat(new FormatService() {
-			@Override
-			public String formatTableName(String arg0) {
-                //此处为数据库表名称大写,用户可将参数自定义处理后返回
-                System.out.println("数据库表名称大写：" + arg0);
-				return arg0 + "_sql";
-			}
-		}).build(Resources.getResourceAsStream("config.properties"));
-		generator.generate();
-	}
+public static void main(String[] args) throws Exception{
+    Generator generator = new GeneratorBuilder().addXmlNameFormat(new FormatService() {
+        @Override
+        public String formatTableName(String arg0) {
+            //此处为数据库表名称大写,用户可将参数自定义处理后返回
+            System.out.println("数据库表名称大写：" + arg0);
+            return arg0 + "_sql";
+        }
+    }).build(Resources.getResourceAsStream("config.properties"));
+    generator.generate();
+}
 ```
 
 ###### 自定义映射类型
 
 ```java
 
+import java.io.IOException;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.type.JdbcType;
+
+import com.github.zhuyizhuo.generator.mybatis.generator.Generator;
+import com.github.zhuyizhuo.generator.mybatis.generator.GeneratorBuilder;
+
+public class TestGenerator {
+	
+	public static void main(String[] args) throws IOException {
+		/*
+	     * 自定义数据库与java类型映射
+	     * 例如数据库类型为NUMBER 生成器默认映射为Integer 可自定义映射 将生成类型指定为String
+	     * oracle 数据库类型 TIMESTAMP 默认映射为 java.util.Date 此处更改映射为java.sql.Date
+	     */
+		Generator generator = new GeneratorBuilder()
+				.addTypeMapper("NUMBER",JdbcType.VARCHAR,String.class)
+				.addTypeMapper("TIMESTAMP", JdbcType.TIMESTAMP, java.sql.Date.class)
+				.build(Resources.getResourceAsStream("config.properties"));
+		generator.generate();
+	}
+}
 ```
 

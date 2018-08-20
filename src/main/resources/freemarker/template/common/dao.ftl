@@ -6,7 +6,7 @@ import ${stratificationInfo.pojoFullPackage}.${stratificationInfo.pojoName};
 
 /**
  * description : ${tableInfo.tableName} table dao layer interface <br/>
-<#include "java/comment/comment.ftl"/>
+<#include "java/comment/classComment.ftl"/>
  */
 public interface ${stratificationInfo.daoName} {
 <#if methodInfo.insertMethodEnabled>

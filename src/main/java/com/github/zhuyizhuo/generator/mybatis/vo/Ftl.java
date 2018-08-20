@@ -1,7 +1,7 @@
 package com.github.zhuyizhuo.generator.mybatis.vo;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
-import com.github.zhuyizhuo.generator.mybatis.convention.CommentInfo;
+import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.MethodCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.MethodInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
@@ -16,9 +16,9 @@ import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 public class Ftl {
 
     private StratificationInfo stratificationInfo;
+    private ClassCommentInfo classCommentInfo;
     private MethodCommentInfo methodCommentInfo;
     private MethodInfo methodInfo;
-    private CommentInfo commentInfo;
     private TableInfoFtl tableInfo;
 
     /** xml 参数类型 */
@@ -29,8 +29,6 @@ public class Ftl {
     public Ftl() {
 
     }
-
-
 
     public StratificationInfo getStratificationInfo() {
         return stratificationInfo;
@@ -48,12 +46,12 @@ public class Ftl {
         this.methodInfo = methodInfo;
     }
 
-    public CommentInfo getCommentInfo() {
-        return commentInfo;
+    public ClassCommentInfo getClassCommentInfo() {
+        return classCommentInfo;
     }
 
-    public void setCommentInfo(CommentInfo commentInfo) {
-        this.commentInfo = commentInfo;
+    public void setClassCommentInfo(ClassCommentInfo classCommentInfo) {
+        this.classCommentInfo = classCommentInfo;
     }
 
     public TableInfoFtl getTableInfo() {

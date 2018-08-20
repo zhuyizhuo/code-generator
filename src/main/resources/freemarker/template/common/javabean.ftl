@@ -10,7 +10,7 @@ import ${import};
  * database	: ${tableInfo.tableSchema} <br/>
  * table	: ${tableInfo.tableName} <br/>
  * description : ${tableInfo.tableComment} <br/>
-<#include "java/comment/comment.ftl"/>
+<#include "java/comment/classComment.ftl"/>
  */
 public class ${stratificationInfo.pojoName} {
 

@@ -1,5 +1,7 @@
 package com.github.zhuyizhuo.generator.utils;
 
+import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
+import com.github.zhuyizhuo.generator.mybatis.enums.DbTypeEnums;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 
 import java.util.HashMap;
@@ -158,5 +160,21 @@ public class TypeConversion {
 
     public static void addType2JdbcType(String dataBaseType, String jdbcType) {
         type2JdbcTypeMap.put(dataBaseType,jdbcType);
+    }
+
+    public static void init(Map<String,Class<?>> typeMapper) {
+        if (typeMapper != null && !typeMapper.isEmpty()) {
+            String dbType = CheckUtils.checkDBType();
+            for (Map.Entry<String, Class<?>> entry : typeMapper.entrySet()) {
+                Class<?> value = entry.getValue();
+                addJavaDataTypeFullPath(value);
+                addParameterType(value);
+                if (DbTypeEnums.MYSQL.toString().equals(dbType)) {
+                    addMySqlDbType2Java(entry.getKey(),value.getSimpleName());
+                } else {
+                    addOracleDbType2Java(entry.getKey(),value.getSimpleName());
+                }
+            }
+        }
     }
 }

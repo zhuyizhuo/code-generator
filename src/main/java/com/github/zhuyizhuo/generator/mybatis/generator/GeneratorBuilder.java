@@ -25,11 +25,15 @@ import java.util.Map;
  * @version 1.2.0
  */
 public class GeneratorBuilder {
-
-    private CommentInfo commentInfo;
-    private MethodInfo methodInfo;
+    /** 类注释 */
+    private ClassCommentInfo classCommentInfo;
+    /** 方法注释 */
     private MethodCommentInfo methodCommentInfo;
+    /** 方法信息 */
+    private MethodInfo methodInfo;
+    /** 分层信息 */
     private StratificationInfo stratificationInfo;
+    /** 文件输出路径信息 */
     private FileOutPathInfo fileOutPathInfo;
 
     /***
@@ -39,23 +43,28 @@ public class GeneratorBuilder {
     private final Map<String,Class<?>> typeMapper = new HashMap<String,Class<?>>();
 
     public GeneratorBuilder() {
-        this(new CommentInfo());
+        this(new ClassCommentInfo());
     }
 
-    public GeneratorBuilder(CommentInfo commentInfo) {
-        this(commentInfo, new MethodInfo());
+    public GeneratorBuilder(ClassCommentInfo classCommentInfo) {
+        this(classCommentInfo, new MethodInfo());
     }
 
-    public GeneratorBuilder(CommentInfo commentInfo, MethodInfo methodInfo) {
-        this(commentInfo,methodInfo,new StratificationInfo());
+    public GeneratorBuilder(ClassCommentInfo classCommentInfo, MethodInfo methodInfo) {
+        this(classCommentInfo,methodInfo,new StratificationInfo());
     }
 
-    public GeneratorBuilder(CommentInfo commentInfo, MethodInfo methodInfo, StratificationInfo stratificationInfo) {
-        this(commentInfo,methodInfo,stratificationInfo,new FileOutPathInfo());
+    public GeneratorBuilder(ClassCommentInfo classCommentInfo, MethodInfo methodInfo, StratificationInfo stratificationInfo) {
+        this(classCommentInfo,methodInfo,stratificationInfo,new FileOutPathInfo());
     }
 
-    public GeneratorBuilder(CommentInfo commentInfo, MethodInfo methodInfo, StratificationInfo stratificationInfo, FileOutPathInfo fileOutPathInfo) {
-        this.commentInfo = commentInfo;
+    public GeneratorBuilder(ClassCommentInfo classCommentInfo, MethodInfo methodInfo, StratificationInfo stratificationInfo, FileOutPathInfo fileOutPathInfo) {
+        this(classCommentInfo,methodInfo,stratificationInfo,fileOutPathInfo,new MethodCommentInfo());
+    }
+
+    public GeneratorBuilder(ClassCommentInfo classCommentInfo, MethodInfo methodInfo, StratificationInfo stratificationInfo, FileOutPathInfo fileOutPathInfo, MethodCommentInfo methodCommentInfo) {
+        this.classCommentInfo = classCommentInfo;
+        this.methodCommentInfo = methodCommentInfo;
         this.methodInfo = methodInfo;
         this.stratificationInfo = stratificationInfo;
         this.fileOutPathInfo = fileOutPathInfo;
@@ -124,6 +133,11 @@ public class GeneratorBuilder {
         return this;
     }
 
+    /**
+     * 自定义方法注释
+     * @param commentInfo 方法注释对象
+     * @return
+     */
     public GeneratorBuilder addMethodComment(MethodCommentInfo commentInfo){
         this.methodCommentInfo = commentInfo;
         return this;
@@ -135,36 +149,17 @@ public class GeneratorBuilder {
         } catch (Exception e) {
             LogUtils.printInfo("加载配置文件失败.");
         }
-        DbService service =  DbServiceFactory.getDbService();
-
-        initTypeCoversion();
-
+        TypeConversion.init(typeMapper);
         stratificationInfo.init();
-        commentInfo.init();
+        classCommentInfo.init();
 
         Ftl ftl = new Ftl();
-        ftl.setCommentInfo(commentInfo);
+        ftl.setClassCommentInfo(classCommentInfo);
+        ftl.setMethodCommentInfo(methodCommentInfo);
         ftl.setMethodInfo(methodInfo);
         ftl.setStratificationInfo(stratificationInfo);
-        ftl.setMethodCommentInfo(methodCommentInfo);
         fileOutPathInfo.init(stratificationInfo);
-        return new Generator(service,ftl,fileOutPathInfo);
-    }
-
-    private void initTypeCoversion() {
-        if (!typeMapper.isEmpty()) {
-            String dbType = PropertiesUtils.getProperties(ConfigConstants.DB_TYPE);
-            for (Map.Entry<String, Class<?>> entry : typeMapper.entrySet()) {
-                Class<?> value = entry.getValue();
-                TypeConversion.addJavaDataTypeFullPath(value);
-                TypeConversion.addParameterType(value);
-                if (DbTypeEnums.MYSQL.toString().equals(dbType)) {
-                    TypeConversion.addMySqlDbType2Java(entry.getKey(),value.getSimpleName());
-                } else {
-                    TypeConversion.addOracleDbType2Java(entry.getKey(),value.getSimpleName());
-                }
-            }
-        }
+        return new Generator(DbServiceFactory.getDbService(),ftl,fileOutPathInfo);
     }
 
 }
