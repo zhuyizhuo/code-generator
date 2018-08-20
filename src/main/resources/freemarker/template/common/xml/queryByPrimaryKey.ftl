@@ -1,4 +1,4 @@
-	<!-- ${methodInfo.queryByPrimaryKeyDescription}  -->
+	<!-- ${methodCommentInfo.queryByPrimaryKeyDescription}  -->
 <#if tableInfo.singlePrimaryKey>
 	<select id="${methodInfo.queryByPrimaryKeyMethodName}" resultMap="${resultMapId}" parameterType="${tableInfo.primaryKeyColumns[0].parameterType}">
 <#else>

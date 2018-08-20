@@ -1,4 +1,4 @@
-	<!-- ${methodInfo.updateMethodDescription} -->
+	<!-- ${methodCommentInfo.updateMethodDescription} -->
 	<update id="${methodInfo.updateMethodName}" parameterType="${parameterType}">
 		UPDATE
 		<include refid="Table_Name" />

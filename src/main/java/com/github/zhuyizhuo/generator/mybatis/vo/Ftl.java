@@ -2,6 +2,7 @@ package com.github.zhuyizhuo.generator.mybatis.vo;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.convention.CommentInfo;
+import com.github.zhuyizhuo.generator.mybatis.convention.MethodCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.MethodInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
@@ -15,6 +16,7 @@ import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 public class Ftl {
 
     private StratificationInfo stratificationInfo;
+    private MethodCommentInfo methodCommentInfo;
     private MethodInfo methodInfo;
     private CommentInfo commentInfo;
     private TableInfoFtl tableInfo;
@@ -27,6 +29,8 @@ public class Ftl {
     public Ftl() {
 
     }
+
+
 
     public StratificationInfo getStratificationInfo() {
         return stratificationInfo;
@@ -74,6 +78,14 @@ public class Ftl {
 
     public void setResultMapId(String resultMapId) {
         this.resultMapId = resultMapId;
+    }
+
+    public MethodCommentInfo getMethodCommentInfo() {
+        return methodCommentInfo;
+    }
+
+    public void setMethodCommentInfo(MethodCommentInfo methodCommentInfo) {
+        this.methodCommentInfo = methodCommentInfo;
     }
 
     public void init(TableInfoFtl tableInfo) {

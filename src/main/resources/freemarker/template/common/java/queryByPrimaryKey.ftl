@@ -1,4 +1,4 @@
-<#assign methodDescription = "${methodInfo.queryByPrimaryKeyDescription}">
+<#assign methodDescription = "${methodCommentInfo.queryByPrimaryKeyDescription}">
 <#if tableInfo.singlePrimaryKey>
     <#include "comment/singlePrimaryKeyCommentPara.ftl"/>
     <#include "comment/methodComment.ftl"/>

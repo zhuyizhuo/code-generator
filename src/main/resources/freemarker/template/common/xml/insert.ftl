@@ -1,4 +1,4 @@
-    <!-- ${methodInfo.insertMethodDescription} -->
+    <!-- ${methodCommentInfo.insertMethodDescription} -->
 	<insert id="${methodInfo.insertMethodName}" parameterType="${parameterType}">
         INSERT INTO
         <include refid="Table_Name" />

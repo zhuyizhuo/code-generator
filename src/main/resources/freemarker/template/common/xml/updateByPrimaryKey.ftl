@@ -1,4 +1,4 @@
-    <!-- ${methodInfo.updateByPrimaryKeyMethodDescription} -->
+    <!-- ${methodCommentInfo.updateByPrimaryKeyMethodDescription} -->
 <#if tableInfo.singlePrimaryKey>
 	<update id="${methodInfo.updateByPrimaryKeyMethodName}" parameterType="${tableInfo.primaryKeyColumns[0].parameterType}">
 <#else>

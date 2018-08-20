@@ -1,13 +1,11 @@
 #### 数据源配置[必选]:
 
-```properties
-# 数据库驱动 DB_DRIVER
-# 数据库链接 DB_URL
-# 表空间 数据库名 DB_TABLE_SCHEMA
-# 数据库用户名 DB_USERNAME
-# 数据库密码 DB_PASSWORD
-# 数据库类型 DB_TYPE
-```
+ 数据库驱动 `DB_DRIVER`
+ 数据库链接 `DB_URL`
+ 表空间 数据库名  `DB_TABLE_SCHEMA`
+ 数据库用户名 `DB_USERNAME`
+ 数据库密码 `DB_PASSWORD`
+ 数据库类型 `DB_TYPE`
 
 ##### `mysql`数据库配置
 
@@ -99,13 +97,14 @@ XML_NAME_FORMAT=TABLE_NAME_LOWERCASE
 
 ##### `paameterType`别名
 
+ XML中`parameterType` 是否使用别名 默认为`false`
+ 例如`POJO`全路径为 `test.generator.pojo.UserBean`
+` PARAMETER_TYPE_USE_TYPE_ALIASES=false` 则 取`POJO`类完全限定名 :
+` parameterType="test.generator.pojo.UserBean"`
+` PARAMETER_TYPE_USE_TYPE_ALIASES=true` 则 取`POJO`的名称首字母小写为别名 :
+ `parameterType="userBean"`
+
 ```properties
-# XML中parameterType 是否使用别名 默认为false
-# 例如POJO全路径为 test.generator.pojo.UserBean
-# PARAMETER_TYPE_USE_TYPE_ALIASES=false 则 取POJO类完全限定名 如下:
-# parameterType="test.generator.pojo.UserBean"
-# PARAMETER_TYPE_USE_TYPE_ALIASES=true 则 取POJO的名称首字母小写为别名 如下:
-# parameterType="userBean"
 PARAMETER_TYPE_USE_TYPE_ALIASES=false
 ```
 ##### 注释配置
@@ -153,12 +152,11 @@ LOG_ENABLED=true
 
 > 适用场景: 当将类生成至指定位置(例如桌面)时,为了减少路径层级,可指定文件路径,该配置不影响生成类所在的包结构
 
+ 如不指定输出路径,则默认输出路径为: `{FILE_OUT_PUT_PATH}/{BASE_PACKAGE}/{生成类所在的包名}`
+ 指定文件输出路径则以文件输出路径为准. 文件输出路径支持`多层路径`
+
+
 ```properties
-# 如不指定输出路径,则默认输出路径为: {FILE_OUT_PUT_PATH}/{BASE_PACKAGE}/{生成类所在的包名}
-# 指定文件输出路径则以文件输出路径为准.
-
-# 文件输出路径支持多层路径
-
 # xml文件输出路径 如下配置 最终输出路径为 {FILE_OUT_PUT_PATH}/xml
 XML_OUT_PUT_PATH=xml
 # mapper文件输出路径 如下配置 最终输出路径为 {FILE_OUT_PUT_PATH}/dao

@@ -11,7 +11,7 @@ import java.text.MessageFormat;
  * @version 1.0
  * time: 2018/7/29 15:40
  */
-public class MethodInfo extends MethodCommentInfo{
+public class MethodInfo {
 
     /** 新增方法名 */
     private static final String INSERT_METHOD_FORMAT = "insert{0}";

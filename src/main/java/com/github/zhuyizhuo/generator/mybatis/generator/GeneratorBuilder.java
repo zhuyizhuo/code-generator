@@ -28,6 +28,7 @@ public class GeneratorBuilder {
 
     private CommentInfo commentInfo;
     private MethodInfo methodInfo;
+    private MethodCommentInfo methodCommentInfo;
     private StratificationInfo stratificationInfo;
     private FileOutPathInfo fileOutPathInfo;
 
@@ -123,8 +124,9 @@ public class GeneratorBuilder {
         return this;
     }
 
-    public MethodCommentInfo getMethodComment(){
-        return this.methodInfo;
+    public GeneratorBuilder addMethodComment(MethodCommentInfo commentInfo){
+        this.methodCommentInfo = commentInfo;
+        return this;
     }
 
     public Generator build(InputStream inputStream){
@@ -137,13 +139,15 @@ public class GeneratorBuilder {
 
         initTypeCoversion();
 
+        stratificationInfo.init();
+        commentInfo.init();
+
         Ftl ftl = new Ftl();
         ftl.setCommentInfo(commentInfo);
         ftl.setMethodInfo(methodInfo);
         ftl.setStratificationInfo(stratificationInfo);
-        stratificationInfo.init();
+        ftl.setMethodCommentInfo(methodCommentInfo);
         fileOutPathInfo.init(stratificationInfo);
-        commentInfo.init();
         return new Generator(service,ftl,fileOutPathInfo);
     }
 

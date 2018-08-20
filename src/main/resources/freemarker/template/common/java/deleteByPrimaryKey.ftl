@@ -1,4 +1,4 @@
-<#assign methodDescription = "${methodInfo.deleteByPrimaryKeyMethodDescription}">
+<#assign methodDescription = "${methodCommentInfo.deleteByPrimaryKeyMethodDescription}">
 <#if tableInfo.singlePrimaryKey>
     <#include "comment/singlePrimaryKeyCommentPara.ftl"/>
     <#include "comment/methodComment.ftl"/>
