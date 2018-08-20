@@ -2,7 +2,7 @@
 <#if tableInfo.singlePrimaryKey>
 	<update id="${methodInfo.updateByPrimaryKeyMethodName}" parameterType="${tableInfo.primaryKeyColumns[0].parameterType}">
 <#else>
-    <update id="${methodInfo.updateByPrimaryKeyMethodName}" parameterType="${parameterType}">
+    <update id="${methodInfo.updateByPrimaryKeyMethodName}" parameterType="${tableInfo.parameterType}">
 </#if>
 		UPDATE
 		<include refid="Table_Name" />

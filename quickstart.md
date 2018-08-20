@@ -8,7 +8,7 @@
 <dependency>
     <groupId>com.github.zhuyizhuo</groupId>
     <artifactId>code-generator</artifactId>
-    <version>1.2.0</version>
+    <version>x.x.x</version>
 </dependency>
 ```
 
@@ -75,21 +75,31 @@ public class TestGenerator {
 
 执行main方法,即可生成代码.
 
-详细配置信息参考[配置文件详解](config-v1.2.md)
+
 
 ##### 高级设置[可选]
 
 ###### 自定义方法注释
 
 ```java
-public static void main(String[] args) throws IOException {
-    MethodCommentInfo methodCommentInfo = new MethodCommentInfo();
-    //修改count方法注释
-    methodCommentInfo.setCountMethodDescription(" count method description ");
-    Generator generator = new GeneratorBuilder()
-        .addMethodComment(methodCommentInfo)
-        .build(Resources.getResourceAsStream("config.properties"));
-    generator.generate();
+import java.io.IOException;
+
+import org.apache.ibatis.io.Resources;
+
+import com.github.zhuyizhuo.generator.mybatis.convention.MethodCommentInfo;
+import com.github.zhuyizhuo.generator.mybatis.generator.Generator;
+import com.github.zhuyizhuo.generator.mybatis.generator.GeneratorBuilder;
+
+public class TestGenerator {
+    public static void main(String[] args) throws IOException {
+        MethodCommentInfo methodCommentInfo = new MethodCommentInfo();
+        //修改count方法注释
+        methodCommentInfo.setCountMethodDescription(" count method description ");
+        Generator generator = new GeneratorBuilder()
+            .addMethodComment(methodCommentInfo)
+            .build(Resources.getResourceAsStream("config.properties"));
+        generator.generate();
+    }
 }
 ```
 
@@ -99,20 +109,58 @@ public static void main(String[] args) throws IOException {
 - 支持自定义生成pojo名称
 - 支持自定义生成mapper名称
 
-此处以自定义生成xml名称为例:
+此处以`自定义生成xml名称`为例:
 
 ```java
-//自定义生成xml文件名称 
-public static void main(String[] args) throws Exception{
-    Generator generator = new GeneratorBuilder().addXmlNameFormat(new FormatService() {
-        @Override
-        public String formatTableName(String arg0) {
-            //此处为数据库表名称大写,用户可将参数自定义处理后返回
-            System.out.println("数据库表名称大写：" + arg0);
-            return arg0 + "_sql";
-        }
-    }).build(Resources.getResourceAsStream("config.properties"));
-    generator.generate();
+import java.io.IOException;
+
+import org.apache.ibatis.io.Resources;
+
+import com.github.zhuyizhuo.generator.mybatis.extension.service.FormatService;
+import com.github.zhuyizhuo.generator.mybatis.generator.Generator;
+import com.github.zhuyizhuo.generator.mybatis.generator.GeneratorBuilder;
+
+public class TestGenerator {
+    //自定义生成xml文件名称 
+    public static void main(String[] args) throws Exception{
+        Generator generator = new GeneratorBuilder()
+            .addXmlNameFormat(new FormatService() {
+            @Override
+            public String formatTableName(String tableName) {
+                //此处为数据库表名称大写,用户可将参数自定义处理后返回
+                System.out.println("数据库表名称大写：" + tableName);
+                return tableName + "_sql";
+            }
+        }).build(Resources.getResourceAsStream("config.properties"));
+        generator.generate();
+    }
+}
+```
+
+`java8 ` lambda表达式用法如下:
+
+```java
+import java.io.IOException;
+
+import org.apache.ibatis.io.Resources;
+
+import com.github.zhuyizhuo.generator.mybatis.generator.Generator;
+import com.github.zhuyizhuo.generator.mybatis.generator.GeneratorBuilder;
+import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
+
+public class TestGenerator {
+	
+	public static void main(String[] args) throws IOException {
+		Generator generator = new GeneratorBuilder()
+				.addBeanNameFormat((tableName) ->{
+                    System.out.println("数据库表名称大写：" + tableName);
+					//自定义数据库映射对象名称
+					return GeneratorStringUtils
+                        .changeTableName2CamelFirstUpper(tableName, "_")+"Bean";
+				})
+				.build(Resources.getResourceAsStream("config.properties"));
+		generator.generate();
+	}
 }
 ```
 
@@ -142,6 +190,60 @@ public class TestGenerator {
 				.build(Resources.getResourceAsStream("config.properties"));
 		generator.generate();
 	}
+}
+```
+
+###### 自定义生成器
+
+> 适用场景: 如果需要根据表信息生成更多内容 例如 生成页面/service/controller等  提供生成器的扩展配置  将数据库内省的表结构封装为对象 可自行扩展
+
+```java
+import java.io.IOException;
+import java.util.List;
+
+import org.apache.ibatis.io.Resources;
+
+import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
+import com.github.zhuyizhuo.generator.mybatis.extension.service.GeneratorService;
+import com.github.zhuyizhuo.generator.mybatis.generator.Generator;
+import com.github.zhuyizhuo.generator.mybatis.generator.GeneratorBuilder;
+import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
+
+public class TestGenerator {
+    	public static void main(String[] args) throws IOException {
+		Generator generator = new GeneratorBuilder().addGeneratorService(new GeneratorService() {
+            //GenerateInfo 为数据库信息处理后对象 
+            //可将此对象转为json打印出来查看结构 自己根据需要从中获取字段 用以自定义生成更多内容
+			@Override
+			public void generate(GenerateInfo generateInfo) {
+				System.out.println("tableName:" + generateInfo.getTableInfo().getTableName());
+				List<JavaColumnInfo> columnLists = generateInfo.getTableInfo().getColumnLists();
+				for (int i = 0; i < columnLists.size(); i++) {
+					JavaColumnInfo javaColumnInfo = columnLists.get(i);
+					System.out.println("\t private " + javaColumnInfo.getJavaDataType() + " " + javaColumnInfo.getJavaColumnName() + ";");
+				}
+			}
+		}).build(Resources.getResourceAsStream("config.properties"));
+		generator.generate();
+	}
+}
+
+```
+
+`java8` lambda表达式
+
+```java
+public static void main(String[] args) throws IOException {
+    Generator generator = new GeneratorBuilder()
+        .addGeneratorService((generateInfo)->{
+            System.out.println("tableName:" + generateInfo.getTableInfo().getTableName());
+            List<JavaColumnInfo> columnLists = generateInfo.getTableInfo().getColumnLists();
+            for (int i = 0; i < columnLists.size(); i++) {
+                JavaColumnInfo javaColumnInfo = columnLists.get(i);
+                System.out.println("\t private " + javaColumnInfo.getJavaDataType() + " " + javaColumnInfo.getJavaColumnName() + ";");
+            }
+        }).build(Resources.getResourceAsStream("config.properties"));
+    generator.generate();
 }
 ```
 

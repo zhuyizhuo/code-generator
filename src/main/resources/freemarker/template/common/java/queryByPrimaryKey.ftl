@@ -1,4 +1,5 @@
 <#assign methodDescription = "${methodCommentInfo.queryByPrimaryKeyDescription}">
+<#assign methodReturn = "${stratificationInfo.pojoName} 数据对象">
 <#if tableInfo.singlePrimaryKey>
     <#include "comment/singlePrimaryKeyCommentPara.ftl"/>
     <#include "comment/methodComment.ftl"/>

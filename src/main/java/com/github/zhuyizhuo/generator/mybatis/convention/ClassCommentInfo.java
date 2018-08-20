@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * 方法注释
+ * 类注释
  * @author yizhuo
  * @version 1.0
  * time: 2018/7/29 16:10

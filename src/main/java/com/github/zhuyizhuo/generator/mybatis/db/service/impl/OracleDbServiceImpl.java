@@ -1,7 +1,7 @@
-package com.github.zhuyizhuo.generator.mybatis.service.impl;
+package com.github.zhuyizhuo.generator.mybatis.db.service.impl;
 
-import com.github.zhuyizhuo.generator.mybatis.service.abst.AbstractDbService;
-import com.github.zhuyizhuo.generator.mybatis.vo.TableInfoFtl;
+import com.github.zhuyizhuo.generator.mybatis.db.service.abst.AbstractDbService;
+import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
 import com.github.zhuyizhuo.generator.utils.TypeConversion;
 import com.google.common.collect.Lists;
 import com.github.zhuyizhuo.generator.mybatis.database.mapper.OracleDataBaseMapper;
@@ -25,32 +25,32 @@ import java.util.List;
 public class OracleDbServiceImpl extends AbstractDbService {
 
     @Override
-    public List<TableInfoFtl> getTableColumns() {
+    public List<TableInfo> getTableColumns() {
         SqlSession sqlSession = SqlSessionUtils.getSqlSession();
         OracleDataBaseMapper mapper = sqlSession.getMapper(OracleDataBaseMapper.class);
         DataBaseInfo dataBaseInfo = getDataBaseInfo();
         List<DbTableInfo> tableList  = mapper.getTableNameListBySchema(dataBaseInfo);
         LogUtils.printInfo("共查询出" + tableList.size() + "张表.");
-        List<TableInfoFtl> tableInfos = getTableInfos(mapper, tableList);
+        List<TableInfo> tableInfos = getTableInfos(mapper, tableList);
         sqlSession.close();
         return tableInfos;
     }
 
-    private List<TableInfoFtl> getTableInfos(OracleDataBaseMapper mapper, List<DbTableInfo> tableList) {
-        List<TableInfoFtl> tableInfoFtls = Lists.newArrayList();
-        TableInfoFtl ftlTableInfo = null;
+    private List<TableInfo> getTableInfos(OracleDataBaseMapper mapper, List<DbTableInfo> tableList) {
+        List<TableInfo> tableInfos = Lists.newArrayList();
+        TableInfo tableInfo = null;
         for (int i = 0; i < tableList.size(); i++) {
             DbTableInfo dbTableInfo = tableList.get(i);
             String tableName = dbTableInfo.getTableName();
             DbTableInfo allColumnsByTable = mapper.getAllColumnsByTable(dbTableInfo.getTableSchema(), tableName);
-            ftlTableInfo = new TableInfoFtl();
-            setTableInfoFtl(allColumnsByTable,ftlTableInfo);
-            ftlTableInfo.setJavaTableName(getJavaTableName(tableName));
-            ftlTableInfo.addPrimaryKeyColumn(getPrimaryKeys(mapper,dbTableInfo));
-            tableInfoFtls.add(ftlTableInfo);
+            tableInfo = new TableInfo();
+            setTableInfo(allColumnsByTable,tableInfo);
+            tableInfo.setJavaTableName(getJavaTableName(tableName));
+            tableInfo.addPrimaryKeyColumn(getPrimaryKeys(mapper,dbTableInfo));
+            tableInfos.add(tableInfo);
             LogUtils.printInfo(tableName + "表共" + allColumnsByTable.getColumnLists().size() + "列");
         }
-        return tableInfoFtls;
+        return tableInfos;
     }
 
     private List<ColumnInfo> getPrimaryKeys(OracleDataBaseMapper mapper, DbTableInfo dbTableInfo) {

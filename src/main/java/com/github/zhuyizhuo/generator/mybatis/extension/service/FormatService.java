@@ -1,4 +1,4 @@
-package com.github.zhuyizhuo.generator.mybatis.service;
+package com.github.zhuyizhuo.generator.mybatis.extension.service;
 
 /**
  * class: FormatService <br>

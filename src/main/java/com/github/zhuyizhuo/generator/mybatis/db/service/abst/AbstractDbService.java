@@ -1,12 +1,12 @@
-package com.github.zhuyizhuo.generator.mybatis.service.abst;
+package com.github.zhuyizhuo.generator.mybatis.db.service.abst;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.pojo.DataBaseInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
-import com.github.zhuyizhuo.generator.mybatis.service.DbService;
-import com.github.zhuyizhuo.generator.mybatis.vo.TableInfoFtl;
+import com.github.zhuyizhuo.generator.mybatis.db.service.DbService;
+import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import com.github.zhuyizhuo.generator.utils.TypeConversion;
@@ -48,14 +48,14 @@ public abstract class AbstractDbService implements DbService {
         return null;
     }
 
-    protected void setTableInfoFtl(DbTableInfo dbTableInfo, TableInfoFtl ftlTableInfo) {
+    protected void setTableInfo(DbTableInfo dbTableInfo, TableInfo tableInfo) {
 
-        ftlTableInfo.setTableName(dbTableInfo.getTableName());
-        ftlTableInfo.setTableSchema(dbTableInfo.getTableSchema());
-        if (GeneratorStringUtils.isBlank(ftlTableInfo.getTableComment())){
-            ftlTableInfo.setTableComment("TODO");
+        tableInfo.setTableName(dbTableInfo.getTableName());
+        tableInfo.setTableSchema(dbTableInfo.getTableSchema());
+        if (GeneratorStringUtils.isBlank(tableInfo.getTableComment())){
+            tableInfo.setTableComment("TODO");
         } else {
-            ftlTableInfo.setTableComment(dbTableInfo.getTableComment());
+            tableInfo.setTableComment(dbTableInfo.getTableComment());
         }
         List<ColumnInfo> columnLists = dbTableInfo.getColumnLists();
         JavaColumnInfo javaColumnInfo;
@@ -65,14 +65,14 @@ public abstract class AbstractDbService implements DbService {
             javaColumnInfo.setDataType(getDataType(columnInfo.getDataType()));
             javaColumnInfo.setColumnName(columnInfo.getColumnName());
             javaColumnInfo.setColumnComment(replaceEnter(columnInfo.getColumnComment()));
-            javaColumnInfo.setJavaColumnName(GeneratorStringUtils.changeColmName2Java(columnInfo.getColumnName(),ConfigConstants.tableRegex));
+            javaColumnInfo.setJavaColumnName(GeneratorStringUtils.changeColmName2CamelFirstLower(columnInfo.getColumnName(),ConfigConstants.tableRegex));
             javaColumnInfo.setJavaDataType(getJavaDataType(columnInfo));
             javaColumnInfo.setColumnJdbcType(TypeConversion.type2JdbcType(columnInfo.getDataType()));
             javaColumnInfo.setParameterType(TypeConversion.getTypeByMap(TypeConversion.parameterTypeMap,javaColumnInfo.getJavaDataType()));
             /** 设置类全路径 java.lang包下的类不需要import */
             javaColumnInfo.setJavaDataTypeFullPath(TypeConversion.javaDataTypeFullPathMap.get(javaColumnInfo.getJavaDataType()));
-            ftlTableInfo.addJavaColumnInfo(javaColumnInfo);
-            ftlTableInfo.addImportPackage(javaColumnInfo.getJavaDataTypeFullPath());
+            tableInfo.addJavaColumnInfo(javaColumnInfo);
+            tableInfo.addImportPackage(javaColumnInfo.getJavaDataTypeFullPath());
         }
     }
 
@@ -98,6 +98,6 @@ public abstract class AbstractDbService implements DbService {
     }
 
     protected String getJavaTableName(String tableName) {
-        return GeneratorStringUtils.changeTableName2JavaFirstUpper(tableName,ConfigConstants.tableRegex);
+        return GeneratorStringUtils.changeTableName2CamelFirstUpper(tableName,ConfigConstants.tableRegex);
     }
 }

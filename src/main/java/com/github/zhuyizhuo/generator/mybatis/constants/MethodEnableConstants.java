@@ -13,12 +13,9 @@ public class MethodEnableConstants {
     public static final String INSERT_METHOD_ENABLED = "INSERT_METHOD_ENABLED";
     public static final String DELETE_METHOD_ENABLED = "DELETE_METHOD_ENABLED";
     public static final String DELETE_BY_PRIMARY_KEY_METHOD_ENABLED = "DELETE_BY_PRIMARY_KEY_METHOD_ENABLED";
-    public static final String UPDATE_METHOD_ENABLED = "UPDATE_METHOD_ENABLED";
     public static final String UPDATE_BY_PRIMARY_KEY_METHOD_ENABLED = "UPDATE_BY_PRIMARY_KEY_METHOD_ENABLED";
     public static final String QUERY_METHOD_ENABLED = "QUERY_METHOD_ENABLED";
     public static final String QUERY_BY_PRIMARY_KEY_ENABLED = "QUERY_BY_PRIMARY_KEY_ENABLED";
     public static final String COUNT_METHOD_ENABLED = "COUNT_METHOD_ENABLED";
-
-
 
 }

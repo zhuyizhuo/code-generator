@@ -13,7 +13,6 @@ public class MethodCommentInfo {
     private String insertMethodDescription = "新增数据";
     private String deleteMethodDescription = "根据传入参数删除数据";
     private String deleteByPrimaryKeyMethodDescription = "根据主键删除数据";
-    private String updateMethodDescription = "根据传入参数更新数据";
     private String updateByPrimaryKeyMethodDescription = "根据主键更新数据";
     private String queryMethodDescription = "根据传入参数查询数据列表";
     private String queryByPrimaryKeyDescription = "根据主键查询数据";
@@ -27,14 +26,6 @@ public class MethodCommentInfo {
 
     public void setInsertMethodDescription(String insertMethodDescription) {
         this.insertMethodDescription = insertMethodDescription;
-    }
-
-    public String getUpdateMethodDescription() {
-        return updateMethodDescription;
-    }
-
-    public void setUpdateMethodDescription(String updateMethodDescription) {
-        this.updateMethodDescription = updateMethodDescription;
     }
 
     public String getUpdateByPrimaryKeyMethodDescription() {

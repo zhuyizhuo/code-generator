@@ -1,7 +1,11 @@
 package com.github.zhuyizhuo.generator.mybatis.vo;
 
+import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
+import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
+import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
+import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import com.google.common.collect.Lists;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
 
@@ -9,14 +13,14 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 /**
- * class: TableInfoFtl <br>
+ * class: TableInfo <br>
  * description: 生成模板所用对象 <br>
  * time: 2018/8/3 19:56
  *
  * @author yizhuo <br>
  * @version 1.0
  */
-public class TableInfoFtl {
+public class TableInfo {
     /** 数据库名称 */
     private String tableSchema;
     /** 表名 */
@@ -37,6 +41,10 @@ public class TableInfoFtl {
     private boolean hasPrimaryKey = true;
     /** 是否单个主键 */
     private boolean singlePrimaryKey = true;
+    /** xml 参数类型 */
+    private String parameterType;
+    /** xml resultMap id */
+    private String resultMapId;
 
     public String getTableSchema() {
         return tableSchema;
@@ -145,9 +153,25 @@ public class TableInfoFtl {
         this.singlePrimaryKey = singlePrimaryKey;
     }
 
+    public String getParameterType() {
+        return parameterType;
+    }
+
+    public void setParameterType(String parameterType) {
+        this.parameterType = parameterType;
+    }
+
+    public String getResultMapId() {
+        return resultMapId;
+    }
+
+    public void setResultMapId(String resultMapId) {
+        this.resultMapId = resultMapId;
+    }
+
     @Override
     public String toString() {
-        return "TableInfoFtl{" +
+        return "TableInfo{" +
                 "tableSchema='" + tableSchema + '\'' +
                 ", tableName='" + tableName + '\'' +
                 ", tableComment='" + tableComment + '\'' +
@@ -155,5 +179,15 @@ public class TableInfoFtl {
                 ", importPackages=" + importPackages +
                 ", columnLists=" + columnLists +
                 '}';
+    }
+
+    public void initXmlInfo(StratificationInfo stratificationInfo) {
+        boolean useTypeAliases = PropertiesUtils.getBooleanPropertiesDefaultFalse(ConfigConstants.PARAMETER_TYPE_USE_TYPE_ALIASES);
+        if (useTypeAliases){
+            setParameterType(GeneratorStringUtils.firstLower(stratificationInfo.getPojoName()));
+        } else {
+            setParameterType(stratificationInfo.getPojoFullPackage()+"."+stratificationInfo.getPojoName());
+        }
+        setResultMapId(GeneratorStringUtils.firstLower(this.javaTableName)+"ResultMap");
     }
 }

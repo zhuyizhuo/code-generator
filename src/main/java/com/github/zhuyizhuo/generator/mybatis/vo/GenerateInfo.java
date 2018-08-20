@@ -1,34 +1,28 @@
 package com.github.zhuyizhuo.generator.mybatis.vo;
 
-import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.MethodCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.MethodInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
-import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
-import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
 /**
  * @author yizhuo
  * @version 1.0
  * time: 2018/7/29 17:44
  */
-public class Ftl {
-
+public class GenerateInfo {
+    /** 分层信息 */
     private StratificationInfo stratificationInfo;
+    /** 类注释信息 */
     private ClassCommentInfo classCommentInfo;
+    /** 方法注释信息 */
     private MethodCommentInfo methodCommentInfo;
+    /** 方法信息 */
     private MethodInfo methodInfo;
-    private TableInfoFtl tableInfo;
+    /** 表信息 */
+    private TableInfo tableInfo;
 
-    /** xml 参数类型 */
-    private String parameterType;
-    /** xml resultMap id */
-    private String resultMapId;
-
-    public Ftl() {
-
-    }
+    public GenerateInfo() { }
 
     public StratificationInfo getStratificationInfo() {
         return stratificationInfo;
@@ -54,28 +48,12 @@ public class Ftl {
         this.classCommentInfo = classCommentInfo;
     }
 
-    public TableInfoFtl getTableInfo() {
+    public TableInfo getTableInfo() {
         return tableInfo;
     }
 
-    public void setTableInfo(TableInfoFtl tableInfo) {
+    public void setTableInfo(TableInfo tableInfo) {
         this.tableInfo = tableInfo;
-    }
-
-    public String getParameterType() {
-        return parameterType;
-    }
-
-    public void setParameterType(String parameterType) {
-        this.parameterType = parameterType;
-    }
-
-    public String getResultMapId() {
-        return resultMapId;
-    }
-
-    public void setResultMapId(String resultMapId) {
-        this.resultMapId = resultMapId;
     }
 
     public MethodCommentInfo getMethodCommentInfo() {
@@ -86,18 +64,10 @@ public class Ftl {
         this.methodCommentInfo = methodCommentInfo;
     }
 
-    public void init(TableInfoFtl tableInfo) {
+    public void init(TableInfo tableInfo) {
         setTableInfo(tableInfo);
-
         this.methodInfo.initMethodName(tableInfo.getJavaTableName());
         this.stratificationInfo.initFilesName(tableInfo);
-
-        boolean useTypeAliases = PropertiesUtils.getBooleanPropertiesDefaultFalse(ConfigConstants.PARAMETER_TYPE_USE_TYPE_ALIASES);
-        if (useTypeAliases){
-            setParameterType(GeneratorStringUtils.firstLower(stratificationInfo.getPojoName()));
-        } else {
-            setParameterType(stratificationInfo.getPojoFullPackage()+"."+stratificationInfo.getPojoName());
-        }
-        setResultMapId(GeneratorStringUtils.firstLower(tableInfo.getJavaTableName())+"ResultMap");
+        this.tableInfo.initXmlInfo(stratificationInfo);
     }
 }

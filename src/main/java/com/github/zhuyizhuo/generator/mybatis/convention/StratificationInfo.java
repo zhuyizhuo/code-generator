@@ -1,8 +1,8 @@
 package com.github.zhuyizhuo.generator.mybatis.convention;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
-import com.github.zhuyizhuo.generator.mybatis.service.FormatService;
-import com.github.zhuyizhuo.generator.mybatis.vo.TableInfoFtl;
+import com.github.zhuyizhuo.generator.mybatis.extension.service.FormatService;
+import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
@@ -24,19 +24,11 @@ public class StratificationInfo {
 
     /** 实体名称 */
     private String POJO_NAME_FORMAT = "{0}";
-    /** service 层名称 */
-    private String SERVICE_NAME_FORMAT = "{0}Service";
-    /** service 实现类名称 */
-    private String SERVICE_IMPL_NAME_FORMAT = "{0}ServiceImpl";
     /** dao 层名称 */
     private String DAO_NAME_FORMAT = "{0}Mapper";
 
     /** dao包路径 */
     private String daoPackage = "dao";
-    /** service 接口层包路径 */
-    private String servicePackage = "service";
-    /** service 实现类包路径 */
-    private String serviceImplPackage = "service.impl";
     /** 实体路径 */
     private String pojoPackage = "pojo";
     /** xml文件路径 */
@@ -44,10 +36,6 @@ public class StratificationInfo {
 
     /** 实体名称 */
     private String pojoName;
-    /** service 层名称 */
-    private String serviceName;
-    /** service 实现类名称 */
-    private String serviceImplName;
     /** dao 层名称 */
     private String daoName;
     /** xml名称 */
@@ -55,10 +43,6 @@ public class StratificationInfo {
 
     /** dao层包全路径 */
     private String daoFullPackage;
-    /** service 接口层包全路径 */
-    private String serviceFullPackage;
-    /** service 实现类包全路径 */
-    private String serviceImplFullPackage;
     /** 实体包全路径 */
     private String pojoFullPackage;
     /** xml包全路径*/
@@ -72,6 +56,25 @@ public class StratificationInfo {
             return tableName.toLowerCase();
         }
     };
+
+    /** 待发布start **/
+    /** service 层名称 */
+    private String SERVICE_NAME_FORMAT = "{0}Service";
+    /** service 实现类名称 */
+    private String SERVICE_IMPL_NAME_FORMAT = "{0}ServiceImpl";
+    /** service 接口层包路径 */
+    private String servicePackage = "service";
+    /** service 实现类包路径 */
+    private String serviceImplPackage = "service.impl";
+    /** service 层名称 */
+    private String serviceName;
+    /** service 实现类名称 */
+    private String serviceImplName;
+    /** service 接口层包全路径 */
+    private String serviceFullPackage;
+    /** service 实现类包全路径 */
+    private String serviceImplFullPackage;
+    /** 待发布end **/
 
     public StratificationInfo() {
 
@@ -207,7 +210,7 @@ public class StratificationInfo {
         if (nameFormatMap.get(ConfigConstants.POJO_NAME_FORMAT) != null){
             this.pojoName = nameFormatMap.get(ConfigConstants.POJO_NAME_FORMAT).formatTableName(tableName);
         } else {
-            this.pojoName = formatName(POJO_NAME_FORMAT,GeneratorStringUtils.changeTableName2JavaFirstUpper(tableName,ConfigConstants.tableRegex));
+            this.pojoName = formatName(POJO_NAME_FORMAT,GeneratorStringUtils.changeTableName2CamelFirstUpper(tableName,ConfigConstants.tableRegex));
         }
     }
 
@@ -235,7 +238,7 @@ public class StratificationInfo {
         if (nameFormatMap.get(ConfigConstants.DAO_NAME_FORMAT) != null){
             this.daoName = nameFormatMap.get(ConfigConstants.DAO_NAME_FORMAT).formatTableName(tableName);
         } else {
-            this.daoName = formatName(DAO_NAME_FORMAT,GeneratorStringUtils.changeTableName2JavaFirstUpper(tableName,ConfigConstants.tableRegex));
+            this.daoName = formatName(DAO_NAME_FORMAT,GeneratorStringUtils.changeTableName2CamelFirstUpper(tableName,ConfigConstants.tableRegex));
         }
     }
 
@@ -287,12 +290,12 @@ public class StratificationInfo {
         this.xmlFullPackage = xmlFullPackage;
     }
 
-    private void initXmlName(TableInfoFtl tableInfoFtl) {
+    private void initXmlName(TableInfo tableInfo) {
         String xmlNameFormat = PropertiesUtils.getProperties(ConfigConstants.XML_NAME_FORMAT);
         if ("camel".equalsIgnoreCase(xmlNameFormat)){
-            setXmlName(tableInfoFtl.getJavaTableName());
+            setXmlName(tableInfo.getJavaTableName());
         } else {
-            setXmlName(formatService.formatTableName(tableInfoFtl.getTableName()));
+            setXmlName(formatService.formatTableName(tableInfo.getTableName()));
         }
     }
 
@@ -310,13 +313,13 @@ public class StratificationInfo {
         this.formatService = formatService;
     }
 
-    public void initFilesName(TableInfoFtl tableInfoFtl) {
-        String javaTableName = tableInfoFtl.getJavaTableName();
-        setPojoName(tableInfoFtl.getTableName());
-        setDaoName(tableInfoFtl.getTableName());
+    public void initFilesName(TableInfo tableInfo) {
+        String javaTableName = tableInfo.getJavaTableName();
+        setPojoName(tableInfo.getTableName());
+        setDaoName(tableInfo.getTableName());
         setServiceName(javaTableName);
         setServiceImplName(javaTableName);
-        initXmlName(tableInfoFtl);
+        initXmlName(tableInfo);
     }
 
     private void addFormatService(FormatService formatService, String pojoNameFormat) {

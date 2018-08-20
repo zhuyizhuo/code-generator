@@ -29,10 +29,6 @@ public interface ${stratificationInfo.daoName} {
 	<#include "java/updateByPrimaryKey.ftl"/>
 </#if>
 </#if>
-<#if methodInfo.updateMethodEnabled>
-
-	<#include "java/updateByWhere.ftl"/>
-</#if>
 <#if methodInfo.queryByPrimaryKeyEnabled>
 <#if tableInfo.hasPrimaryKey>
 

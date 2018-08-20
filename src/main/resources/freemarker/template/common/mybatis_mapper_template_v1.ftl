@@ -24,10 +24,6 @@
     <#include "xml/updateByPrimaryKey.ftl"/>
 </#if>
 </#if>
-<#if methodInfo.updateMethodEnabled>
-
-<#include "xml/updateByWhere.ftl"/>
-</#if>
 <#if methodInfo.queryByPrimaryKeyEnabled>
 <#if tableInfo.hasPrimaryKey>
 

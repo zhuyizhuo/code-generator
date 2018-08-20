@@ -1,4 +1,4 @@
-	<resultMap id="${resultMapId}" type="${parameterType}">
+	<resultMap id="${tableInfo.resultMapId}" type="${tableInfo.parameterType}">
 <#if tableInfo.hasPrimaryKey>
     <#list tableInfo.primaryKeyColumns as colm>
         <#if colm??>

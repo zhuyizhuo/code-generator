@@ -2,11 +2,11 @@ package com.github.zhuyizhuo.generator.mybatis.generator;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.convention.*;
-import com.github.zhuyizhuo.generator.mybatis.enums.DbTypeEnums;
+import com.github.zhuyizhuo.generator.mybatis.extension.service.GeneratorService;
+import com.github.zhuyizhuo.generator.mybatis.extension.service.impl.FreemarkerGenerator;
 import com.github.zhuyizhuo.generator.mybatis.factory.DbServiceFactory;
-import com.github.zhuyizhuo.generator.mybatis.service.DbService;
-import com.github.zhuyizhuo.generator.mybatis.service.FormatService;
-import com.github.zhuyizhuo.generator.mybatis.vo.Ftl;
+import com.github.zhuyizhuo.generator.mybatis.extension.service.FormatService;
+import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
@@ -35,7 +35,8 @@ public class GeneratorBuilder {
     private StratificationInfo stratificationInfo;
     /** 文件输出路径信息 */
     private FileOutPathInfo fileOutPathInfo;
-
+    /** 自定义生成service */
+    private GeneratorService generatorService;
     /***
      * key 数据库字段类型
      * value java 数据类型
@@ -143,6 +144,16 @@ public class GeneratorBuilder {
         return this;
     }
 
+    /**
+     * 自定义生成器service
+     * @param generatorService
+     * @return
+     */
+    public GeneratorBuilder addGeneratorService(GeneratorService generatorService){
+        this.generatorService = generatorService;
+        return this;
+    }
+
     public Generator build(InputStream inputStream){
         try {
             PropertiesUtils.loadProperties(inputStream);
@@ -152,14 +163,20 @@ public class GeneratorBuilder {
         TypeConversion.init(typeMapper);
         stratificationInfo.init();
         classCommentInfo.init();
-
-        Ftl ftl = new Ftl();
-        ftl.setClassCommentInfo(classCommentInfo);
-        ftl.setMethodCommentInfo(methodCommentInfo);
-        ftl.setMethodInfo(methodInfo);
-        ftl.setStratificationInfo(stratificationInfo);
+        GenerateInfo generateInfo = new GenerateInfo();
+        generateInfo.setClassCommentInfo(classCommentInfo);
+        generateInfo.setMethodCommentInfo(methodCommentInfo);
+        generateInfo.setMethodInfo(methodInfo);
+        generateInfo.setStratificationInfo(stratificationInfo);
         fileOutPathInfo.init(stratificationInfo);
-        return new Generator(DbServiceFactory.getDbService(),ftl,fileOutPathInfo);
+        initGeneratorService();
+        return new Generator(DbServiceFactory.getDbService(), generateInfo, generatorService);
+    }
+
+    private void initGeneratorService() {
+        if (generatorService == null){
+            generatorService = new FreemarkerGenerator(fileOutPathInfo);
+        }
     }
 
 }

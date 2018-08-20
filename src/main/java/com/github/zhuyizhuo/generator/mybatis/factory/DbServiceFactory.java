@@ -2,13 +2,11 @@ package com.github.zhuyizhuo.generator.mybatis.factory;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.enums.DbTypeEnums;
-import com.github.zhuyizhuo.generator.mybatis.service.DbService;
-import com.github.zhuyizhuo.generator.mybatis.service.impl.MysqlDbServiceImpl;
-import com.github.zhuyizhuo.generator.mybatis.service.impl.OracleDbServiceImpl;
+import com.github.zhuyizhuo.generator.mybatis.db.service.DbService;
+import com.github.zhuyizhuo.generator.mybatis.db.service.impl.MysqlDbServiceImpl;
+import com.github.zhuyizhuo.generator.mybatis.db.service.impl.OracleDbServiceImpl;
 import com.github.zhuyizhuo.generator.utils.CheckUtils;
-import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
-import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

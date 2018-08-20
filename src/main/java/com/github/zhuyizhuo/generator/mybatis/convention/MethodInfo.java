@@ -6,7 +6,7 @@ import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import java.text.MessageFormat;
 
 /**
- * 方法名信息
+ * 方法相关参数
  * @author yizhuo
  * @version 1.0
  * time: 2018/7/29 15:40
@@ -19,8 +19,6 @@ public class MethodInfo {
     private static final String DELETE_METHOD_FORMAT = "delete{0}ByWhere";
     /** 根据主键删除方法名 */
     private static final String DELETE_BY_PRIMARY_KEY_METHOD_FORMAT = "delete{0}ByPrimaryKey";
-    /** 更新方法名 */
-    private static final String UPDATE_METHOD_FORMAT = "update{0}ByWhere";
     /** 根据主键更新方法名 */
     private static final String UPDATE_BY_PRIMARY_KEY_METHOD_FORMAT = "update{0}ByPrimaryKey";
     /** 查询方法名 */
@@ -29,6 +27,7 @@ public class MethodInfo {
     private static final String QUERY_BY_PRIMARY_KEY_METHOD_FORMAT = "query{0}ByPrimaryKey";
     /** 查询总数方法名 */
     private static final String COUNT_METHOD_FORMAT = "count{0}ByWhere";
+
     /** 批量新增方法名*/
     private static final String BATCH_INSERT_METHOD_FORMAT = "batchInsert{0}";
     /** 分页查询方法名 */
@@ -36,7 +35,6 @@ public class MethodInfo {
 
     /** 方法名 */
     private String insertMethodName;
-    private String updateMethodName;
     private String updateByPrimaryKeyMethodName;
     private String deleteByPrimaryKeyMethodName;
     private String deleteMethodName;
@@ -48,7 +46,6 @@ public class MethodInfo {
     private boolean insertMethodEnabled = true;
     private boolean deleteMethodEnabled = true;
     private boolean deleteByPrimaryKeyMethodEnabled = true;
-    private boolean updateMethodEnabled = true;
     private boolean updateByPrimaryKeyMethodEnabled = true;
     private boolean queryMethodEnabled = true;
     private boolean queryByPrimaryKeyEnabled = true;
@@ -70,14 +67,6 @@ public class MethodInfo {
 
     public void setInsertMethodName(String insertMethodName) {
         this.insertMethodName = formatMethodName(INSERT_METHOD_FORMAT,insertMethodName);
-    }
-
-    public String getUpdateMethodName() {
-        return updateMethodName;
-    }
-
-    public void setUpdateMethodName(String updateMethodName) {
-        this.updateMethodName = formatMethodName(UPDATE_METHOD_FORMAT,updateMethodName);
     }
 
     public String getDeleteMethodName() {
@@ -152,14 +141,6 @@ public class MethodInfo {
         this.deleteByPrimaryKeyMethodEnabled = deleteByPrimaryKeyMethodEnabled;
     }
 
-    public boolean isUpdateMethodEnabled() {
-        return updateMethodEnabled;
-    }
-
-    public void setUpdateMethodEnabled(boolean updateMethodEnabled) {
-        this.updateMethodEnabled = updateMethodEnabled;
-    }
-
     public boolean isUpdateByPrimaryKeyMethodEnabled() {
         return updateByPrimaryKeyMethodEnabled;
     }
@@ -196,7 +177,6 @@ public class MethodInfo {
         setInsertMethodName(javaTableName);
         setDeleteMethodName(javaTableName);
         setDeleteByPrimaryKeyMethodName(javaTableName);
-        setUpdateMethodName(javaTableName);
         setUpdateByPrimaryKeyMethodName(javaTableName);
         setQueryMethodName(javaTableName);
         setQueryByPrimaryKeyMethodName(javaTableName);
@@ -209,7 +189,6 @@ public class MethodInfo {
         setInsertMethodEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.INSERT_METHOD_ENABLED));
         setDeleteMethodEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.DELETE_METHOD_ENABLED));
         setDeleteByPrimaryKeyMethodEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.DELETE_BY_PRIMARY_KEY_METHOD_ENABLED));
-        setUpdateMethodEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.UPDATE_METHOD_ENABLED));
         setUpdateByPrimaryKeyMethodEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.UPDATE_BY_PRIMARY_KEY_METHOD_ENABLED));
         setQueryMethodEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.QUERY_METHOD_ENABLED));
         setQueryByPrimaryKeyEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.QUERY_BY_PRIMARY_KEY_ENABLED));

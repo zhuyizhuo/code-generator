@@ -2,7 +2,7 @@
 <#if tableInfo.singlePrimaryKey>
 	<delete id="${methodInfo.deleteByPrimaryKeyMethodName}" parameterType="${tableInfo.primaryKeyColumns[0].parameterType}">
 <#else>
-    <delete id="${methodInfo.deleteByPrimaryKeyMethodName}" parameterType="${parameterType}">
+    <delete id="${methodInfo.deleteByPrimaryKeyMethodName}" parameterType="${tableInfo.parameterType}">
 </#if>
         DELETE FROM
         <include refid="Table_Name" />

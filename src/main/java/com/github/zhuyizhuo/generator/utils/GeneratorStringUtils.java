@@ -83,25 +83,11 @@ public class GeneratorStringUtils {
     }
 
     /**
-     * 表名转java驼峰命名(首字母小写)
-     * @param tableName  e.g mybatis_user_info
-     * @return mybatisUserInfo
-     */
-    public static String changeTableName2Java(String tableName,String tableRegex) {
-        String[] split = tableName.split(tableRegex);
-        StringBuffer s = new StringBuffer(split[0]);
-        for (int i = 1; i < split.length; i++) {
-            s.append(firstUpper(split[i]));
-        }
-        return s.toString();
-    }
-
-    /**
      * 表名转java驼峰命名(首字母大写)
      * @param tableName  e.g mybatis_user_info
      * @return MybatisUserInfo
      */
-    public static String changeTableName2JavaFirstUpper(String tableName, String tableRegex) {
+    public static String changeTableName2CamelFirstUpper(String tableName, String tableRegex) {
         String[] split = tableName.split(tableRegex);
         StringBuffer s = new StringBuffer();
         for (int i = 0; i < split.length; i++) {
@@ -111,11 +97,13 @@ public class GeneratorStringUtils {
     }
 
     /**
-     * 数据库字段名转java驼峰命名(首字母小写 驼峰处转大写)  连接符colmRegex可指定  默认为_
+     * 数据库字段名转java驼峰命名(驼峰处转大写,其他字母小写)  连接符colmRegex可指定  默认为_
+     * changeColmName2CamelFirstLower("mybatis_user_info","_") =  "mybatisUserInfo"
+     * changeColmName2CamelFirstLower("MYBATIS_USER_INFO","_") =  "mybatisUserInfo"
      * @param columnName
      * @return java驼峰命名
      */
-    public static String changeColmName2Java(String columnName,String colmRegex) {
+    public static String changeColmName2CamelFirstLower(String columnName, String colmRegex) {
         String[] split = columnName.split(colmRegex);
         StringBuffer s = new StringBuffer();
         char[] charArray = split[0].toCharArray();
