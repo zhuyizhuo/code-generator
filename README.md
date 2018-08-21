@@ -47,13 +47,14 @@ The code generator is released under version 2.0 of the [Apache License](http://
 
 ```
 如果在使用过程中遇到问题或者疑问,或提出改进建议,请联系作者.
+添加请注明来源: code-generator
 ```
 
-添加请注明来源: code-generator
+如果本工具对你有所帮助,欢迎在`github` Star [本项目](https://github.com/zhuyizhuo/code-generator)，你的支持是作者不断更新的动力!
 
 ##### QQ: 2361883887
 
 ##### 微信:
 
-![二维码](https://github.com/zhuyizhuo/notes/blob/master/wechat.png?raw=true)
+![zhuo-simple_is_happy](https://github.com/zhuyizhuo/notes/blob/master/wechat.png?raw=true)
 
