@@ -1,6 +1,6 @@
 #### 依赖引入
 
-- [不同构建工具依赖](https://search.maven.org/artifact/com.github.zhuyizhuo/code-generator/1.2.0/jar)
+- [不同构建工具依赖](https://search.maven.org/artifact/com.github.zhuyizhuo/code-generator/1.3.0/jar)
 
 ###### 此处以maven项目为例:首先引入maven依赖:
 

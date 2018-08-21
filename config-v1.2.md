@@ -127,8 +127,6 @@ INSERT_METHOD_ENABLED=true
 DELETE_METHOD_ENABLED=true
 # 根据主键删除数据  默认为true 如果表未设置主键则不生成此方法
 DELETE_BY_PRIMARY_KEY_METHOD_ENABLED=true
-# 根据传入参数更新数据   默认为true
-UPDATE_METHOD_ENABLED=true
 # 根据主键更新数据  默认为true 如果表未设置主键则不生成此方法
 UPDATE_BY_PRIMARY_KEY_METHOD_ENABLED=true
 # 根据传入参数查询数据列表   默认为true
