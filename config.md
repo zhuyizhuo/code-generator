@@ -2,8 +2,10 @@
 
 详细配置信息参考[配置文件详解](config-v1.2.md)
 
+返回 [快速开始](./quickstart.md)
+
 ```properties
-# 数据库配置
+# 数据库配置[必须]
 # MYSQL数据库配置
 #DB_TYPE=MYSQL
 #DB_DRIVER=com.mysql.cj.jdbc.Driver

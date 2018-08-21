@@ -29,6 +29,8 @@
 
 - ##### [快速开始](./quickstart.md)
 
+- ##### [高级设置](./advanced-settings.md)
+
 - ##### [配置文件详解](./config-v1.2.md)
 
 #### 帮助改进文档...
