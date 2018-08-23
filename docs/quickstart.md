@@ -1,8 +1,8 @@
-##### 1.依赖引入
+# 1.依赖引入
 
 - [不同构建工具依赖](https://search.maven.org/artifact/com.github.zhuyizhuo/code-generator/1.3.0/jar)
 
-###### 此处以maven项目为例:首先引入maven依赖:
+此处以maven项目为例:首先引入maven依赖:
 
 ```xml
 <dependency>
@@ -12,7 +12,7 @@
 </dependency>
 ```
 
-###### 其次引入对应数据库驱动,以mysql数据库为例：
+其次引入对应数据库驱动,以mysql数据库为例：
 
 ```xml
 <dependency>
@@ -22,17 +22,19 @@
 </dependency>
 ```
 
-##### 2.新增配置文件
+2.新增配置文件
 
-###### 默认配置如下:
+# 2.新增配置文件
+
+默认配置如下:
 
 - [默认配置(懒人福利)](config.md)
 
-###### 详细配置参考
+更多配置参考:
 
 - [配置文件详解](config-v1.2.md)
 
-##### 3.java代码如下:
+# 3.java代码:
 
 ```java
 import org.apache.ibatis.io.Resources;

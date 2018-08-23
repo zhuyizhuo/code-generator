@@ -1,14 +1,15 @@
-è¿”å› [å¿«é€Ÿå¼€å§‹](./quickstart.md)
+·µ»Ø [¿ìËÙ¿ªÊ¼](./quickstart.md)
 
-* [é«˜çº§è®¾ç½®](#é«˜çº§è®¾ç½®)
-    * [è‡ªå®šä¹‰æ–¹æ³•æ³¨é‡Š](#è‡ªå®šä¹‰æ–¹æ³•æ³¨é‡Š)
-    * [è‡ªå®šä¹‰ç”Ÿæˆç±»åç§°](#è‡ªå®šä¹‰ç”Ÿæˆç±»åç§°)
-    * [è‡ªå®šä¹‰æ˜ å°„ç±»å‹](#è‡ªå®šä¹‰æ˜ å°„ç±»å‹)
-    * [è‡ªå®šä¹‰ç”Ÿæˆå™¨](#è‡ªå®šä¹‰ç”Ÿæˆå™¨)
+* [¸ß¼¶ÉèÖÃ](#¸ß¼¶ÉèÖÃ)
+    * [×Ô¶¨Òå·½·¨×¢ÊÍ](#×Ô¶¨Òå·½·¨×¢ÊÍ)
+    * [×Ô¶¨ÒåÉú³ÉÀàÃû³Æ](#×Ô¶¨ÒåÉú³ÉÀàÃû³Æ)
+    * [×Ô¶¨ÒåÓ³ÉäÀàĞÍ](#×Ô¶¨ÒåÓ³ÉäÀàĞÍ)
+    * [×Ô¶¨ÒåÉú³ÉÆ÷](#×Ô¶¨ÒåÉú³ÉÆ÷)
 
-##### é«˜çº§è®¾ç½®
 
-###### è‡ªå®šä¹‰æ–¹æ³•æ³¨é‡Š
+# ¸ß¼¶ÉèÖÃ
+
+## ×Ô¶¨Òå·½·¨×¢ÊÍ
 
 ```java
 import java.io.IOException;
@@ -22,7 +23,7 @@ import com.github.zhuyizhuo.generator.mybatis.generator.GeneratorBuilder;
 public class TestGenerator {
     public static void main(String[] args) throws IOException {
         MethodCommentInfo methodCommentInfo = new MethodCommentInfo();
-        //ä¿®æ”¹countæ–¹æ³•æ³¨é‡Š
+        //ĞŞ¸Äcount·½·¨×¢ÊÍ
         methodCommentInfo.setCountMethodDescription(" count method description ");
         Generator generator = new GeneratorBuilder()
             .addMethodComment(methodCommentInfo)
@@ -32,13 +33,15 @@ public class TestGenerator {
 }
 ```
 
-###### è‡ªå®šä¹‰ç”Ÿæˆç±»åç§°[è‡ªå®šä¹‰åå°†è¦†ç›–é…ç½®æ–‡ä»¶é…ç½®]
+## ×Ô¶¨ÒåÉú³ÉÀàÃû³Æ
 
-- æ”¯æŒè‡ªå®šä¹‰ç”Ÿæˆxmlåç§°
-- æ”¯æŒè‡ªå®šä¹‰ç”Ÿæˆpojoåç§°
-- æ”¯æŒè‡ªå®šä¹‰ç”Ÿæˆmapperåç§°
+×Ô¶¨ÒåÉú³ÉÀàÃû³Æºó½«¸²¸ÇÅäÖÃÎÄ¼şÅäÖÃ
 
-æ­¤å¤„ä»¥`è‡ªå®šä¹‰ç”Ÿæˆxmlåç§°`ä¸ºä¾‹:
+- Ö§³Ö×Ô¶¨ÒåÉú³É `xml `Ãû³Æ (¸²¸Ç¶ÔÓ¦ÅäÖÃÏî `XML_NAME_FORMAT`)
+- Ö§³Ö×Ô¶¨ÒåÉú³É `pojo` Ãû³Æ (¸²¸Ç¶ÔÓ¦ÅäÖÃÏî `POJO_NAME_FORMAT`)
+- Ö§³Ö×Ô¶¨ÒåÉú³É `mapper` Ãû³Æ (¸²¸Ç¶ÔÓ¦ÅäÖÃÏî `DAO_NAME_FORMAT`)
+
+´Ë´¦ÒÔ`×Ô¶¨ÒåÉú³É xml Ãû³Æ`ÎªÀı:
 
 ```java
 import java.io.IOException;
@@ -50,14 +53,14 @@ import com.github.zhuyizhuo.generator.mybatis.generator.Generator;
 import com.github.zhuyizhuo.generator.mybatis.generator.GeneratorBuilder;
 
 public class TestGenerator {
-    //è‡ªå®šä¹‰ç”Ÿæˆxmlæ–‡ä»¶åç§° 
+    //×Ô¶¨ÒåÉú³ÉxmlÎÄ¼şÃû³Æ 
     public static void main(String[] args) throws Exception{
         Generator generator = new GeneratorBuilder()
             .addXmlNameFormat(new FormatService() {
             @Override
             public String formatTableName(String tableName) {
-                //æ­¤å¤„ä¸ºæ•°æ®åº“è¡¨åç§°å¤§å†™,ç”¨æˆ·å¯å°†å‚æ•°è‡ªå®šä¹‰å¤„ç†åè¿”å›
-                System.out.println("æ•°æ®åº“è¡¨åç§°å¤§å†™ï¼š" + tableName);
+                //´Ë´¦ÎªÊı¾İ¿â±íÃû³Æ´óĞ´,ÓÃ»§¿É½«²ÎÊı×Ô¶¨Òå´¦Àíºó·µ»Ø
+                System.out.println("Êı¾İ¿â±íÃû³Æ´óĞ´£º" + tableName);
                 return tableName + "_sql";
             }
         }).build(Resources.getResourceAsStream("config.properties"));
@@ -66,7 +69,7 @@ public class TestGenerator {
 }
 ```
 
-`java8 ` lambdaè¡¨è¾¾å¼ç”¨æ³•å¦‚ä¸‹:
+`java8 ` lambda ±í´ïÊ½ÓÃ·¨ÈçÏÂ:
 
 ```java
 import java.io.IOException;
@@ -82,8 +85,8 @@ public class TestGenerator {
 	public static void main(String[] args) throws IOException {
 		Generator generator = new GeneratorBuilder()
 				.addBeanNameFormat((tableName) ->{
-                    System.out.println("æ•°æ®åº“è¡¨åç§°å¤§å†™ï¼š" + tableName);
-					//è‡ªå®šä¹‰æ•°æ®åº“æ˜ å°„å¯¹è±¡åç§°
+                    System.out.println("Êı¾İ¿â±íÃû³Æ´óĞ´£º" + tableName);
+					//×Ô¶¨ÒåÊı¾İ¿âÓ³Éä¶ÔÏóÃû³Æ
 					return GeneratorStringUtils
                         .changeTableName2CamelFirstUpper(tableName, "_")+"Bean";
 				})
@@ -93,7 +96,7 @@ public class TestGenerator {
 }
 ```
 
-###### è‡ªå®šä¹‰æ˜ å°„ç±»å‹
+## ×Ô¶¨ÒåÓ³ÉäÀàĞÍ
 
 ```java
 import java.io.IOException;
@@ -108,9 +111,9 @@ public class TestGenerator {
 	
 	public static void main(String[] args) throws IOException {
 		/*
-	     * è‡ªå®šä¹‰æ•°æ®åº“ä¸javaç±»å‹æ˜ å°„
-	     * ä¾‹å¦‚æ•°æ®åº“ç±»å‹ä¸ºNUMBER ç”Ÿæˆå™¨é»˜è®¤æ˜ å°„ä¸ºInteger å¯è‡ªå®šä¹‰æ˜ å°„ å°†ç”Ÿæˆç±»å‹æŒ‡å®šä¸ºString
-	     * oracle æ•°æ®åº“ç±»å‹ TIMESTAMP é»˜è®¤æ˜ å°„ä¸º java.util.Date æ­¤å¤„æ›´æ”¹æ˜ å°„ä¸ºjava.sql.Date
+	     * ×Ô¶¨ÒåÊı¾İ¿âÓëjavaÀàĞÍÓ³Éä
+	     * ÀıÈçÊı¾İ¿âÀàĞÍÎªNUMBER Éú³ÉÆ÷Ä¬ÈÏÓ³ÉäÎªInteger ¿É×Ô¶¨ÒåÓ³Éä ½«Éú³ÉÀàĞÍÖ¸¶¨ÎªString
+	     * oracle Êı¾İ¿âÀàĞÍ TIMESTAMP Ä¬ÈÏÓ³ÉäÎª java.util.Date ´Ë´¦¸ü¸ÄÓ³ÉäÎªjava.sql.Date
 	     */
 		Generator generator = new GeneratorBuilder()
 				.addTypeMapper("NUMBER",JdbcType.VARCHAR,String.class)
@@ -121,9 +124,9 @@ public class TestGenerator {
 }
 ```
 
-###### è‡ªå®šä¹‰ç”Ÿæˆå™¨
+## ×Ô¶¨ÒåÉú³ÉÆ÷
 
-> é€‚ç”¨åœºæ™¯: å¦‚æœéœ€è¦æ ¹æ®è¡¨ä¿¡æ¯ç”Ÿæˆæ›´å¤šå†…å®¹ ä¾‹å¦‚ ç”Ÿæˆé¡µé¢/service/controllerç­‰  æä¾›ç”Ÿæˆå™¨çš„æ‰©å±•é…ç½®  å°†æ•°æ®åº“å†…çœçš„è¡¨ç»“æ„å°è£…ä¸ºå¯¹è±¡ å¯è‡ªè¡Œæ‰©å±•
+> ÊÊÓÃ³¡¾°: Èç¹ûĞèÒª¸ù¾İ±íĞÅÏ¢Éú³É¸ü¶àÄÚÈİ ÀıÈç Éú³ÉÒ³Ãæ/service/controllerµÈ  Ìá¹©Éú³ÉÆ÷µÄÀ©Õ¹ÅäÖÃ  ½«Êı¾İ¿âÄÚÊ¡µÄ±í½á¹¹·â×°Îª¶ÔÏó ¿É×ÔĞĞÀ©Õ¹
 
 ```java
 import java.io.IOException;
@@ -140,8 +143,8 @@ import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 public class TestGenerator {
     	public static void main(String[] args) throws IOException {
 		Generator generator = new GeneratorBuilder().addGeneratorService(new GeneratorService() {
-            //GenerateInfo ä¸ºæ•°æ®åº“ä¿¡æ¯å¤„ç†åå¯¹è±¡ 
-            //å¯å°†æ­¤å¯¹è±¡è½¬ä¸ºjsonæ‰“å°å‡ºæ¥æŸ¥çœ‹ç»“æ„ è‡ªå·±æ ¹æ®éœ€è¦ä»ä¸­è·å–å­—æ®µ ç”¨ä»¥è‡ªå®šä¹‰ç”Ÿæˆæ›´å¤šå†…å®¹
+            //GenerateInfo ÎªÊı¾İ¿âĞÅÏ¢´¦Àíºó¶ÔÏó 
+            //¿É½«´Ë¶ÔÏó×ªÎªjson´òÓ¡³öÀ´²é¿´½á¹¹ ×Ô¼º¸ù¾İĞèÒª´ÓÖĞ»ñÈ¡×Ö¶Î ÓÃÒÔ×Ô¶¨ÒåÉú³É¸ü¶àÄÚÈİ
 			@Override
 			public void generate(GenerateInfo generateInfo) {
 				System.out.println("tableName:" + generateInfo.getTableInfo().getTableName());
@@ -158,7 +161,7 @@ public class TestGenerator {
 
 ```
 
-`java8` lambdaè¡¨è¾¾å¼
+`java8` lambda ±í´ïÊ½
 
 ```java
 public static void main(String[] args) throws IOException {
