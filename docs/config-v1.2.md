@@ -1,8 +1,5 @@
 返回 [快速开始](./quickstart.md)
 
-# 目录
-
-* [目录](#目录)
 * [必选配置](#必选配置)
     * [数据源配置](#数据源配置)
 * [可选的配置项](#可选的配置项)
@@ -22,19 +19,22 @@
 
 ## 数据源配置
 
- 数据库驱动 `DB_DRIVER`
- 数据库链接 `DB_URL`
- 表空间 数据库名  `DB_TABLE_SCHEMA`
- 数据库用户名 `DB_USERNAME`
- 数据库密码 `DB_PASSWORD`
- 数据库类型 `DB_TYPE`
+| 配置项          | 描述                        |
+| --------------- | --------------------------- |
+| DB_TYPE         | 数据库类型 支持MYSQL,ORACLE |
+| DB_DRIVER       | 数据库驱动                  |
+| DB_URL          | 数据库链接                  |
+| DB_TABLE_SCHEMA | 表空间 数据库名             |
+| DB_USERNAME     | 数据库用户名                |
+| DB_PASSWORD     | 数据库密码                  |
+
 
 `mysql`数据库配置
 
 ```properties
 DB_TYPE=MYSQL
 DB_DRIVER=com.mysql.cj.jdbc.Driver
-DB_URL=jdbc:mysql://localhost:3306/
+DB_URL=jdbc:mysql://localhost:3306/test?useUnicode=true....
 DB_TABLE_SCHEMA=test
 DB_USERNAME=root
 DB_PASSWORD=root
@@ -45,7 +45,7 @@ DB_PASSWORD=root
 DB_TYPE=ORACLE
 DB_DRIVER=oracle.jdbc.driver.OracleDriver
 DB_URL=jdbc:oracle:thin:@192.168.0.1:1521:test
-DB_TABLE_SCHEMA=test
+DB_TABLE_SCHEMA=schema
 DB_USERNAME=root
 DB_PASSWORD=root
 ```
@@ -117,18 +117,14 @@ XML_NAME_FORMAT=TABLE_NAME_LOWERCASE
 # XML_NAME_FORMAT=CAMEL
 ```
 
-`paameterType`别名
+## `parameterType` 别名
 
-
-
-## `paameterType`别名
-
- XML中`parameterType` 是否使用别名 默认为`false`
- 例如`POJO`全路径为 `test.generator.pojo.UserBean`
-` PARAMETER_TYPE_USE_TYPE_ALIASES=false` 则 取`POJO`类完全限定名 :
-` parameterType="test.generator.pojo.UserBean"`
-` PARAMETER_TYPE_USE_TYPE_ALIASES=true` 则 取`POJO`的名称首字母小写为别名 :
- `parameterType="userBean"`
+ XML 中 `parameterType` 是否使用别名 默认为 `false`
+ 例如 `POJO` 全路径为 `test.generator.pojo.UserBean`,
+`PARAMETER_TYPE_USE_TYPE_ALIASES=false` 则 取 `POJO` 类完全限定名 :
+`parameterType="test.generator.pojo.UserBean"`
+`PARAMETER_TYPE_USE_TYPE_ALIASES=true` 则 取 `POJO` 的名称首字母小写为别名 :
+`parameterType="userBean"`
 
 ```properties
 PARAMETER_TYPE_USE_TYPE_ALIASES=false

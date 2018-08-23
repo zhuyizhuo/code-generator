@@ -1,4 +1,4 @@
-# 1.依赖引入
+### 1.依赖引入
 
 - [不同构建工具依赖](https://search.maven.org/artifact/com.github.zhuyizhuo/code-generator/1.3.0/jar)
 
@@ -24,7 +24,7 @@
 
 2.新增配置文件
 
-# 2.新增配置文件
+### 2.新增配置文件
 
 默认配置如下:
 
@@ -34,7 +34,7 @@
 
 - [配置文件详解](config-v1.2.md)
 
-# 3.java代码:
+### 3.java代码:
 
 ```java
 import org.apache.ibatis.io.Resources;
