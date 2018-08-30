@@ -17,11 +17,11 @@
 
 ### 所需环境
 
-* jdk1.8 +
+* JDK1.8 +
 
 ### 最新版本
 
-- 1.3.0
+- 查询最高版本或历史版本方式 [Maven中央仓库](https://search.maven.org/search?q=com.github.zhuyizhuo) | [Maven阿里库](http://maven.aliyun.com/mvn/search)
 
 ### 参考文档
 

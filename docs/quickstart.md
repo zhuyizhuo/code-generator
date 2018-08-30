@@ -1,6 +1,6 @@
 ### 1.依赖引入
 
-- [不同构建工具依赖](https://search.maven.org/artifact/com.github.zhuyizhuo/code-generator/1.3.0/jar)
+- [不同构建工具依赖](https://search.maven.org/artifact/com.github.zhuyizhuo/code-generator/1.3.1/jar)
 
 此处以maven项目为例:首先引入maven依赖:
 
@@ -8,7 +8,7 @@
 <dependency>
     <groupId>com.github.zhuyizhuo</groupId>
     <artifactId>code-generator</artifactId>
-    <version>x.x.x</version>
+    <version>最高版本</version>
 </dependency>
 ```
 
@@ -21,8 +21,6 @@
     <version>x.x.x</version>
 </dependency>
 ```
-
-2.新增配置文件
 
 ### 2.新增配置文件
 
