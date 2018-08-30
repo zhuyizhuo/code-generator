@@ -21,7 +21,8 @@
 
 ### 最新版本
 
-- [Maven中央仓库](https://search.maven.org/search?q=com.github.zhuyizhuo) | [Maven阿里库](http://maven.aliyun.com/mvn/search)
+- [Maven中央仓库](https://search.maven.org/search?q=com.github.zhuyizhuo)
+- [Maven阿里库](http://maven.aliyun.com/mvn/search)
 
 ### 参考文档
 
