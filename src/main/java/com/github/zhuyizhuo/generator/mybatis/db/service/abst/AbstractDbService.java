@@ -28,7 +28,6 @@ public abstract class AbstractDbService implements DbService {
         DataBaseInfo tableInfo = new DataBaseInfo();
         tableInfo.setTableSchema(getTableSchema());
         tableInfo.setTableNames(getTables());
-
         return tableInfo;
     }
 
