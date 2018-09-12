@@ -34,12 +34,12 @@ public class FreemarkerGenerator implements GeneratorService {
     }
 
     private void initFilePathList() {
-        addPath(ftlPathInfo.getPojoFtlPath(), fileOutPathInfo.getPojoOutPutFullPath());
-        addPath(ftlPathInfo.getDaoFtlPath(), fileOutPathInfo.getDaoOutPutFullPath());
-        addPath(ftlPathInfo.getMybatisXmlFtlPath(), fileOutPathInfo.getXmlOutPutFullPath());
+        addInOutPath(ftlPathInfo.getPojoFtlPath(), fileOutPathInfo.getPojoOutPutFullPath());
+        addInOutPath(ftlPathInfo.getDaoFtlPath(), fileOutPathInfo.getDaoOutPutFullPath());
+        addInOutPath(ftlPathInfo.getMybatisXmlFtlPath(), fileOutPathInfo.getXmlOutPutFullPath());
     }
 
-    private void addPath(String templatePath, String fileOutPath) {
+    public void addInOutPath(String templatePath, String fileOutPath) {
         FilePathVO filePathVO = new FilePathVO();
         filePathVO.setTemplatePath(templatePath);
         filePathVO.setFileOutPath(fileOutPath);
