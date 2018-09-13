@@ -1,4 +1,4 @@
-    <resultMap id="${mybatisXmlDefinition.resultMap.resultMapId}" type="${mybatisXmlDefinition.resultMap.type}">
+    <resultMap id="${mybatisXmlDefinition.resultMap.id}" type="${mybatisXmlDefinition.resultMap.type}">
 <#list mybatisXmlDefinition.resultMap.results as result>
     <#if result??>
         <#if result.primaryKey>

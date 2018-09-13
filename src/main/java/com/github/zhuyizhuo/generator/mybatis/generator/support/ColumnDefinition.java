@@ -14,11 +14,8 @@ import java.util.List;
  * @since #since#
  */
 public class ColumnDefinition {
-    /** 表所有字段 */
-    private List<JavaColumnInfo> columnLists = Lists.newArrayList();
-    /** 主键字段 */
-    private List<JavaColumnInfo> primaryKeyColumns = Lists.newArrayList();
-    /** 非主键字段 */
-    private List<JavaColumnInfo> otherColumns = Lists.newArrayList();
+    /** test表达式 */
+    private String testExpression;
+
 
 }

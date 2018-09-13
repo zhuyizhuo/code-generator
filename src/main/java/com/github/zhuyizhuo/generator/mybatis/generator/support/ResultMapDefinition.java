@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class ResultMapDefinition {
     /** xml resultMap id */
-    private String resultMapId;
+    private String id;
     /** 类型 */
     private String type;
     /** result集合 */
@@ -23,12 +23,12 @@ public class ResultMapDefinition {
         results = new ArrayList<Result>();
     }
 
-    public String getResultMapId() {
-        return resultMapId;
+    public String getId() {
+        return id;
     }
 
-    public void setResultMapId(String resultMapId) {
-        this.resultMapId = resultMapId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getType() {

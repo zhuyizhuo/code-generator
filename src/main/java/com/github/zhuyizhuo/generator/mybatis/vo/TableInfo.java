@@ -9,6 +9,7 @@ import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import com.google.common.collect.Lists;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
@@ -30,17 +31,23 @@ public class TableInfo {
     /** 表名转驼峰 首字母大写 */
     private String tableNameCamelCase;
     /** 导入的类路径 */
-    private LinkedHashSet<String> importPackages = new LinkedHashSet<String>();
+    private LinkedHashSet<String> importPackages;
     /** 表所有字段 */
-    private List<JavaColumnInfo> columnLists = Lists.newArrayList();
+    private List<JavaColumnInfo> columnLists;
     /** 主键字段 */
-    private List<JavaColumnInfo> primaryKeyColumns = Lists.newArrayList();
-    /** 非主键字段 */
-    private List<JavaColumnInfo> otherColumns = Lists.newArrayList();
+    private List<JavaColumnInfo> primaryKeyColumns;
     /** 是否有主键 */
-    private boolean hasPrimaryKey = true;
+    private boolean hasPrimaryKey;
     /** 是否单个主键 */
-    private boolean singlePrimaryKey = true;
+    private boolean singlePrimaryKey;
+
+    public TableInfo() {
+        importPackages = new LinkedHashSet<String>();
+        columnLists = new ArrayList<JavaColumnInfo>();
+        primaryKeyColumns = new ArrayList<JavaColumnInfo>();
+        hasPrimaryKey = false;
+        singlePrimaryKey = false;
+    }
 
     public String getTableSchema() {
         return tableSchema;
@@ -92,33 +99,25 @@ public class TableInfo {
 
     public void addPrimaryKeyColumn(List<ColumnInfo> keyName) {
         if (keyName == null || keyName.size() == 0){
-            this.hasPrimaryKey = false;
             return;
         }
         for (int i = 0; i < keyName.size(); i++) {
             ColumnInfo columnInfo = keyName.get(i);
             String columnName = columnInfo.getColumnName();
-            for (int j = 0; j < columnLists.size(); j++) {
-                JavaColumnInfo javaColumnInfo = columnLists.get(j);
-                if (columnName != null && columnName.equalsIgnoreCase(javaColumnInfo.getColumnName())){
-                    this.primaryKeyColumns.add(javaColumnInfo);
-                    break;
+            if (GeneratorStringUtils.isNotBlank(columnName)){
+                for (int j = 0; j < columnLists.size(); j++) {
+                    JavaColumnInfo javaColumnInfo = columnLists.get(j);
+                    if (columnName.equalsIgnoreCase(javaColumnInfo.getColumnName())){
+                        javaColumnInfo.setPrimaryKey(true);
+                        this.primaryKeyColumns.add(javaColumnInfo);
+                        break;
+                    }
                 }
             }
         }
 
-        initOtherColumns();
         this.hasPrimaryKey = true;
         this.singlePrimaryKey = primaryKeyColumns.size() == 1;
-    }
-
-    private void initOtherColumns() {
-        for (int i = 0; i < columnLists.size(); i++) {
-            JavaColumnInfo javaColumnInfo = columnLists.get(i);
-            if (!primaryKeyColumns.contains(javaColumnInfo)){
-                this.otherColumns.add(javaColumnInfo);
-            }
-        }
     }
 
     public List<JavaColumnInfo> getPrimaryKeyColumns() {
@@ -131,14 +130,6 @@ public class TableInfo {
 
     public void setHasPrimaryKey(boolean hasPrimaryKey) {
         this.hasPrimaryKey = hasPrimaryKey;
-    }
-
-    public List<JavaColumnInfo> getOtherColumns() {
-        return otherColumns;
-    }
-
-    public void setOtherColumns(List<JavaColumnInfo> otherColumns) {
-        this.otherColumns = otherColumns;
     }
 
     public boolean isSinglePrimaryKey() {

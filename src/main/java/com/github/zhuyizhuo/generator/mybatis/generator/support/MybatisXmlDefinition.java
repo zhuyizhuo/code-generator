@@ -10,7 +10,7 @@ import java.util.List;
  * @author yizhuo <br>
  * @since #since#
  */
-public class MybatisXmlDefinition extends GenerateFileDefinition {
+public class MybatisXmlDefinition extends TableDefinition {
 
     private List<String> mybatisHeader;
     /** 命名空间 */
@@ -56,4 +56,5 @@ public class MybatisXmlDefinition extends GenerateFileDefinition {
     public void setNameSpace(String nameSpace) {
         this.nameSpace = nameSpace;
     }
+
 }

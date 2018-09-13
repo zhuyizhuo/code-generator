@@ -14,9 +14,9 @@ import java.util.List;
  */
 public class TableDefinition {
 
-    /** 数据库名称 */
+    /** 数据库名称大写 */
     private String tableSchema;
-    /** 表名 */
+    /** 表名大写 */
     private String tableName;
     /** 表注释 */
     private String tableComment;
@@ -24,10 +24,44 @@ public class TableDefinition {
     private String camelCaseTableName;
     /** 列信息定义 */
     private ColumnDefinition columnDefinition;
-    /** 是否有主键 */
-    private boolean hasPrimaryKey = true;
-    /** 是否单个主键 */
-    private boolean singlePrimaryKey = true;
 
+    public String getTableSchema() {
+        return tableSchema;
+    }
 
+    public void setTableSchema(String tableSchema) {
+        this.tableSchema = tableSchema;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    public String getTableComment() {
+        return tableComment;
+    }
+
+    public void setTableComment(String tableComment) {
+        this.tableComment = tableComment;
+    }
+
+    public String getCamelCaseTableName() {
+        return camelCaseTableName;
+    }
+
+    public void setCamelCaseTableName(String camelCaseTableName) {
+        this.camelCaseTableName = camelCaseTableName;
+    }
+
+    public ColumnDefinition getColumnDefinition() {
+        return columnDefinition;
+    }
+
+    public void setColumnDefinition(ColumnDefinition columnDefinition) {
+        this.columnDefinition = columnDefinition;
+    }
 }
