@@ -1,5 +1,9 @@
-<#include "xml/mybatis/mybatis3XmlHeader.ftl"/>
-<mapper namespace="${stratificationInfo.daoFullPackage}.${stratificationInfo.daoName}">
+<#list mybatisXmlDefinition.mybatisHeader as colm>
+<#if colm??>
+${colm}
+</#if>
+</#list>
+<mapper namespace="${mybatisXmlDefinition.nameSpace}">
 
 <#include "xml/resultMap.ftl"/>
 

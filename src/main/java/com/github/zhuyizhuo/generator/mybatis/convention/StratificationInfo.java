@@ -293,7 +293,7 @@ public class StratificationInfo {
     private void initXmlName(TableInfo tableInfo) {
         String xmlNameFormat = PropertiesUtils.getProperties(ConfigConstants.XML_NAME_FORMAT);
         if ("camel".equalsIgnoreCase(xmlNameFormat)){
-            setXmlName(tableInfo.getJavaTableName());
+            setXmlName(tableInfo.getTableNameCamelCase());
         } else {
             setXmlName(formatService.formatTableName(tableInfo.getTableName()));
         }
@@ -314,7 +314,7 @@ public class StratificationInfo {
     }
 
     public void initFilesName(TableInfo tableInfo) {
-        String javaTableName = tableInfo.getJavaTableName();
+        String javaTableName = tableInfo.getTableNameCamelCase();
         setPojoName(tableInfo.getTableName());
         setDaoName(tableInfo.getTableName());
         setServiceName(javaTableName);

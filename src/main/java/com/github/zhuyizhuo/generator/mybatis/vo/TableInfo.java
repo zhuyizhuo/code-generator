@@ -4,10 +4,10 @@ import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
+import com.github.zhuyizhuo.generator.mybatis.generator.support.MybatisXmlDefinition;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import com.google.common.collect.Lists;
-import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
 
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -27,8 +27,8 @@ public class TableInfo {
     private String tableName;
     /** 表注释 */
     private String tableComment;
-    /** java表名 驼峰 首字母大写 */
-    private String javaTableName;
+    /** 表名转驼峰 首字母大写 */
+    private String tableNameCamelCase;
     /** 导入的类路径 */
     private LinkedHashSet<String> importPackages = new LinkedHashSet<String>();
     /** 表所有字段 */
@@ -41,10 +41,6 @@ public class TableInfo {
     private boolean hasPrimaryKey = true;
     /** 是否单个主键 */
     private boolean singlePrimaryKey = true;
-    /** xml 参数类型 */
-    private String parameterType;
-    /** xml resultMap id */
-    private String resultMapId;
 
     public String getTableSchema() {
         return tableSchema;
@@ -78,12 +74,12 @@ public class TableInfo {
         this.columnLists.add(javaColumnInfo);
     }
 
-    public String getJavaTableName() {
-        return javaTableName;
+    public String getTableNameCamelCase() {
+        return tableNameCamelCase;
     }
 
-    public void setJavaTableName(String javaTableName) {
-        this.javaTableName = javaTableName;
+    public void setTableNameCamelCase(String tableNameCamelCase) {
+        this.tableNameCamelCase = tableNameCamelCase;
     }
 
     public LinkedHashSet<String> getImportPackages() {
@@ -153,41 +149,16 @@ public class TableInfo {
         this.singlePrimaryKey = singlePrimaryKey;
     }
 
-    public String getParameterType() {
-        return parameterType;
-    }
-
-    public void setParameterType(String parameterType) {
-        this.parameterType = parameterType;
-    }
-
-    public String getResultMapId() {
-        return resultMapId;
-    }
-
-    public void setResultMapId(String resultMapId) {
-        this.resultMapId = resultMapId;
-    }
-
     @Override
     public String toString() {
         return "TableInfo{" +
                 "tableSchema='" + tableSchema + '\'' +
                 ", tableName='" + tableName + '\'' +
                 ", tableComment='" + tableComment + '\'' +
-                ", javaTableName='" + javaTableName + '\'' +
+                ", tableNameCamelCase='" + tableNameCamelCase + '\'' +
                 ", importPackages=" + importPackages +
                 ", columnLists=" + columnLists +
                 '}';
     }
 
-    public void initXmlInfo(StratificationInfo stratificationInfo) {
-        boolean useTypeAliases = PropertiesUtils.getBooleanPropertiesDefaultFalse(ConfigConstants.PARAMETER_TYPE_USE_TYPE_ALIASES);
-        if (useTypeAliases){
-            setParameterType(GeneratorStringUtils.firstLower(stratificationInfo.getPojoName()));
-        } else {
-            setParameterType(stratificationInfo.getPojoFullPackage()+"."+stratificationInfo.getPojoName());
-        }
-        setResultMapId(GeneratorStringUtils.firstLower(this.javaTableName)+"ResultMap");
-    }
 }

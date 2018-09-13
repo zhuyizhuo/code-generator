@@ -57,7 +57,7 @@ public class OracleDbServiceImpl extends AbstractDbService {
             DbTableInfo allColumnsByTable = mapper.getAllColumnsByTable(dbTableInfo.getTableSchema(), tableName);
             tableInfo = new TableInfo();
             setTableInfo(allColumnsByTable,tableInfo);
-            tableInfo.setJavaTableName(getJavaTableName(tableName));
+            tableInfo.setTableNameCamelCase(changeTableNameCamelCase(tableName));
             tableInfo.addPrimaryKeyColumn(getPrimaryKeys(mapper,dbTableInfo));
             tableInfos.add(tableInfo);
             LogUtils.printInfo(tableName + "表共" + allColumnsByTable.getColumnLists().size() + "列");

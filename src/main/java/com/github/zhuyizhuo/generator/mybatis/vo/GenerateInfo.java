@@ -1,9 +1,17 @@
 package com.github.zhuyizhuo.generator.mybatis.vo;
 
+import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.MethodCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.MethodInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
+import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
+import com.github.zhuyizhuo.generator.mybatis.generator.support.MybatisXmlDefinition;
+import com.github.zhuyizhuo.generator.mybatis.generator.support.ResultMapDefinition;
+import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
+import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
+
+import java.util.List;
 
 /**
  * @author yizhuo
@@ -21,6 +29,8 @@ public class GenerateInfo {
     private MethodInfo methodInfo;
     /** 表信息 */
     private TableInfo tableInfo;
+    /** mybatis xml 定义*/
+    private MybatisXmlDefinition mybatisXmlDefinition;
 
     public GenerateInfo() { }
 
@@ -64,10 +74,40 @@ public class GenerateInfo {
         this.methodCommentInfo = methodCommentInfo;
     }
 
+    public MybatisXmlDefinition getMybatisXmlDefinition() {
+        return mybatisXmlDefinition;
+    }
+
     public void init(TableInfo tableInfo) {
         setTableInfo(tableInfo);
-        this.methodInfo.initMethodName(tableInfo.getJavaTableName());
+        this.methodInfo.initMethodName(tableInfo.getTableNameCamelCase());
         this.stratificationInfo.initFilesName(tableInfo);
-        this.tableInfo.initXmlInfo(stratificationInfo);
+        this.initXmlInfo(stratificationInfo);
+    }
+
+    public void initXmlInfo(StratificationInfo stratificationInfo) {
+        mybatisXmlDefinition = new MybatisXmlDefinition();
+        boolean useTypeAliases = PropertiesUtils.getBooleanPropertiesDefaultFalse(ConfigConstants.PARAMETER_TYPE_USE_TYPE_ALIASES);
+        if (useTypeAliases){
+            mybatisXmlDefinition.setParameterType(GeneratorStringUtils.firstLower(stratificationInfo.getPojoName()));
+        } else {
+            mybatisXmlDefinition.setParameterType(stratificationInfo.getPojoFullPackage()+"."+stratificationInfo.getPojoName());
+        }
+        mybatisXmlDefinition.getResultMap().setResultMapId(GeneratorStringUtils.firstLower(tableInfo.getTableNameCamelCase())+"ResultMap");
+        mybatisXmlDefinition.getResultMap().setType(mybatisXmlDefinition.getParameterType());
+        mybatisXmlDefinition.setNameSpace(stratificationInfo.getDaoFullPackage()+"." +stratificationInfo.getDaoName());
+        mybatisXmlDefinition.addMybatisXmlHeaderLine("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
+        mybatisXmlDefinition.addMybatisXmlHeaderLine("<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">");
+
+        List<JavaColumnInfo> primaryKeyColumns = tableInfo.getPrimaryKeyColumns();
+        for (int i = 0; i < primaryKeyColumns.size(); i++) {
+            JavaColumnInfo javaColumnInfo = primaryKeyColumns.get(i);
+            mybatisXmlDefinition.getResultMap().addResult(new ResultMapDefinition.Result(true,javaColumnInfo.getColumnName(),javaColumnInfo.getJavaColumnName()));
+        }
+        List<JavaColumnInfo> otherColumns = tableInfo.getOtherColumns();
+        for (int i = 0; i < otherColumns.size(); i++) {
+            JavaColumnInfo javaColumnInfo = otherColumns.get(i);
+            mybatisXmlDefinition.getResultMap().addResult(new ResultMapDefinition.Result(false,javaColumnInfo.getColumnName(),javaColumnInfo.getJavaColumnName()));
+        }
     }
 }

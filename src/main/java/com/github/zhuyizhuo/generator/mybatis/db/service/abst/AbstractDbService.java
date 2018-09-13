@@ -96,7 +96,7 @@ public abstract class AbstractDbService implements DbService {
         return columnComment.replaceAll("\r"," ").replaceAll("\n"," ").replaceAll("\r\n"," ");
     }
 
-    protected String getJavaTableName(String tableName) {
+    protected String changeTableNameCamelCase(String tableName) {
         return GeneratorStringUtils.changeTableName2CamelFirstUpper(tableName,ConfigConstants.tableRegex);
     }
 }
