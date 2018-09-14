@@ -78,7 +78,7 @@ public class MybatisXmlDefinition extends TableDefinition {
         /** test表达式 */
         private String testNotNullExpression;
         /** mybatis xml中 JDBC类型  */
-        private String columnJdbcType;
+        private String jdbcType;
         /** mybatis xml中 parameterType */
         private String parameterType;
         /** */
@@ -91,7 +91,7 @@ public class MybatisXmlDefinition extends TableDefinition {
             if (javaColumnInfo == null){
                 throw new IllegalArgumentException("Init MybatisColumnDefinition error ! javaColumnInfo is null !");
             }
-            this.columnJdbcType = TypeConversion.type2JdbcType(javaColumnInfo.getDataType());
+            this.jdbcType = TypeConversion.type2JdbcType(javaColumnInfo.getDataType());
             this.parameterType = TypeConversion.getTypeByMap(TypeConversion.parameterTypeMap,javaColumnInfo.getJavaDataType());
             this.column = javaColumnInfo.getColumnName();
             this.property = javaColumnInfo.getJavaColumnName();
@@ -123,12 +123,12 @@ public class MybatisXmlDefinition extends TableDefinition {
             return testNotNullExpression;
         }
 
-        public String getColumnJdbcType() {
-            return columnJdbcType;
+        public String getJdbcType() {
+            return jdbcType;
         }
 
-        public void setColumnJdbcType(String columnJdbcType) {
-            this.columnJdbcType = columnJdbcType;
+        public void setJdbcType(String jdbcType) {
+            this.jdbcType = jdbcType;
         }
 
         public String getParameterType() {
@@ -144,7 +144,7 @@ public class MybatisXmlDefinition extends TableDefinition {
             return super.toString() + "\n\t MybatisColumnDefinition{" +
                     "testNotBlankExpression='" + testNotBlankExpression + '\'' +
                     ", testNotNullExpression='" + testNotNullExpression + '\'' +
-                    ", columnJdbcType='" + columnJdbcType + '\'' +
+                    ", jdbcType='" + jdbcType + '\'' +
                     ", parameterType='" + parameterType + '\'' +
                     ", column='" + column + '\'' +
                     ", property='" + property + '\'' +

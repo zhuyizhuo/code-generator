@@ -1,6 +1,6 @@
-<#list mybatisXmlDefinition.mybatisHeader as colm>
-<#if colm??>
-${colm}
+<#list mybatisXmlDefinition.mybatisHeader as header>
+<#if header??>
+${header}
 </#if>
 </#list>
 <mapper namespace="${mybatisXmlDefinition.nameSpace}">
