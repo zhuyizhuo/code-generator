@@ -93,6 +93,10 @@ public class GenerateInfo {
             mybatisXmlDefinition.setParameterType(stratificationInfo.getPojoFullPackage()+"."+stratificationInfo.getPojoName());
         }
 
+        mybatisXmlDefinition.setTableName(tableInfo.getTableName());
+        mybatisXmlDefinition.setTableSchema(tableInfo.getTableSchema());
+        mybatisXmlDefinition.setTableNameCamelCase(tableInfo.getTableNameCamelCase());
+        mybatisXmlDefinition.setTableComment(tableInfo.getTableComment());
         mybatisXmlDefinition.getResultMap().setId(GeneratorStringUtils.firstLower(tableInfo.getTableNameCamelCase())+"ResultMap");
         mybatisXmlDefinition.getResultMap().setType(mybatisXmlDefinition.getParameterType());
 

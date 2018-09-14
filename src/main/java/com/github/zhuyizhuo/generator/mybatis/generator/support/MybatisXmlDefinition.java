@@ -51,10 +51,6 @@ public class MybatisXmlDefinition extends TableDefinition {
         return resultMap;
     }
 
-    public void setResultMap(ResultMapDefinition resultMap) {
-        this.resultMap = resultMap;
-    }
-
     public String getNameSpace() {
         return nameSpace;
     }
@@ -65,10 +61,6 @@ public class MybatisXmlDefinition extends TableDefinition {
 
     public List<MybatisColumnDefinition> getColumns() {
         return columns;
-    }
-
-    public void setColumns(List<MybatisColumnDefinition> columns) {
-        this.columns = columns;
     }
 
     public void addColumn(JavaColumnInfo columnInfo) {

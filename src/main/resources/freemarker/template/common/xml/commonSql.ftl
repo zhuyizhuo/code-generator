@@ -14,14 +14,14 @@
 <#list mybatisXmlDefinition.columns as colm>
     <#if colm??>
         <#if colm_has_next>
-        ${colm.columnName?upper_case},
+        ${colm.columnName},
         <#else>
-        ${colm.columnName?upper_case}
+        ${colm.columnName}
         </#if>
     </#if>
 </#list>
     </sql>
 
     <sql id="Table_Name">
-        ${tableInfo.tableName}
+        ${mybatisXmlDefinition.tableName}
     </sql>

@@ -21,9 +21,7 @@ public class TableDefinition {
     /** 表注释 */
     private String tableComment;
     /**  表名转驼峰 首字母大写 */
-    private String camelCaseTableName;
-    /** 列信息定义 */
-    private ColumnDefinition columnDefinition;
+    private String tableNameCamelCase;
 
     public String getTableSchema() {
         return tableSchema;
@@ -49,19 +47,12 @@ public class TableDefinition {
         this.tableComment = tableComment;
     }
 
-    public String getCamelCaseTableName() {
-        return camelCaseTableName;
+    public String getTableNameCamelCase() {
+        return tableNameCamelCase;
     }
 
-    public void setCamelCaseTableName(String camelCaseTableName) {
-        this.camelCaseTableName = camelCaseTableName;
+    public void setTableNameCamelCase(String tableNameCamelCase) {
+        this.tableNameCamelCase = tableNameCamelCase;
     }
 
-    public ColumnDefinition getColumnDefinition() {
-        return columnDefinition;
-    }
-
-    public void setColumnDefinition(ColumnDefinition columnDefinition) {
-        this.columnDefinition = columnDefinition;
-    }
 }
