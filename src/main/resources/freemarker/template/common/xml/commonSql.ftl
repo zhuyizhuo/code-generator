@@ -1,9 +1,9 @@
   	<sql id="Where_Clause">
       <where>
-<#list tableInfo.columnLists as colm>
+<#list mybatisXmlDefinition.columns as colm>
     <#if colm??>
-        <#if colm.javaDataType = 'String'><if test="${colm.javaColumnName} != null and ${colm.javaColumnName} != ''"><#else><if test="${colm.javaColumnName} != null"></#if>
-            AND ${colm.columnName} = ${'#{'}${colm.javaColumnName}}
+        <if test="${colm.testNotBlankExpression}">
+            AND ${colm.columnName} = ${'#'}{${colm.javaColumnName}}
         </if>
     </#if>
 </#list>
@@ -11,15 +11,15 @@
   	</sql>
 
     <sql id="Base_Column_List">
-    <#list tableInfo.columnLists as colm>
+<#list mybatisXmlDefinition.columns as colm>
     <#if colm??>
-    <#if colm_has_next>
+        <#if colm_has_next>
         ${colm.columnName?upper_case},
-    <#else>
+        <#else>
         ${colm.columnName?upper_case}
+        </#if>
     </#if>
-    </#if>
-    </#list>
+</#list>
     </sql>
 
     <sql id="Table_Name">

@@ -7,7 +7,6 @@ import com.github.zhuyizhuo.generator.mybatis.convention.MethodInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.support.MybatisXmlDefinition;
-import com.github.zhuyizhuo.generator.mybatis.generator.support.ResultMapDefinition;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
@@ -93,8 +92,10 @@ public class GenerateInfo {
         } else {
             mybatisXmlDefinition.setParameterType(stratificationInfo.getPojoFullPackage()+"."+stratificationInfo.getPojoName());
         }
+
         mybatisXmlDefinition.getResultMap().setId(GeneratorStringUtils.firstLower(tableInfo.getTableNameCamelCase())+"ResultMap");
         mybatisXmlDefinition.getResultMap().setType(mybatisXmlDefinition.getParameterType());
+
         mybatisXmlDefinition.setNameSpace(stratificationInfo.getDaoFullPackage()+"." +stratificationInfo.getDaoName());
         mybatisXmlDefinition.addMybatisXmlHeaderLine("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
         mybatisXmlDefinition.addMybatisXmlHeaderLine("<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">");
@@ -102,7 +103,7 @@ public class GenerateInfo {
         List<JavaColumnInfo> columns = tableInfo.getColumnLists();
         for (int i = 0; i < columns.size(); i++) {
             JavaColumnInfo javaColumnInfo = columns.get(i);
-            mybatisXmlDefinition.getResultMap().addResult(new ResultMapDefinition.Result(javaColumnInfo.isPrimaryKey(),javaColumnInfo.getColumnName(),javaColumnInfo.getJavaColumnName()));
+            mybatisXmlDefinition.addColumn(javaColumnInfo);
         }
     }
 }

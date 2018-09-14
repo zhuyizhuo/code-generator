@@ -1,6 +1,6 @@
     <!-- ${methodCommentInfo.deleteByPrimaryKeyMethodDescription} -->
 <#if tableInfo.singlePrimaryKey>
-	<delete id="${methodInfo.deleteByPrimaryKeyMethodName}" parameterType="${tableInfo.primaryKeyColumns[0].parameterType}">
+	<delete id="${methodInfo.deleteByPrimaryKeyMethodName}" parameterType="${mybatisXmlDefinition.columns[0].parameterType}">
 <#else>
     <delete id="${methodInfo.deleteByPrimaryKeyMethodName}" parameterType="${mybatisXmlDefinition.parameterType}">
 </#if>

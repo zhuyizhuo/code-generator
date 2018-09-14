@@ -15,12 +15,21 @@ public class JavaColumnInfo extends ColumnInfo {
 	private String javaColumnName;
 	/** java字段类型 */
 	private String javaDataType;
-	/** java字段类型全称 */
+	/** java字段类型全称 TODO java.lang 包下的未赋值 */
 	private String javaDataTypeFullPath;
-	/** mybatis xml中 JDBC类型  */
-	private String columnJdbcType;
-	/** mybatis xml中 parameterType */
-	private String parameterType;
+
+	public JavaColumnInfo() {
+	}
+
+	public JavaColumnInfo(JavaColumnInfo javaColumnInfo) {
+		super(javaColumnInfo);
+		if (javaColumnInfo == null){
+			return;
+		}
+		this.javaColumnName = javaColumnInfo.getJavaColumnName();
+		this.javaDataType = javaColumnInfo.getJavaDataType();
+		this.javaDataTypeFullPath = javaColumnInfo.getJavaDataTypeFullPath();
+	}
 
 	public String getJavaColumnName() {
 		return javaColumnName;
@@ -46,49 +55,30 @@ public class JavaColumnInfo extends ColumnInfo {
 		this.javaDataTypeFullPath = javaDataTypeFullPath;
 	}
 
-	public String getColumnJdbcType() {
-		return columnJdbcType;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		JavaColumnInfo that = (JavaColumnInfo) o;
+
+		if (javaColumnName != null ? !javaColumnName.equals(that.javaColumnName) : that.javaColumnName != null)
+			return false;
+		if (javaDataType != null ? !javaDataType.equals(that.javaDataType) : that.javaDataType != null) return false;
+		return javaDataTypeFullPath != null ? javaDataTypeFullPath.equals(that.javaDataTypeFullPath) : that.javaDataTypeFullPath == null;
 	}
 
-	public void setColumnJdbcType(String columnJdbcType) {
-		this.columnJdbcType = columnJdbcType;
+	@Override
+	public int hashCode() {
+		int result = javaColumnName != null ? javaColumnName.hashCode() : 0;
+		result = 31 * result + (javaDataType != null ? javaDataType.hashCode() : 0);
+		result = 31 * result + (javaDataTypeFullPath != null ? javaDataTypeFullPath.hashCode() : 0);
+		return result;
 	}
 
-    public String getParameterType() {
-        return parameterType;
-    }
-
-    public void setParameterType(String parameterType) {
-        this.parameterType = parameterType;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        JavaColumnInfo that = (JavaColumnInfo) o;
-
-        if (javaColumnName != null ? !javaColumnName.equals(that.javaColumnName) : that.javaColumnName != null)
-            return false;
-        if (javaDataType != null ? !javaDataType.equals(that.javaDataType) : that.javaDataType != null) return false;
-        if (javaDataTypeFullPath != null ? !javaDataTypeFullPath.equals(that.javaDataTypeFullPath) : that.javaDataTypeFullPath != null)
-            return false;
-        return columnJdbcType != null ? columnJdbcType.equals(that.columnJdbcType) : that.columnJdbcType == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = javaColumnName != null ? javaColumnName.hashCode() : 0;
-        result = 31 * result + (javaDataType != null ? javaDataType.hashCode() : 0);
-        result = 31 * result + (javaDataTypeFullPath != null ? javaDataTypeFullPath.hashCode() : 0);
-        result = 31 * result + (columnJdbcType != null ? columnJdbcType.hashCode() : 0);
-        return result;
-    }
-
-    @Override
+	@Override
 	public String toString() {
-		return super.toString() + "{" +
+		return super.toString() + "\n\t JavaColumnInfo{" +
 				"javaColumnName='" + javaColumnName + '\'' +
 				", javaDataType='" + javaDataType + '\'' +
 				", javaDataTypeFullPath='" + javaDataTypeFullPath + '\'' +

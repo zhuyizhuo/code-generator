@@ -14,8 +14,6 @@ import java.util.List;
  * @since #since#
  */
 public class ColumnDefinition {
-    /** test表达式 */
-    private String testExpression;
 
 
 }
