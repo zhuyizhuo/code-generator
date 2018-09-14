@@ -1,13 +1,8 @@
 package com.github.zhuyizhuo.generator.mybatis.vo;
 
-import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
-import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
-import com.github.zhuyizhuo.generator.mybatis.generator.support.MybatisXmlDefinition;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
-import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
-import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
