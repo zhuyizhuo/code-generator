@@ -53,6 +53,7 @@ public class Generator {
 
             for (int i = 0; i < dbTableInfoList.size(); i++) {
                 generateInfo.init(dbTableInfoList.get(i));
+                System.out.println(generateInfo.getMybatisXmlDefinition());
                 generatorService.generate(generateInfo);
             }
         } catch (Exception e) {

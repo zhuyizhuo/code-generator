@@ -1,5 +1,9 @@
-<#include "xml/mybatis/mybatis3XmlHeader.ftl"/>
-<mapper namespace="${stratificationInfo.daoFullPackage}.${stratificationInfo.daoName}">
+<#list mybatisXmlDefinition.mybatisHeader as header>
+<#if header??>
+${header}
+</#if>
+</#list>
+<mapper namespace="${mybatisXmlDefinition.nameSpace}">
 
 <#include "xml/resultMap.ftl"/>
 
@@ -8,27 +12,21 @@
 
 <#include "xml/insert.ftl"/>
 </#if>
-<#if methodInfo.deleteByPrimaryKeyMethodEnabled>
-<#if tableInfo.hasPrimaryKey>
+<#if methodInfo.deleteByPrimaryKeyMethodEnabled && tableInfo.hasPrimaryKey>
 
 <#include "xml/deleteByPrimaryKey.ftl"/>
-</#if>
 </#if>
 <#if methodInfo.deleteMethodEnabled>
 
 <#include "xml/deleteByWhere.ftl"/>
 </#if>
-<#if methodInfo.updateByPrimaryKeyMethodEnabled>
-<#if tableInfo.hasPrimaryKey>
+<#if methodInfo.updateByPrimaryKeyMethodEnabled && tableInfo.hasPrimaryKey>
 
     <#include "xml/updateByPrimaryKey.ftl"/>
 </#if>
-</#if>
-<#if methodInfo.queryByPrimaryKeyEnabled>
-<#if tableInfo.hasPrimaryKey>
+<#if methodInfo.queryByPrimaryKeyEnabled && tableInfo.hasPrimaryKey>
 
     <#include "xml/queryByPrimaryKey.ftl"/>
-</#if>
 </#if>
 <#if methodInfo.queryMethodEnabled>
 

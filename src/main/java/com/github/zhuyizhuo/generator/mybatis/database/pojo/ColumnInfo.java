@@ -15,8 +15,23 @@ public class ColumnInfo {
 	private String dataType;
 	/** 字段备注 */
 	private String columnComment;
+	/** 是否主键 */
+	private boolean primaryKey;
 
-	public String getColumnName() {
+    public ColumnInfo() {
+    }
+
+    public ColumnInfo(ColumnInfo columnInfo) {
+        if (columnInfo == null){
+            return ;
+        }
+        this.columnName = columnInfo.getColumnName();
+        this.dataType = columnInfo.getDataType();
+        this.columnComment = columnInfo.getColumnComment();
+        this.primaryKey = columnInfo.isPrimaryKey();
+    }
+
+    public String getColumnName() {
 		return columnName;
 	}
 
@@ -40,12 +55,21 @@ public class ColumnInfo {
 		this.columnComment = columnComment;
 	}
 
-	@Override
-	public String toString() {
-		return "{" +
-				"columnName='" + columnName + '\'' +
-				", dataType='" + dataType + '\'' +
-				", columnComment='" + columnComment + '\'' +
-				'}';
-	}
+    public boolean isPrimaryKey() {
+        return primaryKey;
+    }
+
+    public void setPrimaryKey(boolean primaryKey) {
+        this.primaryKey = primaryKey;
+    }
+
+    @Override
+    public String toString() {
+        return "ColumnInfo{" +
+                "columnName='" + columnName + '\'' +
+                ", dataType='" + dataType + '\'' +
+                ", columnComment='" + columnComment + '\'' +
+                ", primaryKey=" + primaryKey +
+                '}';
+    }
 }

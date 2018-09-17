@@ -46,7 +46,7 @@ public class MysqlDbServiceImpl extends AbstractDbService {
             dbTableInfo.setColumnLists(getColumnInfos(mapper, dbTableInfo));
             //设置值
             setTableInfo(dbTableInfo,tableInfo);
-            tableInfo.setJavaTableName(getJavaTableName(dbTableInfo.getTableName()));
+            tableInfo.setTableNameCamelCase(changeTableNameCamelCase(dbTableInfo.getTableName()));
             tableInfo.addPrimaryKeyColumn(getPrimaryKeys(mapper,dbTableInfo));
             lists.add(tableInfo);
             LogUtils.printInfo(dbTableInfo.getTableName() + "表共" + dbTableInfo.getColumnLists().size() + "列");

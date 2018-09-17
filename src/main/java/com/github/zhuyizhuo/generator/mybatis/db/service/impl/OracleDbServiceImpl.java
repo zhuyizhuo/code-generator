@@ -1,8 +1,12 @@
 package com.github.zhuyizhuo.generator.mybatis.db.service.impl;
 
+import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.db.service.abst.AbstractDbService;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
+import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
+import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import com.github.zhuyizhuo.generator.utils.TypeConversion;
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.github.zhuyizhuo.generator.mybatis.database.mapper.OracleDataBaseMapper;
 import com.github.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
@@ -23,6 +27,14 @@ import java.util.List;
  * @version 1.0
  */
 public class OracleDbServiceImpl extends AbstractDbService {
+
+    protected List<String> getTables() {
+        String includeTableName = PropertiesUtils.getProperties(ConfigConstants.INCLUDE_TABLE_NAME);
+        if (GeneratorStringUtils.isNotBlank(includeTableName)){
+            return Splitter.on(",").splitToList(includeTableName.toUpperCase());
+        }
+        return null;
+    }
 
     @Override
     public List<TableInfo> getTableColumns() {
@@ -45,7 +57,7 @@ public class OracleDbServiceImpl extends AbstractDbService {
             DbTableInfo allColumnsByTable = mapper.getAllColumnsByTable(dbTableInfo.getTableSchema(), tableName);
             tableInfo = new TableInfo();
             setTableInfo(allColumnsByTable,tableInfo);
-            tableInfo.setJavaTableName(getJavaTableName(tableName));
+            tableInfo.setTableNameCamelCase(changeTableNameCamelCase(tableName));
             tableInfo.addPrimaryKeyColumn(getPrimaryKeys(mapper,dbTableInfo));
             tableInfos.add(tableInfo);
             LogUtils.printInfo(tableName + "表共" + allColumnsByTable.getColumnLists().size() + "列");

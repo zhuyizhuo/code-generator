@@ -1,5 +1,5 @@
     <!-- ${methodCommentInfo.updateByPrimaryKeyMethodDescription} -->
-    <update id="${methodInfo.updateByPrimaryKeyMethodName}" parameterType="${tableInfo.parameterType}">
+    <update id="${methodInfo.updateByPrimaryKeyMethodName}" parameterType="${mybatisXmlDefinition.parameterType}">
 		UPDATE
 		<include refid="Table_Name" />
 		<set>

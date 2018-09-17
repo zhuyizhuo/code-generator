@@ -1,8 +1,8 @@
 	<!-- ${methodCommentInfo.queryByPrimaryKeyDescription}  -->
 <#if tableInfo.singlePrimaryKey>
-	<select id="${methodInfo.queryByPrimaryKeyMethodName}" resultMap="${tableInfo.resultMapId}" parameterType="${tableInfo.primaryKeyColumns[0].parameterType}">
+	<select id="${methodInfo.queryByPrimaryKeyMethodName}" resultMap="${mybatisXmlDefinition.resultMap.id}" parameterType="${mybatisXmlDefinition.columns[0].parameterType}">
 <#else>
-    <select id="${methodInfo.queryByPrimaryKeyMethodName}" resultMap="${tableInfo.resultMapId}" parameterType="${tableInfo.parameterType}">
+    <select id="${methodInfo.queryByPrimaryKeyMethodName}" resultMap="${mybatisXmlDefinition.resultMap.id}" parameterType="${mybatisXmlDefinition.parameterType}">
 </#if>
         SELECT
         <include refid="Base_Column_List" />
