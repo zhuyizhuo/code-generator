@@ -1,7 +1,6 @@
 package com.github.zhuyizhuo.generator.mybatis.extension.service;
 
-import com.github.zhuyizhuo.generator.mybatis.generator.support.CommentDefinition;
-import com.github.zhuyizhuo.generator.mybatis.generator.support.MybatisXmlDefinition;
+import com.github.zhuyizhuo.generator.mybatis.generator.support.mybatis.MybatisXmlDefinition;
 
 /**
  * class: MybatisGenerateService <br>

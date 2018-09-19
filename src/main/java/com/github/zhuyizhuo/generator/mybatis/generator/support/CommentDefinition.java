@@ -12,6 +12,8 @@ import java.util.List;
  * @since 1.3.0
  */
 public class CommentDefinition {
+    /** 是否生成注释 */
+    private boolean commentEnabled;
     /** 注释 */
     private List<String> docLines = new ArrayList<String>();
 

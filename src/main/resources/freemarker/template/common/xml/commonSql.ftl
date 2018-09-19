@@ -23,5 +23,5 @@
     </sql>
 
     <sql id="Table_Name">
-        ${mybatisXmlDefinition.tableName}
+        ${mybatisXmlDefinition.tableSchema}.${mybatisXmlDefinition.tableName}
     </sql>

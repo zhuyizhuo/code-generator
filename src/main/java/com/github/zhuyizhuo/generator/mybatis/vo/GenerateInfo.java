@@ -6,7 +6,7 @@ import com.github.zhuyizhuo.generator.mybatis.convention.MethodCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.MethodInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
-import com.github.zhuyizhuo.generator.mybatis.generator.support.MybatisXmlDefinition;
+import com.github.zhuyizhuo.generator.mybatis.generator.support.mybatis.MybatisXmlDefinition;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
