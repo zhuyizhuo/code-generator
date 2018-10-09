@@ -1,5 +1,7 @@
 package com.github.zhuyizhuo.generator.mybatis.generator;
 
+import com.github.zhuyizhuo.generator.mybatis.constants.FtlPathInfo;
+import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.db.service.DbService;
 import com.github.zhuyizhuo.generator.mybatis.extension.service.GeneratorService;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
@@ -17,11 +19,13 @@ public class Generator {
     private GeneratorService generatorService;
     private DbService service;
     private GenerateInfo generateInfo;
+    private FileOutPathInfo fileOutPathInfo;
 
-    public Generator(DbService service, GenerateInfo generateInfo, GeneratorService generatorService) {
+    public Generator(DbService service, GenerateInfo generateInfo, GeneratorService generatorService,FileOutPathInfo fileOutPathInfo) {
         this.service = service;
         this.generateInfo = generateInfo;
         this.generatorService = generatorService;
+        this.fileOutPathInfo = fileOutPathInfo;
     }
 
     public void generate(){
@@ -51,9 +55,18 @@ public class Generator {
                 return;
             }
 
+            FtlPathInfo ftlPathInfo = new FtlPathInfo();
+            //循环多表数据
             for (int i = 0; i < dbTableInfoList.size(); i++) {
                 generateInfo.init(dbTableInfoList.get(i));
-                System.out.println(generateInfo.getMybatisXmlDefinition());
+                //初始化输出路径
+                fileOutPathInfo.formatPath(generateInfo.getStratificationInfo());
+
+                // 初始化输入输出
+                generatorService.addInOutPath(ftlPathInfo.getPojoFtlPath(), fileOutPathInfo.getPojoOutPutFullPath());
+                generatorService.addInOutPath(ftlPathInfo.getDaoFtlPath(), fileOutPathInfo.getDaoOutPutFullPath());
+                generatorService.addInOutPath(ftlPathInfo.getMybatisXmlFtlPath(), fileOutPathInfo.getXmlOutPutFullPath());
+
                 generatorService.generate(generateInfo);
             }
         } catch (Exception e) {

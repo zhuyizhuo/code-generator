@@ -12,6 +12,13 @@ import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 public interface GeneratorService {
 
     /**
+     * 新增模板输入输出
+     * @param templatePath
+     * @param fileOutPath
+     */
+    void addInOutPath(String templatePath, String fileOutPath);
+
+    /**
      * 生成文件
      * @param generateInfo 所有生成文件所需数据
      */
