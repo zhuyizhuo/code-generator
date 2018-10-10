@@ -290,12 +290,12 @@ public class StratificationInfo {
         this.xmlFullPackage = xmlFullPackage;
     }
 
-    private void initXmlName(TableInfo tableInfo) {
+    private void initXmlName(String tableName) {
         String xmlNameFormat = PropertiesUtils.getProperties(ConfigConstants.XML_NAME_FORMAT);
         if ("camel".equalsIgnoreCase(xmlNameFormat)){
-            setXmlName(tableInfo.getTableNameCamelCase());
+            setXmlName(GeneratorStringUtils.changeTableName2CamelFirstUpper(tableName,ConfigConstants.tableRegex));
         } else {
-            setXmlName(formatService.formatTableName(tableInfo.getTableName()));
+            setXmlName(formatService.formatTableName(tableName));
         }
     }
 
@@ -313,13 +313,10 @@ public class StratificationInfo {
         this.formatService = formatService;
     }
 
-    public void initFilesName(TableInfo tableInfo) {
-        String javaTableName = tableInfo.getTableNameCamelCase();
-        setPojoName(tableInfo.getTableName());
-        setDaoName(tableInfo.getTableName());
-        setServiceName(javaTableName);
-        setServiceImplName(javaTableName);
-        initXmlName(tableInfo);
+    public void initFilesName(String tableName) {
+        setPojoName(tableName);
+        setDaoName(tableName);
+        initXmlName(tableName);
     }
 
     private void addFormatService(FormatService formatService, String pojoNameFormat) {

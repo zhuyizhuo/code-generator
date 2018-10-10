@@ -167,12 +167,11 @@ public class GeneratorBuilder {
         generateInfo.setClassCommentInfo(classCommentInfo);
         generateInfo.setMethodCommentInfo(methodCommentInfo);
         generateInfo.setMethodInfo(methodInfo);
-        generateInfo.setStratificationInfo(stratificationInfo);
         fileOutPathInfo.init(stratificationInfo);
         if (generatorService == null){
             generatorService = new FreemarkerGenerator();
         }
-        return new Generator(DbServiceFactory.getDbService(), generateInfo, generatorService, fileOutPathInfo);
+        return new Generator(generateInfo, generatorService, fileOutPathInfo, stratificationInfo);
     }
 
 }

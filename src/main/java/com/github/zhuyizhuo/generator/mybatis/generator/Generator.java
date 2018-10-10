@@ -2,8 +2,10 @@ package com.github.zhuyizhuo.generator.mybatis.generator;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.FtlPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
+import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
 import com.github.zhuyizhuo.generator.mybatis.db.service.DbService;
 import com.github.zhuyizhuo.generator.mybatis.extension.service.GeneratorService;
+import com.github.zhuyizhuo.generator.mybatis.factory.DbServiceFactory;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
@@ -16,16 +18,23 @@ import java.util.List;
  * time: 2018/7/29 18:12
  */
 public class Generator {
+    /** 具体的生成器 */
     private GeneratorService generatorService;
+    /** 数据源 */
     private DbService service;
+    /** 生成所需数据 */
     private GenerateInfo generateInfo;
+    /** 输出路径信息 */
     private FileOutPathInfo fileOutPathInfo;
+    /** 分层信息 */
+    private StratificationInfo stratificationInfo;
 
-    public Generator(DbService service, GenerateInfo generateInfo, GeneratorService generatorService,FileOutPathInfo fileOutPathInfo) {
-        this.service = service;
+    public Generator(GenerateInfo generateInfo, GeneratorService generatorService,FileOutPathInfo fileOutPathInfo,StratificationInfo stratificationInfo) {
+        this.service = DbServiceFactory.getDbService();
         this.generateInfo = generateInfo;
         this.generatorService = generatorService;
         this.fileOutPathInfo = fileOutPathInfo;
+        this.stratificationInfo = stratificationInfo;
     }
 
     public void generate(){
@@ -58,9 +67,12 @@ public class Generator {
             FtlPathInfo ftlPathInfo = new FtlPathInfo();
             //循环多表数据
             for (int i = 0; i < dbTableInfoList.size(); i++) {
+                this.stratificationInfo.initFilesName(dbTableInfoList.get(i).getTableName());
                 generateInfo.init(dbTableInfoList.get(i));
+                generateInfo.setStratificationInfo(this.stratificationInfo);
+                generateInfo.initXmlInfo(this.stratificationInfo);
                 //初始化输出路径
-                fileOutPathInfo.formatPath(generateInfo.getStratificationInfo());
+                fileOutPathInfo.formatPath(this.stratificationInfo);
 
                 // 初始化输入输出
                 generatorService.addInOutPath(ftlPathInfo.getPojoFtlPath(), fileOutPathInfo.getPojoOutPutFullPath());

@@ -33,14 +33,6 @@ public class GenerateInfo {
 
     public GenerateInfo() { }
 
-    public StratificationInfo getStratificationInfo() {
-        return stratificationInfo;
-    }
-
-    public void setStratificationInfo(StratificationInfo stratificationInfo) {
-        this.stratificationInfo = stratificationInfo;
-    }
-
     public MethodInfo getMethodInfo() {
         return methodInfo;
     }
@@ -80,8 +72,14 @@ public class GenerateInfo {
     public void init(TableInfo tableInfo) {
         setTableInfo(tableInfo);
         this.methodInfo.initMethodName(tableInfo.getTableNameCamelCase());
-        this.stratificationInfo.initFilesName(tableInfo);
-        this.initXmlInfo(stratificationInfo);
+    }
+
+    public void setStratificationInfo(StratificationInfo stratificationInfo) {
+        this.stratificationInfo = stratificationInfo;
+    }
+
+    public StratificationInfo getStratificationInfo() {
+        return stratificationInfo;
     }
 
     public void initXmlInfo(StratificationInfo stratificationInfo) {
