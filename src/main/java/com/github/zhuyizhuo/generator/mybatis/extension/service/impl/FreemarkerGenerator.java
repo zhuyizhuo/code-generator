@@ -23,11 +23,12 @@ public class FreemarkerGenerator implements GeneratorService {
     private List<FilePathVO> filePathList = new ArrayList<FilePathVO>();
 
     @Override
-    public void addInOutPath(String templatePath, String fileOutPath) {
+    public GeneratorService addInOutPath(String templatePath, String fileOutPath) {
         FilePathVO filePathVO = new FilePathVO();
         filePathVO.setTemplatePath(templatePath);
         filePathVO.setFileOutPath(fileOutPath);
         filePathList.add(filePathVO);
+        return this;
     }
 
     @Override

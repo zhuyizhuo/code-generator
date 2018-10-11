@@ -16,7 +16,7 @@ public interface GeneratorService {
      * @param templatePath
      * @param fileOutPath
      */
-    void addInOutPath(String templatePath, String fileOutPath);
+    GeneratorService addInOutPath(String templatePath, String fileOutPath);
 
     /**
      * 生成文件

@@ -75,9 +75,9 @@ public class Generator {
                 fileOutPathInfo.formatPath(this.stratificationInfo);
 
                 // 初始化输入输出
-                generatorService.addInOutPath(ftlPathInfo.getPojoFtlPath(), fileOutPathInfo.getPojoOutPutFullPath());
-                generatorService.addInOutPath(ftlPathInfo.getDaoFtlPath(), fileOutPathInfo.getDaoOutPutFullPath());
-                generatorService.addInOutPath(ftlPathInfo.getMybatisXmlFtlPath(), fileOutPathInfo.getXmlOutPutFullPath());
+                generatorService.addInOutPath(ftlPathInfo.getPojoFtlPath(), fileOutPathInfo.getPojoOutPutFullPath())
+                        .addInOutPath(ftlPathInfo.getDaoFtlPath(), fileOutPathInfo.getDaoOutPutFullPath())
+                        .addInOutPath(ftlPathInfo.getMybatisXmlFtlPath(), fileOutPathInfo.getXmlOutPutFullPath());
 
                 generatorService.generate(generateInfo);
             }
