@@ -34,17 +34,18 @@ public class FileOutPathInfo {
 
     }
 
-    public String initBasePath(){
-        this.basePath = PropertiesUtils.getProperties(ConfigConstants.FILE_OUT_PUT_PATH);
+    public String getBasePath(){
+        String basePath = "";
+        basePath = PropertiesUtils.getProperties(ConfigConstants.FILE_OUT_PUT_PATH);
         if (GeneratorStringUtils.isBlank(basePath)){
             basePath = System.getProperty("user.dir") + "/src/main/java/";
         }
-        this.basePath += "/";
-        return this.basePath;
+        basePath += "/";
+        return basePath;
     }
 
     public void init(StratificationInfo stratificationInfo) {
-        initBasePath();
+        this.basePath = getBasePath();
 
         if (PropertiesUtils.containsKey(ConfigConstants.XML_OUT_PUT_PATH)){
             setXmlOutPutPath(PropertiesUtils.getProperties(ConfigConstants.XML_OUT_PUT_PATH));

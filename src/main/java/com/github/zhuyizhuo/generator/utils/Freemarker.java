@@ -82,7 +82,7 @@ public class Freemarker {
 		try {
 			File file = new File(outPutPath);
 			//判断有没有父路径，就是判断文件整个路径是否存在
-			if(!file.getParentFile().exists()){
+			if(file != null && file.getParentFile() != null && !file.getParentFile().exists()){
 				//不存在就全部创建
 				file.getParentFile().mkdirs();
 			}

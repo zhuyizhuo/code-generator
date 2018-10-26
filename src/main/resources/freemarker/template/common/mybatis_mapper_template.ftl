@@ -32,51 +32,102 @@ ${header}
     <sql id="Base_Column_List">
 <#list mybatisXmlDefinition.columns as colm>
     <#if colm??>
-        <#if colm_has_next>
-            ${colm.columnName},
-        <#else>
-            ${colm.columnName}
-        </#if>
+        ${colm.columnName}<#if colm_has_next>,</#if>
     </#if>
 </#list>
     </sql>
 
-    <sql id="Table_Name">
-    ${mybatisXmlDefinition.tableName}
-    </sql>
+    <!-- ${methodCommentInfo.insertMethodDescription} -->
+    <insert id="${methodInfo.insertMethodName}" parameterType="${mybatisXmlDefinition.parameterType}">
+        INSERT INTO
+        ${mybatisXmlDefinition.tableSchema}.${mybatisXmlDefinition.tableName} (
+        <trim suffixOverrides=",">
+        <#list mybatisXmlDefinition.columns as colm>
+            <#if colm??>
+                <if test="${colm.testNotNullExpression}">${colm.columnName},</if>
+            </#if>
+        </#list>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+        <#list mybatisXmlDefinition.columns as colm>
+            <#if colm??>
+                <if test="${colm.testNotNullExpression}">${'#'}{${colm.javaColumnName},jdbcType=${colm.jdbcType}},</if>
+            </#if>
+        </#list>
+        </trim>
+        )
+    </insert>
 
-<#if methodInfo.insertMethodEnabled>
+<#if methodInfo.deleteByPrimaryKeyMethodEnabled && tableInfo.hasPrimaryKey>
 
-<#include "xml/insert.ftl"/>
+    <#assign parameterType = "${tableInfo.singlePrimaryKey?then(mybatisXmlDefinition.columns[0].parameterType,mybatisXmlDefinition.parameterType)}">
+    <!-- ${methodCommentInfo.deleteByPrimaryKeyMethodDescription} -->
+	<delete id="${methodInfo.deleteByPrimaryKeyMethodName}" parameterType="${parameterType}">
+        DELETE FROM
+        ${mybatisXmlDefinition.tableSchema}.${mybatisXmlDefinition.tableName}
+        WHERE <#list tableInfo.primaryKeyColumns as colm><#if colm_index != 0>AND </#if>${colm.columnName} = ${'#'}{${colm.javaColumnName}} </#list>
+	</delete>
 </#if>
-<#if methodInfo.deleteByPrimaryKeyMethodEnabled>
-<#if tableInfo.hasPrimaryKey>
 
-<#include "xml/deleteByPrimaryKey.ftl"/>
-</#if>
-</#if>
-<#if methodInfo.deleteMethodEnabled>
+    <!-- ${methodCommentInfo.deleteMethodDescription} -->
+    <delete id="${methodInfo.deleteMethodName}" parameterType="${mybatisXmlDefinition.parameterType}">
+        DELETE FROM
+        ${mybatisXmlDefinition.tableSchema}.${mybatisXmlDefinition.tableName}
+        <include refid="Where_Clause" />
+    </delete>
 
-<#include "xml/deleteByWhere.ftl"/>
-</#if>
-<#if methodInfo.updateByPrimaryKeyMethodEnabled>
-<#if tableInfo.hasPrimaryKey>
+<#if methodInfo.updateByPrimaryKeyMethodEnabled && tableInfo.hasPrimaryKey>
 
-    <#include "xml/updateByPrimaryKey.ftl"/>
+    <!-- ${methodCommentInfo.updateByPrimaryKeyMethodDescription} -->
+    <update id="${methodInfo.updateByPrimaryKeyMethodName}" parameterType="${mybatisXmlDefinition.parameterType}">
+		UPDATE
+		<include refid="Table_Name" />
+		<set>
+    <#list tableInfo.columnLists as colm>
+        <#if colm??>
+            <#if colm_index != 0>
+			<if test="${colm.javaColumnName} != null">${colm.columnName} = ${'#'}{${colm.javaColumnName}},</if>
+		    </#if>
+		</#if>
+	</#list>
+		</set>
+		WHERE
+	<#list tableInfo.primaryKeyColumns as colm>
+		 <#if colm_index != 0>AND </#if>${colm.columnName} = ${'#'}{${colm.javaColumnName}}
+	</#list>
+	</update>
 </#if>
-</#if>
-<#if methodInfo.queryByPrimaryKeyEnabled>
-<#if tableInfo.hasPrimaryKey>
+<#if methodInfo.queryByPrimaryKeyEnabled && tableInfo.hasPrimaryKey>
 
-    <#include "xml/queryByPrimaryKey.ftl"/>
+    <!-- ${methodCommentInfo.queryByPrimaryKeyDescription}  -->
+    <#assign parameterType = "${tableInfo.singlePrimaryKey?then(mybatisXmlDefinition.columns[0].parameterType,mybatisXmlDefinition.parameterType)}">
+	<select id="${methodInfo.queryByPrimaryKeyMethodName}" resultMap="${mybatisXmlDefinition.resultMap.id}" parameterType="${parameterType}">
+        SELECT
+        <include refid="Base_Column_List" />
+  	     FROM
+        <include refid="Table_Name" />
+        WHERE
+    <#list tableInfo.primaryKeyColumns as colm>
+        <#if colm_index != 0>AND </#if>${colm.columnName} = ${'#'}{${colm.javaColumnName}}
+       </#list>
+    </select>
 </#if>
-</#if>
-<#if methodInfo.queryMethodEnabled>
 
-<#include "xml/queryByWhere.ftl"/>
-</#if>
-<#if methodInfo.countMethodEnabled>
+    <!-- ${methodCommentInfo.queryMethodDescription}  -->
+    <select id="${methodInfo.queryMethodName}" resultMap="${mybatisXmlDefinition.resultMap.id}" parameterType="${mybatisXmlDefinition.parameterType}">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM
+        ${mybatisXmlDefinition.tableSchema}.${mybatisXmlDefinition.tableName}
+        <include refid="Where_Clause" />
+    </select>
 
-<#include "xml/countByWhere.ftl"/>
-</#if>
+    <!-- ${methodCommentInfo.countMethodDescription} -->
+    <select id="${methodInfo.countMethodName}" resultType="int" parameterType="${mybatisXmlDefinition.parameterType}">
+        SELECT COUNT(*) FROM
+        ${mybatisXmlDefinition.tableSchema}.${mybatisXmlDefinition.tableName}
+        <include refid="Where_Clause" />
+    </select>
+
 </mapper>

@@ -51,6 +51,10 @@ public class MethodInfo {
     private boolean queryByPrimaryKeyEnabled = true;
     private boolean countMethodEnabled = true;
 
+    public MethodInfo() {
+        initEnabledMethod();
+    }
+
     /**
      * 格式化方法名
      * @param format 方法名格式化模板 例如 countTotal{0}
@@ -173,16 +177,14 @@ public class MethodInfo {
         this.countMethodEnabled = countMethodEnabled;
     }
 
-    public void initMethodName(String javaTableName) {
-        setInsertMethodName(javaTableName);
-        setDeleteMethodName(javaTableName);
-        setDeleteByPrimaryKeyMethodName(javaTableName);
-        setUpdateByPrimaryKeyMethodName(javaTableName);
-        setQueryMethodName(javaTableName);
-        setQueryByPrimaryKeyMethodName(javaTableName);
-        setCountMethodName(javaTableName);
-
-        initEnabledMethod();
+    public void initMethodName(String tableNameCamelCase) {
+        setInsertMethodName(tableNameCamelCase);
+        setDeleteMethodName(tableNameCamelCase);
+        setDeleteByPrimaryKeyMethodName(tableNameCamelCase);
+        setUpdateByPrimaryKeyMethodName(tableNameCamelCase);
+        setQueryMethodName(tableNameCamelCase);
+        setQueryByPrimaryKeyMethodName(tableNameCamelCase);
+        setCountMethodName(tableNameCamelCase);
     }
 
     private void initEnabledMethod() {
