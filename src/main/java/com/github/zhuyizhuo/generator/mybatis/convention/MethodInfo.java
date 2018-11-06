@@ -41,6 +41,7 @@ public class MethodInfo {
     private String queryMethodName;
     private String queryByPrimaryKeyMethodName;
     private String countMethodName;
+    private String batchInsertMethodName;
 
     /** 是否生成指定方法 */
     private boolean insertMethodEnabled = true;
@@ -50,9 +51,9 @@ public class MethodInfo {
     private boolean queryMethodEnabled = true;
     private boolean queryByPrimaryKeyEnabled = true;
     private boolean countMethodEnabled = true;
+    private boolean batchInsertMethodEnabled = true;
 
     public MethodInfo() {
-        initEnabledMethod();
     }
 
     /**
@@ -169,6 +170,23 @@ public class MethodInfo {
         this.queryByPrimaryKeyEnabled = queryByPrimaryKeyEnabled;
     }
 
+    public String getBatchInsertMethodName() {
+        return batchInsertMethodName;
+    }
+
+    public void setBatchInsertMethodName(String batchInsertMethodName) {
+        this.batchInsertMethodName = formatMethodName(BATCH_INSERT_METHOD_FORMAT,batchInsertMethodName);;
+        ;
+    }
+
+    public boolean isBatchInsertMethodEnabled() {
+        return batchInsertMethodEnabled;
+    }
+
+    public void setBatchInsertMethodEnabled(boolean batchInsertMethodEnabled) {
+        this.batchInsertMethodEnabled = batchInsertMethodEnabled;
+    }
+
     public boolean isCountMethodEnabled() {
         return countMethodEnabled;
     }
@@ -185,9 +203,10 @@ public class MethodInfo {
         setQueryMethodName(tableNameCamelCase);
         setQueryByPrimaryKeyMethodName(tableNameCamelCase);
         setCountMethodName(tableNameCamelCase);
+        setBatchInsertMethodName(tableNameCamelCase);
     }
 
-    private void initEnabledMethod() {
+    public void initEnabledMethod() {
         setInsertMethodEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.INSERT_METHOD_ENABLED));
         setDeleteMethodEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.DELETE_METHOD_ENABLED));
         setDeleteByPrimaryKeyMethodEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.DELETE_BY_PRIMARY_KEY_METHOD_ENABLED));
@@ -195,6 +214,7 @@ public class MethodInfo {
         setQueryMethodEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.QUERY_METHOD_ENABLED));
         setQueryByPrimaryKeyEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.QUERY_BY_PRIMARY_KEY_ENABLED));
         setCountMethodEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.COUNT_METHOD_ENABLED));
+        setBatchInsertMethodEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.BATCH_INSERT_METHOD_ENABLED));
     }
 
 }

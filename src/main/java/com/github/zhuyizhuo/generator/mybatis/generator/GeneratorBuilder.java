@@ -163,6 +163,7 @@ public class GeneratorBuilder {
         TypeConversion.init(typeMapper);
         stratificationInfo.init();
         classCommentInfo.init();
+        methodInfo.initEnabledMethod();
         GenerateInfo generateInfo = new GenerateInfo();
         generateInfo.setClassCommentInfo(classCommentInfo);
         generateInfo.setMethodCommentInfo(methodCommentInfo);
