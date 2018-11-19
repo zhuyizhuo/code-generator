@@ -9,7 +9,7 @@ import com.github.zhuyizhuo.generator.mybatis.generator.support.MethodDefinition
  * time: 2018/9/18
  *
  * @author yizhuo <br>
- * @since #since#
+ * @since 1.3.2
  */
 public class MybatisMethodDefinition extends MethodDefinition {
 

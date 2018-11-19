@@ -14,7 +14,7 @@ import java.util.Map;
  * description: TODO <br>
  *
  * @author yizhuo <br>
- * @since #since#
+ * @since 1.3.2
  */
 public class MybatisXmlDefinition extends TableDefinition {
     /** mybatis header xml头信息 */

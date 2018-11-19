@@ -8,7 +8,7 @@ import com.github.zhuyizhuo.generator.mybatis.generator.support.mybatis.MybatisX
  * time: 2018/9/12
  *
  * @author yizhuo <br>
- * @since #since#
+ * @since 1.3.2
  */
 public interface MybatisGenerateService {
 
