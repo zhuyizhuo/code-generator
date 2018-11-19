@@ -17,6 +17,7 @@ public class MethodCommentInfo {
     private String queryMethodDescription = "根据传入参数查询数据列表";
     private String queryByPrimaryKeyDescription = "根据主键查询数据";
     private String countMethodDescription = "统计符合条件的数据数量";
+    private String batchInsertMethodDescription = "批量插入数据";
     /** 参数对象描述 */
     private String paramsDescription = "传入参数";
 
@@ -78,6 +79,14 @@ public class MethodCommentInfo {
 
     public String getParamsDescription() {
         return paramsDescription;
+    }
+
+    public String getBatchInsertMethodDescription() {
+        return batchInsertMethodDescription;
+    }
+
+    public void setBatchInsertMethodDescription(String batchInsertMethodDescription) {
+        this.batchInsertMethodDescription = batchInsertMethodDescription;
     }
 
     public void setParamsDescription(String paramsDescription) {

@@ -17,5 +17,6 @@ public class MethodEnableConstants {
     public static final String QUERY_METHOD_ENABLED = "QUERY_METHOD_ENABLED";
     public static final String QUERY_BY_PRIMARY_KEY_ENABLED = "QUERY_BY_PRIMARY_KEY_ENABLED";
     public static final String COUNT_METHOD_ENABLED = "COUNT_METHOD_ENABLED";
+    public static final String BATCH_INSERT_METHOD_ENABLED = "BATCH_INSERT_METHOD_ENABLED";
 
 }

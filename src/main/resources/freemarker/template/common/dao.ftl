@@ -43,4 +43,8 @@ public interface ${stratificationInfo.daoName} {
 
 	<#include "java/countByWhere.ftl"/>
 </#if>
+<#if methodInfo.batchInsertMethodEnabled>
+
+  <#include "java/batchInsert.ftl"/>
+</#if>
 }

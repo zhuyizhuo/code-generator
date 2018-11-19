@@ -6,7 +6,7 @@ package com.github.zhuyizhuo.generator.mybatis.generator.support;
  * time: 2018/9/14
  *
  * @author yizhuo <br>
- * @since #since#
+ * @since 1.3.2
  */
 public class MethodDefinition {
 

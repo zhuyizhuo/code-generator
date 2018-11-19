@@ -36,4 +36,8 @@ ${header}
 
 <#include "xml/countByWhere.ftl"/>
 </#if>
+<#if methodInfo.batchInsertMethodEnabled>
+
+    <#include "xml/batchInsert.ftl"/>
+</#if>
 </mapper>
