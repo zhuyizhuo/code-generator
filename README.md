@@ -61,5 +61,5 @@ The code generator is released under version 2.0 of the [Apache License](http://
 
 #### 微信:
 
-![zhuo-simple_is_happy](https://github.com/zhuyizhuo/notes/blob/master/wechat.png?raw=true)
+![zhuo-simple_is_happy](https://raw.githubusercontent.com/zhuyizhuo/notes/master/pics/wechat.png)
 
