@@ -1,10 +1,11 @@
 package com.github.zhuyizhuo.generator.mybatis.generator;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
-import com.github.zhuyizhuo.generator.mybatis.convention.*;
-import com.github.zhuyizhuo.generator.mybatis.extension.service.GeneratorService;
-import com.github.zhuyizhuo.generator.mybatis.extension.service.impl.FreemarkerGenerator;
-import com.github.zhuyizhuo.generator.mybatis.factory.DbServiceFactory;
+import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
+import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
+import com.github.zhuyizhuo.generator.mybatis.convention.MethodCommentInfo;
+import com.github.zhuyizhuo.generator.mybatis.convention.MethodInfo;
+import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
 import com.github.zhuyizhuo.generator.mybatis.extension.service.FormatService;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
@@ -35,8 +36,6 @@ public class GeneratorBuilder {
     private StratificationInfo stratificationInfo;
     /** 文件输出路径信息 */
     private FileOutPathInfo fileOutPathInfo;
-    /** 自定义生成service */
-    private GeneratorService generatorService;
     /***
      * key 数据库字段类型
      * value java 数据类型
@@ -144,17 +143,7 @@ public class GeneratorBuilder {
         return this;
     }
 
-    /**
-     * 自定义生成器service
-     * @param generatorService
-     * @return
-     */
-    public GeneratorBuilder addGeneratorService(GeneratorService generatorService){
-        this.generatorService = generatorService;
-        return this;
-    }
-
-    public Generator build(InputStream inputStream){
+     public Generator build(InputStream inputStream){
         try {
             PropertiesUtils.loadProperties(inputStream);
         } catch (Exception e) {
@@ -169,10 +158,8 @@ public class GeneratorBuilder {
         generateInfo.setMethodCommentInfo(methodCommentInfo);
         generateInfo.setMethodInfo(methodInfo);
         fileOutPathInfo.init(stratificationInfo);
-        if (generatorService == null){
-            generatorService = new FreemarkerGenerator();
-        }
-        return new Generator(generateInfo, generatorService, fileOutPathInfo, stratificationInfo);
+
+        return new Generator(generateInfo, fileOutPathInfo, stratificationInfo);
     }
 
 }
