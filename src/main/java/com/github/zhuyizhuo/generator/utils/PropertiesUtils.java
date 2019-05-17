@@ -47,8 +47,8 @@ public class PropertiesUtils {
 
     /**
      * 判断是否包含对应配置
-     * @param key
-     * @return
+     * @param key 键
+     * @return 存在返回true  不存在返回false
      */
     public static boolean containsKey(String key){
         return GeneratorStringUtils.isNotBlank(proInfo.getProperty(key));
@@ -56,7 +56,7 @@ public class PropertiesUtils {
 
     /**
      * 获取配置信息
-     * @param key
+     * @param key 键
      * @return 不存在 返回FALSE
      */
     public static boolean getBooleanPropertiesDefaultFalse(String key){
@@ -74,7 +74,7 @@ public class PropertiesUtils {
 
     /**
      * 获取配置信息
-     * @param key
+     * @param key 键
      * @return 不存在则 返回TRUE
      */
     public static boolean getBooleanPropertiesDefaultTrue(String key){

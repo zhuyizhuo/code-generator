@@ -28,8 +28,7 @@ public interface MysqlDataBaseMapper {
 
     /**
      * 根据表信息查询主键信息
-     * @param schema
-     * @return
+     * @param schema 查询参数对象
      */
     List<ColumnInfo> getPrimaryKeys(DbTableInfo schema);
 }

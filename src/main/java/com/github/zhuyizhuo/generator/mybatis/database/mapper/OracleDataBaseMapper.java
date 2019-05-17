@@ -30,8 +30,6 @@ public interface OracleDataBaseMapper {
 
     /**
      * 根据表信息查询主键信息
-     * @param schema
-     * @return
      */
     List<ColumnInfo> getPrimaryKeys(DbTableInfo schema);
 }
