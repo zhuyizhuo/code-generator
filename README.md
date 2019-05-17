@@ -42,8 +42,6 @@
 
 该文档 markdown 格式的源码文件可通过[项目的 Git 代码库](https://github.com/zhuyizhuo/code-generator)来获取。Fork 该源码库，做出更新，然后提交一个 pull request 吧。
 
-你将成为本文档的最佳作者，code-generator 的用户定会过来查阅的。
-
 ### 许可证
 
 The code generator is released under version 2.0 of the [Apache License](http://www.apache.org/licenses/LICENSE-2.0).
@@ -61,5 +59,5 @@ The code generator is released under version 2.0 of the [Apache License](http://
 
 #### 微信:
 
-![zhuo-simple_is_happy](https://github.com/zhuyizhuo/notes/blob/master/wechat.png?raw=true)
+![zhuo-simple_is_happy](https://raw.githubusercontent.com/zhuyizhuo/notes/master/pics/wechat.png)
 
