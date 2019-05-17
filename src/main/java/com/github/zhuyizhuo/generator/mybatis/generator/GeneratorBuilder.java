@@ -72,8 +72,6 @@ public class GeneratorBuilder {
 
     /**
      * 自定义xml生成名称
-     * @param formatService
-     * @return
      */
     public GeneratorBuilder addXmlNameFormat(FormatService formatService){
         this.stratificationInfo.addXmlNameFormat(formatService);
@@ -82,8 +80,6 @@ public class GeneratorBuilder {
 
     /**
      * 自定义pojo生成名称
-     * @param formatService
-     * @return
      */
     public GeneratorBuilder addBeanNameFormat(FormatService formatService){
         this.stratificationInfo.addBeanNameFormat(formatService);
@@ -92,8 +88,6 @@ public class GeneratorBuilder {
 
     /**
      * 自定义mapper生成名称
-     * @param formatService
-     * @return
      */
     public GeneratorBuilder addMapperNameFormat(FormatService formatService){
         this.stratificationInfo.addDaoNameFormat(formatService);
@@ -102,8 +96,6 @@ public class GeneratorBuilder {
 
     /**
      * 自定义数据库分隔符 默认为下划线
-     * @param tableRegex
-     * @return
      */
     public GeneratorBuilder addTableRegex(String tableRegex){
         if (GeneratorStringUtils.isNotBlank(tableRegex)){
@@ -119,9 +111,7 @@ public class GeneratorBuilder {
      *      new GeneratorBuilder().addTypeMapper("NUMBER",JdbcType.VARCHAR,String.class);
      * @param dataBaseType 数据类型
      * @param jdbcType mybatis 配置文件中类型 如 #{id,jdbcType=VARCHAR}
-     * @see
-     * @param javaTypeClass
-     * @return
+     * @param javaTypeClass java 类
      */
     public GeneratorBuilder addTypeMapper(String dataBaseType,JdbcType jdbcType,Class<?> javaTypeClass){
         if (GeneratorStringUtils.isNotBlank(dataBaseType) && javaTypeClass != null){
@@ -136,7 +126,6 @@ public class GeneratorBuilder {
     /**
      * 自定义方法注释
      * @param commentInfo 方法注释对象
-     * @return
      */
     public GeneratorBuilder addMethodComment(MethodCommentInfo commentInfo){
         this.methodCommentInfo = commentInfo;

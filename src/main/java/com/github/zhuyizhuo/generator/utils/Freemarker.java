@@ -16,7 +16,6 @@ public class Freemarker {
 
 	/**
 	 * 打印到控制台(测试用)
-	 *  @param ftlName
 	 */
 	public static void print(String ftlPath, String ftlName, Object root) throws Exception{
 		try {
@@ -76,7 +75,6 @@ public class Freemarker {
 	 * @param ftlName	 ftl文件名
 	 * @param outPutPath	输出后的文件全部路径
 	 * @param outPutObject 输出对象
-	 * @throws Exception
 	 */
 	public static void printFile(String ftlPath, String ftlName, String outPutPath, Object outPutObject) throws Exception{
 		try {
@@ -101,7 +99,7 @@ public class Freemarker {
 	
 	/**
 	 * 通过文件名加载模版
-	 * @param ftlName
+	 * @param ftlName ftl文件名
 	 */
 	public static Template getTemplate(String ftlPath, String ftlName) throws Exception{
 		try {

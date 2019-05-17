@@ -91,7 +91,7 @@ public class StratificationInfo {
     /**
      *  初始化分层信息
      * @since 1.3.0
-     * @param basePackage
+     * @param basePackage 基础路径
      */
     public void init(String basePackage) {
         initEachFormat();
@@ -301,9 +301,6 @@ public class StratificationInfo {
 
     /**
      *  格式化生成
-     * @param format
-     * @param javaTableName
-     * @return
      */
     public String formatName(String format, String javaTableName) {
         return MessageFormat.format(format, javaTableName);
