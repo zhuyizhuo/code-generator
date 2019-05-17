@@ -124,43 +124,6 @@ public class TestGenerator {
 }
 ```
 
-## 自定义生成器
-
-> 适用场景: 如果需要根据表信息生成更多内容 例如 生成页面/service/controller等  提供生成器的扩展配置  将数据库内省的表结构封装为对象 可自行扩展
-
-```java
-import java.io.IOException;
-import java.util.List;
-
-import org.apache.ibatis.io.Resources;
-
-import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
-import com.github.zhuyizhuo.generator.mybatis.extension.service.GeneratorService;
-import com.github.zhuyizhuo.generator.mybatis.generator.Generator;
-import com.github.zhuyizhuo.generator.mybatis.generator.GeneratorBuilder;
-import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
-
-public class TestGenerator {
-    	public static void main(String[] args) throws IOException {
-		Generator generator = new GeneratorBuilder().addGeneratorService(new GeneratorService() {
-            //GenerateInfo 为数据库信息处理后对象 
-            //可将此对象转为json打印出来查看结构 自己根据需要从中获取字段 用以自定义生成更多内容
-			@Override
-			public void generate(GenerateInfo generateInfo) {
-				System.out.println("tableName:" + generateInfo.getTableInfo().getTableName());
-				List<JavaColumnInfo> columnLists = generateInfo.getTableInfo().getColumnLists();
-				for (int i = 0; i < columnLists.size(); i++) {
-					JavaColumnInfo javaColumnInfo = columnLists.get(i);
-					System.out.println("\t private " + javaColumnInfo.getJavaDataType() + " " + javaColumnInfo.getJavaColumnName() + ";");
-				}
-			}
-		}).build(Resources.getResourceAsStream("config.properties"));
-		generator.generate();
-	}
-}
-
-```
-
 `java8` lambda 表达式
 
 ```java

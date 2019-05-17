@@ -4,10 +4,10 @@ import com.github.zhuyizhuo.generator.mybatis.constants.FtlPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
 import com.github.zhuyizhuo.generator.mybatis.db.service.DbService;
-import com.github.zhuyizhuo.generator.mybatis.extension.service.GeneratorService;
 import com.github.zhuyizhuo.generator.mybatis.factory.DbServiceFactory;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
+import com.github.zhuyizhuo.generator.utils.Freemarker;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 
 import java.util.List;
@@ -18,8 +18,7 @@ import java.util.List;
  * time: 2018/7/29 18:12
  */
 public class Generator {
-    /** 具体的生成器 */
-    private GeneratorService generatorService;
+
     /** 数据源 */
     private DbService service;
     /** 生成所需数据 */
@@ -29,10 +28,9 @@ public class Generator {
     /** 分层信息 */
     private StratificationInfo stratificationInfo;
 
-    public Generator(GenerateInfo generateInfo, GeneratorService generatorService,FileOutPathInfo fileOutPathInfo,StratificationInfo stratificationInfo) {
+    public Generator(GenerateInfo generateInfo, FileOutPathInfo fileOutPathInfo,StratificationInfo stratificationInfo) {
         this.service = DbServiceFactory.getDbService();
         this.generateInfo = generateInfo;
-        this.generatorService = generatorService;
         this.fileOutPathInfo = fileOutPathInfo;
         this.stratificationInfo = stratificationInfo;
     }
@@ -74,12 +72,9 @@ public class Generator {
                 //初始化输出路径
                 fileOutPathInfo.formatPath(this.stratificationInfo);
 
-                // 初始化输入输出
-                generatorService.addInOutPath(ftlPathInfo.getPojoFtlPath(), fileOutPathInfo.getPojoOutPutFullPath())
-                        .addInOutPath(ftlPathInfo.getDaoFtlPath(), fileOutPathInfo.getDaoOutPutFullPath())
-                        .addInOutPath(ftlPathInfo.getMybatisXmlFtlPath(), fileOutPathInfo.getXmlOutPutFullPath());
-
-                generatorService.generate(generateInfo);
+                Freemarker.printFile(ftlPathInfo.getPojoFtlPath(), fileOutPathInfo.getPojoOutPutFullPath(), generateInfo);
+                Freemarker.printFile(ftlPathInfo.getDaoFtlPath(), fileOutPathInfo.getDaoOutPutFullPath(), generateInfo);
+                Freemarker.printFile(ftlPathInfo.getMybatisXmlFtlPath(), fileOutPathInfo.getXmlOutPutFullPath(), generateInfo);
             }
         } catch (Exception e) {
             LogUtils.printErrInfo("生成数据异常!");
