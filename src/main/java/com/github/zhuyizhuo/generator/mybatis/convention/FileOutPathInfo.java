@@ -14,8 +14,10 @@ import java.text.MessageFormat;
  * @version 1.0
  */
 public class FileOutPathInfo {
-    /** 基路径 */
-    private String basePath;
+    /** java 基础路径 */
+    private String baseJavaPath;
+    /** 资源文件基础路径 */
+    private String baseResourcesPath;
     /** 实体类输出路径 */
     private String pojoOutPutPath;
     /** dao输出路径 */
@@ -38,14 +40,16 @@ public class FileOutPathInfo {
         String basePath = "";
         basePath = PropertiesUtils.getProperties(ConfigConstants.FILE_OUT_PUT_PATH);
         if (GeneratorStringUtils.isBlank(basePath)){
-            basePath = System.getProperty("user.dir") + "/src/main/java/";
+            basePath = System.getProperty("user.dir");
         }
         basePath += "/";
         return basePath;
     }
 
     public void init(StratificationInfo stratificationInfo) {
-        this.basePath = getBasePath();
+        String basePath = getBasePath();
+        this.baseJavaPath = basePath + "/src/main/java/";
+        this.baseResourcesPath = basePath + "/src/main/resources/";
 
         if (PropertiesUtils.containsKey(ConfigConstants.XML_OUT_PUT_PATH)){
             setXmlOutPutPath(PropertiesUtils.getProperties(ConfigConstants.XML_OUT_PUT_PATH));
@@ -81,11 +85,11 @@ public class FileOutPathInfo {
     }
 
     private String getJavaFileOutPutFullPath(String filePath) {
-        return basePath + filePath + "/{0}.java";
+        return baseJavaPath + filePath + "/{0}.java";
     }
 
     private String getXmlOutPutPath(String xmlFilePath) {
-        return basePath + xmlFilePath + "/{0}.xml";
+        return baseResourcesPath + xmlFilePath + "/{0}.xml";
     }
 
     public String changePackage2Path(String packagePath){

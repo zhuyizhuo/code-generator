@@ -40,7 +40,7 @@ public abstract class AbstractDbService implements DbService {
     }
 
     protected List<String> getTables() {
-        String includeTableName = PropertiesUtils.getProperties(ConfigConstants.INCLUDE_TABLE_NAME);
+        String includeTableName = PropertiesUtils.getProperties(ConfigConstants.GENERATE_TABLES_NAME);
         if (GeneratorStringUtils.isNotBlank(includeTableName)){
             return Splitter.on(",").splitToList(includeTableName);
         }

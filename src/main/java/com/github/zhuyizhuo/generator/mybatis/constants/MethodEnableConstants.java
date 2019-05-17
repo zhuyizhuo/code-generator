@@ -10,13 +10,13 @@ package com.github.zhuyizhuo.generator.mybatis.constants;
  */
 public class MethodEnableConstants {
 
-    public static final String INSERT_METHOD_ENABLED = "INSERT_METHOD_ENABLED";
-    public static final String DELETE_METHOD_ENABLED = "DELETE_METHOD_ENABLED";
-    public static final String DELETE_BY_PRIMARY_KEY_METHOD_ENABLED = "DELETE_BY_PRIMARY_KEY_METHOD_ENABLED";
-    public static final String UPDATE_BY_PRIMARY_KEY_METHOD_ENABLED = "UPDATE_BY_PRIMARY_KEY_METHOD_ENABLED";
-    public static final String QUERY_METHOD_ENABLED = "QUERY_METHOD_ENABLED";
-    public static final String QUERY_BY_PRIMARY_KEY_ENABLED = "QUERY_BY_PRIMARY_KEY_ENABLED";
-    public static final String COUNT_METHOD_ENABLED = "COUNT_METHOD_ENABLED";
-    public static final String BATCH_INSERT_METHOD_ENABLED = "BATCH_INSERT_METHOD_ENABLED";
+    public static final String INSERT_METHOD_ENABLED = "generate.java.method.insert.enabled";
+    public static final String BATCH_INSERT_METHOD_ENABLED = "generate.java.method.batch-insert.enabled";
+    public static final String DELETE_METHOD_ENABLED = "generate.java.method.delete-by-where.enabled";
+    public static final String DELETE_BY_PRIMARY_KEY_METHOD_ENABLED = "generate.java.method.delete-by-primary-key.enabled";
+    public static final String UPDATE_BY_PRIMARY_KEY_METHOD_ENABLED = "generate.java.method.update-by-primary-key.enabled";
+    public static final String QUERY_METHOD_ENABLED = "generate.java.method.query-by-where.enabled";
+    public static final String QUERY_BY_PRIMARY_KEY_ENABLED = "generate.java.method.query-by-primary-key.enabled";
+    public static final String COUNT_METHOD_ENABLED = "generate.java.method.count-by-where.enabled";
 
 }

@@ -2,7 +2,6 @@ package com.github.zhuyizhuo.generator.mybatis.convention;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.extension.service.FormatService;
-import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
@@ -48,33 +47,9 @@ public class StratificationInfo {
     /** xml包全路径*/
     private String xmlFullPackage;
 
-    private Map<String,FormatService> nameFormatMap = new HashMap<String,FormatService>();
+    private Map<String,FormatService> nameFormatMap = new HashMap<>();
 
-    private FormatService formatService = new FormatService() {
-        @Override
-        public String formatTableName(String tableName) {
-            return tableName.toLowerCase();
-        }
-    };
-
-    /** 待发布start **/
-    /** service 层名称 */
-    private String SERVICE_NAME_FORMAT = "{0}Service";
-    /** service 实现类名称 */
-    private String SERVICE_IMPL_NAME_FORMAT = "{0}ServiceImpl";
-    /** service 接口层包路径 */
-    private String servicePackage = "service";
-    /** service 实现类包路径 */
-    private String serviceImplPackage = "service.impl";
-    /** service 层名称 */
-    private String serviceName;
-    /** service 实现类名称 */
-    private String serviceImplName;
-    /** service 接口层包全路径 */
-    private String serviceFullPackage;
-    /** service 实现类包全路径 */
-    private String serviceImplFullPackage;
-    /** 待发布end **/
+    private FormatService formatService = (tableName) -> tableName.toLowerCase();
 
     public StratificationInfo() {
 
@@ -106,10 +81,6 @@ public class StratificationInfo {
         }
         /** dao层包全路径 */
         this.daoFullPackage = basePackage + this.daoPackage;
-        /** service 接口层包全路径 */
-        this.serviceFullPackage = basePackage + this.servicePackage;
-        /** service 实现类包全路径 */
-        this.serviceImplFullPackage = basePackage + this.serviceImplPackage;
         /** 实体包全路径 */
         this.pojoFullPackage = basePackage + this.pojoPackage;
         /** xml包全路径*/
@@ -119,7 +90,7 @@ public class StratificationInfo {
     private void initEachPackage() {
         String pojoPackage = PropertiesUtils.getProperties(ConfigConstants.POJO_PACKAGE);
         String daoPackage = PropertiesUtils.getProperties(ConfigConstants.DAO_PACKAGE);
-        String xmlPackage = PropertiesUtils.getProperties(ConfigConstants.XML_PACKAGE);
+        String xmlPackage = PropertiesUtils.getProperties(ConfigConstants.XML_OUT_PUT_PATH);
         if(GeneratorStringUtils.isNotBlank(pojoPackage)){
             this.pojoPackage = pojoPackage;
         }
@@ -133,17 +104,9 @@ public class StratificationInfo {
 
     private void initEachFormat() {
         String daoNameFormat = PropertiesUtils.getProperties(ConfigConstants.DAO_NAME_FORMAT);
-        String serviceImplNameFormat = PropertiesUtils.getProperties(ConfigConstants.SERVICE_IMPL_NAME_FORMAT);
-        String serviceNameFormat = PropertiesUtils.getProperties(ConfigConstants.SERVICE_NAME_FORMAT);
         String pojoNameFormat = PropertiesUtils.getProperties(ConfigConstants.POJO_NAME_FORMAT);
         if(GeneratorStringUtils.isNotBlank(daoNameFormat)){
             this.DAO_NAME_FORMAT = daoNameFormat;
-        }
-        if(GeneratorStringUtils.isNotBlank(serviceImplNameFormat)){
-            this.SERVICE_IMPL_NAME_FORMAT = serviceImplNameFormat;
-        }
-        if(GeneratorStringUtils.isNotBlank(serviceNameFormat)){
-            this.SERVICE_NAME_FORMAT = serviceNameFormat;
         }
         if(GeneratorStringUtils.isNotBlank(pojoNameFormat)){
             this.POJO_NAME_FORMAT = pojoNameFormat;
@@ -168,22 +131,6 @@ public class StratificationInfo {
 
     public void setDaoPackage(String daoPackage) {
         this.daoPackage = daoPackage;
-    }
-
-    public String getServicePackage() {
-        return servicePackage;
-    }
-
-    public void setServicePackage(String servicePackage) {
-        this.servicePackage = servicePackage;
-    }
-
-    public String getServiceImplPackage() {
-        return serviceImplPackage;
-    }
-
-    public void setServiceImplPackage(String serviceImplPackage) {
-        this.serviceImplPackage = serviceImplPackage;
     }
 
     public String getPojoPackage() {
@@ -214,22 +161,6 @@ public class StratificationInfo {
         }
     }
 
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    public void setServiceName(String serviceName) {
-        this.serviceName = formatName(SERVICE_NAME_FORMAT,serviceName);
-    }
-
-    public String getServiceImplName() {
-        return serviceImplName;
-    }
-
-    public void setServiceImplName(String serviceImplName) {
-        this.serviceImplName = formatName(SERVICE_IMPL_NAME_FORMAT,serviceImplName);
-    }
-
     public String getDaoName() {
         return daoName;
     }
@@ -256,22 +187,6 @@ public class StratificationInfo {
 
     public void setDaoFullPackage(String daoFullPackage) {
         this.daoFullPackage = daoFullPackage;
-    }
-
-    public String getServiceFullPackage() {
-        return serviceFullPackage;
-    }
-
-    public void setServiceFullPackage(String serviceFullPackage) {
-        this.serviceFullPackage = serviceFullPackage;
-    }
-
-    public String getServiceImplFullPackage() {
-        return serviceImplFullPackage;
-    }
-
-    public void setServiceImplFullPackage(String serviceImplFullPackage) {
-        this.serviceImplFullPackage = serviceImplFullPackage;
     }
 
     public String getPojoFullPackage() {

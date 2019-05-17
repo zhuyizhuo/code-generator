@@ -1,9 +1,5 @@
 package com.github.zhuyizhuo.generator.utils;
 
-import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
-import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
-import org.apache.ibatis.io.Resources;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -17,27 +13,10 @@ public class PropertiesUtils {
 
     public static final Properties proInfo = new Properties();
 
-    private static final String[] needProperties = {ConfigConstants.URL,ConfigConstants.DB_TYPE,ConfigConstants.DRIVER,ConfigConstants.USERNAME,ConfigConstants.PASSWORD,ConfigConstants.TABLE_SCHEMA};
-
     public static void loadProperties(InputStream resourceAsStream) throws IOException,IllegalArgumentException {
         proInfo.load(resourceAsStream);
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < needProperties.length; i++) {
-            if (isBlank(getProperties(needProperties[i]))){
-                sb.append("未配置 " + needProperties[i] + "  \n");
-            }
-        }
-        if (sb.length() > 0){
-            LogUtils.printErrInfo(sb.toString());
-            throw new IllegalArgumentException(sb.toString());
-        }
-    }
-
-    private static boolean isBlank(String properties) {
-        if (GeneratorStringUtils.isBlank(properties)) {
-            return true;
-        }
-        return false;
+        CheckUtils.checkDBType();
+        CheckUtils.checkNeedConfig();
     }
 
     public static String getProperties(String key){
