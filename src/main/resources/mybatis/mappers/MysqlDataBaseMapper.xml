@@ -37,7 +37,7 @@
                 AND TABLE_NAME = #{tableName}
             </if>
         </where>
-        ORDER BY ORDINAL_POSITION ASC;
+        ORDER BY ORDINAL_POSITION ASC
     </select>
 
     <select id="getPrimaryKeys" resultType="columnInfo" parameterType="dbTableInfo">
