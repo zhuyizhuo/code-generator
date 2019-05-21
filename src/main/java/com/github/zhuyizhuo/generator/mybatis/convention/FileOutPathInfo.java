@@ -14,6 +14,8 @@ import java.text.MessageFormat;
  * @version 1.0
  */
 public class FileOutPathInfo {
+    private final String XML_FILE_PATH = "mappers";
+
     /** java 基础路径 */
     private String baseJavaPath;
     /** 资源文件基础路径 */
@@ -72,7 +74,7 @@ public class FileOutPathInfo {
             this.daoOutPutPath = getJavaFileOutPutFullPath(this.daoOutPutPath);
         }
         if (GeneratorStringUtils.isBlank(xmlOutPutPath)){
-            this.xmlOutPutPath = getXmlOutPutPath(changePackage2Path(stratificationInfo.getXmlFullPackage()));
+            this.xmlOutPutPath = getXmlOutPutPath(XML_FILE_PATH);
         } else {
             this.xmlOutPutPath = getXmlOutPutPath(this.xmlOutPutPath);
         }

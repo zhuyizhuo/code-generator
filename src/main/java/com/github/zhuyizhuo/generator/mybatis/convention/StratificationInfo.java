@@ -27,7 +27,7 @@ public class StratificationInfo {
     private String DAO_NAME_FORMAT = "{0}Mapper";
 
     /** dao包路径 */
-    private String daoPackage = "dao";
+    private String daoPackage = "mapper";
     /** 实体路径 */
     private String pojoPackage = "pojo";
     /** xml文件路径 */
