@@ -62,7 +62,6 @@ public class Generator {
                 return;
             }
 
-            FtlPathInfo ftlPathInfo = new FtlPathInfo();
             //循环多表数据
             for (int i = 0; i < dbTableInfoList.size(); i++) {
                 this.stratificationInfo.initFilesName(dbTableInfoList.get(i).getTableName());
@@ -72,10 +71,11 @@ public class Generator {
                 //初始化输出路径
                 fileOutPathInfo.formatPath(this.stratificationInfo);
 
-                Freemarker.printFile(ftlPathInfo.getPojoFtlPath(), fileOutPathInfo.getPojoOutPutFullPath(), generateInfo);
-                Freemarker.printFile(ftlPathInfo.getDaoFtlPath(), fileOutPathInfo.getDaoOutPutFullPath(), generateInfo);
-                Freemarker.printFile(ftlPathInfo.getMybatisXmlFtlPath(), fileOutPathInfo.getXmlOutPutFullPath(), generateInfo);
+                Freemarker.printFile(FtlPathInfo.pojoFtlPath, fileOutPathInfo.getPojoOutPutFullPath(), generateInfo);
+                Freemarker.printFile(FtlPathInfo.daoFtlPath, fileOutPathInfo.getDaoOutPutFullPath(), generateInfo);
+                Freemarker.printFile(FtlPathInfo.mybatisXmlFtlPath, fileOutPathInfo.getXmlOutPutFullPath(), generateInfo);
             }
+
         } catch (Exception e) {
             LogUtils.printErrInfo("生成数据异常!");
             e.printStackTrace();

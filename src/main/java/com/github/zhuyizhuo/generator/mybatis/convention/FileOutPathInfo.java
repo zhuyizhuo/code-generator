@@ -1,6 +1,8 @@
 package com.github.zhuyizhuo.generator.mybatis.convention;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
+import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
+import com.github.zhuyizhuo.generator.mybatis.extension.service.FormatService;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
@@ -15,6 +17,8 @@ import java.text.MessageFormat;
  */
 public class FileOutPathInfo {
     private final String XML_FILE_PATH = "mappers";
+
+    private FormatService formatService = (tableName) -> tableName.toLowerCase();
 
     /** java 基础路径 */
     private String baseJavaPath;
@@ -83,7 +87,7 @@ public class FileOutPathInfo {
     public void formatPath(StratificationInfo stratificationInfo){
         this.pojoOutPutFullPath = MessageFormat.format(pojoOutPutPath,stratificationInfo.getPojoName());
         this.daoOutPutFullPath = MessageFormat.format(daoOutPutPath,stratificationInfo.getDaoName());
-        this.xmlOutPutFullPath = MessageFormat.format(xmlOutPutPath,stratificationInfo.getXmlName());
+        this.xmlOutPutFullPath = MessageFormat.format(xmlOutPutPath,initXmlName(stratificationInfo.getTableName()));
     }
 
     private String getJavaFileOutPutFullPath(String filePath) {
@@ -98,24 +102,12 @@ public class FileOutPathInfo {
         return packagePath.replaceAll("\\.","/");
     }
 
-    public String getPojoOutPutPath() {
-        return pojoOutPutPath;
-    }
-
     public void setPojoOutPutPath(String pojoOutPutPath) {
         this.pojoOutPutPath = pojoOutPutPath;
     }
 
-    public String getDaoOutPutPath() {
-        return daoOutPutPath;
-    }
-
     public void setDaoOutPutPath(String daoOutPutPath) {
         this.daoOutPutPath = daoOutPutPath;
-    }
-
-    public String getXmlOutPutPath() {
-        return xmlOutPutPath;
     }
 
     public void setXmlOutPutPath(String xmlOutPutPath) {
@@ -126,23 +118,23 @@ public class FileOutPathInfo {
         return pojoOutPutFullPath;
     }
 
-    public void setPojoOutPutFullPath(String pojoOutPutFullPath) {
-        this.pojoOutPutFullPath = pojoOutPutFullPath;
-    }
-
     public String getDaoOutPutFullPath() {
         return daoOutPutFullPath;
-    }
-
-    public void setDaoOutPutFullPath(String daoOutPutFullPath) {
-        this.daoOutPutFullPath = daoOutPutFullPath;
     }
 
     public String getXmlOutPutFullPath() {
         return xmlOutPutFullPath;
     }
 
-    public void setXmlOutPutFullPath(String xmlOutPutFullPath) {
-        this.xmlOutPutFullPath = xmlOutPutFullPath;
+    private String initXmlName(String tableName) {
+        String xmlNameFormat = PropertiesUtils.getProperties(ConfigConstants.XML_NAME_FORMAT);
+        return "camel".equalsIgnoreCase(xmlNameFormat)
+                ? GeneratorStringUtils.changeTableName2CamelFirstUpper(tableName, ConfigConstants.tableRegex)
+                : this.formatService.formatTableName(tableName);
     }
+
+    public void addXmlNameFormat(FormatService formatService) {
+        this.formatService = formatService;
+    }
+
 }

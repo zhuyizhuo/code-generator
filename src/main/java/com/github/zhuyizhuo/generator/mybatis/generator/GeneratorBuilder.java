@@ -74,7 +74,7 @@ public class GeneratorBuilder {
      * 自定义xml生成名称
      */
     public GeneratorBuilder addXmlNameFormat(FormatService formatService){
-        this.stratificationInfo.addXmlNameFormat(formatService);
+        this.fileOutPathInfo.addXmlNameFormat(formatService);
         return this;
     }
 

@@ -1,9 +1,13 @@
 package com.github.zhuyizhuo.generator.mybatis.convention;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.MethodEnableConstants;
+import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
+import com.github.zhuyizhuo.generator.mybatis.enums.MethodEnums;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
 import java.text.MessageFormat;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 方法相关参数
@@ -30,8 +34,6 @@ public class MethodInfo {
 
     /** 批量新增方法名*/
     private static final String BATCH_INSERT_METHOD_FORMAT = "batchInsert{0}";
-    /** 分页查询方法名 */
-    private static final String PAGING_QUERY_METHOD_FORMAT = "pagingQuery{0}";
 
     /** 方法名 */
     private String insertMethodName;
@@ -52,6 +54,8 @@ public class MethodInfo {
     private boolean queryByPrimaryKeyEnabled = true;
     private boolean countMethodEnabled = true;
     private boolean batchInsertMethodEnabled = true;
+    // methodName -> MethodDescription
+    private Map<String,MethodDescription> methodDescription = new ConcurrentHashMap<>();
 
     public MethodInfo() {
     }
@@ -207,6 +211,20 @@ public class MethodInfo {
     }
 
     public void initEnabledMethod() {
+        MethodEnums[] values = MethodEnums.values();
+        for (int i = 0; i < values.length; i++) {
+            String propertiesEnabledKey = values[i].getPropertiesEnabledKey();
+            boolean booleanPropertiesDefaultTrue = PropertiesUtils.getBooleanPropertiesDefaultTrue(propertiesEnabledKey);
+            MethodDescription methodDescription = this.methodDescription.get(values[i].toString());
+            if (methodDescription != null){
+                methodDescription.setEnabled(booleanPropertiesDefaultTrue);
+            } else {
+                //TODO 初始化应在何处
+                methodDescription = new MethodDescription();
+                methodDescription.setEnabled(booleanPropertiesDefaultTrue);
+                this.methodDescription.put(values[i].toString(),methodDescription);
+            }
+        }
         setInsertMethodEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.INSERT_METHOD_ENABLED));
         setDeleteMethodEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.DELETE_METHOD_ENABLED));
         setDeleteByPrimaryKeyMethodEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.DELETE_BY_PRIMARY_KEY_METHOD_ENABLED));
@@ -217,4 +235,11 @@ public class MethodInfo {
         setBatchInsertMethodEnabled(PropertiesUtils.getBooleanPropertiesDefaultTrue(MethodEnableConstants.BATCH_INSERT_METHOD_ENABLED));
     }
 
+    public Map<String, MethodDescription> getMethodDescription() {
+        return methodDescription;
+    }
+
+    public void setMethodDescription(Map<String, MethodDescription> methodDescription) {
+        this.methodDescription = methodDescription;
+    }
 }

@@ -17,9 +17,8 @@ import java.util.Map;
  */
 public class StratificationInfo {
     private static final String point = ".";
-
-    /** 基础路径 */
-    private String basePackage = "";
+    /** 表名 */
+    private String tableName;
 
     /** 实体名称 */
     private String POJO_NAME_FORMAT = "{0}";
@@ -30,33 +29,21 @@ public class StratificationInfo {
     private String daoPackage = "mapper";
     /** 实体路径 */
     private String pojoPackage = "pojo";
-    /** xml文件路径 */
-    private String xmlPackage = "xml";
 
     /** 实体名称 */
     private String pojoName;
     /** dao 层名称 */
     private String daoName;
-    /** xml名称 */
-    private String xmlName;
 
     /** dao层包全路径 */
     private String daoFullPackage;
     /** 实体包全路径 */
     private String pojoFullPackage;
-    /** xml包全路径*/
-    private String xmlFullPackage;
 
     private Map<String,FormatService> nameFormatMap = new HashMap<>();
 
-    private FormatService formatService = (tableName) -> tableName.toLowerCase();
-
     public StratificationInfo() {
 
-    }
-
-    public StratificationInfo(String basePackage) {
-        init(basePackage);
     }
 
     public void init() {
@@ -69,40 +56,6 @@ public class StratificationInfo {
      * @param basePackage 基础路径
      */
     public void init(String basePackage) {
-        initEachFormat();
-
-        initEachPackage();
-
-        if(GeneratorStringUtils.isNotBlank(basePackage)) {
-            this.basePackage = basePackage;
-            basePackage = basePackage + point;
-        } else {
-            basePackage = "";
-        }
-        /** dao层包全路径 */
-        this.daoFullPackage = basePackage + this.daoPackage;
-        /** 实体包全路径 */
-        this.pojoFullPackage = basePackage + this.pojoPackage;
-        /** xml包全路径*/
-        this.xmlFullPackage = basePackage + this.xmlPackage;
-    }
-
-    private void initEachPackage() {
-        String pojoPackage = PropertiesUtils.getProperties(ConfigConstants.POJO_PACKAGE);
-        String daoPackage = PropertiesUtils.getProperties(ConfigConstants.DAO_PACKAGE);
-        String xmlPackage = PropertiesUtils.getProperties(ConfigConstants.XML_OUT_PUT_PATH);
-        if(GeneratorStringUtils.isNotBlank(pojoPackage)){
-            this.pojoPackage = pojoPackage;
-        }
-        if(GeneratorStringUtils.isNotBlank(daoPackage)){
-            this.daoPackage = daoPackage;
-        }
-        if(GeneratorStringUtils.isNotBlank(xmlPackage)){
-            this.xmlPackage = xmlPackage;
-        }
-    }
-
-    private void initEachFormat() {
         String daoNameFormat = PropertiesUtils.getProperties(ConfigConstants.DAO_NAME_FORMAT);
         String pojoNameFormat = PropertiesUtils.getProperties(ConfigConstants.POJO_NAME_FORMAT);
         if(GeneratorStringUtils.isNotBlank(daoNameFormat)){
@@ -111,42 +64,28 @@ public class StratificationInfo {
         if(GeneratorStringUtils.isNotBlank(pojoNameFormat)){
             this.POJO_NAME_FORMAT = pojoNameFormat;
         }
-    }
 
-    public static String getPoint() {
-        return point;
-    }
+        String pojoPackage1 = PropertiesUtils.getProperties(ConfigConstants.POJO_PACKAGE);
+        String daoPackage1 = PropertiesUtils.getProperties(ConfigConstants.DAO_PACKAGE);
+        if(GeneratorStringUtils.isNotBlank(pojoPackage1)){
+            this.pojoPackage = pojoPackage1;
+        }
+        if(GeneratorStringUtils.isNotBlank(daoPackage1)){
+            this.daoPackage = daoPackage1;
+        }
 
-    public String getBasePackage() {
-        return basePackage;
-    }
+        if(GeneratorStringUtils.isNotBlank(basePackage)) {
+            /** dao层包全路径 */
+            this.daoFullPackage = basePackage + point + this.daoPackage;
+            /** 实体包全路径 */
+            this.pojoFullPackage = basePackage + point + this.pojoPackage;
+        } else {
+            /** dao层包全路径 */
+            this.daoFullPackage = this.daoPackage;
+            /** 实体包全路径 */
+            this.pojoFullPackage = this.pojoPackage;
+        }
 
-    public void setBasePackage(String basePackage) {
-        this.basePackage = basePackage;
-    }
-
-    public String getDaoPackage() {
-        return daoPackage;
-    }
-
-    public void setDaoPackage(String daoPackage) {
-        this.daoPackage = daoPackage;
-    }
-
-    public String getPojoPackage() {
-        return pojoPackage;
-    }
-
-    public void setPojoPackage(String pojoPackage) {
-        this.pojoPackage = pojoPackage;
-    }
-
-    public String getXmlPackage() {
-        return xmlPackage;
-    }
-
-    public void setXmlPackage(String xmlPackage) {
-        this.xmlPackage = xmlPackage;
     }
 
     public String getPojoName() {
@@ -173,45 +112,12 @@ public class StratificationInfo {
         }
     }
 
-    public String getXmlName() {
-        return xmlName;
-    }
-
-    public void setXmlName(String xmlName) {
-        this.xmlName = xmlName;
-    }
-
     public String getDaoFullPackage() {
         return daoFullPackage;
     }
 
-    public void setDaoFullPackage(String daoFullPackage) {
-        this.daoFullPackage = daoFullPackage;
-    }
-
     public String getPojoFullPackage() {
         return pojoFullPackage;
-    }
-
-    public void setPojoFullPackage(String pojoFullPackage) {
-        this.pojoFullPackage = pojoFullPackage;
-    }
-
-    public String getXmlFullPackage() {
-        return xmlFullPackage;
-    }
-
-    public void setXmlFullPackage(String xmlFullPackage) {
-        this.xmlFullPackage = xmlFullPackage;
-    }
-
-    private void initXmlName(String tableName) {
-        String xmlNameFormat = PropertiesUtils.getProperties(ConfigConstants.XML_NAME_FORMAT);
-        if ("camel".equalsIgnoreCase(xmlNameFormat)){
-            setXmlName(GeneratorStringUtils.changeTableName2CamelFirstUpper(tableName,ConfigConstants.tableRegex));
-        } else {
-            setXmlName(formatService.formatTableName(tableName));
-        }
     }
 
     /**
@@ -221,14 +127,10 @@ public class StratificationInfo {
         return MessageFormat.format(format, javaTableName);
     }
 
-    public void addXmlNameFormat(FormatService formatService) {
-        this.formatService = formatService;
-    }
-
     public void initFilesName(String tableName) {
+        this.tableName = tableName;
         setPojoName(tableName);
         setDaoName(tableName);
-        initXmlName(tableName);
     }
 
     private void addFormatService(FormatService formatService, String pojoNameFormat) {
@@ -241,5 +143,13 @@ public class StratificationInfo {
 
     public void addDaoNameFormat(FormatService formatService) {
         addFormatService(formatService, ConfigConstants.DAO_NAME_FORMAT);
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 }
