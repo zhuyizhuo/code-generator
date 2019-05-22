@@ -30,21 +30,31 @@ import java.util.Map;
  * @version 1.2.0
  */
 public class GeneratorBuilder {
-    /** 类注释 */
+    /**
+     * 类注释
+     */
     private ClassCommentInfo classCommentInfo;
-    /** 方法注释 */
+    /**
+     * 方法注释
+     */
     private MethodCommentInfo methodCommentInfo;
-    /** 方法信息 */
+    /**
+     * 方法信息
+     */
     private MethodInfo methodInfo;
-    /** 分层信息 */
+    /**
+     * 分层信息
+     */
     private StratificationInfo stratificationInfo;
-    /** 文件输出路径信息 */
+    /**
+     * 文件输出路径信息
+     */
     private FileOutPathInfo fileOutPathInfo;
     /***
      * key 数据库字段类型
      * value java 数据类型
      */
-    private final Map<String,Class<?>> typeMapper = new HashMap<String,Class<?>>();
+    private final Map<String, Class<?>> typeMapper = new HashMap<String, Class<?>>();
 
     public GeneratorBuilder() {
         this(new ClassCommentInfo());
@@ -55,15 +65,15 @@ public class GeneratorBuilder {
     }
 
     public GeneratorBuilder(ClassCommentInfo classCommentInfo, MethodInfo methodInfo) {
-        this(classCommentInfo,methodInfo,new StratificationInfo());
+        this(classCommentInfo, methodInfo, new StratificationInfo());
     }
 
     public GeneratorBuilder(ClassCommentInfo classCommentInfo, MethodInfo methodInfo, StratificationInfo stratificationInfo) {
-        this(classCommentInfo,methodInfo,stratificationInfo,new FileOutPathInfo());
+        this(classCommentInfo, methodInfo, stratificationInfo, new FileOutPathInfo());
     }
 
     public GeneratorBuilder(ClassCommentInfo classCommentInfo, MethodInfo methodInfo, StratificationInfo stratificationInfo, FileOutPathInfo fileOutPathInfo) {
-        this(classCommentInfo,methodInfo,stratificationInfo,fileOutPathInfo,new MethodCommentInfo());
+        this(classCommentInfo, methodInfo, stratificationInfo, fileOutPathInfo, new MethodCommentInfo());
     }
 
     public GeneratorBuilder(ClassCommentInfo classCommentInfo, MethodInfo methodInfo, StratificationInfo stratificationInfo, FileOutPathInfo fileOutPathInfo, MethodCommentInfo methodCommentInfo) {
@@ -77,7 +87,7 @@ public class GeneratorBuilder {
     /**
      * 自定义xml生成名称
      */
-    public GeneratorBuilder addXmlNameFormat(FormatService formatService){
+    public GeneratorBuilder addXmlNameFormat(FormatService formatService) {
         this.fileOutPathInfo.addXmlNameFormat(formatService);
         return this;
     }
@@ -85,41 +95,32 @@ public class GeneratorBuilder {
     /**
      * 自定义pojo生成名称
      */
-    public GeneratorBuilder addBeanNameFormat(FormatService formatService){
-        this.stratificationInfo.addFormatService(ModuleTypeEnums.POJO,formatService);
+    public GeneratorBuilder addBeanNameFormat(FormatService formatService) {
+        this.stratificationInfo.addFormatService(ModuleTypeEnums.POJO, formatService);
         return this;
     }
 
     /**
      * 自定义mapper生成名称
      */
-    public GeneratorBuilder addMapperNameFormat(FormatService formatService){
+    public GeneratorBuilder addMapperNameFormat(FormatService formatService) {
         this.stratificationInfo.addFormatService(ModuleTypeEnums.MAPPER, formatService);
-        return this;
-    }
-
-    /**
-     * 自定义数据库分隔符 默认为下划线
-     */
-    public GeneratorBuilder addTableRegex(String tableRegex){
-        if (GeneratorStringUtils.isNotBlank(tableRegex)){
-            ConfigConstants.tableRegex = tableRegex;
-        }
         return this;
     }
 
     /**
      * 自定义数据库与java类型映射
      * 例如数据库类型为NUMBER 生成器默认映射为Integer 可自定义映射 将生成类型指定为String
-     *  use like this :
-     *      new GeneratorBuilder().addTypeMapper("NUMBER",JdbcType.VARCHAR,String.class);
-     * @param dataBaseType 数据类型
-     * @param jdbcType mybatis 配置文件中类型 如 #{id,jdbcType=VARCHAR}
+     * use like this :
+     * new GeneratorBuilder().addTypeMapper("NUMBER",JdbcType.VARCHAR,String.class);
+     *
+     * @param dataBaseType  数据类型
+     * @param jdbcType      mybatis 配置文件中类型 如 #{id,jdbcType=VARCHAR}
      * @param javaTypeClass java 类
      */
-    public GeneratorBuilder addTypeMapper(String dataBaseType,JdbcType jdbcType,Class<?> javaTypeClass){
-        if (GeneratorStringUtils.isNotBlank(dataBaseType) && javaTypeClass != null){
-            this.typeMapper.put(dataBaseType,javaTypeClass);
+    public GeneratorBuilder addTypeMapper(String dataBaseType, JdbcType jdbcType, Class<?> javaTypeClass) {
+        if (GeneratorStringUtils.isNotBlank(dataBaseType) && javaTypeClass != null) {
+            this.typeMapper.put(dataBaseType, javaTypeClass);
         }
         if (GeneratorStringUtils.isNotBlank(dataBaseType) && jdbcType != null) {
             TypeConversion.addType2JdbcType(dataBaseType, jdbcType.toString());
@@ -129,15 +130,16 @@ public class GeneratorBuilder {
 
     /**
      * 自定义方法注释
+     *
      * @param commentInfo 方法注释对象
      */
-    public GeneratorBuilder addMethodComment(MethodCommentInfo commentInfo){
+    public GeneratorBuilder addMethodComment(MethodCommentInfo commentInfo) {
         this.methodCommentInfo = commentInfo;
         return this;
     }
 
-    public GeneratorBuilder addMethodFormat(@Nullable MethodEnums method, FormatService formatService){
-        if (method == null){
+    public GeneratorBuilder addMethodFormat(@Nullable MethodEnums method, FormatService formatService) {
+        if (method == null) {
             this.methodInfo.addAllFormat(formatService);
         } else {
             this.methodInfo.addMethodFormat(method, formatService);
@@ -145,12 +147,23 @@ public class GeneratorBuilder {
         return this;
     }
 
-     public Generator build(InputStream inputStream){
+    public Generator build(InputStream inputStream) {
         try {
             PropertiesUtils.loadProperties(inputStream);
         } catch (Exception e) {
             LogUtils.printErrInfo("加载配置文件失败.");
         }
+
+        // 初始化常量
+        if (GeneratorStringUtils.isBlank(ConfigConstants.tableRegex)) {
+            String separator = PropertiesUtils.getProperties(ConfigConstants.TABLE_SEPARATOR);
+            if (GeneratorStringUtils.isBlank(separator)) {
+                ConfigConstants.tableRegex = "_";
+            } else {
+                ConfigConstants.tableRegex = separator;
+            }
+        }
+
         TypeConversion.init(typeMapper);
         stratificationInfo.init();
         classCommentInfo.init();

@@ -38,6 +38,8 @@ public class ConfigConstants {
 
     public static final String PARAMETER_TYPE_USE_TYPE_ALIASES = "generate.xml.mybatis.parameter-type.aliases.enabled";
 
+    public static final String TABLE_SEPARATOR = "generate.table.separator";
+
     /** 数据库表的分隔符 */
-    public static String tableRegex = "_";
+    public static String tableRegex = "";
 }

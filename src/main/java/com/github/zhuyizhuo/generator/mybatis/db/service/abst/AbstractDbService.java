@@ -64,7 +64,8 @@ public abstract class AbstractDbService implements DbService {
             javaColumnInfo.setDataType(getDataType(columnInfo.getDataType()));
             javaColumnInfo.setColumnName(columnInfo.getColumnName());
             javaColumnInfo.setColumnComment(replaceEnter(columnInfo.getColumnComment()));
-            javaColumnInfo.setJavaColumnName(GeneratorStringUtils.changeColmName2CamelFirstLower(columnInfo.getColumnName(),ConfigConstants.tableRegex));
+            javaColumnInfo.setJavaColumnName(GeneratorStringUtils
+                    .changeColmName2CamelFirstLower(columnInfo.getColumnName(),ConfigConstants.tableRegex));
             javaColumnInfo.setJavaDataType(getJavaDataType(columnInfo));
             /** 设置类全路径 java.lang包下的类不需要import */
             javaColumnInfo.setJavaDataTypeFullPath(TypeConversion.javaDataTypeFullPathMap.get(javaColumnInfo.getJavaDataType()));

@@ -78,8 +78,8 @@ generate.java.method.count-by-where.enabled=true
 # 生成资源文件输出路径,不配置则默认为 [当前项目路径],路径请使用/或\\分隔
 generate.xml.out-put-path=${generate.java.base-out-put-path}
 # XML 名称 默认 LOWER_CASE 表名称小写
-# 表名称转小写驼峰
-# xml.name.format=LOWER_CAMEL
+# 下划线分隔的表名称转驼峰 例如 MY_USER -> MyUser.xml 
+# xml.name.format=CAMEL
 generate.xml.name-format=LOWER_CASE
 # mybatis xml 的 parameterType 别名是否启用
 generate.xml.mybatis.parameter-type.aliases.enabled=false
