@@ -1,5 +1,6 @@
 package com.github.zhuyizhuo.generator.utils;
 
+import com.alibaba.fastjson.JSON;
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 
@@ -30,6 +31,12 @@ public class LogUtils {
     public static void printException(Exception e){
         if (booleanProperties){
             e.printStackTrace();
+        }
+    }
+
+    public static void printJsonInfo(String message, Object obj){
+        if (booleanProperties){
+            System.out.println(message + JSON.toJSONString(obj));
         }
     }
 }

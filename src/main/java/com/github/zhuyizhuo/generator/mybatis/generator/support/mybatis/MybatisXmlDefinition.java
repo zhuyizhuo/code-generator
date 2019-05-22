@@ -23,8 +23,6 @@ public class MybatisXmlDefinition extends TableDefinition {
     private String nameSpace;
     /** 结果集 */
     private ResultMapDefinition resultMap;
-    /** 方法定义 */
-    private Map<String,MybatisMethodDefinition> methods;
     /** xml 参数类型  -> method 关联? */
     private String parameterType;
     /** 列信息定义 */
@@ -34,7 +32,6 @@ public class MybatisXmlDefinition extends TableDefinition {
         mybatisHeader = new ArrayList<String>();
         resultMap = new ResultMapDefinition();
         columns = new ArrayList<MybatisColumnDefinition>();
-        methods = new HashMap<String, MybatisMethodDefinition>();
     }
 
     public List<String> getMybatisHeader() {
@@ -75,21 +72,13 @@ public class MybatisXmlDefinition extends TableDefinition {
         getResultMap().addResult(mybatisColumnDefinition);
     }
 
-    public Map<String, MybatisMethodDefinition> getMethods() {
-        return methods;
-    }
-
-    public void addMethod(String methodName ,MybatisMethodDefinition method) {
-        this.methods.put(methodName,method);
-    }
-
     /**
      * 列定义
      */
     public class MybatisColumnDefinition extends JavaColumnInfo {
-        /** test表达式 如果是string类型会判断是否空串 */
+        /** test表达式 如果是string类型会判断是否空串  用于查询条件判断 */
         private String testNotBlankExpression;
-        /** test表达式 */
+        /** test表达式 用于插入条件判断 */
         private String testNotNullExpression;
         /** mybatis xml中 JDBC类型  */
         private String jdbcType;

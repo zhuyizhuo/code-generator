@@ -1,17 +1,20 @@
 package com.github.zhuyizhuo.generator.mybatis.generator;
 
+import com.github.zhuyizhuo.generator.mybatis.annotation.Nullable;
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.MethodCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.MethodInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
+import com.github.zhuyizhuo.generator.mybatis.enums.MethodEnums;
 import com.github.zhuyizhuo.generator.mybatis.extension.service.FormatService;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import com.github.zhuyizhuo.generator.utils.TypeConversion;
+
 import org.apache.ibatis.type.JdbcType;
 
 import java.io.InputStream;
@@ -132,6 +135,15 @@ public class GeneratorBuilder {
         return this;
     }
 
+    public GeneratorBuilder addMethodFormat(@Nullable MethodEnums method, FormatService formatService){
+        if (method == null){
+            this.methodInfo.addAllFormat(formatService);
+        } else {
+            this.methodInfo.addMethodFormat(method, formatService);
+        }
+        return this;
+    }
+
      public Generator build(InputStream inputStream){
         try {
             PropertiesUtils.loadProperties(inputStream);
@@ -141,7 +153,6 @@ public class GeneratorBuilder {
         TypeConversion.init(typeMapper);
         stratificationInfo.init();
         classCommentInfo.init();
-        methodInfo.initEnabledMethod();
         GenerateInfo generateInfo = new GenerateInfo();
         generateInfo.setClassCommentInfo(classCommentInfo);
         generateInfo.setMethodCommentInfo(methodCommentInfo);

@@ -71,7 +71,7 @@ public class GenerateInfo {
         this.stratificationInfo = stratificationInfo;
 
         this.stratificationInfo.initFilesName(tableInfo.getTableName());
-        this.methodInfo.initMethodName(tableInfo.getTableNameCamelCase());
+        this.methodInfo.initMethodName(tableInfo.getTableName(), tableInfo.getTableNameCamelCase());
         // 初始化 xml 内容
         initXmlInfo();
     }

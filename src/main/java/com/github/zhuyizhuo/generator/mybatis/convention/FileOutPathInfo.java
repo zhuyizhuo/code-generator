@@ -1,7 +1,6 @@
 package com.github.zhuyizhuo.generator.mybatis.convention;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
-import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.extension.service.FormatService;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
@@ -130,7 +129,7 @@ public class FileOutPathInfo {
         String xmlNameFormat = PropertiesUtils.getProperties(ConfigConstants.XML_NAME_FORMAT);
         return "camel".equalsIgnoreCase(xmlNameFormat)
                 ? GeneratorStringUtils.changeTableName2CamelFirstUpper(tableName, ConfigConstants.tableRegex)
-                : this.formatService.formatTableName(tableName);
+                : this.formatService.format(tableName);
     }
 
     public void addXmlNameFormat(FormatService formatService) {

@@ -95,7 +95,7 @@ public class StratificationInfo {
 
     public void setPojoName(String tableName) {
         if (nameFormatMap.get(ConfigConstants.POJO_NAME_FORMAT) != null){
-            this.pojoName = nameFormatMap.get(ConfigConstants.POJO_NAME_FORMAT).formatTableName(tableName);
+            this.pojoName = nameFormatMap.get(ConfigConstants.POJO_NAME_FORMAT).format(tableName);
         } else {
             this.pojoName = formatName(POJO_NAME_FORMAT,javaClassName);
         }
@@ -107,7 +107,7 @@ public class StratificationInfo {
 
     public void setDaoName(String tableName) {
         if (nameFormatMap.get(ConfigConstants.DAO_NAME_FORMAT) != null){
-            this.daoName = nameFormatMap.get(ConfigConstants.DAO_NAME_FORMAT).formatTableName(tableName);
+            this.daoName = nameFormatMap.get(ConfigConstants.DAO_NAME_FORMAT).format(tableName);
         } else {
             this.daoName = formatName(DAO_NAME_FORMAT,javaClassName);
         }
