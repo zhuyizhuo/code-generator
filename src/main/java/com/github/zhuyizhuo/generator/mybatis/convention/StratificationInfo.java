@@ -1,6 +1,7 @@
 package com.github.zhuyizhuo.generator.mybatis.convention;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
+import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.extension.service.FormatService;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
@@ -21,15 +22,6 @@ public class StratificationInfo {
     private String tableName;
     /** java 类名 */
     private String javaClassName;
-    /** 实体名称 */
-    private String POJO_NAME_FORMAT = "{0}";
-    /** dao 层名称 */
-    private String DAO_NAME_FORMAT = "{0}Mapper";
-
-    /** dao包路径 */
-    private String daoPackage = "mapper";
-    /** 实体路径 */
-    private String pojoPackage = "pojo";
 
     /** 实体名称 */
     private String pojoName;
@@ -41,7 +33,7 @@ public class StratificationInfo {
     /** 实体包全路径 */
     private String pojoFullPackage;
 
-    private Map<String,FormatService> nameFormatMap = new HashMap<>();
+    private Map<ModuleTypeEnums, FormatService> nameFormatMap = new HashMap<>();
 
     public StratificationInfo() {
 
@@ -57,34 +49,30 @@ public class StratificationInfo {
      * @param basePackage 基础路径
      */
     public void init(String basePackage) {
-        String daoNameFormat = PropertiesUtils.getProperties(ConfigConstants.DAO_NAME_FORMAT);
-        String pojoNameFormat = PropertiesUtils.getProperties(ConfigConstants.POJO_NAME_FORMAT);
-        if(GeneratorStringUtils.isNotBlank(daoNameFormat)){
-            this.DAO_NAME_FORMAT = daoNameFormat;
-        }
-        if(GeneratorStringUtils.isNotBlank(pojoNameFormat)){
-            this.POJO_NAME_FORMAT = pojoNameFormat;
-        }
+        /** dao包路径 */
+        String mapperPackage = ModuleTypeEnums.MAPPER.getModulePackage();
+        /** 实体路径 */
+        String pojoPackage = ModuleTypeEnums.POJO.getModulePackage();
 
-        String pojoPackage1 = PropertiesUtils.getProperties(ConfigConstants.POJO_PACKAGE);
-        String daoPackage1 = PropertiesUtils.getProperties(ConfigConstants.DAO_PACKAGE);
-        if(GeneratorStringUtils.isNotBlank(pojoPackage1)){
-            this.pojoPackage = pojoPackage1;
+        String configPOJO = PropertiesUtils.getProperties(ConfigConstants.POJO_PACKAGE);
+        String configMapper = PropertiesUtils.getProperties(ConfigConstants.DAO_PACKAGE);
+        if(GeneratorStringUtils.isNotBlank(configPOJO)){
+            pojoPackage = configPOJO;
         }
-        if(GeneratorStringUtils.isNotBlank(daoPackage1)){
-            this.daoPackage = daoPackage1;
+        if(GeneratorStringUtils.isNotBlank(configMapper)){
+            mapperPackage = configMapper;
         }
 
         if(GeneratorStringUtils.isNotBlank(basePackage)) {
             /** dao层包全路径 */
-            this.daoFullPackage = basePackage + point + this.daoPackage;
+            this.daoFullPackage = basePackage + point + mapperPackage;
             /** 实体包全路径 */
-            this.pojoFullPackage = basePackage + point + this.pojoPackage;
+            this.pojoFullPackage = basePackage + point + pojoPackage;
         } else {
             /** dao层包全路径 */
-            this.daoFullPackage = this.daoPackage;
+            this.daoFullPackage = mapperPackage;
             /** 实体包全路径 */
-            this.pojoFullPackage = this.pojoPackage;
+            this.pojoFullPackage = pojoPackage;
         }
 
     }
@@ -93,24 +81,8 @@ public class StratificationInfo {
         return pojoName;
     }
 
-    public void setPojoName(String tableName) {
-        if (nameFormatMap.get(ConfigConstants.POJO_NAME_FORMAT) != null){
-            this.pojoName = nameFormatMap.get(ConfigConstants.POJO_NAME_FORMAT).format(tableName);
-        } else {
-            this.pojoName = formatName(POJO_NAME_FORMAT,javaClassName);
-        }
-    }
-
     public String getDaoName() {
         return daoName;
-    }
-
-    public void setDaoName(String tableName) {
-        if (nameFormatMap.get(ConfigConstants.DAO_NAME_FORMAT) != null){
-            this.daoName = nameFormatMap.get(ConfigConstants.DAO_NAME_FORMAT).format(tableName);
-        } else {
-            this.daoName = formatName(DAO_NAME_FORMAT,javaClassName);
-        }
     }
 
     public String getDaoFullPackage() {
@@ -122,29 +94,38 @@ public class StratificationInfo {
     }
 
     /**
-     *  格式化生成
+     *  格式化类名
      */
-    public String formatName(String format, String javaTableName) {
-        return MessageFormat.format(format, javaTableName);
+    public String classNameFormat(ModuleTypeEnums moduleType, String javaTableName) {
+        String properties = PropertiesUtils.getProperties(moduleType.getFileNameFormatKey());
+        return MessageFormat.format(GeneratorStringUtils.isNotBlank(properties)
+                                        ? properties
+                                        : moduleType.getFileNameFormat()
+                                    , javaTableName);
     }
 
-    public void initFilesName(String tableName) {
+    public void initFilesName(String tableName, String tableNameCamelCase) {
         this.tableName = tableName;
-        this.javaClassName = GeneratorStringUtils.changeTableName2CamelFirstUpper(tableName,ConfigConstants.tableRegex);
-        setPojoName(tableName);
-        setDaoName(tableName);
+        this.javaClassName = tableNameCamelCase;
+
+        if (getFormatService(ModuleTypeEnums.POJO) != null){
+            this.pojoName = getFormatService(ModuleTypeEnums.POJO).format(tableName);
+        } else {
+            this.pojoName = classNameFormat(ModuleTypeEnums.POJO, javaClassName);
+        }
+        if (getFormatService(ModuleTypeEnums.MAPPER) != null){
+            this.daoName = getFormatService(ModuleTypeEnums.MAPPER).format(tableName);
+        } else {
+            this.daoName = classNameFormat(ModuleTypeEnums.MAPPER, javaClassName);
+        }
     }
 
-    private void addFormatService(FormatService formatService, String pojoNameFormat) {
-        this.nameFormatMap.put(pojoNameFormat, formatService);
+    private FormatService getFormatService(ModuleTypeEnums moduleType) {
+        return nameFormatMap.get(moduleType);
     }
 
-    public void addBeanNameFormat(FormatService formatService) {
-        addFormatService(formatService, ConfigConstants.POJO_NAME_FORMAT);
-    }
-
-    public void addDaoNameFormat(FormatService formatService) {
-        addFormatService(formatService, ConfigConstants.DAO_NAME_FORMAT);
+    public void addFormatService(ModuleTypeEnums moduleType, FormatService formatService) {
+        this.nameFormatMap.put(moduleType, formatService);
     }
 
     public String getTableName() {

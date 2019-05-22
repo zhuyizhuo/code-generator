@@ -70,7 +70,7 @@ public class GenerateInfo {
         this.tableInfo = tableInfo;
         this.stratificationInfo = stratificationInfo;
 
-        this.stratificationInfo.initFilesName(tableInfo.getTableName());
+        this.stratificationInfo.initFilesName(tableInfo.getTableName(), tableInfo.getTableNameCamelCase());
         this.methodInfo.initMethodName(tableInfo.getTableName(), tableInfo.getTableNameCamelCase());
         // 初始化 xml 内容
         initXmlInfo();

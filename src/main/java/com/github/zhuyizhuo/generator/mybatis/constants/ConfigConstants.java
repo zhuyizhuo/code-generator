@@ -20,14 +20,13 @@ public class ConfigConstants {
     public static final String LOG_ENABLED = "generate.log.enabled";
 
     public static final String BASE_PACKAGE = "generate.java.base-package";
+//    public static final String BASE_PACKAGE_DIR = "generate.java.base-package.dirs";
     public static final String FILE_OUT_PUT_PATH = "generate.java.base-out-put-path";
 
     public static final String DAO_PACKAGE = "generate.java.mapper.package";
-    public static final String DAO_NAME_FORMAT = "generate.java.mapper.name-format";
     public static final String DAO_OUT_PUT_PATH = "generate.java.mapper.path";
 
     public static final String POJO_PACKAGE = "generate.java.pojo.package";
-    public static final String POJO_NAME_FORMAT = "generate.java.pojo.name-format";
     public static final String POJO_OUT_PUT_PATH = "generate.java.pojo.path";
 
     public static final String AUTHOR = "generate.java.comment.author";

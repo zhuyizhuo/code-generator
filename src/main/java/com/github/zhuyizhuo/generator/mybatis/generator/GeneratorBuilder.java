@@ -8,6 +8,7 @@ import com.github.zhuyizhuo.generator.mybatis.convention.MethodCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.MethodInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
 import com.github.zhuyizhuo.generator.mybatis.enums.MethodEnums;
+import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.extension.service.FormatService;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
@@ -85,7 +86,7 @@ public class GeneratorBuilder {
      * 自定义pojo生成名称
      */
     public GeneratorBuilder addBeanNameFormat(FormatService formatService){
-        this.stratificationInfo.addBeanNameFormat(formatService);
+        this.stratificationInfo.addFormatService(ModuleTypeEnums.POJO,formatService);
         return this;
     }
 
@@ -93,7 +94,7 @@ public class GeneratorBuilder {
      * 自定义mapper生成名称
      */
     public GeneratorBuilder addMapperNameFormat(FormatService formatService){
-        this.stratificationInfo.addDaoNameFormat(formatService);
+        this.stratificationInfo.addFormatService(ModuleTypeEnums.MAPPER, formatService);
         return this;
     }
 

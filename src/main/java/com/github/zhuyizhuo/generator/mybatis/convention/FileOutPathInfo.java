@@ -15,7 +15,7 @@ import java.text.MessageFormat;
  * @version 1.0
  */
 public class FileOutPathInfo {
-    private final String XML_FILE_PATH = "mappers";
+    private final String XML_FILE_PATH = "/src/main/resources/mappers";
 
     private FormatService formatService = (tableName) -> tableName.toLowerCase();
 
@@ -54,16 +54,17 @@ public class FileOutPathInfo {
     public void init(StratificationInfo stratificationInfo) {
         String basePath = getBasePath();
         this.baseJavaPath = basePath + "/src/main/java/";
-        this.baseResourcesPath = basePath + "/src/main/resources/";
+        this.baseResourcesPath = basePath;
 
         if (PropertiesUtils.containsKey(ConfigConstants.XML_OUT_PUT_PATH)){
-            setXmlOutPutPath(PropertiesUtils.getProperties(ConfigConstants.XML_OUT_PUT_PATH));
+            this.xmlOutPutPath = PropertiesUtils.getProperties(ConfigConstants.XML_OUT_PUT_PATH);
         };
+
         if (PropertiesUtils.containsKey(ConfigConstants.DAO_OUT_PUT_PATH)){
-            setDaoOutPutPath(PropertiesUtils.getProperties(ConfigConstants.DAO_OUT_PUT_PATH));
+            this.daoOutPutPath = PropertiesUtils.getProperties(ConfigConstants.DAO_OUT_PUT_PATH);
         };
         if (PropertiesUtils.containsKey(ConfigConstants.POJO_OUT_PUT_PATH)){
-            setPojoOutPutPath(PropertiesUtils.getProperties(ConfigConstants.POJO_OUT_PUT_PATH));
+            this.pojoOutPutPath = PropertiesUtils.getProperties(ConfigConstants.POJO_OUT_PUT_PATH);
         };
 
         if (GeneratorStringUtils.isBlank(pojoOutPutPath)){
@@ -77,9 +78,9 @@ public class FileOutPathInfo {
             this.daoOutPutPath = getJavaFileOutPutFullPath(this.daoOutPutPath);
         }
         if (GeneratorStringUtils.isBlank(xmlOutPutPath)){
-            this.xmlOutPutPath = getXmlOutPutPath(XML_FILE_PATH);
+            this.xmlOutPutPath = baseResourcesPath + XML_FILE_PATH + "/{0}.xml";
         } else {
-            this.xmlOutPutPath = getXmlOutPutPath(this.xmlOutPutPath);
+            this.xmlOutPutPath = baseResourcesPath + this.xmlOutPutPath + "/{0}.xml";
         }
     }
 
@@ -93,24 +94,8 @@ public class FileOutPathInfo {
         return baseJavaPath + filePath + "/{0}.java";
     }
 
-    private String getXmlOutPutPath(String xmlFilePath) {
-        return baseResourcesPath + xmlFilePath + "/{0}.xml";
-    }
-
     public String changePackage2Path(String packagePath){
         return packagePath.replaceAll("\\.","/");
-    }
-
-    public void setPojoOutPutPath(String pojoOutPutPath) {
-        this.pojoOutPutPath = pojoOutPutPath;
-    }
-
-    public void setDaoOutPutPath(String daoOutPutPath) {
-        this.daoOutPutPath = daoOutPutPath;
-    }
-
-    public void setXmlOutPutPath(String xmlOutPutPath) {
-        this.xmlOutPutPath = xmlOutPutPath;
     }
 
     public String getPojoOutPutFullPath() {
