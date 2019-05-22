@@ -26,4 +26,10 @@ public class LogUtils {
             System.err.println(info);
         }
     }
+
+    public static void printException(Exception e){
+        if (booleanProperties){
+            e.printStackTrace();
+        }
+    }
 }

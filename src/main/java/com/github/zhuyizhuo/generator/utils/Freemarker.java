@@ -1,12 +1,18 @@
 package com.github.zhuyizhuo.generator.utils;
 
-import java.io.*;
-import java.util.Locale;
-import java.util.Map;
-
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * 创建时间：2015年2月8日
@@ -23,9 +29,9 @@ public class Freemarker {
 			Template temp = getTemplate(ftlPath, ftlName);
 			temp.process(root, new PrintWriter(System.out));
 		} catch (TemplateException e) {
-			e.printStackTrace();
+			LogUtils.printException(e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			LogUtils.printException(e);
 		}
 	}
 
@@ -51,9 +57,9 @@ public class Freemarker {
 			out.flush();
 			out.close();
 		} catch (TemplateException e) {
-			e.printStackTrace();
+			LogUtils.printException(e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			LogUtils.printException(e);
 		}
 	}
 
@@ -91,9 +97,9 @@ public class Freemarker {
 			out.flush();
 			out.close();
 		} catch (TemplateException e) {
-			e.printStackTrace();
+			LogUtils.printException(e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			LogUtils.printException(e);
 		}
 	}
 	
@@ -112,7 +118,7 @@ public class Freemarker {
 			Template temp = cfg.getTemplate(ftlName);
 			return temp;
 		} catch (IOException e) {
-			e.printStackTrace();
+			LogUtils.printException(e);
 		}
 		return null;
 	}

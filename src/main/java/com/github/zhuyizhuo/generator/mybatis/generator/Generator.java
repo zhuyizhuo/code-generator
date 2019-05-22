@@ -42,7 +42,7 @@ public class Generator {
                 printAll(tableColumns);
             } catch (Exception e){
                 LogUtils.printErrInfo("生成数据异常!Exception:" + e.getMessage());
-                e.printStackTrace();
+                LogUtils.printException(e);
             }
         } catch (Exception e){
             Throwable cause = e.getCause();
@@ -64,11 +64,9 @@ public class Generator {
 
             //循环多表数据
             for (int i = 0; i < dbTableInfoList.size(); i++) {
-                this.stratificationInfo.initFilesName(dbTableInfoList.get(i).getTableName());
-                generateInfo.init(dbTableInfoList.get(i));
-                generateInfo.setStratificationInfo(this.stratificationInfo);
-                generateInfo.initXmlInfo(this.stratificationInfo);
-                //初始化输出路径
+                // 初始化 方法名
+                generateInfo.init(dbTableInfoList.get(i),this.stratificationInfo);
+                // 初始化输出路径
                 fileOutPathInfo.formatPath(this.stratificationInfo);
 
                 Freemarker.printFile(FtlPathInfo.pojoFtlPath, fileOutPathInfo.getPojoOutPutFullPath(), generateInfo);
@@ -78,7 +76,7 @@ public class Generator {
 
         } catch (Exception e) {
             LogUtils.printErrInfo("生成数据异常!");
-            e.printStackTrace();
+            LogUtils.printException(e);
         }
     }
 

@@ -53,10 +53,6 @@ public class GenerateInfo {
         return tableInfo;
     }
 
-    public void setTableInfo(TableInfo tableInfo) {
-        this.tableInfo = tableInfo;
-    }
-
     public MethodCommentInfo getMethodCommentInfo() {
         return methodCommentInfo;
     }
@@ -69,9 +65,15 @@ public class GenerateInfo {
         return mybatisXmlDefinition;
     }
 
-    public void init(TableInfo tableInfo) {
-        setTableInfo(tableInfo);
+    public void init(TableInfo tableInfo, StratificationInfo stratificationInfo) {
+        // 初始化 dao pojo 名称 及 包路径
+        this.tableInfo = tableInfo;
+        this.stratificationInfo = stratificationInfo;
+
+        this.stratificationInfo.initFilesName(tableInfo.getTableName());
         this.methodInfo.initMethodName(tableInfo.getTableNameCamelCase());
+        // 初始化 xml 内容
+        initXmlInfo();
     }
 
     public void setStratificationInfo(StratificationInfo stratificationInfo) {
@@ -82,14 +84,13 @@ public class GenerateInfo {
         return stratificationInfo;
     }
 
-    public void initXmlInfo(StratificationInfo stratificationInfo) {
+    private void initXmlInfo() {
         mybatisXmlDefinition = new MybatisXmlDefinition();
         boolean useTypeAliases = PropertiesUtils.getBooleanPropertiesDefaultFalse(ConfigConstants.PARAMETER_TYPE_USE_TYPE_ALIASES);
-        if (useTypeAliases){
-            mybatisXmlDefinition.setParameterType(GeneratorStringUtils.firstLower(stratificationInfo.getPojoName()));
-        } else {
-            mybatisXmlDefinition.setParameterType(stratificationInfo.getPojoFullPackage()+"."+stratificationInfo.getPojoName());
-        }
+
+        mybatisXmlDefinition.setParameterType(
+             useTypeAliases  ? GeneratorStringUtils.firstLower(stratificationInfo.getPojoName())
+                    : stratificationInfo.getPojoFullPackage()+"."+stratificationInfo.getPojoName());
 
         mybatisXmlDefinition.setTableName(tableInfo.getTableName());
         mybatisXmlDefinition.setTableSchema(tableInfo.getTableSchema());

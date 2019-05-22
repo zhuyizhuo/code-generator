@@ -19,7 +19,8 @@ public class StratificationInfo {
     private static final String point = ".";
     /** 表名 */
     private String tableName;
-
+    /** java 类名 */
+    private String javaClassName;
     /** 实体名称 */
     private String POJO_NAME_FORMAT = "{0}";
     /** dao 层名称 */
@@ -96,7 +97,7 @@ public class StratificationInfo {
         if (nameFormatMap.get(ConfigConstants.POJO_NAME_FORMAT) != null){
             this.pojoName = nameFormatMap.get(ConfigConstants.POJO_NAME_FORMAT).formatTableName(tableName);
         } else {
-            this.pojoName = formatName(POJO_NAME_FORMAT,GeneratorStringUtils.changeTableName2CamelFirstUpper(tableName,ConfigConstants.tableRegex));
+            this.pojoName = formatName(POJO_NAME_FORMAT,javaClassName);
         }
     }
 
@@ -108,7 +109,7 @@ public class StratificationInfo {
         if (nameFormatMap.get(ConfigConstants.DAO_NAME_FORMAT) != null){
             this.daoName = nameFormatMap.get(ConfigConstants.DAO_NAME_FORMAT).formatTableName(tableName);
         } else {
-            this.daoName = formatName(DAO_NAME_FORMAT,GeneratorStringUtils.changeTableName2CamelFirstUpper(tableName,ConfigConstants.tableRegex));
+            this.daoName = formatName(DAO_NAME_FORMAT,javaClassName);
         }
     }
 
@@ -129,6 +130,7 @@ public class StratificationInfo {
 
     public void initFilesName(String tableName) {
         this.tableName = tableName;
+        this.javaClassName = GeneratorStringUtils.changeTableName2CamelFirstUpper(tableName,ConfigConstants.tableRegex);
         setPojoName(tableName);
         setDaoName(tableName);
     }
