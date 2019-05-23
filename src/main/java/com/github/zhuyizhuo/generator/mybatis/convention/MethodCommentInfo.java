@@ -1,5 +1,7 @@
 package com.github.zhuyizhuo.generator.mybatis.convention;
 
+import com.github.zhuyizhuo.generator.mybatis.annotation.CoventionClass;
+
 /**
  * class: MethodCommentInfo <br>
  * description: 方法描述 <br>
@@ -8,6 +10,7 @@ package com.github.zhuyizhuo.generator.mybatis.convention;
  * @author yizhuo <br>
  * @version 1.3.0
  */
+@CoventionClass
 public class MethodCommentInfo {
 
     private String insertMethodDescription = "新增数据";
@@ -29,12 +32,12 @@ public class MethodCommentInfo {
         this.insertMethodDescription = insertMethodDescription;
     }
 
-    public String getUpdateByPrimaryKeyMethodDescription() {
-        return updateByPrimaryKeyMethodDescription;
+    public String getDeleteMethodDescription() {
+        return deleteMethodDescription;
     }
 
-    public void setUpdateByPrimaryKeyMethodDescription(String updateByPrimaryKeyMethodDescription) {
-        this.updateByPrimaryKeyMethodDescription = updateByPrimaryKeyMethodDescription;
+    public void setDeleteMethodDescription(String deleteMethodDescription) {
+        this.deleteMethodDescription = deleteMethodDescription;
     }
 
     public String getDeleteByPrimaryKeyMethodDescription() {
@@ -45,12 +48,12 @@ public class MethodCommentInfo {
         this.deleteByPrimaryKeyMethodDescription = deleteByPrimaryKeyMethodDescription;
     }
 
-    public String getDeleteMethodDescription() {
-        return deleteMethodDescription;
+    public String getUpdateByPrimaryKeyMethodDescription() {
+        return updateByPrimaryKeyMethodDescription;
     }
 
-    public void setDeleteMethodDescription(String deleteMethodDescription) {
-        this.deleteMethodDescription = deleteMethodDescription;
+    public void setUpdateByPrimaryKeyMethodDescription(String updateByPrimaryKeyMethodDescription) {
+        this.updateByPrimaryKeyMethodDescription = updateByPrimaryKeyMethodDescription;
     }
 
     public String getQueryMethodDescription() {
@@ -61,14 +64,6 @@ public class MethodCommentInfo {
         this.queryMethodDescription = queryMethodDescription;
     }
 
-    public String getCountMethodDescription() {
-        return countMethodDescription;
-    }
-
-    public void setCountMethodDescription(String countMethodDescription) {
-        this.countMethodDescription = countMethodDescription;
-    }
-
     public String getQueryByPrimaryKeyDescription() {
         return queryByPrimaryKeyDescription;
     }
@@ -77,8 +72,12 @@ public class MethodCommentInfo {
         this.queryByPrimaryKeyDescription = queryByPrimaryKeyDescription;
     }
 
-    public String getParamsDescription() {
-        return paramsDescription;
+    public String getCountMethodDescription() {
+        return countMethodDescription;
+    }
+
+    public void setCountMethodDescription(String countMethodDescription) {
+        this.countMethodDescription = countMethodDescription;
     }
 
     public String getBatchInsertMethodDescription() {
@@ -87,6 +86,10 @@ public class MethodCommentInfo {
 
     public void setBatchInsertMethodDescription(String batchInsertMethodDescription) {
         this.batchInsertMethodDescription = batchInsertMethodDescription;
+    }
+
+    public String getParamsDescription() {
+        return paramsDescription;
     }
 
     public void setParamsDescription(String paramsDescription) {

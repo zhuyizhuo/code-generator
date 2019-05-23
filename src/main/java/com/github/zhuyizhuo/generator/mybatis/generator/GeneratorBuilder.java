@@ -16,7 +16,6 @@ import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import com.github.zhuyizhuo.generator.utils.TypeConversion;
-
 import org.apache.ibatis.type.JdbcType;
 
 import java.io.InputStream;
@@ -32,57 +31,22 @@ import java.util.Map;
  */
 public class GeneratorBuilder {
     /**
-     * 类注释
-     */
-    private ClassCommentInfo classCommentInfo;
-    /**
-     * 方法注释
-     */
-    private MethodCommentInfo methodCommentInfo;
-    /**
      * 方法信息
      */
-    private MethodInfo methodInfo;
-    /**
-     * 分层信息
-     */
-    private StratificationInfo stratificationInfo;
+    private MethodInfo methodInfo = new MethodInfo();
     /**
      * 文件输出路径信息
      */
-    private FileOutPathInfo fileOutPathInfo;
+    private FileOutPathInfo fileOutPathInfo = new FileOutPathInfo();
     /***
      * key 数据库字段类型
      * value java 数据类型
      */
     private final Map<String, Class<?>> typeMapper = new HashMap<String, Class<?>>();
 
+    private Map<ModuleTypeEnums, FormatService> nameFormatMap = new HashMap<>();
+
     public GeneratorBuilder() {
-        this(new ClassCommentInfo());
-    }
-
-    public GeneratorBuilder(ClassCommentInfo classCommentInfo) {
-        this(classCommentInfo, new MethodInfo());
-    }
-
-    public GeneratorBuilder(ClassCommentInfo classCommentInfo, MethodInfo methodInfo) {
-        this(classCommentInfo, methodInfo, new StratificationInfo());
-    }
-
-    public GeneratorBuilder(ClassCommentInfo classCommentInfo, MethodInfo methodInfo, StratificationInfo stratificationInfo) {
-        this(classCommentInfo, methodInfo, stratificationInfo, new FileOutPathInfo());
-    }
-
-    public GeneratorBuilder(ClassCommentInfo classCommentInfo, MethodInfo methodInfo, StratificationInfo stratificationInfo, FileOutPathInfo fileOutPathInfo) {
-        this(classCommentInfo, methodInfo, stratificationInfo, fileOutPathInfo, new MethodCommentInfo());
-    }
-
-    public GeneratorBuilder(ClassCommentInfo classCommentInfo, MethodInfo methodInfo, StratificationInfo stratificationInfo, FileOutPathInfo fileOutPathInfo, MethodCommentInfo methodCommentInfo) {
-        this.classCommentInfo = classCommentInfo;
-        this.methodCommentInfo = methodCommentInfo;
-        this.methodInfo = methodInfo;
-        this.stratificationInfo = stratificationInfo;
-        this.fileOutPathInfo = fileOutPathInfo;
     }
 
     /**
@@ -97,7 +61,7 @@ public class GeneratorBuilder {
      * 自定义pojo生成名称
      */
     public GeneratorBuilder addBeanNameFormat(FormatService formatService) {
-        this.stratificationInfo.addFormatService(ModuleTypeEnums.POJO, formatService);
+        this.nameFormatMap.put(ModuleTypeEnums.POJO, formatService);
         return this;
     }
 
@@ -105,7 +69,7 @@ public class GeneratorBuilder {
      * 自定义mapper生成名称
      */
     public GeneratorBuilder addMapperNameFormat(FormatService formatService) {
-        this.stratificationInfo.addFormatService(ModuleTypeEnums.MAPPER, formatService);
+        this.nameFormatMap.put(ModuleTypeEnums.MAPPER, formatService);
         return this;
     }
 
@@ -126,16 +90,6 @@ public class GeneratorBuilder {
         if (GeneratorStringUtils.isNotBlank(dataBaseType) && jdbcType != null) {
             TypeConversion.addType2JdbcType(dataBaseType, jdbcType.toString());
         }
-        return this;
-    }
-
-    /**
-     * 自定义方法注释
-     *
-     * @param commentInfo 方法注释对象
-     */
-    public GeneratorBuilder addMethodComment(MethodCommentInfo commentInfo) {
-        this.methodCommentInfo = commentInfo;
         return this;
     }
 
@@ -172,10 +126,11 @@ public class GeneratorBuilder {
             e.printStackTrace();
         }
 
-        classCommentInfo = configScanner.getBean("ClassCommentInfo");
-
+        ClassCommentInfo classCommentInfo = configScanner.getBean("ClassCommentInfo");
+        StratificationInfo stratificationInfo = configScanner.getBean("stratificationInfo");
+        MethodCommentInfo methodCommentInfo = configScanner.getBean("methodCommentInfo");
         TypeConversion.init(typeMapper);
-        stratificationInfo.init();
+        stratificationInfo.init(nameFormatMap);
         GenerateInfo generateInfo = new GenerateInfo();
         generateInfo.setClassCommentInfo(classCommentInfo);
         generateInfo.setMethodCommentInfo(methodCommentInfo);

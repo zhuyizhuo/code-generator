@@ -1,5 +1,7 @@
 package com.github.zhuyizhuo.generator.mybatis.convention;
 
+import com.github.zhuyizhuo.generator.mybatis.annotation.CoventionClass;
+import com.github.zhuyizhuo.generator.mybatis.annotation.Value;
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.extension.service.FormatService;
@@ -16,8 +18,17 @@ import java.util.Map;
  * @version 1.0
  * time: 2018/7/29 16:19
  */
+@CoventionClass
 public class StratificationInfo {
     private static final String point = ".";
+    @Value("#{generate.java.base-package}")
+    private String basePackage;
+
+    @Value("#{generate.java.mapper.package}")
+    private String mapperPackage;
+    @Value("#{generate.java.pojo.package}")
+    private String pojoPackage;
+
     /** 表名 */
     private String tableName;
     /** java 类名 */
@@ -39,31 +50,13 @@ public class StratificationInfo {
 
     }
 
-    public void init() {
-        this.init(PropertiesUtils.getProperties(ConfigConstants.BASE_PACKAGE));
-    }
-
     /**
      *  初始化分层信息
      * @since 1.3.0
-     * @param basePackage 基础路径
+     * @param nameFormatMap
      */
-    public void init(String basePackage) {
-        /** dao包路径 */
-        String mapperPackage = ModuleTypeEnums.MAPPER.getModulePackage();
-        /** 实体路径 */
-        String pojoPackage = ModuleTypeEnums.POJO.getModulePackage();
-
-        String configPOJO = PropertiesUtils.getProperties(ConfigConstants.POJO_PACKAGE);
-        String configMapper = PropertiesUtils.getProperties(ConfigConstants.DAO_PACKAGE);
-        if(GeneratorStringUtils.isNotBlank(configPOJO)){
-            pojoPackage = configPOJO;
-        }
-        if(GeneratorStringUtils.isNotBlank(configMapper)){
-            mapperPackage = configMapper;
-        }
-
-        if(GeneratorStringUtils.isNotBlank(basePackage)) {
+    public void init(Map<ModuleTypeEnums, FormatService> nameFormatMap) {
+        if (GeneratorStringUtils.isNotBlank(basePackage)) {
             /** dao层包全路径 */
             this.daoFullPackage = basePackage + point + mapperPackage;
             /** 实体包全路径 */
@@ -74,23 +67,9 @@ public class StratificationInfo {
             /** 实体包全路径 */
             this.pojoFullPackage = pojoPackage;
         }
-
-    }
-
-    public String getPojoName() {
-        return pojoName;
-    }
-
-    public String getDaoName() {
-        return daoName;
-    }
-
-    public String getDaoFullPackage() {
-        return daoFullPackage;
-    }
-
-    public String getPojoFullPackage() {
-        return pojoFullPackage;
+        if (nameFormatMap != null) {
+            this.nameFormatMap = nameFormatMap;
+        }
     }
 
     /**
@@ -134,5 +113,45 @@ public class StratificationInfo {
 
     public void setTableName(String tableName) {
         this.tableName = tableName;
+    }
+
+    public String getBasePackage() {
+        return basePackage;
+    }
+
+    public void setBasePackage(String basePackage) {
+        this.basePackage = basePackage;
+    }
+
+    public String getMapperPackage() {
+        return mapperPackage;
+    }
+
+    public void setMapperPackage(String mapperPackage) {
+        this.mapperPackage = mapperPackage;
+    }
+
+    public String getPojoPackage() {
+        return pojoPackage;
+    }
+
+    public void setPojoPackage(String pojoPackage) {
+        this.pojoPackage = pojoPackage;
+    }
+
+    public String getPojoName() {
+        return pojoName;
+    }
+
+    public String getDaoName() {
+        return daoName;
+    }
+
+    public String getDaoFullPackage() {
+        return daoFullPackage;
+    }
+
+    public String getPojoFullPackage() {
+        return pojoFullPackage;
     }
 }
