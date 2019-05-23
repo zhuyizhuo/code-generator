@@ -42,23 +42,11 @@ public enum MethodEnums {
         return propertiesEnabledKey;
     }
 
-    public void setPropertiesEnabledKey(String propertiesEnabledKey) {
-        this.propertiesEnabledKey = propertiesEnabledKey;
-    }
-
     public String getMethodFormat() {
         return methodFormat;
     }
 
-    public void setMethodFormat(String methodFormat) {
-        this.methodFormat = methodFormat;
-    }
-
     public boolean isDefaultMethodEnabled() {
         return defaultMethodEnabled;
-    }
-
-    public void setDefaultMethodEnabled(boolean defaultMethodEnabled) {
-        this.defaultMethodEnabled = defaultMethodEnabled;
     }
 }

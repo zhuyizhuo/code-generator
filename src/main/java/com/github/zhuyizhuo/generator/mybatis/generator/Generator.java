@@ -4,12 +4,16 @@ import com.github.zhuyizhuo.generator.mybatis.constants.FtlPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
 import com.github.zhuyizhuo.generator.mybatis.db.service.DbService;
+import com.github.zhuyizhuo.generator.mybatis.dto.FilePathInfo;
 import com.github.zhuyizhuo.generator.mybatis.factory.DbServiceFactory;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
+import com.github.zhuyizhuo.generator.mybatis.vo.RealGenerateInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
+import com.github.zhuyizhuo.generator.mybatis.vo.TemplateGenerateInfo;
 import com.github.zhuyizhuo.generator.utils.Freemarker;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -62,12 +66,23 @@ public class Generator {
                 return;
             }
 
-            //循环多表数据
+            List<TemplateGenerateInfo> infoHolders = new ArrayList<>();
+            TemplateGenerateInfo infoHolder = null;
+            // 循环多表数据
             for (int i = 0; i < dbTableInfoList.size(); i++) {
                 // 初始化 方法名
-                generateInfo.init(dbTableInfoList.get(i),this.stratificationInfo);
+                generateInfo.init(dbTableInfoList.get(i), this.stratificationInfo);
                 // 初始化输出路径
-                fileOutPathInfo.formatPath(this.stratificationInfo);
+                List<FilePathInfo> pathInfos = fileOutPathInfo.formatPath(this.stratificationInfo);
+                RealGenerateInfo info ;
+                for (int j = 0; j < pathInfos.size(); j++) {
+                    info = new RealGenerateInfo();
+                    FilePathInfo pathInfo = pathInfos.get(j);
+                    //TODO generateInfo 应该循环的时候重新初始化  和目前设计冲突
+                    pathInfo.setGenerateInfo(info);
+                }
+                infoHolder = new TemplateGenerateInfo(FtlPathInfo.pojoFtlPath,fileOutPathInfo.getPojoOutPutFullPath(), generateInfo);
+                infoHolders.add(infoHolder);
 
                 Freemarker.printFile(FtlPathInfo.pojoFtlPath, fileOutPathInfo.getPojoOutPutFullPath(), generateInfo);
                 Freemarker.printFile(FtlPathInfo.daoFtlPath, fileOutPathInfo.getDaoOutPutFullPath(), generateInfo);

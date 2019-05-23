@@ -1,5 +1,7 @@
 package com.github.zhuyizhuo.generator.mybatis.convention;
 
+import com.github.zhuyizhuo.generator.mybatis.annotation.CoventionClass;
+import com.github.zhuyizhuo.generator.mybatis.annotation.Value;
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
@@ -13,12 +15,16 @@ import java.util.Date;
  * @version 1.0
  * time: 2018/7/29 16:10
  */
+@CoventionClass
 public class ClassCommentInfo {
     /** 文件创建时版本号 */
+    @Value("#{generate.java.comment.since-version}")
     private String sinceVersion = "";
     /** 当前版本号 */
+    @Value("#{generate.java.comment.current-version}")
     private String version = "1.0";
     /** 作者 */
+    @Value("#{generate.java.comment.author}")
     private String author = "";
     /** 默认生成时间 */
     private String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());

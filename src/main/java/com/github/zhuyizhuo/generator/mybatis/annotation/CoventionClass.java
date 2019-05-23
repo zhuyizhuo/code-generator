@@ -7,12 +7,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 此注解用来标识 字段 方法属性 参数 可为空
- * @Since 1.4.0
+ * 此注解用来标识约定类
+ * 如果类中属性没有配置则赋值默认值
+ * @since 1.4.0
  */
 @Documented
-@Retention(RetentionPolicy.CLASS)
-@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE})
-public @interface Nullable {
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE})
+public @interface CoventionClass {
 }
 

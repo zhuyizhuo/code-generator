@@ -7,12 +7,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 此注解用来标识 字段 方法属性 参数 可为空
- * @Since 1.4.0
+ * 此注解用来标识资源文件
+ * @since 1.4.0
  */
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Retention(RetentionPolicy.CLASS)
-@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE})
-public @interface Nullable {
-}
+public @interface Resource {
 
+    /**
+     * 标识资源文件名称
+     */
+    String value();
+
+}

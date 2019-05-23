@@ -84,7 +84,7 @@ public class GenerateInfo {
         return stratificationInfo;
     }
 
-    private void initXmlInfo() {
+    public void initXmlInfo() {
         mybatisXmlDefinition = new MybatisXmlDefinition();
         boolean useTypeAliases = PropertiesUtils.getBooleanPropertiesDefaultFalse(ConfigConstants.PARAMETER_TYPE_USE_TYPE_ALIASES);
 

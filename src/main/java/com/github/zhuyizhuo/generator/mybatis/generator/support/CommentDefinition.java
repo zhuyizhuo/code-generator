@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * class: CommentDefinition <br>
+ * class: ClassCommentDefinition <br>
  * description: 注释信息定义 <br>
  * time: 2018/9/11 21:44
  *

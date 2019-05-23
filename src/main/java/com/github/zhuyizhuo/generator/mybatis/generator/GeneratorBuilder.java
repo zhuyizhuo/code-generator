@@ -10,6 +10,7 @@ import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
 import com.github.zhuyizhuo.generator.mybatis.enums.MethodEnums;
 import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.extension.service.FormatService;
+import com.github.zhuyizhuo.generator.mybatis.service.ContextHolder;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
@@ -164,9 +165,17 @@ public class GeneratorBuilder {
             }
         }
 
+        ContextHolder configScanner = new ContextHolder();
+        try {
+            configScanner.init();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        classCommentInfo = configScanner.getBean("ClassCommentInfo");
+
         TypeConversion.init(typeMapper);
         stratificationInfo.init();
-        classCommentInfo.init();
         GenerateInfo generateInfo = new GenerateInfo();
         generateInfo.setClassCommentInfo(classCommentInfo);
         generateInfo.setMethodCommentInfo(methodCommentInfo);

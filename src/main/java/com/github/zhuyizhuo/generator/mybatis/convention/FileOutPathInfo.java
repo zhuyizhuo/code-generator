@@ -1,12 +1,17 @@
 package com.github.zhuyizhuo.generator.mybatis.convention;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
+import com.github.zhuyizhuo.generator.mybatis.constants.FtlPathInfo;
+import com.github.zhuyizhuo.generator.mybatis.dto.FilePathInfo;
+import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.enums.XmlNameFormatEnums;
 import com.github.zhuyizhuo.generator.mybatis.extension.service.FormatService;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * class: FileOutPathInfo <br>
@@ -85,10 +90,16 @@ public class FileOutPathInfo {
         }
     }
 
-    public void formatPath(StratificationInfo stratificationInfo){
+    public List<FilePathInfo> formatPath(StratificationInfo stratificationInfo){
         this.pojoOutPutFullPath = MessageFormat.format(pojoOutPutPath,stratificationInfo.getPojoName());
         this.daoOutPutFullPath = MessageFormat.format(daoOutPutPath,stratificationInfo.getDaoName());
         this.xmlOutPutFullPath = MessageFormat.format(xmlOutPutPath,initXmlName(stratificationInfo.getTableName()));
+
+        List<FilePathInfo> filePathInfos = new ArrayList<>();
+        filePathInfos.add(new FilePathInfo(FtlPathInfo.pojoFtlPath, pojoOutPutFullPath));
+        filePathInfos.add(new FilePathInfo(FtlPathInfo.daoFtlPath, daoOutPutFullPath));
+        filePathInfos.add(new FilePathInfo(FtlPathInfo.mybatisXmlFtlPath, xmlOutPutFullPath));
+        return filePathInfos;
     }
 
     private String getJavaFileOutPutFullPath(String filePath) {
