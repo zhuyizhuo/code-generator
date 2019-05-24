@@ -4,4 +4,4 @@
      * @param ${methodParam} ${methodCommentInfo.paramsDescription}  <br>
      * @return 符合条件的数据总数
      */
-    int ${methodInfo.countMethodName}(${stratificationInfo.pojoName} ${methodParam});
+    int ${methodInfo.methodDescription.COUNT_BY_WHERE.methodName}(${stratificationInfo.pojoName} ${methodParam});

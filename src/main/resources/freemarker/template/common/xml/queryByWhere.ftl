@@ -1,5 +1,5 @@
 	<!-- ${methodCommentInfo.queryMethodDescription}  -->
-	<select id="${methodInfo.queryMethodName}" resultMap="${mybatisXmlDefinition.resultMap.id}" parameterType="${mybatisXmlDefinition.parameterType}">
+	<select id="${methodInfo.methodDescription.QUERY_BY_WHERE.methodName}" resultMap="${mybatisXmlDefinition.resultMap.id}" parameterType="${mybatisXmlDefinition.parameterType}">
         SELECT
         <include refid="Base_Column_List" />
   	     FROM

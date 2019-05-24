@@ -3,9 +3,9 @@
 <#if tableInfo.singlePrimaryKey>
     <#include "comment/singlePrimaryKeyCommentPara.ftl"/>
     <#include "comment/methodComment.ftl"/>
-    ${stratificationInfo.pojoName} ${methodInfo.queryByPrimaryKeyMethodName}(${paramType} ${methodParam});
+    ${stratificationInfo.pojoName} ${methodInfo.methodDescription.QUERY_BY_PRIMARY_KEY.methodName}(${paramType} ${methodParam});
 <#else>
     <#include "comment/commonCommentPara.ftl"/>
     <#include "comment/methodComment.ftl"/>
-    ${stratificationInfo.pojoName} ${methodInfo.queryByPrimaryKeyMethodName}(${stratificationInfo.pojoName} ${methodParam});
+    ${stratificationInfo.pojoName} ${methodInfo.methodDescription.QUERY_BY_PRIMARY_KEY.methodName}(${stratificationInfo.pojoName} ${methodParam});
 </#if>

@@ -8,35 +8,35 @@ ${header}
 <#include "xml/resultMap.ftl"/>
 
 <#include "xml/commonSql.ftl"/>
-<#if methodInfo.insertMethodEnabled>
+<#if methodInfo.methodDescription.INSERT.enabled>
 
 <#include "xml/insert.ftl"/>
 </#if>
-<#if methodInfo.deleteByPrimaryKeyMethodEnabled && tableInfo.hasPrimaryKey>
+<#if methodInfo.methodDescription.DELETE_BY_PRIMARY_KEY.enabled && tableInfo.hasPrimaryKey>
 
 <#include "xml/deleteByPrimaryKey.ftl"/>
 </#if>
-<#if methodInfo.deleteMethodEnabled>
+<#if methodInfo.methodDescription.DELETE_BY_WHERE.enabled>
 
 <#include "xml/deleteByWhere.ftl"/>
 </#if>
-<#if methodInfo.updateByPrimaryKeyMethodEnabled && tableInfo.hasPrimaryKey>
+<#if methodInfo.methodDescription.UPDATE_BY_PRIMARY_KEY.enabled && tableInfo.hasPrimaryKey>
 
     <#include "xml/updateByPrimaryKey.ftl"/>
 </#if>
-<#if methodInfo.queryByPrimaryKeyEnabled && tableInfo.hasPrimaryKey>
+<#if methodInfo.methodDescription.QUERY_BY_PRIMARY_KEY.enabled && tableInfo.hasPrimaryKey>
 
     <#include "xml/queryByPrimaryKey.ftl"/>
 </#if>
-<#if methodInfo.queryMethodEnabled>
+<#if methodInfo.methodDescription.QUERY_BY_WHERE.enabled>
 
 <#include "xml/queryByWhere.ftl"/>
 </#if>
-<#if methodInfo.countMethodEnabled>
+<#if methodInfo.methodDescription.COUNT_BY_WHERE.enabled>
 
 <#include "xml/countByWhere.ftl"/>
 </#if>
-<#if methodInfo.batchInsertMethodEnabled>
+<#if methodInfo.methodDescription.BATCH_INSERT.enabled>
 
     <#include "xml/batchInsert.ftl"/>
 </#if>

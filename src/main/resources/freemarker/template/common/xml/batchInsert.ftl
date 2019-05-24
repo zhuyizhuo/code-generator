@@ -1,5 +1,5 @@
 	<!-- ${methodCommentInfo.batchInsertMethodDescription} -->
-	<insert id="${methodInfo.batchInsertMethodName}" parameterType="java.util.List">
+	<insert id="${methodInfo.methodDescription.BATCH_INSERT.methodName}" parameterType="java.util.List">
         INSERT All
         <foreach collection="list" item="item">
             INTO ${mybatisXmlDefinition.tableSchema}.${mybatisXmlDefinition.tableName} (

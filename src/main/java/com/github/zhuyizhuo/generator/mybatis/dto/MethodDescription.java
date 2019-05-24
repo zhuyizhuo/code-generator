@@ -2,17 +2,16 @@ package com.github.zhuyizhuo.generator.mybatis.dto;
 
 /**
  * class: MethodDescription <br>
- * description: TODO <br>
+ * description: 方法描述 <br>
  * time: 2019/5/21
- *
  * @author yizhuo <br>
  * @since 1.4.0
  */
 public class MethodDescription {
     /** 是否生成方法 */
-   private boolean enabled;
-   /** 方法名 */
-   private String methodName;
+    private boolean enabled;
+    /** 方法名 */
+    private String methodName;
 
     public boolean isEnabled() {
         return enabled;

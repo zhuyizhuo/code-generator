@@ -3,9 +3,9 @@
 <#if tableInfo.singlePrimaryKey>
     <#include "comment/singlePrimaryKeyCommentPara.ftl"/>
     <#include "comment/methodComment.ftl"/>
-    int ${methodInfo.deleteByPrimaryKeyMethodName}(${paramType} ${methodParam});
+    int ${methodInfo.methodDescription.DELETE_BY_PRIMARY_KEY.methodName}(${paramType} ${methodParam});
 <#else>
     <#include "comment/commonCommentPara.ftl"/>
     <#include "comment/methodComment.ftl"/>
-    int ${methodInfo.deleteByPrimaryKeyMethodName}(${stratificationInfo.pojoName} ${methodParam});
+    int ${methodInfo.methodDescription.DELETE_BY_PRIMARY_KEY.methodName}(${stratificationInfo.pojoName} ${methodParam});
 </#if>
