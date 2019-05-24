@@ -1,5 +1,5 @@
-    <!-- ${methodCommentInfo.insertMethodDescription} -->
-	<insert id="${methodInfo.methodDescription.INSERT.methodName}" parameterType="${mybatisXmlDefinition.parameterType}">
+    <!-- ${methodDescription.INSERT.comment} -->
+	<insert id="${methodDescription.INSERT.methodName}" parameterType="${mybatisXmlDefinition.parameterType}">
         INSERT INTO
         <include refid="Table_Name" /> (
             <trim suffixOverrides=",">

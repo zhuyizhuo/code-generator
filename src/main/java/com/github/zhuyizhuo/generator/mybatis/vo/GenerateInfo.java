@@ -3,7 +3,8 @@ package com.github.zhuyizhuo.generator.mybatis.vo;
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.MethodCommentInfo;
-import com.github.zhuyizhuo.generator.mybatis.convention.MethodInfo;
+import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
+import com.github.zhuyizhuo.generator.mybatis.dto.MethodInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.support.mybatis.MybatisXmlDefinition;
@@ -11,6 +12,7 @@ import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author yizhuo
@@ -25,21 +27,13 @@ public class GenerateInfo {
     /** 方法注释信息 */
     private MethodCommentInfo methodCommentInfo;
     /** 方法信息 */
-    private MethodInfo methodInfo;
+    private Map<String, MethodDescription> methodDescription;
     /** 表信息 */
     private TableInfo tableInfo;
     /** mybatis xml 定义*/
     private MybatisXmlDefinition mybatisXmlDefinition;
 
     public GenerateInfo() { }
-
-    public MethodInfo getMethodInfo() {
-        return methodInfo;
-    }
-
-    public void setMethodInfo(MethodInfo methodInfo) {
-        this.methodInfo = methodInfo;
-    }
 
     public ClassCommentInfo getClassCommentInfo() {
         return classCommentInfo;
@@ -65,13 +59,12 @@ public class GenerateInfo {
         return mybatisXmlDefinition;
     }
 
-    public void init(TableInfo tableInfo, StratificationInfo stratificationInfo) {
+    public void init(TableInfo tableInfo, StratificationInfo stratificationInfo, Map<String, MethodDescription> methodDescriptionMap) {
         // 初始化 dao pojo 名称 及 包路径
         this.tableInfo = tableInfo;
         this.stratificationInfo = stratificationInfo;
-
+        this.methodDescription = methodDescriptionMap;
         this.stratificationInfo.initFilesName(tableInfo.getTableName(), tableInfo.getTableNameCamelCase());
-        this.methodInfo.initMethodName(tableInfo.getTableName(), tableInfo.getTableNameCamelCase());
         // 初始化 xml 内容
         initXmlInfo();
     }
@@ -109,4 +102,9 @@ public class GenerateInfo {
             mybatisXmlDefinition.addColumn(javaColumnInfo);
         }
     }
+
+    public Map<String, MethodDescription> getMethodDescription() {
+        return methodDescription;
+    }
+
 }

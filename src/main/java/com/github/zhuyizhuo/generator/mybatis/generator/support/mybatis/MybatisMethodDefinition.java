@@ -1,6 +1,5 @@
 package com.github.zhuyizhuo.generator.mybatis.generator.support.mybatis;
 
-import com.github.zhuyizhuo.generator.mybatis.convention.MethodInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.support.MethodDefinition;
 
 /**

@@ -1,11 +1,18 @@
-package com.github.zhuyizhuo.generator.mybatis.convention;
+package com.github.zhuyizhuo.generator.mybatis.dto;
 
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
 import com.github.zhuyizhuo.generator.mybatis.enums.MethodEnums;
 import com.github.zhuyizhuo.generator.mybatis.extension.service.FormatService;
+import com.github.zhuyizhuo.generator.mybatis.service.ContextHolder;
+import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -25,13 +32,15 @@ public class MethodInfo {
      * 方法描述
      * methodName -> MethodDescription
      */
-    private Map<String,MethodDescription> methodDescription = new ConcurrentHashMap<>();
+//    private Map<String,MethodDescription> methodDescription = new ConcurrentHashMap<>();
     /**
      * method -> methodNameFormatService
      */
     private Map<MethodEnums,FormatService> formatMap = new ConcurrentHashMap<>();
-    /** 格式化全部方法 */
-    private FormatService methodFormatService;
+    /**
+     * 格式化全部方法名 service
+     */
+    private FormatService commonMethodFormatService;
 
     public MethodInfo() {
     }
@@ -50,56 +59,53 @@ public class MethodInfo {
         FormatService formatService = formatMap.get(method);
         return formatService == null
                 ? MessageFormat.format(method.getMethodFormat(),
-                                this.methodFormatService != null ? methodFormatService.format(tableName)
+                                this.commonMethodFormatService != null ? commonMethodFormatService.format(tableName)
                                 :tableNameCamelCase)
                 : formatService.format(tableNameCamelCase);
     }
 
-    public void initMethodName(String tableName, String tableNameCamelCase) {
+    public Map<String,MethodDescription> initMethodName(String tableName, String tableNameCamelCase) {
         this.tableName = tableName;
         this.tableNameCamelCase = tableNameCamelCase;
 
+        Map<String,MethodDescription> methodDescriptionMap = new ConcurrentHashMap<>();
         MethodEnums[] values = MethodEnums.values();
+        MethodDescription methodDescription;
         for (int i = 0; i < values.length; i++) {
             String propertiesEnabledKey = values[i].getPropertiesEnabledKey();
+            String methodCommentKey = values[i].getMethodCommentKey();
             boolean methodEnabled = PropertiesUtils.getBooleanPropertiesDefaultTrue(propertiesEnabledKey);
-            MethodDescription methodDescription = this.methodDescription.get(values[i].toString());
-            if (methodDescription != null){
-                //TODO 可自定义添加方法处理  将此处逻辑去掉即可实现不覆盖自定义
-                methodDescription.setEnabled(methodEnabled);
-                methodDescription.setMethodName(formatMethodName(values[i]));
-            } else {
-                //TODO 初始化应在何处
-                methodDescription = new MethodDescription();
-                methodDescription.setEnabled(methodEnabled);
-                methodDescription.setMethodName(formatMethodName(values[i]));
-                this.methodDescription.put(values[i].toString(),methodDescription);
-            }
+            String methodComment = GeneratorStringUtils.isBlank(PropertiesUtils.getProperties(methodCommentKey))
+                    ? ContextHolder.getDefaultConfig(methodCommentKey)
+                    : PropertiesUtils.getProperties(methodCommentKey);
+            methodDescription = new MethodDescription();
+            methodDescription.setEnabled(methodEnabled);
+            methodDescription.setMethodName(formatMethodName(values[i]));
+            methodDescription.setComment(methodComment);
+            methodDescription.addParams(new ParamDescription("测试传入参数"));
+            methodDescriptionMap.put(values[i].toString(),methodDescription);
         }
+        return methodDescriptionMap;
     }
 
     private boolean getProperties(MethodEnums methodEnums) {
         return PropertiesUtils.getBooleanPropertiesDefaultTrue(methodEnums.getPropertiesEnabledKey());
     }
 
-    public void addAllFormat(FormatService formatService) {
-        this.methodFormatService = formatService;
+    public void addCommonMethodFormatService(FormatService formatService) {
+        this.commonMethodFormatService = formatService;
     }
 
-    public void addMethodFormat(MethodEnums method, FormatService formatService) {
-        this.formatMap.put(method,formatService);
-    }
-
-    public Map<String, MethodDescription> getMethodDescription() {
-        return methodDescription;
+    public void setFormatMap(Map<MethodEnums, FormatService> formatMap) {
+        this.formatMap = formatMap;
     }
 
     public Map<MethodEnums, FormatService> getFormatMap() {
         return formatMap;
     }
 
-    public FormatService getMethodFormatService() {
-        return methodFormatService;
+    public FormatService getCommonMethodFormatService() {
+        return commonMethodFormatService;
     }
 
 }

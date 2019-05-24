@@ -6,6 +6,7 @@ import com.github.zhuyizhuo.generator.mybatis.annotation.Value;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
+import com.google.common.base.Charsets;
 import org.apache.ibatis.parsing.GenericTokenParser;
 import org.apache.ibatis.parsing.TokenHandler;
 
@@ -30,9 +31,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @Resource("generate-config.properties")
 public class ContextHolder {
 
-    private Properties contextConfig = new Properties();
+    private static Properties contextConfig = new Properties();
 
-    private Map<String, Object> beanMap = new ConcurrentHashMap<String, Object>();
+    private static Map<String, Object> beanMap = new ConcurrentHashMap<String, Object>();
 
     private List<String> classNames = new ArrayList<String>();
 
@@ -131,7 +132,11 @@ public class ContextHolder {
         }
     }
 
-    public <T> T getBean(String beanName){
+    public static <T> T getBean(String beanName){
         return (T) beanMap.get(GeneratorStringUtils.firstLower(beanName));
+    }
+
+    public static String getDefaultConfig(String key){
+        return contextConfig.getProperty(key);
     }
 }

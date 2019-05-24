@@ -5,7 +5,7 @@ import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.MethodCommentInfo;
-import com.github.zhuyizhuo.generator.mybatis.convention.MethodInfo;
+import com.github.zhuyizhuo.generator.mybatis.dto.MethodInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
 import com.github.zhuyizhuo.generator.mybatis.enums.MethodEnums;
 import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
@@ -21,6 +21,7 @@ import org.apache.ibatis.type.JdbcType;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * class: GeneratorBuilder <br>
@@ -30,46 +31,46 @@ import java.util.Map;
  * @version 1.2.0
  */
 public class GeneratorBuilder {
-    /**
-     * 方法信息
-     */
-    private MethodInfo methodInfo = new MethodInfo();
-    /**
-     * 文件输出路径信息
-     */
-    private FileOutPathInfo fileOutPathInfo = new FileOutPathInfo();
     /***
      * key 数据库字段类型
      * value java 数据类型
      */
     private final Map<String, Class<?>> typeMapper = new HashMap<String, Class<?>>();
+    /**
+     * 方法名格式化 service map
+     */
+    private Map<MethodEnums,FormatService> methodNameFormatServiceMap = new ConcurrentHashMap<>();
+    /**
+     * 格式化全部方法 service 优先级低于指定方法格式化 service
+     */
+    private FormatService commonMethodFormatService;
 
-    private Map<ModuleTypeEnums, FormatService> nameFormatMap = new HashMap<>();
+    private Map<ModuleTypeEnums, FormatService> moduleNameFormatServiceMap = new HashMap<>();
 
     public GeneratorBuilder() {
     }
 
     /**
-     * 自定义xml生成名称
+     * 自定义指定模块生成名称
+     * @since 1.4.0
      */
-    public GeneratorBuilder addXmlNameFormat(FormatService formatService) {
-        this.fileOutPathInfo.addXmlNameFormat(formatService);
+    public GeneratorBuilder addModuleNameFormat(ModuleTypeEnums moduleType, FormatService formatService) {
+        this.moduleNameFormatServiceMap.put(moduleType, formatService);
         return this;
     }
 
     /**
-     * 自定义pojo生成名称
+     * 自定义方法生成名称
+     * @param methodType 方法类型
+     * @param formatService 格式化service
+     * @since 1.4.0
      */
-    public GeneratorBuilder addBeanNameFormat(FormatService formatService) {
-        this.nameFormatMap.put(ModuleTypeEnums.POJO, formatService);
-        return this;
-    }
-
-    /**
-     * 自定义mapper生成名称
-     */
-    public GeneratorBuilder addMapperNameFormat(FormatService formatService) {
-        this.nameFormatMap.put(ModuleTypeEnums.MAPPER, formatService);
+    public GeneratorBuilder addMethodFormat(@Nullable MethodEnums methodType, FormatService formatService) {
+        if (methodType == null) {
+            this.commonMethodFormatService = formatService;
+        } else {
+            this.methodNameFormatServiceMap.put(methodType, formatService);
+        }
         return this;
     }
 
@@ -83,21 +84,12 @@ public class GeneratorBuilder {
      * @param jdbcType      mybatis 配置文件中类型 如 #{id,jdbcType=VARCHAR}
      * @param javaTypeClass java 类
      */
-    public GeneratorBuilder addTypeMapper(String dataBaseType, JdbcType jdbcType, Class<?> javaTypeClass) {
+    public GeneratorBuilder addTypeMapper(String dataBaseType, @Nullable JdbcType jdbcType, @Nullable Class<?> javaTypeClass) {
         if (GeneratorStringUtils.isNotBlank(dataBaseType) && javaTypeClass != null) {
             this.typeMapper.put(dataBaseType, javaTypeClass);
         }
         if (GeneratorStringUtils.isNotBlank(dataBaseType) && jdbcType != null) {
             TypeConversion.addType2JdbcType(dataBaseType, jdbcType.toString());
-        }
-        return this;
-    }
-
-    public GeneratorBuilder addMethodFormat(@Nullable MethodEnums method, FormatService formatService) {
-        if (method == null) {
-            this.methodInfo.addAllFormat(formatService);
-        } else {
-            this.methodInfo.addMethodFormat(method, formatService);
         }
         return this;
     }
@@ -119,25 +111,29 @@ public class GeneratorBuilder {
             }
         }
 
-        ContextHolder configScanner = new ContextHolder();
+        ContextHolder context = new ContextHolder();
         try {
-            configScanner.init();
+            context.init();
         } catch (Exception e){
             e.printStackTrace();
         }
-
-        ClassCommentInfo classCommentInfo = configScanner.getBean("ClassCommentInfo");
-        StratificationInfo stratificationInfo = configScanner.getBean("stratificationInfo");
-        MethodCommentInfo methodCommentInfo = configScanner.getBean("methodCommentInfo");
         TypeConversion.init(typeMapper);
-        stratificationInfo.init(nameFormatMap);
+
+        StratificationInfo stratificationInfo = context.getBean("stratificationInfo");
+        stratificationInfo.init(moduleNameFormatServiceMap);
+        ClassCommentInfo classCommentInfo = context.getBean("ClassCommentInfo");
+        MethodCommentInfo methodCommentInfo = context.getBean("methodCommentInfo");
+        FileOutPathInfo fileOutPathInfo = context.getBean("FileOutPathInfo");
         GenerateInfo generateInfo = new GenerateInfo();
         generateInfo.setClassCommentInfo(classCommentInfo);
         generateInfo.setMethodCommentInfo(methodCommentInfo);
-        generateInfo.setMethodInfo(methodInfo);
-        fileOutPathInfo.init(stratificationInfo);
 
-        return new Generator(generateInfo, fileOutPathInfo, stratificationInfo);
+        MethodInfo methodInfo = new MethodInfo();
+        methodInfo.addCommonMethodFormatService(commonMethodFormatService);
+        methodInfo.setFormatMap(methodNameFormatServiceMap);
+        fileOutPathInfo.init(stratificationInfo.getJavaClassDefinitions());
+
+        return new Generator(generateInfo, fileOutPathInfo, stratificationInfo, methodInfo);
     }
 
 }

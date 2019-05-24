@@ -1,5 +1,8 @@
 package com.github.zhuyizhuo.generator.mybatis.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * class: MethodDescription <br>
  * description: 方法描述 <br>
@@ -12,6 +15,10 @@ public class MethodDescription {
     private boolean enabled;
     /** 方法名 */
     private String methodName;
+    /** 方法注释 */
+    private String comment;
+    /** 方法参数 */
+    private List<ParamDescription> params = new ArrayList<>();
 
     public boolean isEnabled() {
         return enabled;
@@ -27,5 +34,24 @@ public class MethodDescription {
 
     public void setMethodName(String methodName) {
         this.methodName = methodName;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public List<ParamDescription> getParams() {
+        return params;
+    }
+
+    public void addParams(ParamDescription param) {
+        if (param == null){
+            return;
+        }
+        this.params.add(param);
     }
 }

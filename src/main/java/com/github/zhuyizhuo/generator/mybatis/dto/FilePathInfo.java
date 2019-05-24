@@ -12,7 +12,8 @@ import com.github.zhuyizhuo.generator.mybatis.vo.RealGenerateInfo;
  * @since #since#
  */
 public class FilePathInfo {
-
+    /** 模块类型 */
+    private String moduleType;
     private String templatePath;
     private String fileOutPutPath;
     private RealGenerateInfo generateInfo;
@@ -21,6 +22,12 @@ public class FilePathInfo {
     }
 
     public FilePathInfo(String templatePath, String fileOutPutPath) {
+        this.templatePath = templatePath;
+        this.fileOutPutPath = fileOutPutPath;
+    }
+
+    public FilePathInfo(String moduleType, String templatePath, String fileOutPutPath) {
+        this.moduleType = moduleType;
         this.templatePath = templatePath;
         this.fileOutPutPath = fileOutPutPath;
     }

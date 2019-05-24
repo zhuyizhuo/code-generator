@@ -9,41 +9,41 @@ import ${stratificationInfo.pojoFullPackage}.${stratificationInfo.pojoName};
 <#include "java/comment/classComment.ftl"/>
  */
 public interface ${stratificationInfo.daoName} {
-<#if methodInfo.methodDescription.INSERT.enabled>
+<#if methodDescription.INSERT.enabled>
 
 	<#include "java/insert.ftl"/>
 </#if>
-<#if methodInfo.methodDescription.DELETE_BY_PRIMARY_KEY.enabled>
+<#if methodDescription.DELETE_BY_PRIMARY_KEY.enabled>
 <#if tableInfo.hasPrimaryKey>
 
 	<#include "java/deleteByPrimaryKey.ftl"/>
 </#if>
 </#if>
-<#if methodInfo.methodDescription.DELETE_BY_WHERE.enabled>
+<#if methodDescription.DELETE_BY_WHERE.enabled>
 
 	<#include "java/deleteByWhere.ftl"/>
 </#if>
-<#if methodInfo.methodDescription.UPDATE_BY_PRIMARY_KEY.enabled>
+<#if methodDescription.UPDATE_BY_PRIMARY_KEY.enabled>
 <#if tableInfo.hasPrimaryKey>
 
 	<#include "java/updateByPrimaryKey.ftl"/>
 </#if>
 </#if>
-<#if methodInfo.methodDescription.QUERY_BY_PRIMARY_KEY.enabled>
+<#if methodDescription.QUERY_BY_PRIMARY_KEY.enabled>
 <#if tableInfo.hasPrimaryKey>
 
     <#include "java/queryByPrimaryKey.ftl"/>
 </#if>
 </#if>
-<#if methodInfo.methodDescription.QUERY_BY_WHERE.enabled>
+<#if methodDescription.QUERY_BY_WHERE.enabled>
 
 	<#include "java/queryByWhere.ftl"/>
 </#if>
-<#if methodInfo.methodDescription.COUNT_BY_WHERE.enabled>
+<#if methodDescription.COUNT_BY_WHERE.enabled>
 
 	<#include "java/countByWhere.ftl"/>
 </#if>
-<#if methodInfo.methodDescription.BATCH_INSERT.enabled>
+<#if methodDescription.BATCH_INSERT.enabled>
 
   <#include "java/batchInsert.ftl"/>
 </#if>

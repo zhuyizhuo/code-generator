@@ -1,8 +1,11 @@
 package com.github.zhuyizhuo.generator.mybatis.convention;
 
+import com.github.zhuyizhuo.generator.mybatis.annotation.CoventionClass;
+import com.github.zhuyizhuo.generator.mybatis.annotation.Value;
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.constants.FtlPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.FilePathInfo;
+import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.enums.XmlNameFormatEnums;
 import com.github.zhuyizhuo.generator.mybatis.extension.service.FormatService;
@@ -12,6 +15,8 @@ import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * class: FileOutPathInfo <br>
@@ -20,21 +25,30 @@ import java.util.List;
  * @author yizhuo <br>
  * @version 1.0
  */
+@CoventionClass
 public class FileOutPathInfo {
     private final String XML_FILE_PATH = "/src/main/resources/mappers";
 
     private FormatService formatService = (tableName) -> tableName.toLowerCase();
 
+    @Value("#{generate.java.base-out-put-path}")
+    private String baseOutputPath;
     /** java 基础路径 */
     private String baseJavaPath;
     /** 资源文件基础路径 */
     private String baseResourcesPath;
     /** 实体类输出路径 */
+    @Value("#{generate.java.pojo.path}")
     private String pojoOutPutPath;
     /** dao输出路径 */
+    @Value("#{generate.java.mapper.path}")
     private String daoOutPutPath;
     /** mybatis xml文件输出路径 */
+    @Value("#{generate.xml.out-put-path}")
     private String xmlOutPutPath;
+
+    @Value("#{generate.java.base-package.enabled}")
+    private String basePackageEnabled;
 
     /** 实体类输出全路径 */
     private String pojoOutPutFullPath;
@@ -43,49 +57,37 @@ public class FileOutPathInfo {
     /** mybatis xml文件输出全路径 */
     private String xmlOutPutFullPath;
 
+    private Map<ModuleTypeEnums,FilePathInfo> pathInfoMap = new ConcurrentHashMap<>();
+
     public FileOutPathInfo() {
 
     }
 
     public String getBasePath(){
-        String basePath = "";
-        basePath = PropertiesUtils.getProperties(ConfigConstants.FILE_OUT_PUT_PATH);
-        if (GeneratorStringUtils.isBlank(basePath)){
-            basePath = System.getProperty("user.dir");
+        if (GeneratorStringUtils.isBlank(baseOutputPath)){
+            baseOutputPath = System.getProperty("user.dir");
         }
-        basePath += "/";
-        return basePath;
+        baseOutputPath += "/";
+        return this.baseOutputPath;
     }
 
-    public void init(StratificationInfo stratificationInfo) {
+    public void init(Map<ModuleTypeEnums, JavaClassDefinition> javaClassDefinitionMap) {
         String basePath = getBasePath();
         this.baseJavaPath = basePath + "/src/main/java/";
         this.baseResourcesPath = basePath;
 
-        if (PropertiesUtils.containsKey(ConfigConstants.XML_OUT_PUT_PATH)){
-            this.xmlOutPutPath = PropertiesUtils.getProperties(ConfigConstants.XML_OUT_PUT_PATH);
-        };
-
-        if (PropertiesUtils.containsKey(ConfigConstants.DAO_OUT_PUT_PATH)){
-            this.daoOutPutPath = PropertiesUtils.getProperties(ConfigConstants.DAO_OUT_PUT_PATH);
-        };
-        if (PropertiesUtils.containsKey(ConfigConstants.POJO_OUT_PUT_PATH)){
-            this.pojoOutPutPath = PropertiesUtils.getProperties(ConfigConstants.POJO_OUT_PUT_PATH);
-        };
-
-        if (GeneratorStringUtils.isBlank(pojoOutPutPath)){
-            this.pojoOutPutPath = getJavaFileOutPutFullPath(changePackage2Path(stratificationInfo.getPojoFullPackage()));
-        } else {
-            this.pojoOutPutPath = getJavaFileOutPutFullPath(this.pojoOutPutPath);
-        }
-        if (GeneratorStringUtils.isBlank(daoOutPutPath)){
-            this.daoOutPutPath = getJavaFileOutPutFullPath(changePackage2Path(stratificationInfo.getDaoFullPackage()));
-        } else {
-            this.daoOutPutPath = getJavaFileOutPutFullPath(this.daoOutPutPath);
-        }
-        if (GeneratorStringUtils.isBlank(xmlOutPutPath)){
+        /*ModuleTypeEnums[] values = ModuleTypeEnums.values();
+        for (int i = 0; i < values.length; i++) {
+            String fullPackage = javaClassDefinitionMap.get(values[i]).getFullPackage();
+            String s = changePackage2Path(fullPackage);
+        }*/
+        if ("TRUE".equalsIgnoreCase(basePackageEnabled)){
+            this.pojoOutPutPath = getJavaFileOutPutFullPath(changePackage2Path(javaClassDefinitionMap.get(ModuleTypeEnums.POJO).getFullPackage()));
+            this.daoOutPutPath = getJavaFileOutPutFullPath(changePackage2Path(javaClassDefinitionMap.get(ModuleTypeEnums.MAPPER).getFullPackage()));
             this.xmlOutPutPath = baseResourcesPath + XML_FILE_PATH + "/{0}.xml";
         } else {
+            this.pojoOutPutPath = getJavaFileOutPutFullPath(this.pojoOutPutPath);
+            this.daoOutPutPath = getJavaFileOutPutFullPath(this.daoOutPutPath);
             this.xmlOutPutPath = baseResourcesPath + this.xmlOutPutPath + "/{0}.xml";
         }
     }
@@ -133,4 +135,11 @@ public class FileOutPathInfo {
         this.formatService = formatService;
     }
 
+    public String getBasePackageEnabled() {
+        return basePackageEnabled;
+    }
+
+    public void setBasePackageEnabled(String basePackageEnabled) {
+        this.basePackageEnabled = basePackageEnabled;
+    }
 }

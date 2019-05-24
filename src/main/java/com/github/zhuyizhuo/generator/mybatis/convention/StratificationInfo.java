@@ -3,6 +3,7 @@ package com.github.zhuyizhuo.generator.mybatis.convention;
 import com.github.zhuyizhuo.generator.mybatis.annotation.CoventionClass;
 import com.github.zhuyizhuo.generator.mybatis.annotation.Value;
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
+import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.extension.service.FormatService;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
@@ -10,6 +11,7 @@ import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,6 +40,8 @@ public class StratificationInfo {
     private String pojoName;
     /** dao 层名称 */
     private String daoName;
+    /** xml 名称 */
+    private String xmlName;
 
     /** dao层包全路径 */
     private String daoFullPackage;
@@ -75,7 +79,7 @@ public class StratificationInfo {
     /**
      *  格式化类名
      */
-    public String classNameFormat(ModuleTypeEnums moduleType, String javaTableName) {
+    private String classNameFormat(ModuleTypeEnums moduleType, String javaTableName) {
         String properties = PropertiesUtils.getProperties(moduleType.getFileNameFormatKey());
         return MessageFormat.format(GeneratorStringUtils.isNotBlank(properties)
                                         ? properties
@@ -153,5 +157,12 @@ public class StratificationInfo {
 
     public String getPojoFullPackage() {
         return pojoFullPackage;
+    }
+
+    public Map<ModuleTypeEnums,JavaClassDefinition> getJavaClassDefinitions(){
+        Map<ModuleTypeEnums,JavaClassDefinition> definitionMap = new HashMap<>();
+        definitionMap.put(ModuleTypeEnums.MAPPER, new JavaClassDefinition(daoFullPackage,daoName));
+        definitionMap.put(ModuleTypeEnums.POJO, new JavaClassDefinition(pojoFullPackage,pojoName));
+        return definitionMap;
     }
 }

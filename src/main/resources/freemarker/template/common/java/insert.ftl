@@ -1,5 +1,7 @@
 <#include "comment/commonCommentPara.ftl"/>
-<#assign methodReturn = "新增的数据条数">
-<#assign methodDescription = "${methodCommentInfo.insertMethodDescription}">
-    <#include "comment/methodComment.ftl"/>
-	int ${methodInfo.methodDescription.INSERT.methodName}(${stratificationInfo.pojoName} ${stratificationInfo.pojoName?uncap_first});
+	/**
+     * ${methodDescription.INSERT.comment} <br>
+     * @param ${methodParam} ${paramDescription}  <br>
+     * @return 新增的数据条数
+     */
+	int ${methodDescription.INSERT.methodName}(${stratificationInfo.pojoName} ${stratificationInfo.pojoName?uncap_first});

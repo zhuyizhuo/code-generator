@@ -1,7 +1,9 @@
 <#assign methodParam = "${stratificationInfo.pojoName?uncap_first}">
 	/**
-     * ${methodCommentInfo.countMethodDescription} <br>
-     * @param ${methodParam} ${methodCommentInfo.paramsDescription}  <br>
+     * ${methodDescription.COUNT_BY_WHERE.comment} <br>
+<#list methodDescription.COUNT_BY_WHERE.params as param>
+     * @param ${methodParam} ${param.comment}  <br>
+</#list>
      * @return 符合条件的数据总数
      */
-    int ${methodInfo.methodDescription.COUNT_BY_WHERE.methodName}(${stratificationInfo.pojoName} ${methodParam});
+    int ${methodDescription.COUNT_BY_WHERE.methodName}(${stratificationInfo.pojoName} ${methodParam});
