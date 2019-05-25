@@ -1,4 +1,4 @@
-package ${stratificationInfo.pojoFullPackage};
+package ${javaClassDefinition.POJO.fullPackage};
 
 <#list tableInfo.importPackages as import>
 	<#if import??>
@@ -10,9 +10,12 @@ import ${import};
  * database	: ${tableInfo.tableSchema} <br/>
  * table	: ${tableInfo.tableName} <br/>
  * description : ${tableInfo.tableComment} <br/>
-<#include "java/comment/classComment.ftl"/>
+ * time:    ${classCommentInfo.createTime} <br/><#if classCommentInfo.author!="">
+ * @author  ${classCommentInfo.author} <br/></#if><#if classCommentInfo.sinceVersion!="">
+ * @since   ${classCommentInfo.sinceVersion} <br/></#if>
+ * @version ${classCommentInfo.version} <br/>
  */
-public class ${stratificationInfo.pojoName} {
+public class ${javaClassDefinition.POJO.className} {
 
 <#list tableInfo.columnLists as colm>
 	<#if colm??>

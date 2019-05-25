@@ -1,5 +1,10 @@
-<#include "comment/commonCommentPara.ftl"/>
+<#assign methodParam = "${javaClassDefinition.POJO.className?uncap_first}">
+<#assign paramDescription = "${methodCommentInfo.paramsDescription}">
 <#assign methodReturn = "删除的数据条数">
 <#assign methodComment = "${methodDescription.DELETE_BY_WHERE.comment}">
-<#include "comment/methodComment.ftl"/>
-    int ${methodDescription.DELETE_BY_WHERE.methodName}(${stratificationInfo.pojoName} ${methodParam});
+	/**
+     * ${methodComment} <br>
+     * @param ${methodParam} ${paramDescription}  <br>
+     * @return ${methodReturn}
+     */
+    int ${methodDescription.DELETE_BY_WHERE.methodName}(${javaClassDefinition.POJO.className} ${methodParam});

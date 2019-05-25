@@ -5,6 +5,7 @@ import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
 import com.github.zhuyizhuo.generator.mybatis.db.service.DbService;
 import com.github.zhuyizhuo.generator.mybatis.dto.FilePathInfo;
+import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodInfo;
 import com.github.zhuyizhuo.generator.mybatis.factory.DbServiceFactory;
@@ -76,10 +77,12 @@ public class Generator {
                 TableInfo tableInfo = dbTableInfoList.get(i);
                 Map<String, MethodDescription> methodDescriptionMap =
                         this.methodInfo.initMethodName(tableInfo.getTableName(), tableInfo.getTableNameCamelCase());
+
+                Map<String,JavaClassDefinition> javaClassDefinitionMap = this.stratificationInfo.initFilesName(tableInfo.getTableName(), tableInfo.getTableNameCamelCase());
                 // 初始化 方法名
-                generateInfo.init(tableInfo, this.stratificationInfo, methodDescriptionMap);
+                generateInfo.init(tableInfo, javaClassDefinitionMap, methodDescriptionMap);
                 // 初始化输出路径
-                List<FilePathInfo> pathInfos = fileOutPathInfo.formatPath(this.stratificationInfo);
+                List<FilePathInfo> pathInfos = fileOutPathInfo.formatPath(javaClassDefinitionMap, tableInfo.getTableName());
 
 //                RealGenerateInfo info ;
 //                for (int j = 0; j < pathInfos.size(); j++) {
@@ -90,6 +93,7 @@ public class Generator {
 //                }
 //                infoHolder = new TemplateGenerateInfo(FtlPathInfo.pojoFtlPath,fileOutPathInfo.getPojoOutPutFullPath(), generateInfo);
 //                infoHolders.add(infoHolder);
+                LogUtils.printJsonInfo("输出对象:" , generateInfo);
 
                 Freemarker.printFile(FtlPathInfo.pojoFtlPath, fileOutPathInfo.getPojoOutPutFullPath(), generateInfo);
                 Freemarker.printFile(FtlPathInfo.daoFtlPath, fileOutPathInfo.getDaoOutPutFullPath(), generateInfo);

@@ -3,10 +3,10 @@ package com.github.zhuyizhuo.generator.mybatis.vo;
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.MethodCommentInfo;
+import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
-import com.github.zhuyizhuo.generator.mybatis.dto.MethodInfo;
-import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
+import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.support.mybatis.MybatisXmlDefinition;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
@@ -21,13 +21,13 @@ import java.util.Map;
  */
 public class GenerateInfo {
     /** 分层信息 */
-    private StratificationInfo stratificationInfo;
+    private Map<String, JavaClassDefinition> javaClassDefinition;
+    /** 方法信息 */
+    private Map<String, MethodDescription> methodDescription;
     /** 类注释信息 */
     private ClassCommentInfo classCommentInfo;
     /** 方法注释信息 */
     private MethodCommentInfo methodCommentInfo;
-    /** 方法信息 */
-    private Map<String, MethodDescription> methodDescription;
     /** 表信息 */
     private TableInfo tableInfo;
     /** mybatis xml 定义*/
@@ -59,31 +59,24 @@ public class GenerateInfo {
         return mybatisXmlDefinition;
     }
 
-    public void init(TableInfo tableInfo, StratificationInfo stratificationInfo, Map<String, MethodDescription> methodDescriptionMap) {
+    public void init(TableInfo tableInfo, Map<String, JavaClassDefinition> javaClassDefinition, Map<String, MethodDescription> methodDescriptionMap) {
         // 初始化 dao pojo 名称 及 包路径
         this.tableInfo = tableInfo;
-        this.stratificationInfo = stratificationInfo;
+        this.javaClassDefinition = javaClassDefinition;
         this.methodDescription = methodDescriptionMap;
-        this.stratificationInfo.initFilesName(tableInfo.getTableName(), tableInfo.getTableNameCamelCase());
         // 初始化 xml 内容
         initXmlInfo();
-    }
-
-    public void setStratificationInfo(StratificationInfo stratificationInfo) {
-        this.stratificationInfo = stratificationInfo;
-    }
-
-    public StratificationInfo getStratificationInfo() {
-        return stratificationInfo;
     }
 
     public void initXmlInfo() {
         mybatisXmlDefinition = new MybatisXmlDefinition();
         boolean useTypeAliases = PropertiesUtils.getBooleanPropertiesDefaultFalse(ConfigConstants.PARAMETER_TYPE_USE_TYPE_ALIASES);
 
+        JavaClassDefinition pojoDefinition = javaClassDefinition.get(ModuleTypeEnums.POJO.toString());
+        JavaClassDefinition mapperDefinition = javaClassDefinition.get(ModuleTypeEnums.MAPPER.toString());
         mybatisXmlDefinition.setParameterType(
-             useTypeAliases  ? GeneratorStringUtils.firstLower(stratificationInfo.getPojoName())
-                    : stratificationInfo.getPojoFullPackage()+"."+stratificationInfo.getPojoName());
+             useTypeAliases  ? GeneratorStringUtils.firstLower(pojoDefinition.getClassName())
+                    : pojoDefinition.getFullPackage()+"."+pojoDefinition.getClassName());
 
         mybatisXmlDefinition.setTableName(tableInfo.getTableName());
         mybatisXmlDefinition.setTableSchema(tableInfo.getTableSchema());
@@ -92,7 +85,7 @@ public class GenerateInfo {
         mybatisXmlDefinition.getResultMap().setId(GeneratorStringUtils.firstLower(tableInfo.getTableNameCamelCase())+"ResultMap");
         mybatisXmlDefinition.getResultMap().setType(mybatisXmlDefinition.getParameterType());
 
-        mybatisXmlDefinition.setNameSpace(stratificationInfo.getDaoFullPackage()+"." +stratificationInfo.getDaoName());
+        mybatisXmlDefinition.setNameSpace(mapperDefinition.getFullPackage()+"." +mapperDefinition.getClassName());
         mybatisXmlDefinition.addMybatisXmlHeaderLine("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
         mybatisXmlDefinition.addMybatisXmlHeaderLine("<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">");
 
@@ -107,4 +100,7 @@ public class GenerateInfo {
         return methodDescription;
     }
 
+    public Map<String, JavaClassDefinition> getJavaClassDefinition() {
+        return javaClassDefinition;
+    }
 }

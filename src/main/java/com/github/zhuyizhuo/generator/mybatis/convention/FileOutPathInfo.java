@@ -71,7 +71,7 @@ public class FileOutPathInfo {
         return this.baseOutputPath;
     }
 
-    public void init(Map<ModuleTypeEnums, JavaClassDefinition> javaClassDefinitionMap) {
+    public void init(Map<String, JavaClassDefinition> javaClassDefinitionMap) {
         String basePath = getBasePath();
         this.baseJavaPath = basePath + "/src/main/java/";
         this.baseResourcesPath = basePath;
@@ -82,8 +82,8 @@ public class FileOutPathInfo {
             String s = changePackage2Path(fullPackage);
         }*/
         if ("TRUE".equalsIgnoreCase(basePackageEnabled)){
-            this.pojoOutPutPath = getJavaFileOutPutFullPath(changePackage2Path(javaClassDefinitionMap.get(ModuleTypeEnums.POJO).getFullPackage()));
-            this.daoOutPutPath = getJavaFileOutPutFullPath(changePackage2Path(javaClassDefinitionMap.get(ModuleTypeEnums.MAPPER).getFullPackage()));
+            this.pojoOutPutPath = getJavaFileOutPutFullPath(changePackage2Path(javaClassDefinitionMap.get(ModuleTypeEnums.POJO.getModuleType()).getFullPackage()));
+            this.daoOutPutPath = getJavaFileOutPutFullPath(changePackage2Path(javaClassDefinitionMap.get(ModuleTypeEnums.MAPPER.getModuleType()).getFullPackage()));
             this.xmlOutPutPath = baseResourcesPath + XML_FILE_PATH + "/{0}.xml";
         } else {
             this.pojoOutPutPath = getJavaFileOutPutFullPath(this.pojoOutPutPath);
@@ -92,10 +92,12 @@ public class FileOutPathInfo {
         }
     }
 
-    public List<FilePathInfo> formatPath(StratificationInfo stratificationInfo){
-        this.pojoOutPutFullPath = MessageFormat.format(pojoOutPutPath,stratificationInfo.getPojoName());
-        this.daoOutPutFullPath = MessageFormat.format(daoOutPutPath,stratificationInfo.getDaoName());
-        this.xmlOutPutFullPath = MessageFormat.format(xmlOutPutPath,initXmlName(stratificationInfo.getTableName()));
+    public List<FilePathInfo> formatPath(Map<String, JavaClassDefinition> stratificationInfo, String tableName){
+        String pojoName = stratificationInfo.get(ModuleTypeEnums.POJO.getModuleType()).getClassName();
+        String mapperName = stratificationInfo.get(ModuleTypeEnums.MAPPER.getModuleType()).getClassName();
+        this.pojoOutPutFullPath = MessageFormat.format(pojoOutPutPath,pojoName);
+        this.daoOutPutFullPath = MessageFormat.format(daoOutPutPath,mapperName);
+        this.xmlOutPutFullPath = MessageFormat.format(xmlOutPutPath,initXmlName(tableName));
 
         List<FilePathInfo> filePathInfos = new ArrayList<>();
         filePathInfos.add(new FilePathInfo(FtlPathInfo.pojoFtlPath, pojoOutPutFullPath));

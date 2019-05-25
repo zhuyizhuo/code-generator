@@ -27,7 +27,6 @@ public class Freemarker {
 	 */
 	public static void printFile(String ftlFullPath, String outPutPath, Object outPutObject) throws Exception{
 		LogUtils.printInfo("文件输出路径:"+outPutPath);
-		LogUtils.printJsonInfo("输出对象:" , outPutObject);
 		printFile(GeneratorStringUtils.getFrontPath(ftlFullPath),GeneratorStringUtils.getFileName(ftlFullPath),outPutPath,outPutObject);
 	}
 

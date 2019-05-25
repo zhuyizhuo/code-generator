@@ -1,5 +1,6 @@
 package com.github.zhuyizhuo.generator.utils;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -13,7 +14,7 @@ public class PropertiesUtils {
 
     public static final Properties proInfo = new Properties();
 
-    public static void loadProperties(InputStream resourceAsStream) throws IOException,IllegalArgumentException {
+    public static void loadProperties(BufferedReader resourceAsStream) throws IOException,IllegalArgumentException {
         proInfo.load(resourceAsStream);
         CheckUtils.checkDBType();
         CheckUtils.checkNeedConfig();

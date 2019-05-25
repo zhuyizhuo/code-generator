@@ -10,8 +10,10 @@ import com.google.common.base.Charsets;
 import org.apache.ibatis.parsing.GenericTokenParser;
 import org.apache.ibatis.parsing.TokenHandler;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -111,7 +113,7 @@ public class ContextHolder {
         ClassLoader classLoader = this.getClass().getClassLoader();
         InputStream resourceAsStream = classLoader.getResourceAsStream(contextConfigLocation);
         try {
-            this.contextConfig.load(resourceAsStream);
+            this.contextConfig.load(new BufferedReader(new InputStreamReader(resourceAsStream,"UTF-8")));
 
             resourceAsStream = classLoader.getResourceAsStream("application.properties");
             Properties contextConfig = new Properties();

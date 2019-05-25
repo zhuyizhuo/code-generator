@@ -1,14 +1,17 @@
-package ${stratificationInfo.daoFullPackage};
+package ${javaClassDefinition.MAPPER.fullPackage};
 
 import java.util.List;
 
-import ${stratificationInfo.pojoFullPackage}.${stratificationInfo.pojoName};
+import ${javaClassDefinition.POJO.fullPackage}.${javaClassDefinition.POJO.className};
 
 /**
  * description : ${tableInfo.tableName} table dao layer interface <br/>
-<#include "java/comment/classComment.ftl"/>
+ * time:    ${classCommentInfo.createTime} <br/><#if classCommentInfo.author!="">
+ * @author  ${classCommentInfo.author} <br/></#if><#if classCommentInfo.sinceVersion!="">
+ * @since   ${classCommentInfo.sinceVersion} <br/></#if>
+ * @version ${classCommentInfo.version} <br/>
  */
-public interface ${stratificationInfo.daoName} {
+public interface ${javaClassDefinition.MAPPER.className} {
 <#if methodDescription.INSERT.enabled>
 
 	<#include "java/insert.ftl"/>

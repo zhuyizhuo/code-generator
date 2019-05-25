@@ -135,6 +135,7 @@ public class TableInfo {
         this.singlePrimaryKey = singlePrimaryKey;
     }
 
+
     @Override
     public String toString() {
         return "TableInfo{" +
@@ -144,7 +145,9 @@ public class TableInfo {
                 ", tableNameCamelCase='" + tableNameCamelCase + '\'' +
                 ", importPackages=" + importPackages +
                 ", columnLists=" + columnLists +
+                ", primaryKeyColumns=" + primaryKeyColumns +
+                ", hasPrimaryKey=" + hasPrimaryKey +
+                ", singlePrimaryKey=" + singlePrimaryKey +
                 '}';
     }
-
 }

@@ -18,7 +18,9 @@ import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import com.github.zhuyizhuo.generator.utils.TypeConversion;
 import org.apache.ibatis.type.JdbcType;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -96,7 +98,7 @@ public class GeneratorBuilder {
 
     public Generator build(InputStream inputStream) {
         try {
-            PropertiesUtils.loadProperties(inputStream);
+            PropertiesUtils.loadProperties(new BufferedReader(new InputStreamReader(inputStream,"UTF-8")));
         } catch (Exception e) {
             LogUtils.printErrInfo("加载配置文件失败.");
         }
@@ -131,7 +133,7 @@ public class GeneratorBuilder {
         MethodInfo methodInfo = new MethodInfo();
         methodInfo.addCommonMethodFormatService(commonMethodFormatService);
         methodInfo.setFormatMap(methodNameFormatServiceMap);
-        fileOutPathInfo.init(stratificationInfo.getJavaClassDefinitions());
+        fileOutPathInfo.init(stratificationInfo.getJavaClassDefinition());
 
         return new Generator(generateInfo, fileOutPathInfo, stratificationInfo, methodInfo);
     }

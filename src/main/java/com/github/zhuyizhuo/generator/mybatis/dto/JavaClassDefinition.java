@@ -1,12 +1,5 @@
 package com.github.zhuyizhuo.generator.mybatis.dto;
 
-import com.github.zhuyizhuo.generator.mybatis.bean.FieldDefinition;
-import com.github.zhuyizhuo.generator.mybatis.bean.MethodDefinition;
-import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
-
-import java.util.List;
-import java.util.Set;
-
 /**
  * class: JavaClassDefinition <br>
  * description: java 类定义 <br>

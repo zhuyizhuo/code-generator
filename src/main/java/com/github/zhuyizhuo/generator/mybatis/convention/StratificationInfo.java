@@ -13,6 +13,7 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 分层信息
@@ -36,19 +37,11 @@ public class StratificationInfo {
     /** java 类名 */
     private String javaClassName;
 
-    /** 实体名称 */
-    private String pojoName;
-    /** dao 层名称 */
-    private String daoName;
-    /** xml 名称 */
-    private String xmlName;
-
-    /** dao层包全路径 */
-    private String daoFullPackage;
-    /** 实体包全路径 */
-    private String pojoFullPackage;
-
     private Map<ModuleTypeEnums, FormatService> nameFormatMap = new HashMap<>();
+    /***
+     *  moduleTpye ->  JavaClassDefinition
+     */
+    private Map<String,JavaClassDefinition> javaClassDefinition = new ConcurrentHashMap<>();
 
     public StratificationInfo() {
 
@@ -60,17 +53,16 @@ public class StratificationInfo {
      * @param nameFormatMap
      */
     public void init(Map<ModuleTypeEnums, FormatService> nameFormatMap) {
+        String daoFullPackage = mapperPackage;
+        String pojoFullPackage = pojoPackage;
         if (GeneratorStringUtils.isNotBlank(basePackage)) {
             /** dao层包全路径 */
-            this.daoFullPackage = basePackage + point + mapperPackage;
+            daoFullPackage = basePackage + point + mapperPackage;
             /** 实体包全路径 */
-            this.pojoFullPackage = basePackage + point + pojoPackage;
-        } else {
-            /** dao层包全路径 */
-            this.daoFullPackage = mapperPackage;
-            /** 实体包全路径 */
-            this.pojoFullPackage = pojoPackage;
+            pojoFullPackage = basePackage + point + pojoPackage;
         }
+        javaClassDefinition.put(ModuleTypeEnums.MAPPER.getModuleType(), new JavaClassDefinition(daoFullPackage));
+        javaClassDefinition.put(ModuleTypeEnums.POJO.getModuleType(), new JavaClassDefinition(pojoFullPackage));
         if (nameFormatMap != null) {
             this.nameFormatMap = nameFormatMap;
         }
@@ -87,20 +79,21 @@ public class StratificationInfo {
                                     , javaTableName);
     }
 
-    public void initFilesName(String tableName, String tableNameCamelCase) {
+    public Map<String,JavaClassDefinition> initFilesName(String tableName, String tableNameCamelCase) {
         this.tableName = tableName;
         this.javaClassName = tableNameCamelCase;
 
+        String pojoName = classNameFormat(ModuleTypeEnums.POJO, javaClassName);
+        String daoName = classNameFormat(ModuleTypeEnums.MAPPER, javaClassName);
         if (getFormatService(ModuleTypeEnums.POJO) != null){
-            this.pojoName = getFormatService(ModuleTypeEnums.POJO).format(tableName);
-        } else {
-            this.pojoName = classNameFormat(ModuleTypeEnums.POJO, javaClassName);
+            pojoName = getFormatService(ModuleTypeEnums.POJO).format(tableName);
         }
         if (getFormatService(ModuleTypeEnums.MAPPER) != null){
-            this.daoName = getFormatService(ModuleTypeEnums.MAPPER).format(tableName);
-        } else {
-            this.daoName = classNameFormat(ModuleTypeEnums.MAPPER, javaClassName);
+            daoName = getFormatService(ModuleTypeEnums.MAPPER).format(tableName);
         }
+        javaClassDefinition.get(ModuleTypeEnums.MAPPER.getModuleType()).setClassName(daoName);
+        javaClassDefinition.get(ModuleTypeEnums.POJO.getModuleType()).setClassName(pojoName);
+        return javaClassDefinition;
     }
 
     private FormatService getFormatService(ModuleTypeEnums moduleType) {
@@ -119,50 +112,20 @@ public class StratificationInfo {
         this.tableName = tableName;
     }
 
-    public String getBasePackage() {
-        return basePackage;
-    }
-
     public void setBasePackage(String basePackage) {
         this.basePackage = basePackage;
-    }
-
-    public String getMapperPackage() {
-        return mapperPackage;
     }
 
     public void setMapperPackage(String mapperPackage) {
         this.mapperPackage = mapperPackage;
     }
 
-    public String getPojoPackage() {
-        return pojoPackage;
-    }
-
     public void setPojoPackage(String pojoPackage) {
         this.pojoPackage = pojoPackage;
     }
 
-    public String getPojoName() {
-        return pojoName;
+    public Map<String, JavaClassDefinition> getJavaClassDefinition() {
+        return javaClassDefinition;
     }
 
-    public String getDaoName() {
-        return daoName;
-    }
-
-    public String getDaoFullPackage() {
-        return daoFullPackage;
-    }
-
-    public String getPojoFullPackage() {
-        return pojoFullPackage;
-    }
-
-    public Map<ModuleTypeEnums,JavaClassDefinition> getJavaClassDefinitions(){
-        Map<ModuleTypeEnums,JavaClassDefinition> definitionMap = new HashMap<>();
-        definitionMap.put(ModuleTypeEnums.MAPPER, new JavaClassDefinition(daoFullPackage,daoName));
-        definitionMap.put(ModuleTypeEnums.POJO, new JavaClassDefinition(pojoFullPackage,pojoName));
-        return definitionMap;
-    }
 }
