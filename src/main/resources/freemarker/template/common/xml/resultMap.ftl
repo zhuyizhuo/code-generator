@@ -1,5 +1,5 @@
     <resultMap id="${mybatisXmlDefinition.resultMap.id}" type="${mybatisXmlDefinition.resultMap.type}">
-<#list mybatisXmlDefinition.resultMap.results as result>
+<#list mybatisXmlDefinition.columns as result>
     <#if result??>
         <#if result.primaryKey>
         <id column="${result.column}" property="${result.property}"/>

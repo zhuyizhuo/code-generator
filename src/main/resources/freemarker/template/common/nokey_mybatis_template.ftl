@@ -12,21 +12,9 @@ ${header}
 
 <#include "xml/insert.ftl"/>
 </#if>
-<#if methodDescription.DELETE_BY_PRIMARY_KEY.enabled && tableInfo.hasPrimaryKey>
-
-<#include "xml/deleteByPrimaryKey.ftl"/>
-</#if>
 <#if methodDescription.DELETE_BY_WHERE.enabled>
 
 <#include "xml/deleteByWhere.ftl"/>
-</#if>
-<#if methodDescription.UPDATE_BY_PRIMARY_KEY.enabled && tableInfo.hasPrimaryKey>
-
-    <#include "xml/updateByPrimaryKey.ftl"/>
-</#if>
-<#if methodDescription.QUERY_BY_PRIMARY_KEY.enabled && tableInfo.hasPrimaryKey>
-
-    <#include "xml/queryByPrimaryKey.ftl"/>
 </#if>
 <#if methodDescription.QUERY_BY_WHERE.enabled>
 

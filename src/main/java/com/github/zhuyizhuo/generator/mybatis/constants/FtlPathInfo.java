@@ -7,8 +7,10 @@ package com.github.zhuyizhuo.generator.mybatis.constants;
  */
 public class FtlPathInfo {
 
-    public static final String mybatisXmlFtlPath = "/freemarker/template/common/mybatis_mapper_template_v1.ftl";
+    public static final String NOKEY_MYBATIS_TEMPLATE_PATH = "/freemarker/template/common/nokey_mybatis_template.ftl";
+    public static final String PRIVATE_KEY_MYBATIS_TEMPLATE_PATH = "/freemarker/template/common/privateKey_mybatis_template.ftl";
     public static final String pojoFtlPath = "/freemarker/template/common/javabean.ftl";
-    public static final String daoFtlPath = "/freemarker/template/common/dao.ftl";
+    public static final String NOKEY_MAPPER_TEMPLATE_PATH = "/freemarker/template/common/noKey_Dao_Template.ftl";
+    public static final String PRIVATE_KEY_DAO_TEMPLATE_PATH = "/freemarker/template/common/privateKey_Dao_Template.ftl";
 
 }

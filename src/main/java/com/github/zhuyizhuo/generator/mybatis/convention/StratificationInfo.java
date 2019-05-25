@@ -83,13 +83,17 @@ public class StratificationInfo {
         this.tableName = tableName;
         this.javaClassName = tableNameCamelCase;
 
-        String pojoName = classNameFormat(ModuleTypeEnums.POJO, javaClassName);
-        String daoName = classNameFormat(ModuleTypeEnums.MAPPER, javaClassName);
+        String pojoName ;
+        String daoName ;
         if (getFormatService(ModuleTypeEnums.POJO) != null){
             pojoName = getFormatService(ModuleTypeEnums.POJO).format(tableName);
+        } else {
+            pojoName = classNameFormat(ModuleTypeEnums.POJO, javaClassName);
         }
         if (getFormatService(ModuleTypeEnums.MAPPER) != null){
             daoName = getFormatService(ModuleTypeEnums.MAPPER).format(tableName);
+        } else {
+            daoName = classNameFormat(ModuleTypeEnums.MAPPER, javaClassName);
         }
         javaClassDefinition.get(ModuleTypeEnums.MAPPER.getModuleType()).setClassName(daoName);
         javaClassDefinition.get(ModuleTypeEnums.POJO.getModuleType()).setClassName(pojoName);

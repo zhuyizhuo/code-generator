@@ -21,7 +21,3 @@
     </#if>
 </#list>
     </sql>
-
-    <sql id="Table_Name">
-        ${mybatisXmlDefinition.tableSchema}.${mybatisXmlDefinition.tableName}
-    </sql>

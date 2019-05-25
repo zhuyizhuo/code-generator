@@ -101,8 +101,8 @@ public class FileOutPathInfo {
 
         List<FilePathInfo> filePathInfos = new ArrayList<>();
         filePathInfos.add(new FilePathInfo(FtlPathInfo.pojoFtlPath, pojoOutPutFullPath));
-        filePathInfos.add(new FilePathInfo(FtlPathInfo.daoFtlPath, daoOutPutFullPath));
-        filePathInfos.add(new FilePathInfo(FtlPathInfo.mybatisXmlFtlPath, xmlOutPutFullPath));
+        filePathInfos.add(new FilePathInfo(FtlPathInfo.NOKEY_MAPPER_TEMPLATE_PATH, daoOutPutFullPath));
+        filePathInfos.add(new FilePathInfo(FtlPathInfo.NOKEY_MYBATIS_TEMPLATE_PATH, xmlOutPutFullPath));
         return filePathInfos;
     }
 

@@ -4,7 +4,6 @@ import com.github.zhuyizhuo.generator.mybatis.annotation.Nullable;
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
-import com.github.zhuyizhuo.generator.mybatis.convention.MethodCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
 import com.github.zhuyizhuo.generator.mybatis.enums.MethodEnums;
@@ -123,17 +122,18 @@ public class GeneratorBuilder {
 
         StratificationInfo stratificationInfo = context.getBean("stratificationInfo");
         stratificationInfo.init(moduleNameFormatServiceMap);
-        ClassCommentInfo classCommentInfo = context.getBean("ClassCommentInfo");
-        MethodCommentInfo methodCommentInfo = context.getBean("methodCommentInfo");
+
         FileOutPathInfo fileOutPathInfo = context.getBean("FileOutPathInfo");
+        fileOutPathInfo.init(stratificationInfo.getJavaClassDefinition());
+
+        ClassCommentInfo classCommentInfo = context.getBean("ClassCommentInfo");
+
         GenerateInfo generateInfo = new GenerateInfo();
         generateInfo.setClassCommentInfo(classCommentInfo);
-        generateInfo.setMethodCommentInfo(methodCommentInfo);
 
         MethodInfo methodInfo = new MethodInfo();
         methodInfo.addCommonMethodFormatService(commonMethodFormatService);
         methodInfo.setFormatMap(methodNameFormatServiceMap);
-        fileOutPathInfo.init(stratificationInfo.getJavaClassDefinition());
 
         return new Generator(generateInfo, fileOutPathInfo, stratificationInfo, methodInfo);
     }

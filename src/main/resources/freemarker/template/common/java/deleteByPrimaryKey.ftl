@@ -1,19 +1,17 @@
-<#assign methodComment = "${methodDescription.DELETE_BY_PRIMARY_KEY.comment}">
-<#assign methodReturn = "删除的数据条数">
 <#if tableInfo.singlePrimaryKey>
 	/**
-     * ${methodComment} <br>
+     * ${methodDescription.DELETE_BY_PRIMARY_KEY.comment} <br>
      * @param ${tableInfo.primaryKeyColumns[0].javaColumnName?uncap_first} ${tableInfo.primaryKeyColumns[0].columnComment}  <br>
-     * @return ${methodReturn}
+     * @return 删除的数据条数
      */
     int ${methodDescription.DELETE_BY_PRIMARY_KEY.methodName}(${tableInfo.primaryKeyColumns[0].javaDataType} ${tableInfo.primaryKeyColumns[0].javaColumnName?uncap_first});
 <#else>
-    <#assign methodParam = "${javaClassDefinition.POJO.className?uncap_first}">
-    <#assign paramDescription = "${methodCommentInfo.paramsDescription}">
 	/**
-     * ${methodComment} <br>
-     * @param ${methodParam} ${paramDescription}  <br>
-     * @return ${methodReturn}
+     * ${methodDescription.DELETE_BY_PRIMARY_KEY.comment} <br>
+<#list methodDescription.DELETE_BY_PRIMARY_KEY.params as param>
+     * @param ${javaClassDefinition.POJO.className?uncap_first} ${param.comment}  <br>
+</#list>
+     * @return 删除的数据条数
      */
-    int ${methodDescription.DELETE_BY_PRIMARY_KEY.methodName}(${javaClassDefinition.POJO.className} ${methodParam});
+    int ${methodDescription.DELETE_BY_PRIMARY_KEY.methodName}(${javaClassDefinition.POJO.className} ${javaClassDefinition.POJO.className?uncap_first});
 </#if>

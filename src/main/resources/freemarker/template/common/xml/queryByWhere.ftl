@@ -3,6 +3,6 @@
         SELECT
         <include refid="Base_Column_List" />
   	     FROM
-        <include refid="Table_Name" />
+        ${mybatisXmlDefinition.tableSchema}.${mybatisXmlDefinition.tableName}
         <include refid="Where_Clause" />
     </select>

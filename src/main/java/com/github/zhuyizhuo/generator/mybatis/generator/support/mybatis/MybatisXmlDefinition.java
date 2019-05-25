@@ -69,7 +69,6 @@ public class MybatisXmlDefinition extends TableDefinition {
     public void addColumn(JavaColumnInfo columnInfo) {
         MybatisColumnDefinition mybatisColumnDefinition = new MybatisColumnDefinition(columnInfo);
         this.columns.add(mybatisColumnDefinition);
-        getResultMap().addResult(mybatisColumnDefinition);
     }
 
     /**
@@ -163,12 +162,6 @@ public class MybatisXmlDefinition extends TableDefinition {
         private String id;
         /** 类型 */
         private String type;
-        /** result集合 */
-        private List<MybatisColumnDefinition> results;
-
-        public ResultMapDefinition() {
-            results = new ArrayList<MybatisColumnDefinition>();
-        }
 
         public String getId() {
             return id;
@@ -186,20 +179,11 @@ public class MybatisXmlDefinition extends TableDefinition {
             this.type = type;
         }
 
-        public List<MybatisColumnDefinition> getResults() {
-            return results;
-        }
-
-        public void addResult(MybatisColumnDefinition columnInfo) {
-            this.results.add(columnInfo);
-        }
-
         @Override
         public String toString() {
             return "ResultMapDefinition{" +
                     "id='" + id + '\'' +
                     ", type='" + type + '\'' +
-                    ", results=" + results +
                     '}';
         }
     }

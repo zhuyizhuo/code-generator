@@ -82,7 +82,7 @@ public class MethodInfo {
             methodDescription.setEnabled(methodEnabled);
             methodDescription.setMethodName(formatMethodName(values[i]));
             methodDescription.setComment(methodComment);
-            methodDescription.addParams(new ParamDescription("测试传入参数"));
+            methodDescription.addParams(new ParamDescription(tableName + "参数对象"));
             methodDescriptionMap.put(values[i].toString(),methodDescription);
         }
         return methodDescriptionMap;

@@ -10,13 +10,10 @@ import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodInfo;
 import com.github.zhuyizhuo.generator.mybatis.factory.DbServiceFactory;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
-import com.github.zhuyizhuo.generator.mybatis.vo.RealGenerateInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
-import com.github.zhuyizhuo.generator.mybatis.vo.TemplateGenerateInfo;
 import com.github.zhuyizhuo.generator.utils.Freemarker;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -96,8 +93,13 @@ public class Generator {
                 LogUtils.printJsonInfo("输出对象:" , generateInfo);
 
                 Freemarker.printFile(FtlPathInfo.pojoFtlPath, fileOutPathInfo.getPojoOutPutFullPath(), generateInfo);
-                Freemarker.printFile(FtlPathInfo.daoFtlPath, fileOutPathInfo.getDaoOutPutFullPath(), generateInfo);
-                Freemarker.printFile(FtlPathInfo.mybatisXmlFtlPath, fileOutPathInfo.getXmlOutPutFullPath(), generateInfo);
+                if(generateInfo.getTableInfo().isHasPrimaryKey()){
+                    Freemarker.printFile(FtlPathInfo.PRIVATE_KEY_DAO_TEMPLATE_PATH, fileOutPathInfo.getDaoOutPutFullPath(), generateInfo);
+                    Freemarker.printFile(FtlPathInfo.PRIVATE_KEY_MYBATIS_TEMPLATE_PATH, fileOutPathInfo.getXmlOutPutFullPath(), generateInfo);
+                } else {
+                    Freemarker.printFile(FtlPathInfo.NOKEY_MAPPER_TEMPLATE_PATH, fileOutPathInfo.getDaoOutPutFullPath(), generateInfo);
+                    Freemarker.printFile(FtlPathInfo.NOKEY_MYBATIS_TEMPLATE_PATH, fileOutPathInfo.getXmlOutPutFullPath(), generateInfo);
+                }
             }
 
         } catch (Exception e) {

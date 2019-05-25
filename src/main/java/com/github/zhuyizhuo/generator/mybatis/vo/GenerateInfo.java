@@ -2,7 +2,6 @@ package com.github.zhuyizhuo.generator.mybatis.vo;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
-import com.github.zhuyizhuo.generator.mybatis.convention.MethodCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
@@ -26,8 +25,6 @@ public class GenerateInfo {
     private Map<String, MethodDescription> methodDescription;
     /** 类注释信息 */
     private ClassCommentInfo classCommentInfo;
-    /** 方法注释信息 */
-    private MethodCommentInfo methodCommentInfo;
     /** 表信息 */
     private TableInfo tableInfo;
     /** mybatis xml 定义*/
@@ -45,14 +42,6 @@ public class GenerateInfo {
 
     public TableInfo getTableInfo() {
         return tableInfo;
-    }
-
-    public MethodCommentInfo getMethodCommentInfo() {
-        return methodCommentInfo;
-    }
-
-    public void setMethodCommentInfo(MethodCommentInfo methodCommentInfo) {
-        this.methodCommentInfo = methodCommentInfo;
     }
 
     public MybatisXmlDefinition getMybatisXmlDefinition() {
