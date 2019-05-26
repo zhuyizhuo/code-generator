@@ -66,7 +66,7 @@ public class FileOutPathInfo {
                 if (GeneratorStringUtils.isNotBlank(basePackage)) {
                     fileFullPackage = basePackage + "." + fileFullPackage;
                 }
-                javaClassDefinition.put(values[i], new JavaClassDefinition(fileFullPackage));
+                this.javaClassDefinition.put(values[i], new JavaClassDefinition(fileFullPackage));
 
                 if ("TRUE".equalsIgnoreCase(basePackageEnabled)) {
                     outPutPath = baseOutputPath + baseJavaOutputPath + "/" + fileFullPackage.replaceAll("\\.", "/") + "/";
@@ -84,7 +84,7 @@ public class FileOutPathInfo {
                     outPutPath = baseOutputPath + this.xmlOutPutPath + "/";
                 }
             }
-            outPutPathMap.put(values[i], outPutPath);
+            this.outPutPathMap.put(values[i], outPutPath);
         }
 
         if (classNameFormatServieMap != null) {
@@ -113,6 +113,7 @@ public class FileOutPathInfo {
                 outPutPathMap.put(values[i], outPutPathMap.get(ModuleEnums.XML) + fileName + ".xml");
             }
         }
+
         return javaClassDefinitionResp;
     }
 

@@ -1,7 +1,7 @@
     <!-- ${methodDescription.UPDATE_BY_PRIMARY_KEY.comment} -->
     <update id="${methodDescription.UPDATE_BY_PRIMARY_KEY.methodName}" parameterType="${mybatisXmlDefinition.parameterType}">
 		UPDATE
-		${mybatisXmlDefinition.tableSchema}.${mybatisXmlDefinition.tableName}
+		${tableInfo.tableSchema}.${tableInfo.tableName}
 		<set>
     <#list tableInfo.columnLists as colm>
         <#if colm??>

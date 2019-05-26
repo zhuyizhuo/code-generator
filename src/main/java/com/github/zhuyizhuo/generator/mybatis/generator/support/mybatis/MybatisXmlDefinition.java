@@ -1,13 +1,10 @@
 package com.github.zhuyizhuo.generator.mybatis.generator.support.mybatis;
 
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
-import com.github.zhuyizhuo.generator.mybatis.generator.support.TableDefinition;
 import com.github.zhuyizhuo.generator.utils.TypeConversion;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * class: MybatisXmlDefinition <br>
@@ -16,9 +13,7 @@ import java.util.Map;
  * @author yizhuo <br>
  * @since 1.3.2
  */
-public class MybatisXmlDefinition extends TableDefinition {
-    /** mybatis header xml头信息 */
-    private List<String> mybatisHeader;
+public class MybatisXmlDefinition {
     /** 命名空间 */
     private String nameSpace;
     /** 结果集 */
@@ -29,17 +24,8 @@ public class MybatisXmlDefinition extends TableDefinition {
     private List<MybatisColumnDefinition> columns;
 
     public MybatisXmlDefinition() {
-        mybatisHeader = new ArrayList<String>();
         resultMap = new ResultMapDefinition();
         columns = new ArrayList<MybatisColumnDefinition>();
-    }
-
-    public List<String> getMybatisHeader() {
-        return mybatisHeader;
-    }
-
-    public void addMybatisXmlHeaderLine(CharSequence headerLine){
-        this.mybatisHeader.add(String.valueOf(headerLine));
     }
 
     public String getParameterType() {
@@ -74,47 +60,39 @@ public class MybatisXmlDefinition extends TableDefinition {
     /**
      * 列定义
      */
-    public class MybatisColumnDefinition extends JavaColumnInfo {
-        /** test表达式 如果是string类型会判断是否空串  用于查询条件判断 */
+    public class MybatisColumnDefinition{
+        /** test 表达式 如果是 string 类型会判断是否空串  用于查询条件判断 */
         private String testNotBlankExpression;
-        /** test表达式 用于插入条件判断 */
+        /** test 表达式 用于插入条件判断 */
         private String testNotNullExpression;
-        /** mybatis xml中 JDBC类型  */
+        /** 列名称 */
+        private String columnName;
+        /** java 字段名 */
+        private String javaColumnName;
+        /** java 字段类型 */
+        private String javaDataType;
+        /** mybatis xml 中 JDBC 类型  */
         private String jdbcType;
         /** mybatis xml中 parameterType */
         private String parameterType;
-        /** */
-        private String column;
-
-        private String property;
+        /** 是否主键 */
+        private boolean primaryKey;
 
         public MybatisColumnDefinition(JavaColumnInfo javaColumnInfo) {
-            super(javaColumnInfo);
             if (javaColumnInfo == null){
                 throw new IllegalArgumentException("Init MybatisColumnDefinition error ! javaColumnInfo is null !");
             }
+            this.javaColumnName = javaColumnInfo.getJavaColumnName();
+            this.javaDataType = javaColumnInfo.getJavaDataType();
+            this.columnName = javaColumnInfo.getColumnName();
+            this.primaryKey = javaColumnInfo.isPrimaryKey();
             this.jdbcType = TypeConversion.type2JdbcType(javaColumnInfo.getDataType());
             this.parameterType = TypeConversion.getTypeByMap(TypeConversion.parameterTypeMap,javaColumnInfo.getJavaDataType());
-            this.column = javaColumnInfo.getColumnName();
-            this.property = javaColumnInfo.getJavaColumnName();
-            initTestExpression();
-        }
-
-        private void initTestExpression() {
-            String javaColumnName = getJavaColumnName();
             this.testNotNullExpression = javaColumnName + " != null";
             this.testNotBlankExpression = this.testNotNullExpression;
-            if ("STRING".equalsIgnoreCase(getJavaDataType())){
+            if ("STRING".equalsIgnoreCase(javaDataType)){
                this.testNotBlankExpression += " and " +javaColumnName+ " != '' ";
             }
-        }
-
-        public String getColumn() {
-            return column;
-        }
-
-        public String getProperty() {
-            return property;
         }
 
         public String getTestNotBlankExpression() {
@@ -129,28 +107,24 @@ public class MybatisXmlDefinition extends TableDefinition {
             return jdbcType;
         }
 
-        public void setJdbcType(String jdbcType) {
-            this.jdbcType = jdbcType;
-        }
-
         public String getParameterType() {
             return parameterType;
         }
 
-        public void setParameterType(String parameterType) {
-            this.parameterType = parameterType;
+        public String getColumnName() {
+            return columnName;
         }
 
-        @Override
-        public String toString() {
-            return super.toString() + "\n\t MybatisColumnDefinition{" +
-                    "testNotBlankExpression='" + testNotBlankExpression + '\'' +
-                    ", testNotNullExpression='" + testNotNullExpression + '\'' +
-                    ", jdbcType='" + jdbcType + '\'' +
-                    ", parameterType='" + parameterType + '\'' +
-                    ", column='" + column + '\'' +
-                    ", property='" + property + '\'' +
-                    '}';
+        public String getJavaColumnName() {
+            return javaColumnName;
+        }
+
+        public String getJavaDataType() {
+            return javaDataType;
+        }
+
+        public boolean isPrimaryKey() {
+            return primaryKey;
         }
     }
 
@@ -188,14 +162,12 @@ public class MybatisXmlDefinition extends TableDefinition {
         }
     }
 
-    @Override
-    public String toString() {
-        return "MybatisXmlDefinition{" +
-                "mybatisHeader=" + mybatisHeader +
-                ", nameSpace='" + nameSpace + '\'' +
-                ", resultMap=" + resultMap +
-                ", parameterType='" + parameterType + '\'' +
-                ", columns=" + columns +
-                '}';
+    public void setResultMapId(String id){
+        this.resultMap.setId(id);
     }
+
+    public void setResultMapType(String type){
+        this.resultMap.setType(type);
+    }
+
 }

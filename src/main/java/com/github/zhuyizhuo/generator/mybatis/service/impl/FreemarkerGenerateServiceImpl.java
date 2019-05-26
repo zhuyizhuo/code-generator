@@ -53,6 +53,7 @@ public class FreemarkerGenerateServiceImpl implements GenerateService {
                             templateGenerateInfo.getFileOutputPath(), templateGenerateInfo.getGenerateInfo());
                 }
             }
+
         }catch (Exception e){
             LogUtils.printErrInfo("FreemarkerGenerateServiceImpl.generate error!");
             LogUtils.printException(e);

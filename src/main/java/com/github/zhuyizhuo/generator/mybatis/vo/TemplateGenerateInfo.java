@@ -6,7 +6,7 @@ package com.github.zhuyizhuo.generator.mybatis.vo;
  * time: 2019/5/23
  *
  * @author yizhuo <br>
- * @since #since#
+ * @since 1.4.0
  */
 public class TemplateGenerateInfo {
 

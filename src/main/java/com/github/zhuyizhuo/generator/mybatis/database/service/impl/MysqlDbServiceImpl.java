@@ -1,6 +1,6 @@
-package com.github.zhuyizhuo.generator.mybatis.db.service.impl;
+package com.github.zhuyizhuo.generator.mybatis.database.service.impl;
 
-import com.github.zhuyizhuo.generator.mybatis.db.service.abst.AbstractDbService;
+import com.github.zhuyizhuo.generator.mybatis.database.service.abstracted.AbstractDbService;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
 import com.github.zhuyizhuo.generator.utils.TypeConversion;
 import com.google.common.collect.Lists;
@@ -8,7 +8,7 @@ import com.github.zhuyizhuo.generator.mybatis.database.mapper.MysqlDataBaseMappe
 import com.github.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.pojo.DataBaseInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
-import com.github.zhuyizhuo.generator.mybatis.utils.SqlSessionUtils;
+import com.github.zhuyizhuo.generator.utils.SqlSessionUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 import org.apache.ibatis.session.SqlSession;
 

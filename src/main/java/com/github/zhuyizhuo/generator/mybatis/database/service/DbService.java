@@ -1,4 +1,4 @@
-package com.github.zhuyizhuo.generator.mybatis.db.service;
+package com.github.zhuyizhuo.generator.mybatis.database.service;
 
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
 

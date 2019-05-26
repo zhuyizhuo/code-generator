@@ -1,4 +1,4 @@
-package com.github.zhuyizhuo.generator.mybatis.utils;
+package com.github.zhuyizhuo.generator.utils;
 
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import org.apache.ibatis.io.Resources;

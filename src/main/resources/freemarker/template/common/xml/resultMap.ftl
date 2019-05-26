@@ -1,10 +1,10 @@
     <resultMap id="${mybatisXmlDefinition.resultMap.id}" type="${mybatisXmlDefinition.resultMap.type}">
-<#list mybatisXmlDefinition.columns as result>
-    <#if result??>
-        <#if result.primaryKey>
-        <id column="${result.column}" property="${result.property}"/>
+<#list mybatisXmlDefinition.columns as colm>
+    <#if colm??>
+        <#if colm.primaryKey>
+        <id column="${colm.columnName}" property="${colm.javaColumnName}"/>
         <#else>
-        <result column="${result.column}" property="${result.property}"/>
+        <result column="${colm.columnName}" property="${colm.javaColumnName}"/>
         </#if>
     </#if>
 </#list>

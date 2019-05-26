@@ -2,10 +2,11 @@ package com.github.zhuyizhuo.generator.mybatis.generator;
 
 import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
-import com.github.zhuyizhuo.generator.mybatis.db.service.DbService;
+import com.github.zhuyizhuo.generator.mybatis.database.service.DbService;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodInfo;
+import com.github.zhuyizhuo.generator.mybatis.enums.FileTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
 import com.github.zhuyizhuo.generator.mybatis.factory.DbServiceFactory;
 import com.github.zhuyizhuo.generator.mybatis.service.ContextHolder;
@@ -46,7 +47,7 @@ public class Generator {
             DbService dbService = DbServiceFactory.getDbService();
             List<TableInfo> tableColumns = dbService.getTableColumns();
             try {
-                printAll(tableColumns);
+                doGenerate(tableColumns);
             } catch (Exception e){
                 LogUtils.printErrInfo("生成数据异常!Exception:" + e.getMessage());
                 LogUtils.printException(e);
@@ -63,7 +64,7 @@ public class Generator {
         }
     }
 
-    public void printAll(List<TableInfo> dbTableInfoList) {
+    public void doGenerate(List<TableInfo> dbTableInfoList) {
         try {
             if (dbTableInfoList == null || dbTableInfoList.size() == 0){
                 LogUtils.printInfo("不存在需生成的数据.");
@@ -73,7 +74,7 @@ public class Generator {
             GenerateMetaData generateMetaData = new GenerateMetaData();
             TemplateGenerateInfo infoHolder = null;
             GenerateInfo generateInfo;
-            ModuleEnums[] values = ModuleEnums.values();
+            ModuleEnums[] modules = ModuleEnums.values();
             // 循环多表数据
             for (int i = 0; i < dbTableInfoList.size(); i++) {
                 TableInfo tableInfo = dbTableInfoList.get(i);
@@ -83,9 +84,10 @@ public class Generator {
                 Map<String,JavaClassDefinition> javaClassDefinitionMap = this.fileOutPathInfo.initFilesNameAndFormatPath(tableInfo.getTableName(), tableInfo.getTableNameCamelCase());
                 // 初始化 方法名
                 generateInfo = new GenerateInfo(this.classCommentInfo,javaClassDefinitionMap, methodDescriptionMap, tableInfo);
+                generateInfo.initXmlInfo();
 
-                for (int j = 0; j < values.length; j++) {
-                    infoHolder = new TemplateGenerateInfo(values[j].toString(), fileOutPathInfo.getOutputFullPath(values[j]), generateInfo);
+                for (int j = 0; j < modules.length; j++) {
+                    infoHolder = new TemplateGenerateInfo(modules[j].toString(), fileOutPathInfo.getOutputFullPath(modules[j]), generateInfo);
                     generateMetaData.addGenerateInfo(tableInfo.getTableName(),infoHolder);
                 }
                 LogUtils.printJsonInfo("输出对象:" , generateInfo);

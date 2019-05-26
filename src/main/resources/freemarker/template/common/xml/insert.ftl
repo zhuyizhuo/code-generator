@@ -1,7 +1,7 @@
     <!-- ${methodDescription.INSERT.comment} -->
 	<insert id="${methodDescription.INSERT.methodName}" parameterType="${mybatisXmlDefinition.parameterType}">
         INSERT INTO
-        ${mybatisXmlDefinition.tableSchema}.${mybatisXmlDefinition.tableName} (
+        ${tableInfo.tableSchema}.${tableInfo.tableName} (
             <trim suffixOverrides=",">
         <#list mybatisXmlDefinition.columns as colm>
             <#if colm??>

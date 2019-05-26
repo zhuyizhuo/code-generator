@@ -37,8 +37,6 @@ public class GenerateInfo {
         this.javaClassDefinition = javaClassDefinition;
         this.methodDescription = methodDescription;
         this.tableInfo = tableInfo;
-        // 初始化 xml 内容
-        initXmlInfo();
     }
 
     public ClassCommentInfo getClassCommentInfo() {
@@ -59,24 +57,17 @@ public class GenerateInfo {
 
     public void initXmlInfo() {
         mybatisXmlDefinition = new MybatisXmlDefinition();
-        boolean useTypeAliases = PropertiesUtils.getBooleanPropertiesDefaultFalse(ConfigConstants.PARAMETER_TYPE_USE_TYPE_ALIASES);
 
+        boolean useTypeAliases = PropertiesUtils.getBooleanPropertiesDefaultFalse(ConfigConstants.PARAMETER_TYPE_USE_TYPE_ALIASES);
         JavaClassDefinition pojoDefinition = javaClassDefinition.get(ModuleEnums.POJO.toString());
         JavaClassDefinition mapperDefinition = javaClassDefinition.get(ModuleEnums.MAPPER.toString());
-        mybatisXmlDefinition.setParameterType(
-             useTypeAliases  ? GeneratorStringUtils.firstLower(pojoDefinition.getClassName())
-                    : pojoDefinition.getFullPackage()+"."+pojoDefinition.getClassName());
 
-        mybatisXmlDefinition.setTableName(tableInfo.getTableName());
-        mybatisXmlDefinition.setTableSchema(tableInfo.getTableSchema());
-        mybatisXmlDefinition.setTableNameCamelCase(tableInfo.getTableNameCamelCase());
-        mybatisXmlDefinition.setTableComment(tableInfo.getTableComment());
-        mybatisXmlDefinition.getResultMap().setId(GeneratorStringUtils.firstLower(tableInfo.getTableNameCamelCase())+"ResultMap");
-        mybatisXmlDefinition.getResultMap().setType(mybatisXmlDefinition.getParameterType());
-
+        String className = GeneratorStringUtils.firstLower(pojoDefinition.getClassName());
+        mybatisXmlDefinition.setParameterType(useTypeAliases  ? className
+                                                                : pojoDefinition.getFullPackage()+"."+pojoDefinition.getClassName());
         mybatisXmlDefinition.setNameSpace(mapperDefinition.getFullPackage()+"." +mapperDefinition.getClassName());
-        mybatisXmlDefinition.addMybatisXmlHeaderLine("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
-        mybatisXmlDefinition.addMybatisXmlHeaderLine("<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">");
+        mybatisXmlDefinition.setResultMapId(className+"ResultMap");
+        mybatisXmlDefinition.setResultMapType(mybatisXmlDefinition.getParameterType());
 
         List<JavaColumnInfo> columns = tableInfo.getColumnLists();
         for (int i = 0; i < columns.size(); i++) {

@@ -7,7 +7,7 @@
         SELECT
         <include refid="Base_Column_List" />
   	     FROM
-        ${mybatisXmlDefinition.tableSchema}.${mybatisXmlDefinition.tableName}
+        ${tableInfo.tableSchema}.${tableInfo.tableName}
         WHERE
         <#list tableInfo.primaryKeyColumns as colm>
             <#if colm_index != 0>AND </#if>${colm.columnName} = ${'#{'}${colm.javaColumnName}}
