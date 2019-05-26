@@ -7,6 +7,7 @@ import com.github.zhuyizhuo.generator.mybatis.db.service.DbService;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodInfo;
+import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.factory.DbServiceFactory;
 import com.github.zhuyizhuo.generator.mybatis.service.ContextHolder;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
@@ -88,13 +89,13 @@ public class Generator {
 //                infoHolders.add(infoHolder);
                 LogUtils.printJsonInfo("输出对象:" , generateInfo);
 
-                Freemarker.printFile(FtlPathInfo.pojoFtlPath, fileOutPathInfo.getPojoOutPutFullPath(), generateInfo);
+                Freemarker.printFile(FtlPathInfo.pojoFtlPath, fileOutPathInfo.getOutputFullPath(ModuleTypeEnums.POJO), generateInfo);
                 if(generateInfo.getTableInfo().isHasPrimaryKey()){
-                    Freemarker.printFile(FtlPathInfo.PRIVATE_KEY_DAO_TEMPLATE_PATH, fileOutPathInfo.getDaoOutPutFullPath(), generateInfo);
-                    Freemarker.printFile(FtlPathInfo.PRIVATE_KEY_MYBATIS_TEMPLATE_PATH, fileOutPathInfo.getXmlOutPutFullPath(), generateInfo);
+                    Freemarker.printFile(FtlPathInfo.PRIVATE_KEY_DAO_TEMPLATE_PATH, fileOutPathInfo.getOutputFullPath(ModuleTypeEnums.MAPPER), generateInfo);
+                    Freemarker.printFile(FtlPathInfo.PRIVATE_KEY_MYBATIS_TEMPLATE_PATH, fileOutPathInfo.getOutputFullPath(ModuleTypeEnums.XML), generateInfo);
                 } else {
-                    Freemarker.printFile(FtlPathInfo.NOKEY_MAPPER_TEMPLATE_PATH, fileOutPathInfo.getDaoOutPutFullPath(), generateInfo);
-                    Freemarker.printFile(FtlPathInfo.NOKEY_MYBATIS_TEMPLATE_PATH, fileOutPathInfo.getXmlOutPutFullPath(), generateInfo);
+                    Freemarker.printFile(FtlPathInfo.NOKEY_MAPPER_TEMPLATE_PATH, fileOutPathInfo.getOutputFullPath(ModuleTypeEnums.MAPPER), generateInfo);
+                    Freemarker.printFile(FtlPathInfo.NOKEY_MYBATIS_TEMPLATE_PATH, fileOutPathInfo.getOutputFullPath(ModuleTypeEnums.XML), generateInfo);
                 }
             }
 

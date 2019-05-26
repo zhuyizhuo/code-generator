@@ -9,23 +9,25 @@ package com.github.zhuyizhuo.generator.mybatis.enums;
  * @since 1.4.0
  */
 public enum ModuleTypeEnums {
-    MAPPER("MAPPER","{0}Mapper","generate.java.mapper.name-format","","数据库接口"),
-    POJO("POJO","{0}","generate.java.pojo.name-format","generate.java.pojo.path","数据对象"),
+    MAPPER("MAPPER",FileTypeEnums.JAVA,"{0}Mapper","generate.java.mapper.name-format","generate.java.mapper.package","数据库接口"),
+    POJO("POJO",FileTypeEnums.JAVA,"{0}","generate.java.pojo.name-format","generate.java.pojo.package","数据对象"),
 
-    XML("XML","{0}","generate.resources.xml.name-format","","mybatis xml 文件"),
+    XML("XML",FileTypeEnums.XML,"{0}","generate.resources.xml.name-format","generate.resources.xml.out-put-path","mybatis xml 文件"),
     ;
     private String moduleType;
+    private FileTypeEnums typeEnums;
     /** 默认格式化方式 */
     private String fileNameFormat;
     private String fileNameFormatKey;
-    private String fileOutputPathKey;
+    private String filePackageKey;
     private String moduleDescription;
 
-    ModuleTypeEnums(String moduleType, String fileNameFormat, String fileNameFormatKey, String fileOutputPathKey, String moduleDescription) {
+    ModuleTypeEnums(String moduleType, FileTypeEnums typeEnums, String fileNameFormat, String fileNameFormatKey, String filePackageKey, String moduleDescription) {
         this.moduleType = moduleType;
+        this.typeEnums = typeEnums;
         this.fileNameFormat = fileNameFormat;
         this.fileNameFormatKey = fileNameFormatKey;
-        this.fileOutputPathKey = fileOutputPathKey;
+        this.filePackageKey = filePackageKey;
         this.moduleDescription = moduleDescription;
     }
 
@@ -37,12 +39,12 @@ public enum ModuleTypeEnums {
         this.moduleType = moduleType;
     }
 
-    public String getModuleDescription() {
-        return moduleDescription;
+    public FileTypeEnums getTypeEnums() {
+        return typeEnums;
     }
 
-    public void setModuleDescription(String moduleDescription) {
-        this.moduleDescription = moduleDescription;
+    public void setTypeEnums(FileTypeEnums typeEnums) {
+        this.typeEnums = typeEnums;
     }
 
     public String getFileNameFormat() {
@@ -59,5 +61,21 @@ public enum ModuleTypeEnums {
 
     public void setFileNameFormatKey(String fileNameFormatKey) {
         this.fileNameFormatKey = fileNameFormatKey;
+    }
+
+    public String getFilePackageKey() {
+        return filePackageKey;
+    }
+
+    public void setFilePackageKey(String filePackageKey) {
+        this.filePackageKey = filePackageKey;
+    }
+
+    public String getModuleDescription() {
+        return moduleDescription;
+    }
+
+    public void setModuleDescription(String moduleDescription) {
+        this.moduleDescription = moduleDescription;
     }
 }
