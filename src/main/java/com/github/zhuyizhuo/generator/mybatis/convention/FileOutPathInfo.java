@@ -3,7 +3,6 @@ package com.github.zhuyizhuo.generator.mybatis.convention;
 import com.github.zhuyizhuo.generator.mybatis.annotation.CoventionClass;
 import com.github.zhuyizhuo.generator.mybatis.annotation.Value;
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
-import com.github.zhuyizhuo.generator.mybatis.constants.FtlPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.FilePathInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
@@ -13,8 +12,7 @@ import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -27,16 +25,30 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @CoventionClass
 public class FileOutPathInfo {
-    private final String XML_FILE_PATH = "/src/main/resources/mappers";
+    private static final String point = ".";
+
+    @Value("#{generate.base.out-put-path}")
+    private String baseOutputPath;
+    @Value("#{generate.base.java.out-put-path}")
+    private String baseJavaOutputPath;
+    @Value("#{generate.base.resources.out-put-path}")
+    private String baseResourcesOutputPath;
+
+    @Value("#{generate.java.base.package}")
+    private String basePackage;
+    @Value("#{generate.java.mapper.package}")
+    private String mapperPackage;
+    @Value("#{generate.java.pojo.package}")
+    private String pojoPackage;
+
+    private Map<ModuleTypeEnums, FormatService> nameFormatMap = new HashMap<>();
+    /***
+     *  moduleTpye ->  JavaClassDefinition
+     */
+    private Map<String,JavaClassDefinition> javaClassDefinition = new ConcurrentHashMap<>();
 
     private FormatService formatService = (tableName) -> tableName.toLowerCase();
 
-    @Value("#{generate.java.base.out-put-path}")
-    private String baseOutputPath;
-    /** java 基础路径 */
-    private String baseJavaPath;
-    /** 资源文件基础路径 */
-    private String baseResourcesPath;
     /** 实体类输出路径 */
     @Value("#{generate.java.pojo.path}")
     private String pojoOutPutPath;
@@ -44,7 +56,7 @@ public class FileOutPathInfo {
     @Value("#{generate.java.mapper.path}")
     private String daoOutPutPath;
     /** mybatis xml文件输出路径 */
-    @Value("#{generate.xml.out-put-path}")
+    @Value("#{generate.resources.xml.out-put-path}")
     private String xmlOutPutPath;
 
     @Value("#{generate.java.base.package.enabled}")
@@ -63,9 +75,28 @@ public class FileOutPathInfo {
 
     }
 
-    public void init(Map<String, JavaClassDefinition> javaClassDefinitionMap) {
-        this.baseJavaPath = baseOutputPath + "/src/main/java/";
-        this.baseResourcesPath = baseOutputPath;
+    public void init(Map<ModuleTypeEnums, FormatService> nameFormatMap) {
+        String daoFullPackage = mapperPackage;
+        String pojoFullPackage = pojoPackage;
+        if (GeneratorStringUtils.isNotBlank(basePackage)) {
+            /** dao层包全路径 */
+            daoFullPackage = basePackage + point + mapperPackage;
+            /** 实体包全路径 */
+            pojoFullPackage = basePackage + point + pojoPackage;
+        }
+
+        ModuleTypeEnums[] values = ModuleTypeEnums.values();
+        for (int i = 0; i < values.length; i++) {
+            String fileNameFormatKey = values[i].getFileNameFormatKey();
+            String config = PropertiesUtils.getConfig(fileNameFormatKey);
+
+        }
+
+        javaClassDefinition.put(ModuleTypeEnums.MAPPER.getModuleType(), new JavaClassDefinition(daoFullPackage));
+        javaClassDefinition.put(ModuleTypeEnums.POJO.getModuleType(), new JavaClassDefinition(pojoFullPackage));
+        if (nameFormatMap != null) {
+            this.nameFormatMap = nameFormatMap;
+        }
 
         /*ModuleTypeEnums[] values = ModuleTypeEnums.values();
         for (int i = 0; i < values.length; i++) {
@@ -73,32 +104,18 @@ public class FileOutPathInfo {
             String s = changePackage2Path(fullPackage);
         }*/
         if ("TRUE".equalsIgnoreCase(basePackageEnabled)){
-            this.pojoOutPutPath = getJavaFileOutPutFullPath(changePackage2Path(javaClassDefinitionMap.get(ModuleTypeEnums.POJO.getModuleType()).getFullPackage()));
-            this.daoOutPutPath = getJavaFileOutPutFullPath(changePackage2Path(javaClassDefinitionMap.get(ModuleTypeEnums.MAPPER.getModuleType()).getFullPackage()));
-            this.xmlOutPutPath = baseResourcesPath + XML_FILE_PATH + "/{0}.xml";
+            this.pojoOutPutPath = getJavaFileOutPutFullPath(changePackage2Path(pojoFullPackage));
+            this.daoOutPutPath = getJavaFileOutPutFullPath(changePackage2Path(daoFullPackage));
+            this.xmlOutPutPath = baseOutputPath + baseResourcesOutputPath + this.xmlOutPutPath + "/";
         } else {
             this.pojoOutPutPath = getJavaFileOutPutFullPath(this.pojoOutPutPath);
             this.daoOutPutPath = getJavaFileOutPutFullPath(this.daoOutPutPath);
-            this.xmlOutPutPath = baseResourcesPath + this.xmlOutPutPath + "/{0}.xml";
+            this.xmlOutPutPath = baseOutputPath + baseResourcesOutputPath + this.xmlOutPutPath + "/";
         }
     }
 
-    public List<FilePathInfo> formatPath(Map<String, JavaClassDefinition> stratificationInfo, String tableName){
-        String pojoName = stratificationInfo.get(ModuleTypeEnums.POJO.getModuleType()).getClassName();
-        String mapperName = stratificationInfo.get(ModuleTypeEnums.MAPPER.getModuleType()).getClassName();
-        this.pojoOutPutFullPath = MessageFormat.format(pojoOutPutPath,pojoName);
-        this.daoOutPutFullPath = MessageFormat.format(daoOutPutPath,mapperName);
-        this.xmlOutPutFullPath = MessageFormat.format(xmlOutPutPath,initXmlName(tableName));
-
-        List<FilePathInfo> filePathInfos = new ArrayList<>();
-        filePathInfos.add(new FilePathInfo(FtlPathInfo.pojoFtlPath, pojoOutPutFullPath));
-        filePathInfos.add(new FilePathInfo(FtlPathInfo.NOKEY_MAPPER_TEMPLATE_PATH, daoOutPutFullPath));
-        filePathInfos.add(new FilePathInfo(FtlPathInfo.NOKEY_MYBATIS_TEMPLATE_PATH, xmlOutPutFullPath));
-        return filePathInfos;
-    }
-
     private String getJavaFileOutPutFullPath(String filePath) {
-        return baseJavaPath + filePath + "/{0}.java";
+        return baseOutputPath + baseJavaOutputPath + "/" + filePath + "/";
     }
 
     public String changePackage2Path(String packagePath){
@@ -135,4 +152,61 @@ public class FileOutPathInfo {
     public void setBasePackageEnabled(String basePackageEnabled) {
         this.basePackageEnabled = basePackageEnabled;
     }
+
+
+
+    /**
+     *  格式化类名
+     */
+    private String classNameFormat(ModuleTypeEnums moduleType, String javaTableName) {
+        String properties = PropertiesUtils.getProperties(moduleType.getFileNameFormatKey());
+        return MessageFormat.format(GeneratorStringUtils.isNotBlank(properties)
+                        ? properties
+                        : moduleType.getFileNameFormat()
+                , javaTableName);
+    }
+
+    public Map<String,JavaClassDefinition> initFilesNameAndFormatPath(String tableName, String tableNameCamelCase) {
+
+        ModuleTypeEnums[] values = ModuleTypeEnums.values();
+        String className = "";
+        for (int i = 0; i < values.length; i++) {
+            if (getFormatService(values[i]) != null){
+                className = getFormatService(values[i]).format(tableName);
+            } else {
+                className = classNameFormat(values[i], tableNameCamelCase);
+            }
+            JavaClassDefinition javaClassDefinition = this.javaClassDefinition.get(values[i].getModuleType());
+            if (javaClassDefinition != null){
+                javaClassDefinition.setClassName(className);
+            }
+        }
+
+        this.pojoOutPutFullPath = pojoOutPutPath + javaClassDefinition.get(ModuleTypeEnums.POJO.getModuleType()).getClassName() + ".java";
+        this.daoOutPutFullPath = daoOutPutPath + javaClassDefinition.get(ModuleTypeEnums.MAPPER.getModuleType()).getClassName() +".java";
+        this.xmlOutPutFullPath = xmlOutPutPath + initXmlName(tableName) + ".xml";
+
+        return javaClassDefinition;
+    }
+
+    private FormatService getFormatService(ModuleTypeEnums moduleType) {
+        return nameFormatMap.get(moduleType);
+    }
+
+    public void addFormatService(ModuleTypeEnums moduleType, FormatService formatService) {
+        this.nameFormatMap.put(moduleType, formatService);
+    }
+
+    public void setBasePackage(String basePackage) {
+        this.basePackage = basePackage;
+    }
+
+    public void setMapperPackage(String mapperPackage) {
+        this.mapperPackage = mapperPackage;
+    }
+
+    public void setPojoPackage(String pojoPackage) {
+        this.pojoPackage = pojoPackage;
+    }
+
 }

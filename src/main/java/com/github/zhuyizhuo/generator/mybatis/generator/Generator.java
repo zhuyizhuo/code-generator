@@ -1,14 +1,14 @@
 package com.github.zhuyizhuo.generator.mybatis.generator;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.FtlPathInfo;
+import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
-import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
 import com.github.zhuyizhuo.generator.mybatis.db.service.DbService;
-import com.github.zhuyizhuo.generator.mybatis.dto.FilePathInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodInfo;
 import com.github.zhuyizhuo.generator.mybatis.factory.DbServiceFactory;
+import com.github.zhuyizhuo.generator.mybatis.service.ContextHolder;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
 import com.github.zhuyizhuo.generator.utils.Freemarker;
@@ -23,19 +23,16 @@ import java.util.Map;
  * time: 2018/7/29 18:12
  */
 public class Generator {
-    /** 生成所需数据 */
-    private GenerateInfo generateInfo;
+    /** 类注释信息 */
+    private ClassCommentInfo classCommentInfo;
     /** 输出路径信息 */
     private FileOutPathInfo fileOutPathInfo;
-    /** 分层信息 */
-    private StratificationInfo stratificationInfo;
     /** 方法信息 */
     private MethodInfo methodInfo;
 
-    public Generator(GenerateInfo generateInfo, FileOutPathInfo fileOutPathInfo, StratificationInfo stratificationInfo, MethodInfo methodInfo) {
-        this.generateInfo = generateInfo;
+    public Generator(FileOutPathInfo fileOutPathInfo, MethodInfo methodInfo) {
+        this.classCommentInfo = ContextHolder.getBean("classCommentInfo");
         this.fileOutPathInfo = fileOutPathInfo;
-        this.stratificationInfo = stratificationInfo;
         this.methodInfo = methodInfo;
     }
 
@@ -69,17 +66,16 @@ public class Generator {
 
 //            List<TemplateGenerateInfo> infoHolders = new ArrayList<>();
 //            TemplateGenerateInfo infoHolder = null;
+            GenerateInfo generateInfo;
             // 循环多表数据
             for (int i = 0; i < dbTableInfoList.size(); i++) {
                 TableInfo tableInfo = dbTableInfoList.get(i);
                 Map<String, MethodDescription> methodDescriptionMap =
                         this.methodInfo.initMethodName(tableInfo.getTableName(), tableInfo.getTableNameCamelCase());
 
-                Map<String,JavaClassDefinition> javaClassDefinitionMap = this.stratificationInfo.initFilesName(tableInfo.getTableName(), tableInfo.getTableNameCamelCase());
+                Map<String,JavaClassDefinition> javaClassDefinitionMap = this.fileOutPathInfo.initFilesNameAndFormatPath(tableInfo.getTableName(), tableInfo.getTableNameCamelCase());
                 // 初始化 方法名
-                generateInfo.init(tableInfo, javaClassDefinitionMap, methodDescriptionMap);
-                // 初始化输出路径
-                List<FilePathInfo> pathInfos = fileOutPathInfo.formatPath(javaClassDefinitionMap, tableInfo.getTableName());
+                generateInfo = new GenerateInfo(this.classCommentInfo,javaClassDefinitionMap, methodDescriptionMap, tableInfo);
 
 //                RealGenerateInfo info ;
 //                for (int j = 0; j < pathInfos.size(); j++) {

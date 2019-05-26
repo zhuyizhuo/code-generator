@@ -2,15 +2,12 @@ package com.github.zhuyizhuo.generator.mybatis.generator;
 
 import com.github.zhuyizhuo.generator.mybatis.annotation.Nullable;
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
-import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodInfo;
-import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
 import com.github.zhuyizhuo.generator.mybatis.enums.MethodEnums;
 import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.extension.service.FormatService;
 import com.github.zhuyizhuo.generator.mybatis.service.ContextHolder;
-import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
@@ -45,7 +42,9 @@ public class GeneratorBuilder {
      * 格式化全部方法 service 优先级低于指定方法格式化 service
      */
     private FormatService commonMethodFormatService;
-
+    /***
+     *  模块名格式化 Service MAP
+     */
     private Map<ModuleTypeEnums, FormatService> moduleNameFormatServiceMap = new HashMap<>();
 
     public GeneratorBuilder() {
@@ -120,22 +119,14 @@ public class GeneratorBuilder {
         }
         TypeConversion.init(typeMapper);
 
-        StratificationInfo stratificationInfo = context.getBean("stratificationInfo");
-        stratificationInfo.init(moduleNameFormatServiceMap);
-
         FileOutPathInfo fileOutPathInfo = context.getBean("FileOutPathInfo");
-        fileOutPathInfo.init(stratificationInfo.getJavaClassDefinition());
-
-        ClassCommentInfo classCommentInfo = context.getBean("ClassCommentInfo");
-
-        GenerateInfo generateInfo = new GenerateInfo();
-        generateInfo.setClassCommentInfo(classCommentInfo);
+        fileOutPathInfo.init(moduleNameFormatServiceMap);
 
         MethodInfo methodInfo = new MethodInfo();
         methodInfo.addCommonMethodFormatService(commonMethodFormatService);
         methodInfo.setFormatMap(methodNameFormatServiceMap);
 
-        return new Generator(generateInfo, fileOutPathInfo, stratificationInfo, methodInfo);
+        return new Generator(fileOutPathInfo, methodInfo);
     }
 
 }

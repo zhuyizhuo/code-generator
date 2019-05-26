@@ -19,18 +19,27 @@ import java.util.Map;
  * time: 2018/7/29 17:44
  */
 public class GenerateInfo {
+    /** 类注释信息 */
+    private ClassCommentInfo classCommentInfo;
     /** 分层信息 */
     private Map<String, JavaClassDefinition> javaClassDefinition;
     /** 方法信息 */
     private Map<String, MethodDescription> methodDescription;
-    /** 类注释信息 */
-    private ClassCommentInfo classCommentInfo;
     /** 表信息 */
     private TableInfo tableInfo;
     /** mybatis xml 定义*/
     private MybatisXmlDefinition mybatisXmlDefinition;
 
     public GenerateInfo() { }
+
+    public GenerateInfo(ClassCommentInfo classCommentInfo, Map<String, JavaClassDefinition> javaClassDefinition, Map<String, MethodDescription> methodDescription, TableInfo tableInfo) {
+        this.classCommentInfo = classCommentInfo;
+        this.javaClassDefinition = javaClassDefinition;
+        this.methodDescription = methodDescription;
+        this.tableInfo = tableInfo;
+        // 初始化 xml 内容
+        initXmlInfo();
+    }
 
     public ClassCommentInfo getClassCommentInfo() {
         return classCommentInfo;
@@ -46,15 +55,6 @@ public class GenerateInfo {
 
     public MybatisXmlDefinition getMybatisXmlDefinition() {
         return mybatisXmlDefinition;
-    }
-
-    public void init(TableInfo tableInfo, Map<String, JavaClassDefinition> javaClassDefinition, Map<String, MethodDescription> methodDescriptionMap) {
-        // 初始化 dao pojo 名称 及 包路径
-        this.tableInfo = tableInfo;
-        this.javaClassDefinition = javaClassDefinition;
-        this.methodDescription = methodDescriptionMap;
-        // 初始化 xml 内容
-        initXmlInfo();
     }
 
     public void initXmlInfo() {

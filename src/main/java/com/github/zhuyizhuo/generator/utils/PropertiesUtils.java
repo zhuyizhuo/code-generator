@@ -1,5 +1,7 @@
 package com.github.zhuyizhuo.generator.utils;
 
+import com.github.zhuyizhuo.generator.mybatis.service.ContextHolder;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,6 +25,12 @@ public class PropertiesUtils {
     public static String getProperties(String key){
         String property = proInfo.getProperty(key);
         return property == null ? null : property.trim();
+    }
+
+    public static String getConfig(String key){
+        return GeneratorStringUtils.isBlank(PropertiesUtils.getProperties(key))
+                ? ContextHolder.getDefaultConfig(key)
+                : PropertiesUtils.getProperties(key);
     }
 
     /**

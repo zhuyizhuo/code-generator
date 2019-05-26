@@ -9,26 +9,23 @@ package com.github.zhuyizhuo.generator.mybatis.enums;
  * @since 1.4.0
  */
 public enum ModuleTypeEnums {
-    MAPPER("MAPPER","{0}Mapper","generate.java.mapper.name-format","数据库接口"),
-    POJO("POJO","{0}","generate.java.pojo.name-format","数据对象"),
+    MAPPER("MAPPER","{0}Mapper","generate.java.mapper.name-format","","数据库接口"),
+    POJO("POJO","{0}","generate.java.pojo.name-format","generate.java.pojo.path","数据对象"),
 
-    XML("XML","mybatis xml 文件"),
+    XML("XML","{0}","generate.resources.xml.name-format","","mybatis xml 文件"),
     ;
     private String moduleType;
     /** 默认格式化方式 */
     private String fileNameFormat;
     private String fileNameFormatKey;
+    private String fileOutputPathKey;
     private String moduleDescription;
 
-    ModuleTypeEnums(String moduleType, String moduleDescription) {
-        this.moduleType = moduleType;
-        this.moduleDescription = moduleDescription;
-    }
-
-    ModuleTypeEnums(String moduleType, String fileNameFormat, String fileNameFormatKey, String moduleDescription) {
+    ModuleTypeEnums(String moduleType, String fileNameFormat, String fileNameFormatKey, String fileOutputPathKey, String moduleDescription) {
         this.moduleType = moduleType;
         this.fileNameFormat = fileNameFormat;
         this.fileNameFormatKey = fileNameFormatKey;
+        this.fileOutputPathKey = fileOutputPathKey;
         this.moduleDescription = moduleDescription;
     }
 

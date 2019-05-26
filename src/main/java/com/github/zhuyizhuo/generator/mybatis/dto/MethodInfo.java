@@ -1,18 +1,10 @@
 package com.github.zhuyizhuo.generator.mybatis.dto;
 
-import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
 import com.github.zhuyizhuo.generator.mybatis.enums.MethodEnums;
 import com.github.zhuyizhuo.generator.mybatis.extension.service.FormatService;
-import com.github.zhuyizhuo.generator.mybatis.service.ContextHolder;
-import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
 
-import java.io.File;
-import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -75,9 +67,7 @@ public class MethodInfo {
             String propertiesEnabledKey = values[i].getPropertiesEnabledKey();
             String methodCommentKey = values[i].getMethodCommentKey();
             boolean methodEnabled = PropertiesUtils.getBooleanPropertiesDefaultTrue(propertiesEnabledKey);
-            String methodComment = GeneratorStringUtils.isBlank(PropertiesUtils.getProperties(methodCommentKey))
-                    ? ContextHolder.getDefaultConfig(methodCommentKey)
-                    : PropertiesUtils.getProperties(methodCommentKey);
+            String methodComment = PropertiesUtils.getConfig(methodCommentKey);
             methodDescription = new MethodDescription();
             methodDescription.setEnabled(methodEnabled);
             methodDescription.setMethodName(formatMethodName(values[i]));

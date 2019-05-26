@@ -92,9 +92,13 @@ public class ContextHolder {
             return properties.trim();
         } else {
             String property = contextConfig.getProperty(key);
-            if (property.contains("#")){
-                String parse = parser.parse(property);
-                return System.getProperty(parse);
+            if (GeneratorStringUtils.isNotBlank(property)){
+                if (property.contains("#")){
+                    String parse = parser.parse(property);
+                    return System.getProperty(parse);
+                }
+            } else {
+                return System.getProperty(key);
             }
             return property.trim();
         }

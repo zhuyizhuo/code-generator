@@ -29,20 +29,20 @@ generate.log.enabled=true
 # 生成文件的公共包名 不配置则默认无公共包
 generate.java.base-package=com.github.generator
 # 生成 java 文件输出路径,不配置则默认为 [当前项目路径],路径请使用/或\\分隔
-generate.java.base.out-put-path=C:/Users/admin/Desktop
+generate.base.out-put-path=C:/Users/admin/Desktop
 
-# MAPPER 包名 如下配置 MAPPER 所在包路径为 {generate.java.base.out-put-path}.mapper
+# MAPPER 包名 如下配置 MAPPER 所在包路径为 {generate.base.out-put-path}.{generate.base.java.out-put-path}.mapper
 generate.java.mapper.package=mapper
 # MAPPER 名称 默认配置 驼峰命名 + Mapper {0}Mapper
 generate.java.mapper.name-format={0}Mapper
-# MAPPER 文件输出路径 如下配置 最终输出路径为 {generate.java.base.out-put-path}/mapper
+# MAPPER 文件输出路径 如下配置 最终输出路径为 {generate.base.out-put-path}/mapper
 generate.java.mapper.path=/mapper
 
 # POJO 包名 如下配置 POJO 所在包路径为 {generate.java.base-package}.pojo
 generate.java.pojo.package=pojo
 # 实体名称 默认配置 驼峰命名 {0}
 generate.java.pojo.name-format={0}
-# pojo文件输出路径 如下配置 最终输出路径为 {generate.java.base.out-put-path}/pojo
+# pojo文件输出路径 如下配置 最终输出路径为 {generate.base.out-put-path}/pojo
 generate.java.pojo.path=/pojo
 
 ############## 注释 start ##############
@@ -76,12 +76,12 @@ generate.java.method.count-by-where.enabled=true
 
 ##################### XML 配置 start ####################
 # 生成资源文件输出路径,不配置则默认为 [当前项目路径],路径请使用/或\\分隔
-generate.xml.out-put-path=${generate.java.base.out-put-path}
+generate.resources.xml.out-put-path=${generate.base.out-put-path}
 # XML 名称 默认 LOWER_CASE 表名称小写
 # 下划线分隔的表名称转驼峰 例如 MY_USER -> MyUser.xml 
-# xml.name.format=CAMEL
-generate.xml.name-format=LOWER_CASE
+# generate.resources.xml.name-format=CAMEL
+generate.resources.xml.name-format=LOWER_CASE
 # mybatis xml 的 parameterType 别名是否启用
-generate.xml.mybatis.parameter-type.aliases.enabled=false
+generate.resources.xml.mybatis.parameter-type.aliases.enabled=false
 ##################### XML 配置 end ####################
 ```

@@ -21,6 +21,10 @@ public class FilePathInfo {
     public FilePathInfo() {
     }
 
+    public FilePathInfo(String fileOutPutPath) {
+        this.fileOutPutPath = fileOutPutPath;
+    }
+
     public FilePathInfo(String templatePath, String fileOutPutPath) {
         this.templatePath = templatePath;
         this.fileOutPutPath = fileOutPutPath;
