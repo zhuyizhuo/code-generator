@@ -21,39 +21,33 @@ public class MethodInfo {
     /** 表名驼峰命名 */
     private String tableNameCamelCase;
     /**
-     * 方法描述
-     * methodName -> MethodDescription
-     */
-//    private Map<String,MethodDescription> methodDescription = new ConcurrentHashMap<>();
-    /**
      * method -> methodNameFormatService
      */
-    private Map<MethodEnums,FormatService> formatMap = new ConcurrentHashMap<>();
+    private Map<MethodEnums,FormatService> methodNameFormatServiceMap;
     /**
      * 格式化全部方法名 service
      */
-    private FormatService commonMethodFormatService;
+    private FormatService commonMethodNameFormatService;
 
     public MethodInfo() {
     }
 
-    /**
-     * 格式化方法名
-     * @param format MethodEnums
-     * @param tableName 表名
-     * @return 格式化后的方法名
-     */
-    public static String formatMethodName(MethodEnums format,String tableName){
-        return MessageFormat.format(format.getMethodFormat(),tableName);
+    public MethodInfo(Map<MethodEnums, FormatService> methodNameFormatServiceMap, FormatService commonMethodNameFormatService) {
+        this.methodNameFormatServiceMap = methodNameFormatServiceMap;
+        this.commonMethodNameFormatService = commonMethodNameFormatService;
     }
 
     private String formatMethodName(MethodEnums method){
-        FormatService formatService = formatMap.get(method);
-        return formatService == null
-                ? MessageFormat.format(method.getMethodFormat(),
-                                this.commonMethodFormatService != null ? commonMethodFormatService.format(tableName)
-                                :tableNameCamelCase)
-                : formatService.format(tableNameCamelCase);
+        FormatService formatService = null;
+        if (this.methodNameFormatServiceMap != null){
+            formatService = methodNameFormatServiceMap.get(method);
+        }
+        return formatService != null
+                ? formatService.format(tableNameCamelCase)
+                : MessageFormat.format(PropertiesUtils.getConfig(method.getMethodFormatKey()),
+                                this.commonMethodNameFormatService != null
+                                        ? commonMethodNameFormatService.format(tableName)
+                                        :tableNameCamelCase);
     }
 
     public Map<String,MethodDescription> initMethodName(String tableName, String tableNameCamelCase) {
@@ -64,38 +58,26 @@ public class MethodInfo {
         MethodEnums[] values = MethodEnums.values();
         MethodDescription methodDescription;
         for (int i = 0; i < values.length; i++) {
-            String propertiesEnabledKey = values[i].getPropertiesEnabledKey();
-            String methodCommentKey = values[i].getMethodCommentKey();
-            boolean methodEnabled = PropertiesUtils.getBooleanPropertiesDefaultTrue(propertiesEnabledKey);
-            String methodComment = PropertiesUtils.getConfig(methodCommentKey);
             methodDescription = new MethodDescription();
-            methodDescription.setEnabled(methodEnabled);
+            methodDescription.setEnabled(getPropertiesDefaultTrue(values[i]));
             methodDescription.setMethodName(formatMethodName(values[i]));
-            methodDescription.setComment(methodComment);
+            methodDescription.setComment(PropertiesUtils.getConfig(values[i].getMethodCommentKey()));
             methodDescription.addParams(new ParamDescription(tableName + "参数对象"));
             methodDescriptionMap.put(values[i].toString(),methodDescription);
         }
         return methodDescriptionMap;
     }
 
-    private boolean getProperties(MethodEnums methodEnums) {
-        return PropertiesUtils.getBooleanPropertiesDefaultTrue(methodEnums.getPropertiesEnabledKey());
+    private boolean getPropertiesDefaultTrue(MethodEnums value) {
+        return PropertiesUtils.getBooleanPropertiesDefaultTrue(value.getPropertiesEnabledKey());
     }
 
-    public void addCommonMethodFormatService(FormatService formatService) {
-        this.commonMethodFormatService = formatService;
+    public void setCommonMethodNameFormatService(FormatService commonMethodNameFormatService) {
+        this.commonMethodNameFormatService = commonMethodNameFormatService;
     }
 
-    public void setFormatMap(Map<MethodEnums, FormatService> formatMap) {
-        this.formatMap = formatMap;
-    }
-
-    public Map<MethodEnums, FormatService> getFormatMap() {
-        return formatMap;
-    }
-
-    public FormatService getCommonMethodFormatService() {
-        return commonMethodFormatService;
+    public void setMethodNameFormatServiceMap(Map<MethodEnums, FormatService> methodNameFormatServiceMap) {
+        this.methodNameFormatServiceMap = methodNameFormatServiceMap;
     }
 
 }

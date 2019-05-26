@@ -101,32 +101,22 @@ public class GeneratorBuilder {
             LogUtils.printErrInfo("加载配置文件失败.");
         }
 
-        // 初始化常量
-        if (GeneratorStringUtils.isBlank(ConfigConstants.tableRegex)) {
-            String separator = PropertiesUtils.getProperties(ConfigConstants.TABLE_SEPARATOR);
-            if (GeneratorStringUtils.isBlank(separator)) {
-                ConfigConstants.tableRegex = "_";
-            } else {
-                ConfigConstants.tableRegex = separator;
-            }
-        }
-
         ContextHolder context = new ContextHolder();
         try {
             context.init();
         } catch (Exception e){
-            e.printStackTrace();
+            LogUtils.printErrInfo("加载配置文件失败.");
+            LogUtils.printException(e);
         }
+
+        // 初始化常量
+        ConfigConstants.tableRegex = PropertiesUtils.getConfig(ConfigConstants.TABLE_SEPARATOR);
         TypeConversion.init(typeMapper);
 
         FileOutPathInfo fileOutPathInfo = context.getBean("FileOutPathInfo");
         fileOutPathInfo.init(moduleNameFormatServiceMap);
 
-        MethodInfo methodInfo = new MethodInfo();
-        methodInfo.addCommonMethodFormatService(commonMethodFormatService);
-        methodInfo.setFormatMap(methodNameFormatServiceMap);
-
-        return new Generator(fileOutPathInfo, methodInfo);
+        return new Generator(fileOutPathInfo, new MethodInfo(methodNameFormatServiceMap,commonMethodFormatService));
     }
 
 }

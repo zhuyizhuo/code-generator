@@ -60,6 +60,7 @@ public class Generator {
                 LogUtils.printErrInfo("Exception: " + cause.toString());
             } else {
                 LogUtils.printErrInfo("查询数据库结构异常!Exception:" + e.getMessage());
+                LogUtils.printException(e);
             }
         }
     }
