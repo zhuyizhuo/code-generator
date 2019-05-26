@@ -1,5 +1,7 @@
 package com.github.zhuyizhuo.generator.mybatis.vo;
 
+import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
+
 /**
  * class: TemplateGenerateInfo <br>
  * description: TODO <br>
@@ -9,22 +11,23 @@ package com.github.zhuyizhuo.generator.mybatis.vo;
  * @since #since#
  */
 public class TemplateGenerateInfo {
-    private String fileInputPath;
+
+    private ModuleTypeEnums moduleTypeEnums;
     private String fileOutputPath;
     private GenerateInfo generateInfo;
 
-    public TemplateGenerateInfo(String fileInputPath, String fileOutputPath, GenerateInfo generateInfo) {
-        this.fileInputPath = fileInputPath;
+    public TemplateGenerateInfo(ModuleTypeEnums moduleTypeEnums, String fileOutputPath, GenerateInfo generateInfo) {
+        this.moduleTypeEnums = moduleTypeEnums;
         this.fileOutputPath = fileOutputPath;
         this.generateInfo = generateInfo;
     }
 
-    public String getFileInputPath() {
-        return fileInputPath;
+    public ModuleTypeEnums getModuleTypeEnums() {
+        return moduleTypeEnums;
     }
 
-    public void setFileInputPath(String fileInputPath) {
-        this.fileInputPath = fileInputPath;
+    public void setModuleTypeEnums(ModuleTypeEnums moduleTypeEnums) {
+        this.moduleTypeEnums = moduleTypeEnums;
     }
 
     public String getFileOutputPath() {

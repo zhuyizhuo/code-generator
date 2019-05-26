@@ -1,6 +1,5 @@
 package com.github.zhuyizhuo.generator.mybatis.generator;
 
-import com.github.zhuyizhuo.generator.mybatis.constants.FtlPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.db.service.DbService;
@@ -10,11 +9,16 @@ import com.github.zhuyizhuo.generator.mybatis.dto.MethodInfo;
 import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.factory.DbServiceFactory;
 import com.github.zhuyizhuo.generator.mybatis.service.ContextHolder;
+import com.github.zhuyizhuo.generator.mybatis.service.GenerateService;
+import com.github.zhuyizhuo.generator.mybatis.service.impl.FreemarkerGenerateServiceImpl;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
+import com.github.zhuyizhuo.generator.mybatis.vo.GenerateMetaData;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
+import com.github.zhuyizhuo.generator.mybatis.vo.TemplateGenerateInfo;
 import com.github.zhuyizhuo.generator.utils.Freemarker;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +34,8 @@ public class Generator {
     private FileOutPathInfo fileOutPathInfo;
     /** 方法信息 */
     private MethodInfo methodInfo;
+    /** 代码生成器 */
+    private GenerateService generateService = new FreemarkerGenerateServiceImpl();
 
     public Generator(FileOutPathInfo fileOutPathInfo, MethodInfo methodInfo) {
         this.classCommentInfo = ContextHolder.getBean("classCommentInfo");
@@ -65,9 +71,10 @@ public class Generator {
                 return;
             }
 
-//            List<TemplateGenerateInfo> infoHolders = new ArrayList<>();
-//            TemplateGenerateInfo infoHolder = null;
+            GenerateMetaData generateMetaData = new GenerateMetaData();
+            TemplateGenerateInfo infoHolder = null;
             GenerateInfo generateInfo;
+            ModuleTypeEnums[] values = ModuleTypeEnums.values();
             // 循环多表数据
             for (int i = 0; i < dbTableInfoList.size(); i++) {
                 TableInfo tableInfo = dbTableInfoList.get(i);
@@ -78,27 +85,13 @@ public class Generator {
                 // 初始化 方法名
                 generateInfo = new GenerateInfo(this.classCommentInfo,javaClassDefinitionMap, methodDescriptionMap, tableInfo);
 
-//                RealGenerateInfo info ;
-//                for (int j = 0; j < pathInfos.size(); j++) {
-//                    info = new RealGenerateInfo();
-//                    FilePathInfo pathInfo = pathInfos.get(j);
-//                    //TODO generateInfo 应该循环的时候重新初始化  和目前设计冲突
-//                    pathInfo.setGenerateInfo(info);
-//                }
-//                infoHolder = new TemplateGenerateInfo(FtlPathInfo.pojoFtlPath,fileOutPathInfo.getPojoOutPutFullPath(), generateInfo);
-//                infoHolders.add(infoHolder);
-                LogUtils.printJsonInfo("输出对象:" , generateInfo);
-
-                Freemarker.printFile(FtlPathInfo.pojoFtlPath, fileOutPathInfo.getOutputFullPath(ModuleTypeEnums.POJO), generateInfo);
-                if(generateInfo.getTableInfo().isHasPrimaryKey()){
-                    Freemarker.printFile(FtlPathInfo.PRIVATE_KEY_DAO_TEMPLATE_PATH, fileOutPathInfo.getOutputFullPath(ModuleTypeEnums.MAPPER), generateInfo);
-                    Freemarker.printFile(FtlPathInfo.PRIVATE_KEY_MYBATIS_TEMPLATE_PATH, fileOutPathInfo.getOutputFullPath(ModuleTypeEnums.XML), generateInfo);
-                } else {
-                    Freemarker.printFile(FtlPathInfo.NOKEY_MAPPER_TEMPLATE_PATH, fileOutPathInfo.getOutputFullPath(ModuleTypeEnums.MAPPER), generateInfo);
-                    Freemarker.printFile(FtlPathInfo.NOKEY_MYBATIS_TEMPLATE_PATH, fileOutPathInfo.getOutputFullPath(ModuleTypeEnums.XML), generateInfo);
+                for (int j = 0; j < values.length; j++) {
+                    infoHolder = new TemplateGenerateInfo(values[j], fileOutPathInfo.getOutputFullPath(values[j]), generateInfo);
+                    generateMetaData.addGenerateInfo(tableInfo.getTableName(),infoHolder);
                 }
+                LogUtils.printJsonInfo("输出对象:" , generateInfo);
             }
-
+            generateService.generate(generateMetaData);
         } catch (Exception e) {
             LogUtils.printErrInfo("生成数据异常!");
             LogUtils.printException(e);

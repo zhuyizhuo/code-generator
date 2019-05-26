@@ -1,6 +1,7 @@
 package com.github.zhuyizhuo.generator.mybatis.convention;
 
 import com.github.zhuyizhuo.generator.mybatis.annotation.CoventionClass;
+import com.github.zhuyizhuo.generator.mybatis.annotation.Nullable;
 import com.github.zhuyizhuo.generator.mybatis.annotation.Value;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.enums.FileTypeEnums;
@@ -56,9 +57,6 @@ public class FileOutPathInfo {
      */
     private Map<ModuleTypeEnums,String> outPutPathMap = new ConcurrentHashMap<>();
 
-    public FileOutPathInfo() {
-
-    }
 
     public void init(Map<ModuleTypeEnums, FormatService> classNameFormatServieMap) {
         ModuleTypeEnums[] values = ModuleTypeEnums.values();

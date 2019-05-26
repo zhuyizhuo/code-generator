@@ -26,10 +26,6 @@ public class ClassCommentInfo {
     /** 默认生成时间 */
     private String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
-    public ClassCommentInfo() {
-
-    }
-
     public String getVersion() {
         return version;
     }

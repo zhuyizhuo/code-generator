@@ -1,5 +1,7 @@
 package com.github.zhuyizhuo.generator.mybatis.service;
 
+import com.github.zhuyizhuo.generator.mybatis.vo.GenerateMetaData;
+
 /**
  * class: GenerateService <br>
  * description: TODO <br>
@@ -10,5 +12,5 @@ package com.github.zhuyizhuo.generator.mybatis.service;
  */
 public interface GenerateService {
 
-    void generate();
+    void generate(GenerateMetaData generateMetaData);
 }
