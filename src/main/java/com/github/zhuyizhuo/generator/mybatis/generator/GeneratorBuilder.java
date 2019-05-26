@@ -5,7 +5,7 @@ import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodInfo;
 import com.github.zhuyizhuo.generator.mybatis.enums.MethodEnums;
-import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
+import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
 import com.github.zhuyizhuo.generator.mybatis.extension.service.FormatService;
 import com.github.zhuyizhuo.generator.mybatis.service.ContextHolder;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
@@ -45,7 +45,7 @@ public class GeneratorBuilder {
     /***
      *  模块名格式化 Service MAP
      */
-    private Map<ModuleTypeEnums, FormatService> moduleNameFormatServiceMap = new HashMap<>();
+    private Map<ModuleEnums, FormatService> moduleNameFormatServiceMap = new HashMap<>();
 
     public GeneratorBuilder() {
     }
@@ -54,7 +54,7 @@ public class GeneratorBuilder {
      * 自定义指定模块生成名称
      * @since 1.4.0
      */
-    public GeneratorBuilder addModuleNameFormat(ModuleTypeEnums moduleType, FormatService formatService) {
+    public GeneratorBuilder addModuleNameFormat(ModuleEnums moduleType, FormatService formatService) {
         this.moduleNameFormatServiceMap.put(moduleType, formatService);
         return this;
     }

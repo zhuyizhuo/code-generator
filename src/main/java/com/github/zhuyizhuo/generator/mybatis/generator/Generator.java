@@ -6,7 +6,7 @@ import com.github.zhuyizhuo.generator.mybatis.db.service.DbService;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodInfo;
-import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
+import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
 import com.github.zhuyizhuo.generator.mybatis.factory.DbServiceFactory;
 import com.github.zhuyizhuo.generator.mybatis.service.ContextHolder;
 import com.github.zhuyizhuo.generator.mybatis.service.GenerateService;
@@ -15,10 +15,8 @@ import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateMetaData;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.TemplateGenerateInfo;
-import com.github.zhuyizhuo.generator.utils.Freemarker;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -75,7 +73,7 @@ public class Generator {
             GenerateMetaData generateMetaData = new GenerateMetaData();
             TemplateGenerateInfo infoHolder = null;
             GenerateInfo generateInfo;
-            ModuleTypeEnums[] values = ModuleTypeEnums.values();
+            ModuleEnums[] values = ModuleEnums.values();
             // 循环多表数据
             for (int i = 0; i < dbTableInfoList.size(); i++) {
                 TableInfo tableInfo = dbTableInfoList.get(i);
@@ -87,7 +85,7 @@ public class Generator {
                 generateInfo = new GenerateInfo(this.classCommentInfo,javaClassDefinitionMap, methodDescriptionMap, tableInfo);
 
                 for (int j = 0; j < values.length; j++) {
-                    infoHolder = new TemplateGenerateInfo(values[j], fileOutPathInfo.getOutputFullPath(values[j]), generateInfo);
+                    infoHolder = new TemplateGenerateInfo(values[j].toString(), fileOutPathInfo.getOutputFullPath(values[j]), generateInfo);
                     generateMetaData.addGenerateInfo(tableInfo.getTableName(),infoHolder);
                 }
                 LogUtils.printJsonInfo("输出对象:" , generateInfo);

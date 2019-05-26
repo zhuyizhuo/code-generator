@@ -1,39 +1,30 @@
 package com.github.zhuyizhuo.generator.mybatis.enums;
 
 /**
- * class: ModuleTypeEnums <br>
- * description: 模块类型枚举 <br>
+ * class: ModuleEnums <br>
+ * description: 模块枚举 <br>
  * time: 2019/5/22
  *
  * @author yizhuo <br>
  * @since 1.4.0
  */
-public enum ModuleTypeEnums {
-    MAPPER("MAPPER",FileTypeEnums.JAVA,"generate.java.mapper.name-format","generate.java.mapper.package","数据库接口"),
-    POJO("POJO",FileTypeEnums.JAVA,"generate.java.pojo.name-format","generate.java.pojo.package","数据对象"),
+public enum ModuleEnums {
+    MAPPER(FileTypeEnums.JAVA,"generate.java.mapper.name-format","generate.java.mapper.package","数据库接口"),
+    POJO(FileTypeEnums.JAVA,"generate.java.pojo.name-format","generate.java.pojo.package","数据对象"),
 
-    XML("XML",FileTypeEnums.XML,"generate.resources.xml.name-format","generate.resources.xml.out-put-path","mybatis xml 文件"),
+    XML(FileTypeEnums.XML,"generate.resources.xml.name-format","generate.resources.xml.out-put-path","mybatis xml 文件"),
     ;
-    private String moduleType;
+
     private FileTypeEnums typeEnums;
     private String fileNameFormatKey;
     private String filePackageKey;
     private String moduleDescription;
 
-    ModuleTypeEnums(String moduleType, FileTypeEnums typeEnums, String fileNameFormatKey, String filePackageKey, String moduleDescription) {
-        this.moduleType = moduleType;
+    ModuleEnums(FileTypeEnums typeEnums, String fileNameFormatKey, String filePackageKey, String moduleDescription) {
         this.typeEnums = typeEnums;
         this.fileNameFormatKey = fileNameFormatKey;
         this.filePackageKey = filePackageKey;
         this.moduleDescription = moduleDescription;
-    }
-
-    public String getModuleType() {
-        return moduleType;
-    }
-
-    public void setModuleType(String moduleType) {
-        this.moduleType = moduleType;
     }
 
     public FileTypeEnums getTypeEnums() {

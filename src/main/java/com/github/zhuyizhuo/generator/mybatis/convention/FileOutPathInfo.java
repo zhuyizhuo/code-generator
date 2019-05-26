@@ -1,11 +1,10 @@
 package com.github.zhuyizhuo.generator.mybatis.convention;
 
 import com.github.zhuyizhuo.generator.mybatis.annotation.CoventionClass;
-import com.github.zhuyizhuo.generator.mybatis.annotation.Nullable;
 import com.github.zhuyizhuo.generator.mybatis.annotation.Value;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.enums.FileTypeEnums;
-import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
+import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
 import com.github.zhuyizhuo.generator.mybatis.extension.service.FormatService;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
@@ -44,22 +43,22 @@ public class FileOutPathInfo {
 
     /**
      *  类名格式化 Service Map
-     *  ModuleTypeEnums -> 类名格式化 Service
+     *  ModuleEnums -> 类名格式化 Service
      */
-    private Map<ModuleTypeEnums, FormatService> classNameFormatServieMap = new HashMap<>();
+    private Map<ModuleEnums, FormatService> classNameFormatServieMap = new HashMap<>();
     /***
      *  moduleTpye ->  JavaClassDefinition
      */
-    private Map<ModuleTypeEnums,JavaClassDefinition> javaClassDefinition = new ConcurrentHashMap<>();
+    private Map<ModuleEnums,JavaClassDefinition> javaClassDefinition = new ConcurrentHashMap<>();
     /**
      *  输出路径 MAP
      *  moduleTpye -> 输出全路径
      */
-    private Map<ModuleTypeEnums,String> outPutPathMap = new ConcurrentHashMap<>();
+    private Map<ModuleEnums,String> outPutPathMap = new ConcurrentHashMap<>();
 
 
-    public void init(Map<ModuleTypeEnums, FormatService> classNameFormatServieMap) {
-        ModuleTypeEnums[] values = ModuleTypeEnums.values();
+    public void init(Map<ModuleEnums, FormatService> classNameFormatServieMap) {
+        ModuleEnums[] values = ModuleEnums.values();
         String outPutPath = "";
         for (int i = 0; i < values.length; i++) {
             String fileFullPackage = PropertiesUtils.getConfig(values[i].getFilePackageKey());
@@ -94,7 +93,7 @@ public class FileOutPathInfo {
     }
 
     public Map<String,JavaClassDefinition> initFilesNameAndFormatPath(String tableName, String tableNameCamelCase) {
-        ModuleTypeEnums[] values = ModuleTypeEnums.values();
+        ModuleEnums[] values = ModuleEnums.values();
         String fileName = "";
         Map<String,JavaClassDefinition> javaClassDefinitionResp = new ConcurrentHashMap<>();
         for (int i = 0; i < values.length; i++) {
@@ -111,7 +110,7 @@ public class FileOutPathInfo {
                 }
                 javaClassDefinitionResp.put(values[i].toString(),javaClassDefinition);
             } else {
-                outPutPathMap.put(values[i], outPutPathMap.get(ModuleTypeEnums.XML) + fileName + ".xml");
+                outPutPathMap.put(values[i], outPutPathMap.get(ModuleEnums.XML) + fileName + ".xml");
             }
         }
         return javaClassDefinitionResp;
@@ -122,7 +121,7 @@ public class FileOutPathInfo {
      * @param moduleType 模块类型
      * @return 输出文件全路径
      */
-    public String getOutputFullPath(ModuleTypeEnums moduleType) {
+    public String getOutputFullPath(ModuleEnums moduleType) {
         return this.outPutPathMap.get(moduleType);
     }
 
@@ -137,12 +136,12 @@ public class FileOutPathInfo {
     /**
      *  格式化类名
      */
-    private String fileNameFormat(ModuleTypeEnums moduleType, String javaTableName) {
+    private String fileNameFormat(ModuleEnums moduleType, String javaTableName) {
         String properties = PropertiesUtils.getConfig(moduleType.getFileNameFormatKey());
         return MessageFormat.format(properties, javaTableName);
     }
 
-    private FormatService getFormatService(ModuleTypeEnums moduleType) {
+    private FormatService getFormatService(ModuleEnums moduleType) {
         return classNameFormatServieMap.get(moduleType);
     }
 

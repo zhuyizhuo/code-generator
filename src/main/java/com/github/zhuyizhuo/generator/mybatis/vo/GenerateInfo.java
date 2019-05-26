@@ -5,7 +5,7 @@ import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
-import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
+import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.support.mybatis.MybatisXmlDefinition;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
@@ -61,8 +61,8 @@ public class GenerateInfo {
         mybatisXmlDefinition = new MybatisXmlDefinition();
         boolean useTypeAliases = PropertiesUtils.getBooleanPropertiesDefaultFalse(ConfigConstants.PARAMETER_TYPE_USE_TYPE_ALIASES);
 
-        JavaClassDefinition pojoDefinition = javaClassDefinition.get(ModuleTypeEnums.POJO.toString());
-        JavaClassDefinition mapperDefinition = javaClassDefinition.get(ModuleTypeEnums.MAPPER.toString());
+        JavaClassDefinition pojoDefinition = javaClassDefinition.get(ModuleEnums.POJO.toString());
+        JavaClassDefinition mapperDefinition = javaClassDefinition.get(ModuleEnums.MAPPER.toString());
         mybatisXmlDefinition.setParameterType(
              useTypeAliases  ? GeneratorStringUtils.firstLower(pojoDefinition.getClassName())
                     : pojoDefinition.getFullPackage()+"."+pojoDefinition.getClassName());
