@@ -55,11 +55,16 @@ public class FileOutPathInfo {
      *  moduleTpye -> 输出全路径
      */
     private Map<ModuleEnums,String> outPutPathMap = new ConcurrentHashMap<>();
+    /***
+     *  输出路径格式 Map
+     *  moduleTpye -> 输出路径格式模板
+     */
+    private Map<ModuleEnums,String> outPutPathTemplateMap = new ConcurrentHashMap<>();
 
 
     public void init(Map<ModuleEnums, FormatService> classNameFormatServieMap) {
         ModuleEnums[] values = ModuleEnums.values();
-        String outPutPath = "";
+        String outPutFullPath = "";
         for (int i = 0; i < values.length; i++) {
             String fileFullPackage = PropertiesUtils.getConfig(values[i].getFilePackageKey());
             if (FileTypeEnums.JAVA.equals(values[i].getTypeEnums())){
@@ -69,22 +74,24 @@ public class FileOutPathInfo {
                 this.javaClassDefinition.put(values[i], new JavaClassDefinition(fileFullPackage));
 
                 if ("TRUE".equalsIgnoreCase(basePackageEnabled)) {
-                    outPutPath = baseOutputPath + baseJavaOutputPath + "/" + fileFullPackage.replaceAll("\\.", "/") + "/";
+                    outPutFullPath = baseOutputPath + baseJavaOutputPath + "/" + fileFullPackage.replaceAll("\\.", "/");
                 } else {
                     int index = fileFullPackage.lastIndexOf(".");
                     if(index != -1){
                         fileFullPackage = fileFullPackage.substring(index + 1);
                     }
-                    outPutPath = baseOutputPath + "/" + fileFullPackage + "/";
+                    outPutFullPath = baseOutputPath + "/" + fileFullPackage;
                 }
+                outPutFullPath += "/{0}.java";
             } else {
                 if ("TRUE".equalsIgnoreCase(basePackageEnabled)) {
-                    outPutPath = baseOutputPath + baseResourcesOutputPath + this.xmlOutPutPath + "/";
+                    outPutFullPath = baseOutputPath + baseResourcesOutputPath + this.xmlOutPutPath;
                 } else {
-                    outPutPath = baseOutputPath + this.xmlOutPutPath + "/";
+                    outPutFullPath = baseOutputPath + this.xmlOutPutPath;
                 }
+                outPutFullPath += "/{0}.xml";
             }
-            this.outPutPathMap.put(values[i], outPutPath);
+            this.outPutPathTemplateMap.put(values[i], outPutFullPath);
         }
 
         if (classNameFormatServieMap != null) {
@@ -103,17 +110,16 @@ public class FileOutPathInfo {
                 fileName = fileNameFormat(values[i], tableNameCamelCase);
             }
             if (FileTypeEnums.JAVA.equals(values[i].getTypeEnums())){
-                outPutPathMap.put(values[i], outPutPathMap.get(values[i]) + fileName + ".java");
+                outPutPathMap.put(values[i], MessageFormat.format(outPutPathTemplateMap.get(values[i]),fileName ));
                 JavaClassDefinition javaClassDefinition = this.javaClassDefinition.get(values[i]);
                 if (javaClassDefinition != null){
                     javaClassDefinition.setClassName(fileName);
                 }
-                javaClassDefinitionResp.put(values[i].toString(),javaClassDefinition);
+                javaClassDefinitionResp.put(values[i].toString(),new JavaClassDefinition(javaClassDefinition.getFullPackage(),fileName));
             } else {
-                outPutPathMap.put(values[i], outPutPathMap.get(ModuleEnums.XML) + fileName + ".xml");
+                outPutPathMap.put(values[i], MessageFormat.format(outPutPathTemplateMap.get(values[i]), tableName.toLowerCase()));
             }
         }
-
         return javaClassDefinitionResp;
     }
 

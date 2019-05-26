@@ -90,7 +90,6 @@ public class Generator {
                     infoHolder = new TemplateGenerateInfo(modules[j].toString(), fileOutPathInfo.getOutputFullPath(modules[j]), generateInfo);
                     generateMetaData.addGenerateInfo(tableInfo.getTableName(),infoHolder);
                 }
-                LogUtils.printJsonInfo("输出对象:" , generateInfo);
             }
             generateService.generate(generateMetaData);
         } catch (Exception e) {

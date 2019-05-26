@@ -9,15 +9,20 @@ package com.github.zhuyizhuo.generator.mybatis.enums;
  * @since 1.4.0
  */
 public enum ModuleEnums {
+
     MAPPER(FileTypeEnums.JAVA,"generate.java.mapper.name-format","generate.java.mapper.package","数据库接口"),
+
     POJO(FileTypeEnums.JAVA,"generate.java.pojo.name-format","generate.java.pojo.package","数据对象"),
 
     XML(FileTypeEnums.XML,"generate.resources.xml.name-format","generate.resources.xml.out-put-path","mybatis xml 文件"),
     ;
-
+    /** 文件类型 */
     private FileTypeEnums typeEnums;
+    /** 生成文件的文件名格式化配置 */
     private String fileNameFormatKey;
+    /** 生成文件的包路径配置 */
     private String filePackageKey;
+    /** 模块描述 */
     private String moduleDescription;
 
     ModuleEnums(FileTypeEnums typeEnums, String fileNameFormatKey, String filePackageKey, String moduleDescription) {

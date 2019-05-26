@@ -49,7 +49,6 @@ public class MysqlDbServiceImpl extends AbstractDbService {
             tableInfo.setTableNameCamelCase(changeTableNameCamelCase(dbTableInfo.getTableName()));
             tableInfo.addPrimaryKeyColumn(getPrimaryKeys(mapper,dbTableInfo));
             lists.add(tableInfo);
-            LogUtils.printInfo(dbTableInfo.getTableName() + "表共" + dbTableInfo.getColumnLists().size() + "列");
         }
         return lists;
     }
