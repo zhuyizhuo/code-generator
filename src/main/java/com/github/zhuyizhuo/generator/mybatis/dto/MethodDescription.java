@@ -54,4 +54,24 @@ public class MethodDescription {
         }
         this.params.add(param);
     }
+
+    /**
+     *  方法参数描述
+     */
+    public class ParamDescription {
+        /** 注释 */
+        private String comment;
+
+        public ParamDescription(String comment) {
+            this.comment = comment;
+        }
+
+        public String getComment() {
+            return comment;
+        }
+
+        public void setComment(String comment) {
+            this.comment = comment;
+        }
+    }
 }

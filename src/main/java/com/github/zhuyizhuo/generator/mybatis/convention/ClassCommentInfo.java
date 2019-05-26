@@ -9,7 +9,8 @@ import java.util.Date;
 /**
  * 类注释
  * @author yizhuo
- * @version 1.0
+ * @since  1.0
+ * @version 1.4.0
  * time: 2018/7/29 16:10
  */
 @CoventionClass

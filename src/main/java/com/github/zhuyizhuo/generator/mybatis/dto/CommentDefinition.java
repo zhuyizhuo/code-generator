@@ -1,11 +1,11 @@
-package com.github.zhuyizhuo.generator.mybatis.generator.support;
+package com.github.zhuyizhuo.generator.mybatis.dto;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * class: ClassCommentDefinition <br>
- * description: 注释信息定义 <br>
+ * description: TODO 注释信息定义 <br>
  * time: 2018/9/11 21:44
  *
  * @author yizhuo <br>

@@ -1,13 +1,13 @@
 package com.github.zhuyizhuo.generator.utils;
 
-import com.github.zhuyizhuo.generator.mybatis.service.ContextHolder;
+import com.github.zhuyizhuo.generator.mybatis.generator.support.ContextHolder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
 /**
+ *  资源文件处理工具类
  * @author yizhuo
  * @version 1.0
  * time: 2018/7/29 18:39

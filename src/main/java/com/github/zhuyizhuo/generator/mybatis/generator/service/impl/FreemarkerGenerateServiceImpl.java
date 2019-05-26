@@ -1,7 +1,7 @@
-package com.github.zhuyizhuo.generator.mybatis.service.impl;
+package com.github.zhuyizhuo.generator.mybatis.generator.service.impl;
 
 import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
-import com.github.zhuyizhuo.generator.mybatis.service.GenerateService;
+import com.github.zhuyizhuo.generator.mybatis.generator.service.GenerateService;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateMetaData;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;

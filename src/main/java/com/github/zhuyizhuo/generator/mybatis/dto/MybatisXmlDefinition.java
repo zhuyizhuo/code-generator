@@ -1,4 +1,4 @@
-package com.github.zhuyizhuo.generator.mybatis.generator.support.mybatis;
+package com.github.zhuyizhuo.generator.mybatis.dto;
 
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
 import com.github.zhuyizhuo.generator.utils.TypeConversion;
@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * class: MybatisXmlDefinition <br>
- * description: TODO <br>
+ * description: mybatis 文件定义 <br>
  *
  * @author yizhuo <br>
  * @since 1.3.2

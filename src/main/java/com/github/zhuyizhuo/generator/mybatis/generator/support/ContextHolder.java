@@ -1,4 +1,4 @@
-package com.github.zhuyizhuo.generator.mybatis.service;
+package com.github.zhuyizhuo.generator.mybatis.generator.support;
 
 import com.github.zhuyizhuo.generator.mybatis.annotation.CoventionClass;
 import com.github.zhuyizhuo.generator.mybatis.annotation.Resource;
@@ -6,7 +6,6 @@ import com.github.zhuyizhuo.generator.mybatis.annotation.Value;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
-import com.google.common.base.Charsets;
 import org.apache.ibatis.parsing.GenericTokenParser;
 import org.apache.ibatis.parsing.TokenHandler;
 

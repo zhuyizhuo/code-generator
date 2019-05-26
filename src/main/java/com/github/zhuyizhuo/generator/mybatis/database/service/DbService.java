@@ -14,6 +14,10 @@ import java.util.List;
  */
 public interface DbService {
 
+    /**
+     *  查询数据库表信息及列信息
+     * @return
+     */
     List<TableInfo> getTableColumns();
 
 }

@@ -2,7 +2,7 @@ package com.github.zhuyizhuo.generator.mybatis.vo;
 
 /**
  * class: TemplateGenerateInfo <br>
- * description: TODO <br>
+ * description: 模板生成信息 <br>
  * time: 2019/5/23
  *
  * @author yizhuo <br>

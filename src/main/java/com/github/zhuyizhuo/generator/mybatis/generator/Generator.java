@@ -5,13 +5,12 @@ import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.service.DbService;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
-import com.github.zhuyizhuo.generator.mybatis.dto.MethodInfo;
-import com.github.zhuyizhuo.generator.mybatis.enums.FileTypeEnums;
+import com.github.zhuyizhuo.generator.mybatis.generator.support.MethodInfo;
 import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
 import com.github.zhuyizhuo.generator.mybatis.factory.DbServiceFactory;
-import com.github.zhuyizhuo.generator.mybatis.service.ContextHolder;
-import com.github.zhuyizhuo.generator.mybatis.service.GenerateService;
-import com.github.zhuyizhuo.generator.mybatis.service.impl.FreemarkerGenerateServiceImpl;
+import com.github.zhuyizhuo.generator.mybatis.generator.support.ContextHolder;
+import com.github.zhuyizhuo.generator.mybatis.generator.service.GenerateService;
+import com.github.zhuyizhuo.generator.mybatis.generator.service.impl.FreemarkerGenerateServiceImpl;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateMetaData;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
@@ -22,9 +21,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ *  生成器
  * @author yizhuo
- * @version 1.0
+ * @since  1.0
  * time: 2018/7/29 18:12
+ * @version 1.4.0
+ * modify time : 2019-5-26 22:17:56
  */
 public class Generator {
     /** 类注释信息 */
@@ -33,7 +35,7 @@ public class Generator {
     private FileOutPathInfo fileOutPathInfo;
     /** 方法信息 */
     private MethodInfo methodInfo;
-    /** 代码生成器 */
+    /** 代码生成器接口 */
     private GenerateService generateService = new FreemarkerGenerateServiceImpl();
 
     public Generator(FileOutPathInfo fileOutPathInfo, MethodInfo methodInfo) {
@@ -78,10 +80,8 @@ public class Generator {
             // 循环多表数据
             for (int i = 0; i < dbTableInfoList.size(); i++) {
                 TableInfo tableInfo = dbTableInfoList.get(i);
-                Map<String, MethodDescription> methodDescriptionMap =
-                        this.methodInfo.initMethodName(tableInfo.getTableName(), tableInfo.getTableNameCamelCase());
-
                 Map<String,JavaClassDefinition> javaClassDefinitionMap = this.fileOutPathInfo.initFilesNameAndFormatPath(tableInfo.getTableName(), tableInfo.getTableNameCamelCase());
+                Map<String, MethodDescription> methodDescriptionMap = this.methodInfo.initMethodName(tableInfo);
                 // 初始化 方法名
                 generateInfo = new GenerateInfo(this.classCommentInfo,javaClassDefinitionMap, methodDescriptionMap, tableInfo);
                 generateInfo.initXmlInfo();

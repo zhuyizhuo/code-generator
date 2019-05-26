@@ -1,7 +1,9 @@
-package com.github.zhuyizhuo.generator.mybatis.dto;
+package com.github.zhuyizhuo.generator.mybatis.generator.support;
 
+import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
 import com.github.zhuyizhuo.generator.mybatis.enums.MethodEnums;
-import com.github.zhuyizhuo.generator.mybatis.extension.service.FormatService;
+import com.github.zhuyizhuo.generator.mybatis.generator.extension.FormatService;
+import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
 import java.text.MessageFormat;
@@ -50,19 +52,19 @@ public class MethodInfo {
                                         :tableNameCamelCase);
     }
 
-    public Map<String,MethodDescription> initMethodName(String tableName, String tableNameCamelCase) {
-        this.tableName = tableName;
-        this.tableNameCamelCase = tableNameCamelCase;
+    public Map<String,MethodDescription> initMethodName(TableInfo tableInfo) {
+        this.tableName = tableInfo.getTableName();
+        this.tableNameCamelCase = tableInfo.getTableNameCamelCase();
 
         Map<String,MethodDescription> methodDescriptionMap = new ConcurrentHashMap<>();
-        MethodEnums[] values = MethodEnums.values();
         MethodDescription methodDescription;
+        MethodEnums[] values = MethodEnums.values();
         for (int i = 0; i < values.length; i++) {
             methodDescription = new MethodDescription();
             methodDescription.setEnabled(getPropertiesDefaultTrue(values[i]));
             methodDescription.setMethodName(formatMethodName(values[i]));
             methodDescription.setComment(PropertiesUtils.getConfig(values[i].getMethodCommentKey()));
-            methodDescription.addParams(new ParamDescription(tableName + "参数对象"));
+            methodDescription.addParams(methodDescription.new ParamDescription(tableName + "参数对象"));
             methodDescriptionMap.put(values[i].toString(),methodDescription);
         }
         return methodDescriptionMap;

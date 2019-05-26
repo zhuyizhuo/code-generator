@@ -5,7 +5,7 @@ import com.github.zhuyizhuo.generator.mybatis.annotation.Value;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.enums.FileTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
-import com.github.zhuyizhuo.generator.mybatis.extension.service.FormatService;
+import com.github.zhuyizhuo.generator.mybatis.generator.extension.FormatService;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
@@ -16,10 +16,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * class: FileOutPathInfo <br>
- * description: 文件输出路径信息 <br>
+ * description: 包路径 及 文件输出路径信息 <br>
  *
  * @author yizhuo <br>
- * @version 1.0
+ * @since  1.0
+ * @version 1.4.0
  */
 @CoventionClass
 public class FileOutPathInfo {

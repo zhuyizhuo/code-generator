@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * class: OracleDbServiceImpl <br>
- * description: oracle数据库查询表结构实现 <br>
+ * description: oracle 数据库查询表结构实现 <br>
  * time: 2018/8/6 12:58
  *
  * @author yizhuo <br>

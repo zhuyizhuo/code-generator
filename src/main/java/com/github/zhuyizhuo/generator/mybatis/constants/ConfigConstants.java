@@ -5,7 +5,8 @@ package com.github.zhuyizhuo.generator.mybatis.constants;
  * description: 常量类 <br>
  *
  * @author yizhuo <br>
- * @version 1.0
+ * @since 1.0
+ * @version 1.4.0
  */
 public class ConfigConstants {
     public static final String DB_TYPE = "db.type";

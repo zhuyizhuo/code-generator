@@ -21,16 +21,6 @@ public class ColumnInfo {
     public ColumnInfo() {
     }
 
-    public ColumnInfo(ColumnInfo columnInfo) {
-        if (columnInfo == null){
-            return ;
-        }
-        this.columnName = columnInfo.getColumnName();
-        this.dataType = columnInfo.getDataType();
-        this.columnComment = columnInfo.getColumnComment();
-        this.primaryKey = columnInfo.isPrimaryKey();
-    }
-
     public String getColumnName() {
 		return columnName;
 	}

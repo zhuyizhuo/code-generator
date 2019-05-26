@@ -1,6 +1,5 @@
 package com.github.zhuyizhuo.generator.utils;
 
-import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -10,7 +9,7 @@ import java.io.InputStream;
 
 /**
  * class: SqlSessionUtils <br>
- * description: 获取SqlSession <br>
+ * description: 获取 SqlSession <br>
  * time: 2018/7/30 12:34
  *
  * @author yizhuo <br>
@@ -27,7 +26,6 @@ public class SqlSessionUtils {
             String resource = "mybatis/mybatis-config.xml";
             InputStream inputStream = Resources.getResourceAsStream(resource);
             SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, PropertiesUtils.proInfo);
-//            LogFactory.useStdOutLogging();
             return sqlSessionFactory.openSession();
         } catch (Exception e){
             throw new RuntimeException("SqlSessionUtils.getSqlSession Exception",e);

@@ -13,6 +13,7 @@ import java.io.Writer;
 import java.util.Locale;
 
 /**
+ * freemarker 工具类
  * 创建时间：2015年2月8日
  * @version 1.0
  */

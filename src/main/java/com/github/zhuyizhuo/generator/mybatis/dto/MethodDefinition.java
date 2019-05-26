@@ -1,4 +1,4 @@
-package com.github.zhuyizhuo.generator.mybatis.generator.support;
+package com.github.zhuyizhuo.generator.mybatis.dto;
 
 /**
  * class: MethodDefinition <br>

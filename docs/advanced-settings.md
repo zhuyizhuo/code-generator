@@ -48,7 +48,7 @@ import java.io.IOException;
 
 import org.apache.ibatis.io.Resources;
 
-import com.github.zhuyizhuo.generator.mybatis.extension.service.FormatService;
+import com.github.zhuyizhuo.generator.mybatis.generator.extension.FormatService;
 import com.github.zhuyizhuo.generator.mybatis.generator.Generator;
 import com.github.zhuyizhuo.generator.mybatis.generator.GeneratorBuilder;
 
