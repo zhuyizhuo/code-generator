@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @CoventionClass
 public class StratificationInfo {
     private static final String point = ".";
-    @Value("#{generate.java.base-package}")
+    @Value("#{generate.java.base.package}")
     private String basePackage;
 
     @Value("#{generate.java.mapper.package}")

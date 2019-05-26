@@ -19,10 +19,10 @@ public class ConfigConstants {
     public static final String GENERATE_TABLES_NAME = "generate.table-names";
     public static final String LOG_ENABLED = "generate.log.enabled";
 
-    public static final String BASE_PACKAGE = "generate.java.base-package";
+    public static final String BASE_PACKAGE = "generate.java.base.package";
     // TODO 暂未实现 是否生成基类包
-    public static final String BASE_PACKAGE_ENABLED = "generate.java.base-package.enabled";
-    public static final String FILE_OUT_PUT_PATH = "generate.java.base-out-put-path";
+    public static final String BASE_PACKAGE_ENABLED = "generate.java.base.package.enabled";
+    public static final String FILE_OUT_PUT_PATH = "generate.java.base.out-put-path";
 
     public static final String DAO_PACKAGE = "generate.java.mapper.package";
     public static final String DAO_OUT_PUT_PATH = "generate.java.mapper.path";

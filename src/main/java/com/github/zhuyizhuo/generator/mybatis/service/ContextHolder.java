@@ -64,20 +64,15 @@ public class ContextHolder {
             for (Field field : declaredFields) {
                 if (!field.isAnnotationPresent(Value.class)){ continue;}
 
-                String beanName = field.getAnnotation(Value.class).value().trim();
-                if ("".equals(beanName)){
-                    beanName = field.getType().getName();
+                String configValue = field.getAnnotation(Value.class).value().trim();
+                if ("".equals(configValue)){
+                    configValue = field.getType().getName();
                 }
 
                 field.setAccessible(true);
                 try {
-                    String key = parser.parse(beanName);
-                    String properties = PropertiesUtils.getProperties(key);
-                    if (GeneratorStringUtils.isNotBlank(properties)){
-                        field.set(entry.getValue(), properties);
-                    } else {
-                        field.set(entry.getValue(), contextConfig.get(key));
-                    }
+                    String properties = getConfig(configValue,parser);
+                    field.set(entry.getValue(), properties);
                 } catch (IllegalAccessException e) {
                     LogUtils.printException(e);
                 }
@@ -87,9 +82,22 @@ public class ContextHolder {
 
     }
 
-    public static void main(String[] args) {
-        ContextHolder configScanner = new ContextHolder();
-        configScanner.init();
+    private String getConfig(String configValue, GenericTokenParser parser) {
+        String key = parser.parse(configValue);
+        String properties = PropertiesUtils.getProperties(key);
+        if (GeneratorStringUtils.isNotBlank(properties)){
+            if (properties.contains("#")){
+                return getConfig(properties,parser);
+            }
+            return properties.trim();
+        } else {
+            String property = contextConfig.getProperty(key);
+            if (property.contains("#")){
+                String parse = parser.parse(property);
+                return System.getProperty(parse);
+            }
+            return property.trim();
+        }
     }
 
     private void doRegister() {

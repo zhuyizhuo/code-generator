@@ -2,9 +2,6 @@ package com.github.zhuyizhuo.generator.mybatis.convention;
 
 import com.github.zhuyizhuo.generator.mybatis.annotation.CoventionClass;
 import com.github.zhuyizhuo.generator.mybatis.annotation.Value;
-import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
-import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
-import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,33 +16,18 @@ import java.util.Date;
 public class ClassCommentInfo {
     /** 文件创建时版本号 */
     @Value("#{generate.java.comment.since-version}")
-    private String sinceVersion = "";
+    private String sinceVersion;
     /** 当前版本号 */
     @Value("#{generate.java.comment.current-version}")
-    private String version = "1.0";
+    private String version;
     /** 作者 */
     @Value("#{generate.java.comment.author}")
-    private String author = "";
+    private String author;
     /** 默认生成时间 */
     private String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
     public ClassCommentInfo() {
 
-    }
-
-    public void init() {
-        String author = PropertiesUtils.getProperties(ConfigConstants.AUTHOR);
-        if (GeneratorStringUtils.isNotBlank(author)){
-            this.author = author;
-        }
-        String sinceVersion = PropertiesUtils.getProperties(ConfigConstants.SINCE_VERSION);
-        if (GeneratorStringUtils.isNotBlank(sinceVersion)){
-            this.sinceVersion = sinceVersion;
-        }
-        String version = PropertiesUtils.getProperties(ConfigConstants.VERSION);
-        if (GeneratorStringUtils.isNotBlank(version)){
-            this.version = version;
-        }
     }
 
     public String getVersion() {

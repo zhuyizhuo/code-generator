@@ -31,7 +31,7 @@ public class FileOutPathInfo {
 
     private FormatService formatService = (tableName) -> tableName.toLowerCase();
 
-    @Value("#{generate.java.base-out-put-path}")
+    @Value("#{generate.java.base.out-put-path}")
     private String baseOutputPath;
     /** java 基础路径 */
     private String baseJavaPath;
@@ -47,7 +47,7 @@ public class FileOutPathInfo {
     @Value("#{generate.xml.out-put-path}")
     private String xmlOutPutPath;
 
-    @Value("#{generate.java.base-package.enabled}")
+    @Value("#{generate.java.base.package.enabled}")
     private String basePackageEnabled;
 
     /** 实体类输出全路径 */
@@ -63,18 +63,9 @@ public class FileOutPathInfo {
 
     }
 
-    public String getBasePath(){
-        if (GeneratorStringUtils.isBlank(baseOutputPath)){
-            baseOutputPath = System.getProperty("user.dir");
-        }
-        baseOutputPath += "/";
-        return this.baseOutputPath;
-    }
-
     public void init(Map<String, JavaClassDefinition> javaClassDefinitionMap) {
-        String basePath = getBasePath();
-        this.baseJavaPath = basePath + "/src/main/java/";
-        this.baseResourcesPath = basePath;
+        this.baseJavaPath = baseOutputPath + "/src/main/java/";
+        this.baseResourcesPath = baseOutputPath;
 
         /*ModuleTypeEnums[] values = ModuleTypeEnums.values();
         for (int i = 0; i < values.length; i++) {
