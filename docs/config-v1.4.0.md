@@ -32,18 +32,14 @@ generate.java.base-package=com.github.generator
 generate.base.out-put-path=C:/Users/admin/Desktop
 
 # MAPPER 包名 如下配置 MAPPER 所在包路径为 {generate.base.out-put-path}.{generate.base.java.out-put-path}.mapper
-generate.java.mapper.package=mapper
+generate.java.module.mapper.package=mapper
 # MAPPER 名称 默认配置 驼峰命名 + Mapper {0}Mapper
-generate.java.mapper.name-format={0}Mapper
-# MAPPER 文件输出路径 如下配置 最终输出路径为 {generate.base.out-put-path}/mapper
-generate.java.mapper.path=/mapper
+generate.java.module.mapper.name-format={0}Mapper
 
 # POJO 包名 如下配置 POJO 所在包路径为 {generate.java.base-package}.pojo
-generate.java.pojo.package=pojo
+generate.java.module.pojo.package=pojo
 # 实体名称 默认配置 驼峰命名 {0}
-generate.java.pojo.name-format={0}
-# pojo文件输出路径 如下配置 最终输出路径为 {generate.base.out-put-path}/pojo
-generate.java.pojo.path=/pojo
+generate.java.module.pojo.name-format={0}
 
 ############## 注释 start ##############
 # 作者 不配置此项则默认不生成 @author 注释信息

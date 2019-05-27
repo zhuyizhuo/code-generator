@@ -14,6 +14,11 @@ public class TemplateGenerateInfo {
     private String fileOutputPath;
     private GenerateInfo generateInfo;
 
+    public TemplateGenerateInfo(String moduleType, String fileOutputPath) {
+        this.moduleType = moduleType;
+        this.fileOutputPath = fileOutputPath;
+    }
+
     public TemplateGenerateInfo(String moduleType, String fileOutputPath, GenerateInfo generateInfo) {
         this.moduleType = moduleType;
         this.fileOutputPath = fileOutputPath;

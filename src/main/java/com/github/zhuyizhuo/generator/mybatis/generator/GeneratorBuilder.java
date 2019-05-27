@@ -45,7 +45,7 @@ public class GeneratorBuilder {
     /***
      *  模块名格式化 Service MAP
      */
-    private Map<ModuleEnums, FormatService> moduleNameFormatServiceMap = new HashMap<>();
+    private Map<String, FormatService> moduleNameFormatServiceMap = new HashMap<>();
 
     public GeneratorBuilder() {
     }
@@ -55,6 +55,15 @@ public class GeneratorBuilder {
      * @since 1.4.0
      */
     public GeneratorBuilder addModuleNameFormat(ModuleEnums moduleType, FormatService formatService) {
+        this.addModuleNameFormat(moduleType.toString(),formatService);
+        return this;
+    }
+
+    /**
+     * 自定义指定模块生成名称 此方法可用来扩展自定义模块
+     * @since 1.4.0
+     */
+    public GeneratorBuilder addModuleNameFormat(String moduleType, FormatService formatService) {
         this.moduleNameFormatServiceMap.put(moduleType, formatService);
         return this;
     }
@@ -114,8 +123,8 @@ public class GeneratorBuilder {
         TypeConversion.init(typeMapper);
 
         FileOutPathInfo fileOutPathInfo = context.getBean("FileOutPathInfo");
-        fileOutPathInfo.init(moduleNameFormatServiceMap);
-
+        fileOutPathInfo.init();
+        fileOutPathInfo.setClassNameFormatServieMap(moduleNameFormatServiceMap);
         return new Generator(fileOutPathInfo, new MethodInfo(methodNameFormatServiceMap,commonMethodFormatService));
     }
 

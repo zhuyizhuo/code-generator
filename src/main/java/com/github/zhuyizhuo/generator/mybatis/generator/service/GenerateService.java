@@ -12,5 +12,7 @@ import com.github.zhuyizhuo.generator.mybatis.vo.GenerateMetaData;
  */
 public interface GenerateService {
 
+    void addTemplate(String moduleType,String path);
+
     void generate(GenerateMetaData generateMetaData);
 }

@@ -60,7 +60,6 @@ public class OracleDbServiceImpl extends AbstractDbService {
             tableInfo.setTableNameCamelCase(changeTableNameCamelCase(tableName));
             tableInfo.addPrimaryKeyColumn(getPrimaryKeys(mapper,dbTableInfo));
             tableInfos.add(tableInfo);
-            LogUtils.printInfo(tableName + "表共" + allColumnsByTable.getColumnLists().size() + "列");
         }
         return tableInfos;
     }

@@ -32,6 +32,11 @@ public class FreemarkerGenerateServiceImpl implements GenerateService {
         templatePathMap.put(ModuleEnums.POJO+"_true", "/freemarker/template/common/javabean.ftl");
     }
 
+    public void addTemplate(String moduleType, String path){
+        this.templatePathMap.put(moduleType+"_true", path);
+        this.templatePathMap.put(moduleType+"_false", path);
+    }
+
     /**
      * 获取模板路径
      * @param moduleType 模块类型

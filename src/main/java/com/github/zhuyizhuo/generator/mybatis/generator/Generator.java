@@ -5,6 +5,8 @@ import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.service.DbService;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
+import com.github.zhuyizhuo.generator.mybatis.enums.FileTypeEnums;
+import com.github.zhuyizhuo.generator.mybatis.generator.extension.FileInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.support.MethodInfo;
 import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
 import com.github.zhuyizhuo.generator.mybatis.factory.DbServiceFactory;
@@ -17,6 +19,8 @@ import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.TemplateGenerateInfo;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 
+import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -38,10 +42,20 @@ public class Generator {
     /** 代码生成器接口 */
     private GenerateService generateService = new FreemarkerGenerateServiceImpl();
 
+    /** 扩展 */
+    private List<FileInfo> templates = new ArrayList<>();
+
     public Generator(FileOutPathInfo fileOutPathInfo, MethodInfo methodInfo) {
         this.classCommentInfo = ContextHolder.getBean("classCommentInfo");
         this.fileOutPathInfo = fileOutPathInfo;
         this.methodInfo = methodInfo;
+    }
+
+    public void addTemplate(FileInfo fileInfo){
+        // 需要校验
+        this.templates.add(fileInfo);
+        this.generateService.addTemplate(fileInfo.getModuleType(), fileInfo.getInputPath());
+        this.fileOutPathInfo.addFile(fileInfo);
     }
 
     public void generate(){
@@ -80,15 +94,24 @@ public class Generator {
             // 循环多表数据
             for (int i = 0; i < dbTableInfoList.size(); i++) {
                 TableInfo tableInfo = dbTableInfoList.get(i);
-                Map<String,JavaClassDefinition> javaClassDefinitionMap = this.fileOutPathInfo.initFilesNameAndFormatPath(tableInfo.getTableName(), tableInfo.getTableNameCamelCase());
+                String tableName = tableInfo.getTableName();
+                Map<String,JavaClassDefinition> javaClassDefinitionMap =
+                        this.fileOutPathInfo.initFileNames(tableName, tableInfo.getTableNameCamelCase());
                 Map<String, MethodDescription> methodDescriptionMap = this.methodInfo.initMethodName(tableInfo);
                 // 初始化 方法名
                 generateInfo = new GenerateInfo(this.classCommentInfo,javaClassDefinitionMap, methodDescriptionMap, tableInfo);
                 generateInfo.initXmlInfo();
 
                 for (int j = 0; j < modules.length; j++) {
-                    infoHolder = new TemplateGenerateInfo(modules[j].toString(), fileOutPathInfo.getOutputFullPath(modules[j]), generateInfo);
-                    generateMetaData.addGenerateInfo(tableInfo.getTableName(),infoHolder);
+                    infoHolder = new TemplateGenerateInfo(modules[j].toString(),
+                            fileOutPathInfo.getOutputFullPathByFullPackage(modules[j], tableName), generateInfo);
+                    generateMetaData.addGenerateInfo(tableName,infoHolder);
+                }
+                for (int j = 0; j < templates.size(); j++) {
+                    FileInfo fileInfo = templates.get(j);
+                    String outputFullPathByFullPackage = fileOutPathInfo.getOutputFullPath(fileInfo);
+                    generateMetaData.addGenerateInfo(tableInfo.getTableName(),
+                            new TemplateGenerateInfo(fileInfo.getModuleType(),outputFullPathByFullPackage,generateInfo));
                 }
             }
             generateService.generate(generateMetaData);

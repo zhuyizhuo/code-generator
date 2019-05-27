@@ -5,12 +5,16 @@ import com.github.zhuyizhuo.generator.mybatis.annotation.Value;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.enums.FileTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
+import com.github.zhuyizhuo.generator.mybatis.generator.extension.FileInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.FormatService;
+import com.github.zhuyizhuo.generator.mybatis.generator.support.ModuleInfo;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -42,86 +46,165 @@ public class FileOutPathInfo {
     @Value("#{generate.java.base.package.enabled}")
     private String basePackageEnabled;
 
+    private String tableName;
+    private String tableNameCamelCase;
     /**
      *  类名格式化 Service Map
-     *  ModuleEnums -> 类名格式化 Service
+     *  ModuleType -> 类名格式化 Service
      */
-    private Map<ModuleEnums, FormatService> classNameFormatServieMap = new HashMap<>();
-    /***
-     *  moduleTpye ->  JavaClassDefinition
-     */
-    private Map<ModuleEnums,JavaClassDefinition> javaClassDefinition = new ConcurrentHashMap<>();
+    private Map<String, FormatService> classNameFormatServieMap = new HashMap<>();
     /**
-     *  输出路径 MAP
-     *  moduleTpye -> 输出全路径
+     * moduleTpye ->  ModuleInfo
      */
-    private Map<ModuleEnums,String> outPutPathMap = new ConcurrentHashMap<>();
-    /***
-     *  输出路径格式 Map
-     *  moduleTpye -> 输出路径格式模板
+    private Map<String, ModuleInfo> moduleInfoMap = new ConcurrentHashMap<>();
+    /**
+     *  表模块路径 map
+     *  tablename_moduleType -> fileName
      */
-    private Map<ModuleEnums,String> outPutPathTemplateMap = new ConcurrentHashMap<>();
+    private Map<String,String> tableFileNamaMap = new ConcurrentHashMap<>();
 
-
-    public void init(Map<ModuleEnums, FormatService> classNameFormatServieMap) {
+    public void init() {
         ModuleEnums[] values = ModuleEnums.values();
-        String outPutFullPath = "";
+        String outPutFullPathFormat = "";
+        ModuleInfo info;
         for (int i = 0; i < values.length; i++) {
-            String fileFullPackage = PropertiesUtils.getConfig(values[i].getFilePackageKey());
+            String filePackage = PropertiesUtils.getConfig(values[i].getFilePackageKey());
+            info = new ModuleInfo();
             if (FileTypeEnums.JAVA.equals(values[i].getTypeEnums())){
-                if (GeneratorStringUtils.isNotBlank(basePackage)) {
-                    fileFullPackage = basePackage + "." + fileFullPackage;
-                }
-                this.javaClassDefinition.put(values[i], new JavaClassDefinition(fileFullPackage));
-
-                if ("TRUE".equalsIgnoreCase(basePackageEnabled)) {
-                    outPutFullPath = baseOutputPath + baseJavaOutputPath + "/" + fileFullPackage.replaceAll("\\.", "/");
-                } else {
-                    int index = fileFullPackage.lastIndexOf(".");
-                    if(index != -1){
-                        fileFullPackage = fileFullPackage.substring(index + 1);
-                    }
-                    outPutFullPath = baseOutputPath + "/" + fileFullPackage;
-                }
-                outPutFullPath += "/{0}.java";
+                String fileFullPackage = getFullPackageByPackage(filePackage);
+                info.setFileFullPackage(fileFullPackage);
+                outPutFullPathFormat = getOutputFullPathByFullPackage(fileFullPackage) + "{0}.java";
             } else {
-                if ("TRUE".equalsIgnoreCase(basePackageEnabled)) {
-                    outPutFullPath = baseOutputPath + baseResourcesOutputPath + this.xmlOutPutPath;
-                } else {
-                    outPutFullPath = baseOutputPath + this.xmlOutPutPath;
-                }
-                outPutFullPath += "/{0}.xml";
+                outPutFullPathFormat = getResourcesOutputFullPath(this.xmlOutPutPath) + "{0}.xml";
             }
-            this.outPutPathTemplateMap.put(values[i], outPutFullPath);
+            info.setOutPutFullPathFormat(outPutFullPathFormat);
+            info.setModuleName(values[i].toString());
+            addModuleInfo(values[i], info);
         }
+    }
 
+    private void addModuleInfo(ModuleEnums value, ModuleInfo info) {
+        this.moduleInfoMap.put(value.toString(), info);
+    }
+
+    private ModuleInfo getModuleInfo(ModuleEnums value) {
+        return this.moduleInfoMap.get(value.toString());
+    }
+
+    private String getFullPackageByPackage(String fileFullPackage) {
+        if (GeneratorStringUtils.isNotBlank(basePackage)) {
+            fileFullPackage = basePackage + "." + fileFullPackage;
+        }
+        return fileFullPackage;
+    }
+
+    public void setClassNameFormatServieMap(Map<String, FormatService> classNameFormatServieMap) {
         if (classNameFormatServieMap != null) {
             this.classNameFormatServieMap = classNameFormatServieMap;
         }
     }
 
-    public Map<String,JavaClassDefinition> initFilesNameAndFormatPath(String tableName, String tableNameCamelCase) {
+    /**
+     * 根据路径获取资源文件输出全路径
+     * @return 资源文件输出全路径
+     */
+    public String getResourcesOutputFullPath(String resourcesOutPutPath) {
+        String outPutFullPath;
+        if ("TRUE".equalsIgnoreCase(basePackageEnabled)) {
+            outPutFullPath = baseOutputPath + baseResourcesOutputPath + resourcesOutPutPath;
+        } else {
+            outPutFullPath = baseOutputPath + resourcesOutPutPath;
+        }
+        return outPutFullPath + "/";
+    }
+
+    /***
+     *  根据文件包名获取文件输出全路径
+     * @param fileFullPackage
+     * @return java 文件输出全路径
+     */
+    public String getOutputFullPathByFullPackage(String fileFullPackage) {
+        String outPutFullPath;
+        if ("TRUE".equalsIgnoreCase(basePackageEnabled)) {
+            outPutFullPath = baseOutputPath + baseJavaOutputPath + "/" + fileFullPackage.replaceAll("\\.", "/");
+        } else {
+            int index = fileFullPackage.lastIndexOf(".");
+            if(index != -1){
+                fileFullPackage = fileFullPackage.substring(index + 1);
+            }
+            outPutFullPath = baseOutputPath + "/" + fileFullPackage;
+        }
+        return outPutFullPath + "/";
+    }
+
+    /**
+     *  返回 java 类定义
+     * @param tableName 表名
+     * @param tableNameCamelCase 表名转驼峰
+     * @return map: moduleType -> java 类定义
+     */
+    public Map<String,JavaClassDefinition> initFileNames(String tableName, String tableNameCamelCase) {
+        this.tableName = tableName;
+        this.tableNameCamelCase = tableNameCamelCase;
         ModuleEnums[] values = ModuleEnums.values();
         String fileName = "";
+        /**
+         *  moduleType -> java 类定义 Map
+         */
         Map<String,JavaClassDefinition> javaClassDefinitionResp = new ConcurrentHashMap<>();
         for (int i = 0; i < values.length; i++) {
-            if (getFormatService(values[i]) != null){
-                fileName = getFormatService(values[i]).format(tableName);
-            } else {
-                fileName = fileNameFormat(values[i], tableNameCamelCase);
-            }
+            fileName = getFileName(values[i], tableName);
+
             if (FileTypeEnums.JAVA.equals(values[i].getTypeEnums())){
-                outPutPathMap.put(values[i], MessageFormat.format(outPutPathTemplateMap.get(values[i]),fileName ));
-                JavaClassDefinition javaClassDefinition = this.javaClassDefinition.get(values[i]);
-                if (javaClassDefinition != null){
-                    javaClassDefinition.setClassName(fileName);
-                }
-                javaClassDefinitionResp.put(values[i].toString(),new JavaClassDefinition(javaClassDefinition.getFullPackage(),fileName));
-            } else {
-                outPutPathMap.put(values[i], MessageFormat.format(outPutPathTemplateMap.get(values[i]), tableName.toLowerCase()));
+                String fileFullPackage = getModuleInfo(values[i]).getFileFullPackage();
+                javaClassDefinitionResp.put(values[i].toString(),
+                        new JavaClassDefinition(fileFullPackage,fileName));
+            }
+        }
+        // 扩展
+        for (int i = 0; i < templates.size(); i++) {
+            FileInfo fileInfo = templates.get(i);
+            if (FileTypeEnums.JAVA.equals(fileInfo.getFileType())){
+                fileName = getFileName(fileInfo.getModuleType(), fileInfo.getFileType(), fileInfo.getFileNameFormat());
+
+                String modulePackage = fileInfo.getModulePackage();
+                String fullPackageByPackage = getFullPackageByPackage(modulePackage);
+                javaClassDefinitionResp.put(fileInfo.getModuleType(),
+                        new JavaClassDefinition(fullPackageByPackage, fileName));
             }
         }
         return javaClassDefinitionResp;
+    }
+
+    private String getFileName(ModuleEnums moduleType, String tableName) {
+        String key = tableName + "_" + moduleType;
+        String fileName = this.tableFileNamaMap.get(key);
+        if (GeneratorStringUtils.isNotBlank(fileName)){
+            return fileName;
+        }
+        if (getFormatService(moduleType) != null){
+            fileName = getFormatService(moduleType).format(tableName);
+        } else {
+            String formatConfig = PropertiesUtils.getConfig(moduleType.getFileNameFormatKey());
+            fileName = fileNameFormat(moduleType.getTypeEnums(), formatConfig);
+        }
+        this.tableFileNamaMap.put(key, fileName);
+        return fileName;
+    }
+
+    private String getFileName(String moduleType, FileTypeEnums typeEnums, String fileNameFormat) {
+        String key = tableName + "_" + moduleType;
+        String fileName = this.tableFileNamaMap.get(key);
+        if (GeneratorStringUtils.isNotBlank(fileName)){
+            return fileName;
+        }
+        if (getFormatService(moduleType) != null){
+            fileName = getFormatService(moduleType).format(tableName);
+        } else {
+            fileName = fileNameFormat(typeEnums, fileNameFormat);
+        }
+        this.tableFileNamaMap.put(key, fileName);
+        return fileName;
     }
 
     /**
@@ -129,8 +212,9 @@ public class FileOutPathInfo {
      * @param moduleType 模块类型
      * @return 输出文件全路径
      */
-    public String getOutputFullPath(ModuleEnums moduleType) {
-        return this.outPutPathMap.get(moduleType);
+    public String getOutputFullPathByFullPackage(ModuleEnums moduleType, String tableName) {
+        return MessageFormat.format(getModuleInfo(moduleType).getOutPutFullPathFormat(),
+                getFileName(moduleType, tableName));
     }
 
     public void setBasePackage(String basePackage) {
@@ -144,13 +228,31 @@ public class FileOutPathInfo {
     /**
      *  格式化类名
      */
-    private String fileNameFormat(ModuleEnums moduleType, String javaTableName) {
-        String properties = PropertiesUtils.getConfig(moduleType.getFileNameFormatKey());
-        return MessageFormat.format(properties, javaTableName);
+    private String fileNameFormat(FileTypeEnums typeEnums,String formatConfig) {
+        if (FileTypeEnums.JAVA.equals(typeEnums)){
+            return MessageFormat.format(formatConfig, tableNameCamelCase);
+        } else {
+            return MessageFormat.format(formatConfig, tableName.toLowerCase());
+        }
     }
 
-    private FormatService getFormatService(ModuleEnums moduleType) {
+    private FormatService getFormatService(String moduleType) {
         return classNameFormatServieMap.get(moduleType);
     }
 
+    private FormatService getFormatService(ModuleEnums moduleType) {
+        return classNameFormatServieMap.get(moduleType.toString());
+    }
+
+    public String getOutputFullPath(FileInfo fileInfo) {
+        String outputFullPathByFullPackage = getOutputFullPathByFullPackage(getFullPackageByPackage(fileInfo.getModulePackage()));
+        String fileName = getFileName(fileInfo.getModuleType(), fileInfo.getFileType(), fileInfo.getFileNameFormat()) + fileInfo.getSuffix();
+        return outputFullPathByFullPackage + fileName;
+    }
+
+    public void addFile(FileInfo fileInfo) {
+        this.templates.add(fileInfo);
+    }
+    /** 扩展 */
+    private List<FileInfo> templates = new ArrayList<>();
 }
