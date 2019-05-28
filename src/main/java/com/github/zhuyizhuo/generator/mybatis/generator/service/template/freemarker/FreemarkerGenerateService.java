@@ -1,7 +1,8 @@
-package com.github.zhuyizhuo.generator.mybatis.generator.service.impl;
+package com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker;
 
+import com.github.zhuyizhuo.generator.mybatis.enums.DbTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
-import com.github.zhuyizhuo.generator.mybatis.generator.service.GenerateService;
+import com.github.zhuyizhuo.generator.mybatis.generator.service.template.TemplateGenerateService;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateMetaData;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
@@ -16,25 +17,25 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * freemarker 模板生成
  */
-public class FreemarkerGenerateServiceImpl implements GenerateService {
+public abstract class FreemarkerGenerateService implements TemplateGenerateService {
     /**
-     *
-     *  moduleTpye_hasPrivateKey -> templatePath
+     *  dbType_moduleTpye_hasPrivateKey -> templatePath
      */
     private Map<String,String> templatePathMap = new ConcurrentHashMap<>();
 
-    public FreemarkerGenerateServiceImpl() {
-        templatePathMap.put(ModuleEnums.XML+"_true", "/freemarker/template/common/privateKey_mybatis_template.ftl");
-        templatePathMap.put(ModuleEnums.XML+"_false", "/freemarker/template/common/nokey_mybatis_template.ftl");
-        templatePathMap.put(ModuleEnums.MAPPER+"_true", "/freemarker/template/common/privateKey_Dao_Template.ftl");
-        templatePathMap.put(ModuleEnums.MAPPER+"_false", "/freemarker/template/common/noKey_Dao_Template.ftl");
-        templatePathMap.put(ModuleEnums.POJO+"_false", "/freemarker/template/common/javabean.ftl");
-        templatePathMap.put(ModuleEnums.POJO+"_true", "/freemarker/template/common/javabean.ftl");
+    protected void addTemplatePath(ModuleEnums moduleType, Boolean hasPrivateKey, String templatePath){
+        if (hasPrivateKey == null){
+            this.templatePathMap.put(getDbType() + "_" + moduleType + "_true", templatePath);
+            this.templatePathMap.put(getDbType() + "_" + moduleType + "_false", templatePath);
+        } else {
+            this.templatePathMap.put(getDbType() + "_" + moduleType+ "_" + hasPrivateKey,templatePath);
+        }
     }
 
-    public void addTemplate(String moduleType, String path){
-        this.templatePathMap.put(moduleType+"_true", path);
-        this.templatePathMap.put(moduleType+"_false", path);
+    @Override
+    public void addTemplate(String moduleType, String templatePath) {
+        this.templatePathMap.put(getDbType() + "_" + moduleType + "_true", templatePath);
+        this.templatePathMap.put(getDbType() + "_" + moduleType + "_false", templatePath);
     }
 
     /**
@@ -43,8 +44,8 @@ public class FreemarkerGenerateServiceImpl implements GenerateService {
      * @param hasPrivateKey 是否有主键
      * @return 模板路径
      */
-    public String getTemplatePath(String moduleType, boolean hasPrivateKey) {
-        return this.templatePathMap.get(moduleType+"_"+hasPrivateKey);
+    protected String getTemplatePath(String moduleType, boolean hasPrivateKey) {
+        return this.templatePathMap.get(getDbType() + "_" + moduleType+"_"+hasPrivateKey);
     }
 
     @Override
@@ -69,9 +70,11 @@ public class FreemarkerGenerateServiceImpl implements GenerateService {
             }
 
         }catch (Exception e){
-            LogUtils.printErrInfo("FreemarkerGenerateServiceImpl.generate error!");
+            LogUtils.printErrInfo("FreemarkerGenerateService.generate error!");
             LogUtils.printException(e);
         }
     }
+
+    protected abstract DbTypeEnums getDbType();
 
 }

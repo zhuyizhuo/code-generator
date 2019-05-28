@@ -5,21 +5,20 @@ import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.service.DbService;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
-import com.github.zhuyizhuo.generator.mybatis.enums.FileTypeEnums;
-import com.github.zhuyizhuo.generator.mybatis.generator.extension.FileInfo;
-import com.github.zhuyizhuo.generator.mybatis.generator.support.MethodInfo;
 import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
 import com.github.zhuyizhuo.generator.mybatis.factory.DbServiceFactory;
-import com.github.zhuyizhuo.generator.mybatis.generator.support.ContextHolder;
+import com.github.zhuyizhuo.generator.mybatis.generator.extension.JavaModuleInfo;
+import com.github.zhuyizhuo.generator.mybatis.generator.factory.GenerateServiceFactory;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.GenerateService;
-import com.github.zhuyizhuo.generator.mybatis.generator.service.impl.FreemarkerGenerateServiceImpl;
+import com.github.zhuyizhuo.generator.mybatis.generator.service.template.TemplateGenerateService;
+import com.github.zhuyizhuo.generator.mybatis.generator.support.ContextHolder;
+import com.github.zhuyizhuo.generator.mybatis.generator.support.MethodInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateMetaData;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.TemplateGenerateInfo;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -40,22 +39,26 @@ public class Generator {
     /** 方法信息 */
     private MethodInfo methodInfo;
     /** 代码生成器接口 */
-    private GenerateService generateService = new FreemarkerGenerateServiceImpl();
+    private GenerateService generateService;
 
     /** 扩展 */
-    private List<FileInfo> templates = new ArrayList<>();
+    private List<JavaModuleInfo> javaTemplates = new ArrayList<>();
 
     public Generator(FileOutPathInfo fileOutPathInfo, MethodInfo methodInfo) {
         this.classCommentInfo = ContextHolder.getBean("classCommentInfo");
         this.fileOutPathInfo = fileOutPathInfo;
         this.methodInfo = methodInfo;
+        this.generateService = GenerateServiceFactory.getGenerateService();
     }
 
-    public void addTemplate(FileInfo fileInfo){
+    public void addJavaTemplate(JavaModuleInfo fileInfo){
         // 需要校验
-        this.templates.add(fileInfo);
-        this.generateService.addTemplate(fileInfo.getModuleType(), fileInfo.getInputPath());
-        this.fileOutPathInfo.addFile(fileInfo);
+        this.javaTemplates.add(fileInfo);
+        if (generateService instanceof TemplateGenerateService) {
+            TemplateGenerateService service = (TemplateGenerateService) this.generateService;
+            service.addTemplate(fileInfo.getModuleType(), fileInfo.getTemplatePath());
+        }
+        this.fileOutPathInfo.addJavaTemplate(fileInfo);
     }
 
     public void generate(){
@@ -107,9 +110,9 @@ public class Generator {
                             fileOutPathInfo.getOutputFullPathByFullPackage(modules[j], tableName), generateInfo);
                     generateMetaData.addGenerateInfo(tableName,infoHolder);
                 }
-                for (int j = 0; j < templates.size(); j++) {
-                    FileInfo fileInfo = templates.get(j);
-                    String outputFullPathByFullPackage = fileOutPathInfo.getOutputFullPath(fileInfo);
+                for (int j = 0; j < javaTemplates.size(); j++) {
+                    JavaModuleInfo fileInfo = javaTemplates.get(j);
+                    String outputFullPathByFullPackage = fileOutPathInfo.getJavaOutputFullPath(fileInfo);
                     generateMetaData.addGenerateInfo(tableInfo.getTableName(),
                             new TemplateGenerateInfo(fileInfo.getModuleType(),outputFullPathByFullPackage,generateInfo));
                 }

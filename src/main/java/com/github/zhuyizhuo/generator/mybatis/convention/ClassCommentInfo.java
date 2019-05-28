@@ -18,6 +18,8 @@ public class ClassCommentInfo {
     /** 文件创建时版本号 */
     @Value("#{generate.java.comment.since-version}")
     private String sinceVersion;
+    @Value("#{generate.table.default.comment}")
+    public static String tableComment;
     /** 当前版本号 */
     @Value("#{generate.java.comment.current-version}")
     private String version;
@@ -57,5 +59,13 @@ public class ClassCommentInfo {
 
     public void setSinceVersion(String sinceVersion) {
         this.sinceVersion = sinceVersion;
+    }
+
+    public String getTableComment() {
+        return tableComment;
+    }
+
+    public void setTableComment(String tableComment) {
+        this.tableComment = tableComment;
     }
 }

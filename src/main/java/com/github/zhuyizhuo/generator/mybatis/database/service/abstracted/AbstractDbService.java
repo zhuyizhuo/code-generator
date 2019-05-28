@@ -1,6 +1,7 @@
 package com.github.zhuyizhuo.generator.mybatis.database.service.abstracted;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
+import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.pojo.DataBaseInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
@@ -47,12 +48,17 @@ public abstract class AbstractDbService implements DbService {
         return null;
     }
 
+    /**
+     * 将表信息处理成 java 信息
+     * @param dbTableInfo
+     * @param tableInfo
+     */
     protected void setTableInfo(DbTableInfo dbTableInfo, TableInfo tableInfo) {
 
         tableInfo.setTableName(dbTableInfo.getTableName());
         tableInfo.setTableSchema(dbTableInfo.getTableSchema());
-        if (GeneratorStringUtils.isBlank(tableInfo.getTableComment())){
-            tableInfo.setTableComment("TODO");
+        if (GeneratorStringUtils.isBlank(dbTableInfo.getTableComment())){
+            tableInfo.setTableComment(ClassCommentInfo.tableComment);
         } else {
             tableInfo.setTableComment(dbTableInfo.getTableComment());
         }

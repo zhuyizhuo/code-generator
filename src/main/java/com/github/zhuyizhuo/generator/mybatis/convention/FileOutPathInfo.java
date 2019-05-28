@@ -5,7 +5,7 @@ import com.github.zhuyizhuo.generator.mybatis.annotation.Value;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.enums.FileTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
-import com.github.zhuyizhuo.generator.mybatis.generator.extension.FileInfo;
+import com.github.zhuyizhuo.generator.mybatis.generator.extension.JavaModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.FormatService;
 import com.github.zhuyizhuo.generator.mybatis.generator.support.ModuleInfo;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
@@ -162,16 +162,14 @@ public class FileOutPathInfo {
             }
         }
         // 扩展
-        for (int i = 0; i < templates.size(); i++) {
-            FileInfo fileInfo = templates.get(i);
-            if (FileTypeEnums.JAVA.equals(fileInfo.getFileType())){
-                fileName = getFileName(fileInfo.getModuleType(), fileInfo.getFileType(), fileInfo.getFileNameFormat());
+        for (int i = 0; i < javaTemplates.size(); i++) {
+            JavaModuleInfo fileInfo = javaTemplates.get(i);
+            fileName = getFileName(fileInfo.getModuleType(), FileTypeEnums.JAVA, fileInfo.getClassNameFormat());
 
-                String modulePackage = fileInfo.getModulePackage();
-                String fullPackageByPackage = getFullPackageByPackage(modulePackage);
-                javaClassDefinitionResp.put(fileInfo.getModuleType(),
-                        new JavaClassDefinition(fullPackageByPackage, fileName));
-            }
+            String modulePackage = fileInfo.getClassPackage();
+            String fullPackageByPackage = getFullPackageByPackage(modulePackage);
+            javaClassDefinitionResp.put(fileInfo.getModuleType(),
+                    new JavaClassDefinition(fullPackageByPackage, fileName));
         }
         return javaClassDefinitionResp;
     }
@@ -244,15 +242,15 @@ public class FileOutPathInfo {
         return classNameFormatServieMap.get(moduleType.toString());
     }
 
-    public String getOutputFullPath(FileInfo fileInfo) {
-        String outputFullPathByFullPackage = getOutputFullPathByFullPackage(getFullPackageByPackage(fileInfo.getModulePackage()));
-        String fileName = getFileName(fileInfo.getModuleType(), fileInfo.getFileType(), fileInfo.getFileNameFormat()) + fileInfo.getSuffix();
+    public String getJavaOutputFullPath(JavaModuleInfo fileInfo) {
+        String outputFullPathByFullPackage = getOutputFullPathByFullPackage(getFullPackageByPackage(fileInfo.getClassPackage()));
+        String fileName = getFileName(fileInfo.getModuleType(), FileTypeEnums.JAVA, fileInfo.getClassNameFormat()) + ".java";
         return outputFullPathByFullPackage + fileName;
     }
 
-    public void addFile(FileInfo fileInfo) {
-        this.templates.add(fileInfo);
+    public void addJavaTemplate(JavaModuleInfo fileInfo) {
+        this.javaTemplates.add(fileInfo);
     }
     /** 扩展 */
-    private List<FileInfo> templates = new ArrayList<>();
+    private List<JavaModuleInfo> javaTemplates = new ArrayList<>();
 }
