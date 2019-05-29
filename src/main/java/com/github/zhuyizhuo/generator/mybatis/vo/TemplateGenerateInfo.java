@@ -9,9 +9,11 @@ package com.github.zhuyizhuo.generator.mybatis.vo;
  * @since 1.4.0
  */
 public class TemplateGenerateInfo {
-
+    /** 模块类型 */
     private String moduleType;
+    /** 生成文件输出路径 */
     private String fileOutputPath;
+    /** 生成文件所需信息 */
     private GenerateInfo generateInfo;
 
     public TemplateGenerateInfo(String moduleType, String fileOutputPath) {

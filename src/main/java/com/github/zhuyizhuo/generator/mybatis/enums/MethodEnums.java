@@ -2,6 +2,8 @@ package com.github.zhuyizhuo.generator.mybatis.enums;
 
 /**
  * 方法枚举
+ *
+ * @author yizhuo <br>
  * @since 1.4.0
  * @version 1.4.0
  */

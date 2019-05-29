@@ -9,11 +9,11 @@ import java.text.MessageFormat;
 
 /**
  * class: ModuleInfo <br>
- * description: TODO <br>
+ * description: 模块信息 <br>
  * time: 2019/5/27
  *
  * @author yizhuo <br>
- * @since #since#
+ * @since 1.4.0
  */
 public class ModuleInfo {
     /** 模块类型 */

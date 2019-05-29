@@ -16,7 +16,7 @@ public interface DbService {
 
     /**
      *  查询数据库表信息及列信息
-     * @return
+     * @return 数据库表信息 list
      */
     List<TableInfo> getTableColumns();
 

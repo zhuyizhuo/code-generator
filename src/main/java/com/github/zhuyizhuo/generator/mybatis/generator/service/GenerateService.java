@@ -12,5 +12,9 @@ import com.github.zhuyizhuo.generator.mybatis.vo.GenerateMetaData;
  */
 public interface GenerateService {
 
+    /**
+     * 文件生成
+     * @param generateMetaData 生成所需元数据
+     */
     void generate(GenerateMetaData generateMetaData);
 }

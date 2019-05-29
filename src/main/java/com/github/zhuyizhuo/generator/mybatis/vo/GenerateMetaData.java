@@ -5,6 +5,9 @@ import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ *  生成文件所需元信息
+ */
 public class GenerateMetaData {
     /***
      *  表名 -> 该表需生成的所有模块集合

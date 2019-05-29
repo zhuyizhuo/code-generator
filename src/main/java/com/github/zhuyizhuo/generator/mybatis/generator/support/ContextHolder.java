@@ -31,9 +31,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Resource("generate-config.properties")
 public class ContextHolder {
-
+    /** 系统默认配置信息 */
     private static Properties contextConfig = new Properties();
-
+    /** 生成器配置对象 map */
     private static Map<String, Object> beanMap = new ConcurrentHashMap<String, Object>();
 
     private List<String> classNames = new ArrayList<String>();
