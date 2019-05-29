@@ -16,10 +16,16 @@ public class PropertiesUtils {
 
     public static final Properties proInfo = new Properties();
 
-    public static void loadProperties(BufferedReader resourceAsStream) throws IOException,IllegalArgumentException {
-        proInfo.load(resourceAsStream);
-        CheckUtils.checkDBType();
-        CheckUtils.checkNeedConfig();
+    public static void loadProperties(BufferedReader resourceAsStream) {
+        try {
+            proInfo.load(resourceAsStream);
+            CheckUtils.checkDBType();
+            CheckUtils.checkNeedConfig();
+        } catch (IllegalArgumentException ie){
+            LogUtils.printErrInfo(ie.getMessage());
+        } catch (Exception e) {
+            LogUtils.printException("加载配置文件失败!",e);
+        }
     }
 
     public static String getProperties(String key){

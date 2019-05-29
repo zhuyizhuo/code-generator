@@ -1,5 +1,8 @@
 package com.github.zhuyizhuo.generator.mybatis.generator.extension;
 
+import com.github.zhuyizhuo.generator.mybatis.annotation.NotNull;
+import com.github.zhuyizhuo.generator.utils.CheckUtils;
+
 /**
  * class: JavaModuleInfo <br>
  * description: 扩展 java 模块信息 <br>
@@ -17,10 +20,20 @@ public class JavaModuleInfo {
     private String classPackage;
     /** 输出路径 */
     private String outputPath;
-    /** 文件名格式化 service 例如 {0}Mapper */
+    /**
+     *  文件名格式化 例如 {0}Mapper  适用于批量及单表生成
+     *  或直接指定文件名 例如 UserMapper 仅适用于单表生成
+     */
     private String classNameFormat;
 
-    public JavaModuleInfo(String moduleType, String templatePath, String classPackage, String outputPath, String classNameFormat) {
+    public JavaModuleInfo(@NotNull String moduleType, @NotNull String templatePath,
+                          @NotNull String classPackage, @NotNull String outputPath, @NotNull String classNameFormat) {
+        CheckUtils.AssertNotNull(moduleType,"moduleType must not null!");
+        CheckUtils.AssertNotNull(templatePath,"templatePath must not null!");
+        CheckUtils.AssertNotNull(classPackage,"classPackage must not null!");
+        CheckUtils.AssertNotNull(outputPath,"outputPath must not null!");
+        CheckUtils.AssertNotNull(classNameFormat,"classNameFormat must not null!");
+
         this.moduleType = moduleType;
         this.templatePath = templatePath;
         this.classPackage = classPackage;

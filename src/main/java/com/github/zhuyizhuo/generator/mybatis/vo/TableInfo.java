@@ -92,6 +92,9 @@ public class TableInfo {
     }
 
     public void addImportPackage(String importPackage) {
+        if (importPackage == null){
+            return;
+        }
         this.importPackages.add(importPackage);
     }
 

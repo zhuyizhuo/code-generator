@@ -1,23 +1,31 @@
 package com.github.zhuyizhuo.generator.mybatis.generator;
 
+import com.github.zhuyizhuo.generator.mybatis.annotation.NotNull;
 import com.github.zhuyizhuo.generator.mybatis.annotation.Nullable;
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
-import com.github.zhuyizhuo.generator.mybatis.generator.support.MethodInfo;
+import com.github.zhuyizhuo.generator.mybatis.database.service.abstracted.AbstractDbService;
 import com.github.zhuyizhuo.generator.mybatis.enums.MethodEnums;
 import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
+import com.github.zhuyizhuo.generator.mybatis.generator.extension.CustomizeModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.FormatService;
+import com.github.zhuyizhuo.generator.mybatis.generator.extension.JavaModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.support.ContextHolder;
-import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
+import com.github.zhuyizhuo.generator.mybatis.generator.support.MethodInfo;
+import com.github.zhuyizhuo.generator.utils.CheckUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import com.github.zhuyizhuo.generator.utils.TypeConversion;
+import com.google.common.base.Charsets;
+import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.type.JdbcType;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -33,11 +41,11 @@ public class GeneratorBuilder {
      * key 数据库字段类型
      * value java 数据类型
      */
-    private final Map<String, Class<?>> typeMapper = new HashMap<String, Class<?>>();
+    private Map<String, Class<?>> typeMapper;
     /**
-     * 方法名格式化 service map
+     * 指定方法名格式化 service map , 优先级高于 格式化全部方法
      */
-    private Map<MethodEnums,FormatService> methodNameFormatServiceMap = new ConcurrentHashMap<>();
+    private Map<MethodEnums,FormatService> methodNameFormatServiceMap;
     /**
      * 格式化全部方法 service 优先级低于指定方法格式化 service
      */
@@ -45,7 +53,11 @@ public class GeneratorBuilder {
     /***
      *  模块名格式化 Service MAP
      */
-    private Map<String, FormatService> moduleNameFormatServiceMap = new HashMap<>();
+    private Map<String, FormatService> moduleNameFormatServiceMap;
+    /** 扩展 自定义模板 */
+    private List<JavaModuleInfo> javaTemplates;
+    /** 扩展 自定义模板 */
+    private List<CustomizeModuleInfo> customizeModuleInfos;
 
     public GeneratorBuilder() {
     }
@@ -54,8 +66,9 @@ public class GeneratorBuilder {
      * 自定义指定模块生成名称
      * @since 1.4.0
      */
-    public GeneratorBuilder addModuleNameFormat(ModuleEnums moduleType, FormatService formatService) {
-        this.addModuleNameFormat(moduleType.toString(),formatService);
+    public GeneratorBuilder addModuleNameFormat(@NotNull ModuleEnums moduleType, @NotNull FormatService moduleNameFormatService) {
+        CheckUtils.AssertNotNull(moduleType,"addModuleNameFormat 参数 moduleType 不能为空!");
+        this.addModuleNameFormat(moduleType.toString(), moduleNameFormatService);
         return this;
     }
 
@@ -63,69 +76,146 @@ public class GeneratorBuilder {
      * 自定义指定模块生成名称 此方法可用来扩展自定义模块
      * @since 1.4.0
      */
-    public GeneratorBuilder addModuleNameFormat(String moduleType, FormatService formatService) {
-        this.moduleNameFormatServiceMap.put(moduleType, formatService);
+    public GeneratorBuilder addModuleNameFormat(@NotNull String moduleType, @NotNull FormatService moduleNameFormatService) {
+        CheckUtils.AssertNotNull(moduleType,"addModuleNameFormat 参数 moduleType 不能为空!");
+        CheckUtils.AssertNotNull(moduleNameFormatService,"addModuleNameFormat 参数 moduleNameFormatService 不能为空!");
+        if (this.moduleNameFormatServiceMap == null){
+            this.moduleNameFormatServiceMap = new HashMap<>();
+        }
+        this.moduleNameFormatServiceMap.put(moduleType, moduleNameFormatService);
         return this;
     }
 
     /**
      * 自定义方法生成名称
-     * @param methodType 方法类型
-     * @param formatService 格式化service
+     * @param methodType 方法类型 不指定此参数 则自定义全局方法生成格式化
+     * @param methodNameFormatService 格式化service
      * @since 1.4.0
      */
-    public GeneratorBuilder addMethodFormat(@Nullable MethodEnums methodType, FormatService formatService) {
+    public GeneratorBuilder addMethodNameFormat(@Nullable MethodEnums methodType,@NotNull FormatService methodNameFormatService) {
+        CheckUtils.AssertNotNull(methodNameFormatService,"addMethodNameFormat 参数 methodNameFormatService 不能为空!");
         if (methodType == null) {
-            this.commonMethodFormatService = formatService;
+            LogUtils.printInfo("未指定 methodType ,将指定全局方法格式化 Service !");
+            this.commonMethodFormatService = methodNameFormatService;
         } else {
-            this.methodNameFormatServiceMap.put(methodType, formatService);
+            if (this.methodNameFormatServiceMap == null){
+                this.methodNameFormatServiceMap = new ConcurrentHashMap<>();
+            }
+            this.methodNameFormatServiceMap.put(methodType, methodNameFormatService);
         }
         return this;
     }
 
     /**
-     * 自定义数据库与java类型映射
-     * 例如数据库类型为NUMBER 生成器默认映射为Integer 可自定义映射 将生成类型指定为String
-     * use like this :
-     * new GeneratorBuilder().addTypeMapper("NUMBER",JdbcType.VARCHAR,String.class);
+     * 自定义数据库与 java 实体类型映射
+     *
+     * 生成器仅收录了常用类型的转换 如果生成时发现数据库类型未转换成对应 java 数据类型
+     * 或者转换的 java 数据类型不是自己想要的类型 可使用此方法新增或修改类型转换
+     *
+     * 例如数据库类型为 NUMBER 生成器默认映射为 Integer
+     * 如果想映射为 String ,设置如下：
+     * new GeneratorBuilder().fieldType2JavaType("NUMBER",String.class);
      *
      * @param dataBaseType  数据类型
-     * @param jdbcType      mybatis 配置文件中类型 如 #{id,jdbcType=VARCHAR}
      * @param javaTypeClass java 类
      */
-    public GeneratorBuilder addTypeMapper(String dataBaseType, @Nullable JdbcType jdbcType, @Nullable Class<?> javaTypeClass) {
-        if (GeneratorStringUtils.isNotBlank(dataBaseType) && javaTypeClass != null) {
-            this.typeMapper.put(dataBaseType, javaTypeClass);
+    public GeneratorBuilder fieldType2JavaType(@NotNull String dataBaseType, @NotNull Class<?> javaTypeClass) {
+        CheckUtils.AssertNotNull(dataBaseType,"fieldType2JavaType 请指定 dataBaseType, 即数据库字段类型.");
+        CheckUtils.AssertNotNull(javaTypeClass,"fieldType2JavaType 请指定 javaTypeClass, 即 JAVA 字段类型.");
+
+        if (this.typeMapper == null){
+            this.typeMapper = new HashMap<String, Class<?>>();
         }
-        if (GeneratorStringUtils.isNotBlank(dataBaseType) && jdbcType != null) {
-            TypeConversion.addType2JdbcType(dataBaseType, jdbcType.toString());
-        }
+        this.typeMapper.put(dataBaseType.toUpperCase(), javaTypeClass);
         return this;
     }
 
-    public Generator build(InputStream inputStream) {
-        try {
-            PropertiesUtils.loadProperties(new BufferedReader(new InputStreamReader(inputStream,"UTF-8")));
-        } catch (Exception e) {
-            LogUtils.printErrInfo("加载配置文件失败.");
-        }
+    /**
+     * 自定义数据库与 mybatis xml 中 jdbcType 类型映射
+     *
+     * 生成器仅收录了常用类型的转换 如果生成时发现数据库类型未转换成对应 jdbcType 数据类型
+     * 或者转换的 jdbcType 数据类型有误 可使用此方法新增或修改类型转换
+     *
+     * 例如时间类型 DATE 默认映射为 TIMESTAMP , 如果将 XML 生成类型改为 DATE ,可如下设置
+     * new GeneratorBuilder().fieldType2JavaType("DATE", JdbcType.DATE);
+     *
+     * @param dataBaseType  数据类型
+     * @param jdbcType      mybatis 配置文件中类型 如 #{id,jdbcType=VARCHAR}
+     */
+    public GeneratorBuilder fieldType2JdbcType(@NotNull String dataBaseType, @NotNull JdbcType jdbcType) {
+        CheckUtils.AssertNotNull(dataBaseType,"fieldType2JavaType 请指定 dataBaseType, 即数据库字段类型.");
+        CheckUtils.AssertNotNull(dataBaseType,"fieldType2JavaType 请指定 jdbcType, 即 mybatis xml 中 jdbcType.");
 
-        ContextHolder context = new ContextHolder();
+        TypeConversion.addType2JdbcType(dataBaseType, jdbcType.toString());
+        return this;
+    }
+
+    /**
+     * 添加自定义 java 模板
+     * @param fileInfo java 模板信息
+     */
+    public GeneratorBuilder addJavaTemplate(@NotNull JavaModuleInfo fileInfo){
+        CheckUtils.AssertNotNull(fileInfo,"添加模板不能为空!");
+
+        if (this.javaTemplates == null){
+            this.javaTemplates = new ArrayList<>();
+        }
+        this.javaTemplates.add(fileInfo);
+        return this;
+    }
+
+    /**
+     * 添加自定义模板
+     * @param customizeModuleInfo 自定义模板信息
+     */
+    public GeneratorBuilder addCustomizeModuleTemplate(@NotNull CustomizeModuleInfo customizeModuleInfo){
+        CheckUtils.AssertNotNull(customizeModuleInfo,"添加模板不能为空!");
+
+        if (this.customizeModuleInfos == null){
+            this.customizeModuleInfos = new ArrayList<>();
+        }
+        this.customizeModuleInfos.add(customizeModuleInfo);
+        return this;
+    }
+
+    /**
+     * Builds {@link Generator} instances.
+     * @param configPath 配置文件路径
+     * @return
+     */
+    public Generator build(@NotNull String configPath) {
+        CheckUtils.AssertNotNull(configPath,"configPath 不能为空!");
         try {
-            context.init();
+            InputStream resourceAsStream = Resources.getResourceAsStream(configPath);
+            PropertiesUtils.loadProperties(new BufferedReader(new InputStreamReader(resourceAsStream,Charsets.UTF_8)));
         } catch (Exception e){
-            LogUtils.printErrInfo("加载配置文件失败.");
-            LogUtils.printException(e);
+            LogUtils.printException("加载资源文件失败! 请检查配置文件路径. ", e);
         }
-
-        // 初始化常量
-        ConfigConstants.tableRegex = PropertiesUtils.getConfig(ConfigConstants.TABLE_SEPARATOR);
         TypeConversion.init(typeMapper);
 
+        ContextHolder context = new ContextHolder();
+        context.init();
+        // 初始化常量
+        AbstractDbService.tableRegex = PropertiesUtils.getConfig(ConfigConstants.TABLE_SEPARATOR);
+        AbstractDbService.fieldRegex = PropertiesUtils.getConfig(ConfigConstants.FIELD_SEPARATOR);
+
         FileOutPathInfo fileOutPathInfo = context.getBean("FileOutPathInfo");
-        fileOutPathInfo.init();
+        // 需先设置格式化 service
         fileOutPathInfo.setClassNameFormatServieMap(moduleNameFormatServiceMap);
-        return new Generator(fileOutPathInfo, new MethodInfo(methodNameFormatServiceMap,commonMethodFormatService));
+        fileOutPathInfo.init();
+
+        Generator generator = new Generator(fileOutPathInfo, new MethodInfo(methodNameFormatServiceMap, commonMethodFormatService));
+        if (javaTemplates != null && javaTemplates.size() > 0){
+            for (int i = 0; i < javaTemplates.size(); i++) {
+                generator.addJavaTemplate(javaTemplates.get(i));
+            }
+        }
+        if (customizeModuleInfos != null && customizeModuleInfos.size() > 0){
+            for (int i = 0; i < customizeModuleInfos.size(); i++) {
+                generator.addCustomizeModuleInfo(customizeModuleInfos.get(i));
+            }
+        }
+        return generator;
     }
 
 }

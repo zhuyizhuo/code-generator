@@ -34,6 +34,14 @@ public class LogUtils {
         }
     }
 
+    public static void printException(String errorMsg, Exception e){
+        if (booleanProperties){
+            System.err.println(errorMsg);
+            e.printStackTrace();
+        }
+    }
+
+
     public static void printJsonInfo(String message, Object obj){
         if (booleanProperties){
             System.out.println(message + JSON.toJSONString(obj));

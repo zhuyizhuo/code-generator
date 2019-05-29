@@ -19,8 +19,7 @@ public class CheckUtils {
         String dbType = PropertiesUtils.getProperties(ConfigConstants.DB_TYPE);
         if (GeneratorStringUtils.isBlank(dbType)){
             String errorMsg = "未指定数据库类型:" + ConfigConstants.DB_TYPE + ", 值列表请参照 DbTypeEnums.java";
-            LogUtils.printErrInfo(errorMsg);
-            throw new RuntimeException(errorMsg);
+            throw new IllegalArgumentException(errorMsg);
         }
         return dbType;
     }
@@ -33,7 +32,6 @@ public class CheckUtils {
             }
         }
         if (errorMsg.length() > 0){
-            LogUtils.printErrInfo(errorMsg.toString());
             throw new IllegalArgumentException(errorMsg.toString());
         }
     }
@@ -43,5 +41,17 @@ public class CheckUtils {
             return true;
         }
         return false;
+    }
+
+    public static void AssertNotNull(Object moduleType,String errorMsg) throws IllegalArgumentException {
+        if (moduleType == null){
+            throw new IllegalArgumentException(errorMsg);
+        }
+    }
+
+    public static void AssertNotNull(String moduleType,String errorMsg) throws IllegalArgumentException {
+        if(GeneratorStringUtils.isBlank(moduleType.toString())){
+            throw new IllegalArgumentException(errorMsg);
+        }
     }
 }

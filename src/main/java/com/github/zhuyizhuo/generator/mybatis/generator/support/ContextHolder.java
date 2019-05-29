@@ -39,13 +39,17 @@ public class ContextHolder {
     private List<String> classNames = new ArrayList<String>();
 
     public void init() {
-        Class<? extends ContextHolder> aClass = this.getClass();
-        //定位
-        doLoadConfig(aClass.getAnnotation(Resource.class).value());
-        //注册
-        doRegister();
-        //注入
-        doAutowired();
+        try {
+            Class<? extends ContextHolder> aClass = this.getClass();
+            //定位
+            doLoadConfig(aClass.getAnnotation(Resource.class).value());
+            //注册
+            doRegister();
+            //注入
+            doAutowired();
+        } catch (Exception e){
+            LogUtils.printException("生成器初始化失败!",e);
+        }
     }
 
     private void doAutowired() {

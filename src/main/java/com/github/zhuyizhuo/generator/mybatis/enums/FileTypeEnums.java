@@ -8,8 +8,6 @@ package com.github.zhuyizhuo.generator.mybatis.enums;
 public enum FileTypeEnums {
     JAVA,
     XML,
-    /** 资源文件 扩展使用 */
-    RESOURCES,
     ;
 
 }

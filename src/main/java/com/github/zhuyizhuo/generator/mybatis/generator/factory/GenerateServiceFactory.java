@@ -30,7 +30,6 @@ public class GenerateServiceFactory {
 
     public static GenerateService getGenerateService() {
         String dbType = CheckUtils.checkDBType();
-        LogUtils.printInfo("数据库类型:" + dbType);
         GenerateService generateService = serviceMap.get(dbType);
         if (generateService == null){
             String errorMsg =  ConfigConstants.DB_TYPE + "配置类型不支持,所支持类型请参照 DbTypeEnums.java";

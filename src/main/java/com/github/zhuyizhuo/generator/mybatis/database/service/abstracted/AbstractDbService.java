@@ -25,6 +25,11 @@ import java.util.List;
  */
 public abstract class AbstractDbService implements DbService {
 
+    /** 数据库表名分隔符 */
+    public static String tableRegex = "";
+    /** 字段分隔符 例如 order_no 的分隔符为 _ */
+    public static String fieldRegex = "";
+
     protected DataBaseInfo getDataBaseInfo() {
         DataBaseInfo tableInfo = new DataBaseInfo();
         tableInfo.setTableSchema(getTableSchema());
@@ -71,7 +76,7 @@ public abstract class AbstractDbService implements DbService {
             javaColumnInfo.setColumnName(columnInfo.getColumnName());
             javaColumnInfo.setColumnComment(replaceEnter(columnInfo.getColumnComment()));
             javaColumnInfo.setJavaColumnName(GeneratorStringUtils
-                    .changeColmName2CamelFirstLower(columnInfo.getColumnName(),ConfigConstants.tableRegex));
+                    .changeColmName2CamelFirstLower(columnInfo.getColumnName(), fieldRegex));
             javaColumnInfo.setJavaDataType(getJavaDataType(columnInfo));
             /** 设置类全路径 java.lang包下的类不需要import */
             javaColumnInfo.setJavaDataTypeFullPath(TypeConversion.javaDataTypeFullPathMap.get(javaColumnInfo.getJavaDataType()));
@@ -101,7 +106,12 @@ public abstract class AbstractDbService implements DbService {
         return columnComment.replaceAll("\r"," ").replaceAll("\n"," ").replaceAll("\r\n"," ");
     }
 
+    /**
+     * 数据库表名根据分隔符转为驼峰命名
+     * @param tableName 数据库表名
+     * @return 驼峰命名
+     */
     protected String changeTableNameCamelCase(String tableName) {
-        return GeneratorStringUtils.changeTableName2CamelFirstUpper(tableName,ConfigConstants.tableRegex);
+        return GeneratorStringUtils.changeTableName2CamelFirstUpper(tableName, tableRegex);
     }
 }

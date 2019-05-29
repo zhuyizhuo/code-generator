@@ -3,23 +3,24 @@ package com.github.zhuyizhuo.generator.mybatis.generator;
 import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.service.DbService;
-import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
+import com.github.zhuyizhuo.generator.mybatis.enums.FileTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
 import com.github.zhuyizhuo.generator.mybatis.factory.DbServiceFactory;
+import com.github.zhuyizhuo.generator.mybatis.generator.extension.CustomizeModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.JavaModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.factory.GenerateServiceFactory;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.GenerateService;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.template.TemplateGenerateService;
 import com.github.zhuyizhuo.generator.mybatis.generator.support.ContextHolder;
 import com.github.zhuyizhuo.generator.mybatis.generator.support.MethodInfo;
+import com.github.zhuyizhuo.generator.mybatis.generator.support.ModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateMetaData;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.TemplateGenerateInfo;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ import java.util.Map;
  *  生成器
  * @author yizhuo
  * @since  1.0
- * time: 2018/7/29 18:12
+ * create time: 2018/7/29 18:12
  * @version 1.4.0
  * modify time : 2019-5-26 22:17:56
  */
@@ -41,26 +42,40 @@ public class Generator {
     /** 代码生成器接口 */
     private GenerateService generateService;
 
-    /** 扩展 */
-    private List<JavaModuleInfo> javaTemplates = new ArrayList<>();
-
-    public Generator(FileOutPathInfo fileOutPathInfo, MethodInfo methodInfo) {
+    Generator(FileOutPathInfo fileOutPathInfo, MethodInfo methodInfo) {
         this.classCommentInfo = ContextHolder.getBean("classCommentInfo");
         this.fileOutPathInfo = fileOutPathInfo;
         this.methodInfo = methodInfo;
         this.generateService = GenerateServiceFactory.getGenerateService();
     }
 
-    public void addJavaTemplate(JavaModuleInfo fileInfo){
-        // 需要校验
-        this.javaTemplates.add(fileInfo);
+    /**
+     *  新增自定义 java 模块
+     * @param javaModuleInfo java 模块信息
+     */
+    void addJavaTemplate(JavaModuleInfo javaModuleInfo){
         if (generateService instanceof TemplateGenerateService) {
             TemplateGenerateService service = (TemplateGenerateService) this.generateService;
-            service.addTemplate(fileInfo.getModuleType(), fileInfo.getTemplatePath());
+            service.addTemplate(javaModuleInfo.getModuleType(), javaModuleInfo.getTemplatePath());
         }
-        this.fileOutPathInfo.addJavaTemplate(fileInfo);
+        this.fileOutPathInfo.addJavaTemplate(javaModuleInfo);
     }
 
+    /**
+     *  新增自定义模块
+     * @param customizeModuleInfo 自定义模块信息
+     */
+    void addCustomizeModuleInfo(CustomizeModuleInfo customizeModuleInfo){
+        if (generateService instanceof TemplateGenerateService) {
+            TemplateGenerateService service = (TemplateGenerateService) this.generateService;
+            service.addTemplate(customizeModuleInfo.getModuleType(), customizeModuleInfo.getTemplatePath());
+        }
+        this.fileOutPathInfo.addCustomizeModule(customizeModuleInfo);
+    }
+
+    /**
+     * 生成文件
+     */
     public void generate(){
         try {
             DbService dbService = DbServiceFactory.getDbService();
@@ -83,7 +98,7 @@ public class Generator {
         }
     }
 
-    public void doGenerate(List<TableInfo> dbTableInfoList) {
+    private void doGenerate(List<TableInfo> dbTableInfoList) {
         try {
             if (dbTableInfoList == null || dbTableInfoList.size() == 0){
                 LogUtils.printInfo("不存在需生成的数据.");
@@ -98,23 +113,22 @@ public class Generator {
             for (int i = 0; i < dbTableInfoList.size(); i++) {
                 TableInfo tableInfo = dbTableInfoList.get(i);
                 String tableName = tableInfo.getTableName();
-                Map<String,JavaClassDefinition> javaClassDefinitionMap =
-                        this.fileOutPathInfo.initFileNames(tableName, tableInfo.getTableNameCamelCase());
+                this.fileOutPathInfo.initFileNamesAndOutPutFullPath(tableName, tableInfo.getTableNameCamelCase());
+
                 Map<String, MethodDescription> methodDescriptionMap = this.methodInfo.initMethodName(tableInfo);
                 // 初始化 方法名
-                generateInfo = new GenerateInfo(this.classCommentInfo,javaClassDefinitionMap, methodDescriptionMap, tableInfo);
-                generateInfo.initXmlInfo();
+                generateInfo = new GenerateInfo(this.classCommentInfo,
+                        this.fileOutPathInfo.getJavaClassDefinitionMap(),
+                        methodDescriptionMap, tableInfo);
 
-                for (int j = 0; j < modules.length; j++) {
-                    infoHolder = new TemplateGenerateInfo(modules[j].toString(),
-                            fileOutPathInfo.getOutputFullPathByFullPackage(modules[j], tableName), generateInfo);
-                    generateMetaData.addGenerateInfo(tableName,infoHolder);
-                }
-                for (int j = 0; j < javaTemplates.size(); j++) {
-                    JavaModuleInfo fileInfo = javaTemplates.get(j);
-                    String outputFullPathByFullPackage = fileOutPathInfo.getJavaOutputFullPath(fileInfo);
-                    generateMetaData.addGenerateInfo(tableInfo.getTableName(),
-                            new TemplateGenerateInfo(fileInfo.getModuleType(),outputFullPathByFullPackage,generateInfo));
+                List<ModuleInfo> allModule = this.fileOutPathInfo.getAllModule();
+                for (int j = 0; j < allModule.size(); j++) {
+                    ModuleInfo info = allModule.get(j);
+                    infoHolder = new TemplateGenerateInfo(info.getModuleType(), info.getOutPutFullPath(), generateInfo);
+                    if (FileTypeEnums.XML.equals(info.getFileType())){
+                        generateInfo.initXmlInfo();
+                    }
+                    generateMetaData.addGenerateInfo(tableName, infoHolder);
                 }
             }
             generateService.generate(generateMetaData);

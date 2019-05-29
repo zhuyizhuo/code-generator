@@ -13,9 +13,9 @@ public interface FormatService {
 
     /**
      * name 格式化
-     * @param name 数据库表名称的大写
+     * @param tableName 数据库表名称大写
      * @return 格式化后的名称
      */
-    String format(String name);
+    String format(String tableName);
 
 }
