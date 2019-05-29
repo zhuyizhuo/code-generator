@@ -15,14 +15,16 @@ public class JavaModuleInfo {
     private String templatePath;
     /** 类的包路径 例如 com.baidu **/
     private String classPackage;
+    /** 输出路径 */
+    private String outputPath;
     /** 文件名格式化 service 例如 {0}Mapper */
     private String classNameFormat;
 
-    public JavaModuleInfo(String moduleType, String templatePath,
-                          String classPackage, String classNameFormat) {
+    public JavaModuleInfo(String moduleType, String templatePath, String classPackage, String outputPath, String classNameFormat) {
         this.moduleType = moduleType;
         this.templatePath = templatePath;
         this.classPackage = classPackage;
+        this.outputPath = outputPath;
         this.classNameFormat = classNameFormat;
     }
 
@@ -42,4 +44,7 @@ public class JavaModuleInfo {
         return classNameFormat;
     }
 
+    public String getOutputPath() {
+        return outputPath;
+    }
 }

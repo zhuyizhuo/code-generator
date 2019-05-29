@@ -5,8 +5,8 @@ import com.github.zhuyizhuo.generator.mybatis.annotation.Value;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.enums.FileTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
-import com.github.zhuyizhuo.generator.mybatis.generator.extension.JavaModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.FormatService;
+import com.github.zhuyizhuo.generator.mybatis.generator.extension.JavaModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.support.ModuleInfo;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
@@ -31,17 +31,11 @@ public class FileOutPathInfo {
 
     @Value("#{generate.base.out-put-path}")
     private String baseOutputPath;
-    @Value("#{generate.base.java.out-put-path}")
-    private String baseJavaOutputPath;
-    @Value("#{generate.base.resources.out-put-path}")
-    private String baseResourcesOutputPath;
 
     /** mybatis xml文件输出路径 */
     @Value("#{generate.resources.xml.out-put-path}")
     private String xmlOutPutPath;
 
-    @Value("#{generate.java.base.package}")
-    private String basePackage;
     /**  true 则生成完整目录 false 则仅生成目录最后一层 */
     @Value("#{generate.java.base.package.enabled}")
     private String basePackageEnabled;
@@ -69,11 +63,11 @@ public class FileOutPathInfo {
         ModuleInfo info;
         for (int i = 0; i < values.length; i++) {
             String filePackage = PropertiesUtils.getConfig(values[i].getFilePackageKey());
+            String outPutPath = PropertiesUtils.getConfig(values[i].getOutputPathKey());
             info = new ModuleInfo();
             if (FileTypeEnums.JAVA.equals(values[i].getTypeEnums())){
-                String fileFullPackage = getFullPackageByPackage(filePackage);
-                info.setFileFullPackage(fileFullPackage);
-                outPutFullPathFormat = getOutputFullPathByFullPackage(fileFullPackage) + "{0}.java";
+                info.setFileFullPackage(filePackage);
+                outPutFullPathFormat = getOutputFullPathByFullPackage(outPutPath, filePackage) + "{0}.java";
             } else {
                 outPutFullPathFormat = getResourcesOutputFullPath(this.xmlOutPutPath) + "{0}.xml";
             }
@@ -91,13 +85,6 @@ public class FileOutPathInfo {
         return this.moduleInfoMap.get(value.toString());
     }
 
-    private String getFullPackageByPackage(String fileFullPackage) {
-        if (GeneratorStringUtils.isNotBlank(basePackage)) {
-            fileFullPackage = basePackage + "." + fileFullPackage;
-        }
-        return fileFullPackage;
-    }
-
     public void setClassNameFormatServieMap(Map<String, FormatService> classNameFormatServieMap) {
         if (classNameFormatServieMap != null) {
             this.classNameFormatServieMap = classNameFormatServieMap;
@@ -111,22 +98,28 @@ public class FileOutPathInfo {
     public String getResourcesOutputFullPath(String resourcesOutPutPath) {
         String outPutFullPath;
         if ("TRUE".equalsIgnoreCase(basePackageEnabled)) {
-            outPutFullPath = baseOutputPath + baseResourcesOutputPath + resourcesOutPutPath;
-        } else {
             outPutFullPath = baseOutputPath + resourcesOutPutPath;
+        } else {
+            String tempPath = resourcesOutPutPath.replaceAll("\\\\","/");
+            if (tempPath.lastIndexOf("/") != -1){
+                tempPath = tempPath.substring(tempPath.lastIndexOf("/") + 1);
+            }
+            outPutFullPath = baseOutputPath + tempPath;
         }
         return outPutFullPath + "/";
     }
 
     /***
      *  根据文件包名获取文件输出全路径
+     *
+     * @param outPutPath
      * @param fileFullPackage
      * @return java 文件输出全路径
      */
-    public String getOutputFullPathByFullPackage(String fileFullPackage) {
+    public String getOutputFullPathByFullPackage(String outPutPath, String fileFullPackage) {
         String outPutFullPath;
         if ("TRUE".equalsIgnoreCase(basePackageEnabled)) {
-            outPutFullPath = baseOutputPath + baseJavaOutputPath + "/" + fileFullPackage.replaceAll("\\.", "/");
+            outPutFullPath = baseOutputPath + "/" + outPutPath + "/" + fileFullPackage.replaceAll("\\.", "/");
         } else {
             int index = fileFullPackage.lastIndexOf(".");
             if(index != -1){
@@ -166,10 +159,8 @@ public class FileOutPathInfo {
             JavaModuleInfo fileInfo = javaTemplates.get(i);
             fileName = getFileName(fileInfo.getModuleType(), FileTypeEnums.JAVA, fileInfo.getClassNameFormat());
 
-            String modulePackage = fileInfo.getClassPackage();
-            String fullPackageByPackage = getFullPackageByPackage(modulePackage);
             javaClassDefinitionResp.put(fileInfo.getModuleType(),
-                    new JavaClassDefinition(fullPackageByPackage, fileName));
+                    new JavaClassDefinition(fileInfo.getClassPackage(), fileName));
         }
         return javaClassDefinitionResp;
     }
@@ -215,10 +206,6 @@ public class FileOutPathInfo {
                 getFileName(moduleType, tableName));
     }
 
-    public void setBasePackage(String basePackage) {
-        this.basePackage = basePackage;
-    }
-
     public void setBasePackageEnabled(String basePackageEnabled) {
         this.basePackageEnabled = basePackageEnabled;
     }
@@ -243,7 +230,7 @@ public class FileOutPathInfo {
     }
 
     public String getJavaOutputFullPath(JavaModuleInfo fileInfo) {
-        String outputFullPathByFullPackage = getOutputFullPathByFullPackage(getFullPackageByPackage(fileInfo.getClassPackage()));
+        String outputFullPathByFullPackage = getOutputFullPathByFullPackage(fileInfo.getOutputPath(), fileInfo.getClassPackage());
         String fileName = getFileName(fileInfo.getModuleType(), FileTypeEnums.JAVA, fileInfo.getClassNameFormat()) + ".java";
         return outputFullPathByFullPackage + fileName;
     }

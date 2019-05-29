@@ -10,25 +10,30 @@ package com.github.zhuyizhuo.generator.mybatis.enums;
  */
 public enum ModuleEnums {
 
-    MAPPER(FileTypeEnums.JAVA,"generate.java.module.mapper.name-format","generate.java.module.mapper.package","数据库接口"),
+    MAPPER(FileTypeEnums.JAVA,"generate.java.module.mapper.","name-format","package","out-put-path","数据库接口"),
 
-    POJO(FileTypeEnums.JAVA,"generate.java.module.pojo.name-format","generate.java.module.pojo.package","数据对象"),
+    POJO(FileTypeEnums.JAVA,"generate.java.module.model.","name-format","package","out-put-path","数据对象"),
 
-    XML(FileTypeEnums.XML,"generate.resources.xml.name-format","generate.resources.xml.out-put-path","mybatis xml 文件"),
+    XML(FileTypeEnums.XML,"generate.resources.xml.","name-format","package","out-put-path","mybatis xml 文件"),
     ;
     /** 文件类型 */
     private FileTypeEnums typeEnums;
+    /** 配置前缀 */
+    private String keyPrefix;
     /** 生成文件的文件名格式化配置 */
     private String fileNameFormatKey;
     /** 生成文件的包路径配置 */
     private String filePackageKey;
+    private String outputPathKey;
     /** 模块描述 */
     private String moduleDescription;
 
-    ModuleEnums(FileTypeEnums typeEnums, String fileNameFormatKey, String filePackageKey, String moduleDescription) {
+    ModuleEnums(FileTypeEnums typeEnums, String keyPrefix, String fileNameFormatKey, String filePackageKey, String outputPathKey, String moduleDescription) {
         this.typeEnums = typeEnums;
+        this.keyPrefix = keyPrefix;
         this.fileNameFormatKey = fileNameFormatKey;
         this.filePackageKey = filePackageKey;
+        this.outputPathKey = outputPathKey;
         this.moduleDescription = moduleDescription;
     }
 
@@ -36,31 +41,23 @@ public enum ModuleEnums {
         return typeEnums;
     }
 
-    public void setTypeEnums(FileTypeEnums typeEnums) {
-        this.typeEnums = typeEnums;
+    public String getKeyPrefix() {
+        return keyPrefix;
     }
 
     public String getFileNameFormatKey() {
-        return fileNameFormatKey;
-    }
-
-    public void setFileNameFormatKey(String fileNameFormatKey) {
-        this.fileNameFormatKey = fileNameFormatKey;
+        return keyPrefix + fileNameFormatKey;
     }
 
     public String getFilePackageKey() {
-        return filePackageKey;
+        return keyPrefix + filePackageKey;
     }
 
-    public void setFilePackageKey(String filePackageKey) {
-        this.filePackageKey = filePackageKey;
+    public String getOutputPathKey() {
+        return keyPrefix + outputPathKey;
     }
 
     public String getModuleDescription() {
         return moduleDescription;
-    }
-
-    public void setModuleDescription(String moduleDescription) {
-        this.moduleDescription = moduleDescription;
     }
 }
