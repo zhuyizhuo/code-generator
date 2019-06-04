@@ -10,9 +10,9 @@ import ${import};
  * database	: ${tableInfo.tableSchema} <br/>
  * table	: ${tableInfo.tableName} <br/>
  * description : ${tableInfo.tableComment} <br/>
- * time:    ${classCommentInfo.createTime} <br/><#if classCommentInfo.author!="">
- * @author  ${classCommentInfo.author} <br/></#if><#if classCommentInfo.sinceVersion!="">
- * @since   ${classCommentInfo.sinceVersion} <br/></#if>
+ * time:    ${classCommentInfo.createTime} <br/>
+ * @author  ${classCommentInfo.author} <br/>
+ * @since   ${classCommentInfo.sinceVersion} <br/>
  * @version ${classCommentInfo.version} <br/>
  */
 public class ${javaClassDefinition.POJO.className} {

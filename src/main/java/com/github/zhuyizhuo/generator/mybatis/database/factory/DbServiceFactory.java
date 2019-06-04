@@ -1,4 +1,4 @@
-package com.github.zhuyizhuo.generator.mybatis.factory;
+package com.github.zhuyizhuo.generator.mybatis.database.factory;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.enums.DbTypeEnums;

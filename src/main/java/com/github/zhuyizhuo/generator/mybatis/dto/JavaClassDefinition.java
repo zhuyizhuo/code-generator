@@ -11,22 +11,10 @@ package com.github.zhuyizhuo.generator.mybatis.dto;
 public class JavaClassDefinition {
     /** 包路径 */
     private String fullPackage;
-//    /** 导入类型 */
-//    private Set<String> imports;
-//    /** 注释信息 */
-//    private ClassCommentInfo classComment;
     /** 类名 */
     private String className;
-//    /** 字段信息 */
-//    private List<FieldDefinition> fields;
-//    /** 方法信息 */
-//    private List<MethodDefinition> methods;
 
     public JavaClassDefinition() {
-    }
-
-    public JavaClassDefinition(String fullPackage) {
-        this.fullPackage = fullPackage;
     }
 
     public JavaClassDefinition(String fullPackage, String className) {

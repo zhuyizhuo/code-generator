@@ -6,7 +6,7 @@ import com.github.zhuyizhuo.generator.mybatis.database.service.DbService;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
 import com.github.zhuyizhuo.generator.mybatis.enums.FileTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
-import com.github.zhuyizhuo.generator.mybatis.factory.DbServiceFactory;
+import com.github.zhuyizhuo.generator.mybatis.database.factory.DbServiceFactory;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.CustomizeModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.JavaModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.factory.GenerateServiceFactory;

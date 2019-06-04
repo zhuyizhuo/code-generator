@@ -21,7 +21,7 @@ public class CheckUtils {
             String errorMsg = "未指定数据库类型:" + ConfigConstants.DB_TYPE + ", 值列表请参照 DbTypeEnums.java";
             throw new IllegalArgumentException(errorMsg);
         }
-        return dbType;
+        return dbType.toUpperCase();
     }
 
     public static void checkNeedConfig() {

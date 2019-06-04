@@ -6,9 +6,9 @@ import ${javaClassDefinition.POJO.fullPackage}.${javaClassDefinition.POJO.classN
 
 /**
  * description : ${tableInfo.tableName} table dao layer interface <br/>
- * time:    ${classCommentInfo.createTime} <br/><#if classCommentInfo.author!="">
- * @author  ${classCommentInfo.author} <br/></#if><#if classCommentInfo.sinceVersion!="">
- * @since   ${classCommentInfo.sinceVersion} <br/></#if>
+ * time:    ${classCommentInfo.createTime} <br/>
+ * @author  ${classCommentInfo.author} <br/>
+ * @since   ${classCommentInfo.sinceVersion} <br/>
  * @version ${classCommentInfo.version} <br/>
  */
 public interface ${javaClassDefinition.MAPPER.className} {
