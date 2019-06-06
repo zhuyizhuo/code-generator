@@ -126,6 +126,20 @@ public class MybatisXmlDefinition {
         public boolean isPrimaryKey() {
             return primaryKey;
         }
+
+        @Override
+        public String toString() {
+            return "MybatisColumnDefinition{" +
+                    "testNotBlankExpression='" + testNotBlankExpression + '\'' +
+                    ", testNotNullExpression='" + testNotNullExpression + '\'' +
+                    ", columnName='" + columnName + '\'' +
+                    ", javaColumnName='" + javaColumnName + '\'' +
+                    ", javaDataType='" + javaDataType + '\'' +
+                    ", jdbcType='" + jdbcType + '\'' +
+                    ", parameterType='" + parameterType + '\'' +
+                    ", primaryKey=" + primaryKey +
+                    '}';
+        }
     }
 
     /**
@@ -170,4 +184,13 @@ public class MybatisXmlDefinition {
         this.resultMap.setType(type);
     }
 
+    @Override
+    public String toString() {
+        return "MybatisXmlDefinition{" +
+                "nameSpace='" + nameSpace + '\'' +
+                ", resultMap=" + resultMap +
+                ", parameterType='" + parameterType + '\'' +
+                ", columns=" + columns +
+                '}';
+    }
 }

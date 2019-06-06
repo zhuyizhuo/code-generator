@@ -37,4 +37,12 @@ public class JavaClassDefinition {
     public void setClassName(String className) {
         this.className = className;
     }
+
+    @Override
+    public String toString() {
+        return "JavaClassDefinition{" +
+                "fullPackage='" + fullPackage + '\'' +
+                ", className='" + className + '\'' +
+                '}';
+    }
 }

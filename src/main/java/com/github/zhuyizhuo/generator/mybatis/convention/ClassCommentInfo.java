@@ -68,4 +68,14 @@ public class ClassCommentInfo {
     public void setTableComment(String tableComment) {
         this.tableComment = tableComment;
     }
+
+    @Override
+    public String toString() {
+        return "ClassCommentInfo{" +
+                "sinceVersion='" + sinceVersion + '\'' +
+                ", version='" + version + '\'' +
+                ", author='" + author + '\'' +
+                ", createTime='" + createTime + '\'' +
+                '}';
+    }
 }

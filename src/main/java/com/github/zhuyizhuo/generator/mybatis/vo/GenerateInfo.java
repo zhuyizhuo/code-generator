@@ -83,4 +83,15 @@ public class GenerateInfo {
     public Map<String, JavaClassDefinition> getJavaClassDefinition() {
         return javaClassDefinition;
     }
+
+    @Override
+    public String toString() {
+        return "GenerateInfo{" +
+                "classCommentInfo=" + classCommentInfo +
+                ", javaClassDefinition=" + javaClassDefinition +
+                ", methodDescription=" + methodDescription +
+                ", tableInfo=" + tableInfo +
+                ", mybatisXmlDefinition=" + mybatisXmlDefinition +
+                '}';
+    }
 }

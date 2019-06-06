@@ -68,7 +68,7 @@ public class JavaColumnInfo extends ColumnInfo {
 
 	@Override
 	public String toString() {
-		return super.toString() + "\n\t JavaColumnInfo{" +
+		return "JavaColumnInfo{" +
 				"javaColumnName='" + javaColumnName + '\'' +
 				", javaDataType='" + javaDataType + '\'' +
 				", javaDataTypeFullPath='" + javaDataTypeFullPath + '\'' +

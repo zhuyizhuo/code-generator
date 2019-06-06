@@ -73,5 +73,22 @@ public class MethodDescription {
         public void setComment(String comment) {
             this.comment = comment;
         }
+
+        @Override
+        public String toString() {
+            return "ParamDescription{" +
+                    "comment='" + comment + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "MethodDescription{" +
+                "enabled=" + enabled +
+                ", methodName='" + methodName + '\'' +
+                ", comment='" + comment + '\'' +
+                ", params=" + params +
+                '}';
     }
 }
