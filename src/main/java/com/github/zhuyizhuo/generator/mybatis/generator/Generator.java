@@ -2,11 +2,10 @@ package com.github.zhuyizhuo.generator.mybatis.generator;
 
 import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
+import com.github.zhuyizhuo.generator.mybatis.database.factory.DbServiceFactory;
 import com.github.zhuyizhuo.generator.mybatis.database.service.DbService;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
 import com.github.zhuyizhuo.generator.mybatis.enums.FileTypeEnums;
-import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
-import com.github.zhuyizhuo.generator.mybatis.database.factory.DbServiceFactory;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.CustomizeModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.JavaModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.factory.GenerateServiceFactory;
@@ -17,8 +16,8 @@ import com.github.zhuyizhuo.generator.mybatis.generator.support.MethodInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.support.ModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateMetaData;
+import com.github.zhuyizhuo.generator.mybatis.vo.ModulePathInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
-import com.github.zhuyizhuo.generator.mybatis.vo.TemplateGenerateInfo;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 
 import java.util.List;
@@ -46,7 +45,15 @@ public class Generator {
         this.classCommentInfo = ContextHolder.getBean("classCommentInfo");
         this.fileOutPathInfo = fileOutPathInfo;
         this.methodInfo = methodInfo;
-        this.generateService = GenerateServiceFactory.getGenerateService();
+        initGenerateService(null);
+    }
+
+    void initGenerateService(GenerateService generateService){
+        if (generateService == null){
+            this.generateService = GenerateServiceFactory.getGenerateService();
+        } else {
+            this.generateService = generateService;
+        }
     }
 
     /**
@@ -106,9 +113,8 @@ public class Generator {
             }
 
             GenerateMetaData generateMetaData = new GenerateMetaData();
-            TemplateGenerateInfo infoHolder = null;
+            ModulePathInfo modulePathInfo = null;
             GenerateInfo generateInfo;
-            ModuleEnums[] modules = ModuleEnums.values();
             // 循环多表数据
             for (int i = 0; i < dbTableInfoList.size(); i++) {
                 TableInfo tableInfo = dbTableInfoList.get(i);
@@ -124,11 +130,12 @@ public class Generator {
                 List<ModuleInfo> allModule = this.fileOutPathInfo.getAllModule();
                 for (int j = 0; j < allModule.size(); j++) {
                     ModuleInfo info = allModule.get(j);
-                    infoHolder = new TemplateGenerateInfo(info.getModuleType(), info.getOutPutFullPath(), generateInfo);
+                    modulePathInfo = new ModulePathInfo(info.getModuleType(), info.getOutPutFullPath());
                     if (FileTypeEnums.XML.equals(info.getFileType())){
                         generateInfo.initXmlInfo();
                     }
-                    generateMetaData.addGenerateInfo(tableName, infoHolder);
+                    generateMetaData.addModulePathInfo(tableName, modulePathInfo);
+                    generateMetaData.addGenerateInfo(tableName, generateInfo);
                 }
             }
             generateService.generate(generateMetaData);

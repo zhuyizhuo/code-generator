@@ -60,6 +60,9 @@ public class MethodInfo {
         MethodDescription methodDescription;
         MethodEnums[] values = MethodEnums.values();
         for (int i = 0; i < values.length; i++) {
+            if (MethodEnums.ALL_METHOD.equals(values[i])){
+                continue;
+            }
             methodDescription = new MethodDescription();
             methodDescription.setEnabled(getPropertiesDefaultTrue(values[i]));
             methodDescription.setMethodName(formatMethodName(values[i]));

@@ -5,8 +5,8 @@ import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.template.TemplateGenerateService;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateMetaData;
+import com.github.zhuyizhuo.generator.mybatis.vo.ModulePathInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
-import com.github.zhuyizhuo.generator.mybatis.vo.TemplateGenerateInfo;
 import com.github.zhuyizhuo.generator.utils.Freemarker;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 
@@ -51,20 +51,20 @@ public abstract class FreemarkerGenerateService implements TemplateGenerateServi
     @Override
     public void generate(GenerateMetaData generateMetaData) {
         try {
-            Map<String, List<TemplateGenerateInfo>> tableInfosMap = generateMetaData.getTableInfosMap();
-            for (Map.Entry<String, List<TemplateGenerateInfo>> entry : tableInfosMap.entrySet()) {
-                List<TemplateGenerateInfo> value = entry.getValue();
-                GenerateInfo generateInfo = value.get(0).getGenerateInfo();
+            Map<String, List<ModulePathInfo>> tableInfosMap = generateMetaData.getModulePathInfoMap();
+            for (Map.Entry<String, List<ModulePathInfo>> entry : tableInfosMap.entrySet()) {
+                List<ModulePathInfo> value = entry.getValue();
+                GenerateInfo generateInfo = generateMetaData.getGenerateInfoByTableName(entry.getKey());
                 TableInfo tableInfo = generateInfo.getTableInfo();
                 LogUtils.printInfo(">>>>>>>>>>>>>>>>>" + tableInfo.getTableName() + " start <<<<<<<<<<<<<<<");
                 LogUtils.printInfo(tableInfo.getTableName() + "表共" + tableInfo.getColumnLists().size() + "列");
-                LogUtils.printJsonInfo("输出对象:" , generateInfo);
+                LogUtils.logGenerateInfo(generateInfo);
                 boolean hasPrimaryKey = tableInfo.isHasPrimaryKey();
                 for (int i = 0; i < value.size(); i++) {
-                    TemplateGenerateInfo templateGenerateInfo = value.get(i);
+                    ModulePathInfo templateGenerateInfo = value.get(i);
                     LogUtils.printInfo("文件输出路径:"+templateGenerateInfo.getFileOutputPath());
                     Freemarker.printFile(getTemplatePath(templateGenerateInfo.getModuleType(),hasPrimaryKey),
-                            templateGenerateInfo.getFileOutputPath(), templateGenerateInfo.getGenerateInfo());
+                            templateGenerateInfo.getFileOutputPath(), generateInfo);
                 }
                 LogUtils.printInfo(">>>>>>>>>>>>>>>>>" + tableInfo.getTableName() + " end <<<<<<<<<<<<<<<<<");
             }

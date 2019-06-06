@@ -12,31 +12,55 @@ public class GenerateMetaData {
     /***
      *  表名 -> 该表需生成的所有模块集合
      */
-    private Map<String,List<TemplateGenerateInfo>> tableInfosMap = new LinkedHashMap<>();
+    private Map<String,List<ModulePathInfo>> modulePathInfoMap = new LinkedHashMap<>();
+    /***
+     *  表名对应生成信息
+     */
+    private Map<String,GenerateInfo> tableGenerateInfoMap = new ConcurrentHashMap<>();
     /**
      *  所有表的所有模块集合
      */
-    private List<TemplateGenerateInfo> tableInfos = new ArrayList<>();
+    private List<ModulePathInfo> allModulePathLists = new ArrayList<>();
 
-    public Map<String, List<TemplateGenerateInfo>> getTableInfosMap() {
-        return tableInfosMap;
+    public Map<String, List<ModulePathInfo>> getModulePathInfoMap() {
+        return modulePathInfoMap;
     }
 
-    public void addGenerateInfo(String tableName, TemplateGenerateInfo generateInfo) {
+    public void addModulePathInfo(String tableName, ModulePathInfo modulePathInfo) {
+        if (GeneratorStringUtils.isBlank(tableName) || modulePathInfo == null){
+            return;
+        }
+        if (modulePathInfoMap.get(tableName) != null){
+            modulePathInfoMap.get(tableName).add(modulePathInfo);
+        } else {
+            List<ModulePathInfo> modules = new ArrayList<>();
+            modules.add(modulePathInfo);
+            modulePathInfoMap.put(tableName, modules);
+        }
+        allModulePathLists.add(modulePathInfo);
+    }
+
+    public void addGenerateInfo(String tableName, GenerateInfo generateInfo){
         if (GeneratorStringUtils.isBlank(tableName) || generateInfo == null){
             return;
         }
-        if (tableInfosMap.get(tableName) != null){
-            tableInfosMap.get(tableName).add(generateInfo);
-        } else {
-            List<TemplateGenerateInfo> generateInfos = new ArrayList<>();
-            generateInfos.add(generateInfo);
-            tableInfosMap.put(tableName,generateInfos);
-        }
-        tableInfos.add(generateInfo);
+        tableGenerateInfoMap.put(tableName, generateInfo);
     }
 
-    public int getCount() {
-        return tableInfos.size();
+    /**
+     * 根据表名 获取 生成所需信息
+     * @param tableName 表名
+     * @return 生成所需信息
+     */
+    public GenerateInfo getGenerateInfoByTableName(String tableName){
+        return tableGenerateInfoMap.get(tableName);
+    }
+
+    public Map<String, GenerateInfo> getTableGenerateInfoMap() {
+        return tableGenerateInfoMap;
+    }
+
+    public int getModulesCount() {
+        return allModulePathLists.size();
     }
 }

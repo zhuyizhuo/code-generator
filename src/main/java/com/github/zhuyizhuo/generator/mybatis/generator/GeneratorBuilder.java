@@ -10,9 +10,11 @@ import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.CustomizeModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.FormatService;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.JavaModuleInfo;
+import com.github.zhuyizhuo.generator.mybatis.generator.service.GenerateService;
 import com.github.zhuyizhuo.generator.mybatis.generator.support.ContextHolder;
 import com.github.zhuyizhuo.generator.mybatis.generator.support.MethodInfo;
 import com.github.zhuyizhuo.generator.utils.CheckUtils;
+import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import com.github.zhuyizhuo.generator.utils.TypeConversion;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -58,13 +61,40 @@ public class GeneratorBuilder {
     private List<JavaModuleInfo> javaTemplates;
     /** 扩展 自定义模板 */
     private List<CustomizeModuleInfo> customizeModuleInfos;
+    /** 自定义生成器 */
+    private GenerateService generateService;
+    /** 配置信息 */
+    private Properties proInfo;
 
     public GeneratorBuilder() {
     }
 
     /**
+     * 设置 properties
+     * @param defaultProperties the properties to set.
+     * @return the current builder
+     */
+    public GeneratorBuilder properties(String... defaultProperties) {
+        return properties(getMapFromKeyValuePairs(defaultProperties));
+    }
+
+    /**
+     * 设置 properties
+     * @param defaults  the default properties
+     * @return the current builder
+     */
+    public GeneratorBuilder properties(Map<String, Object> defaults) {
+        if (this.proInfo == null){
+            this.proInfo = new Properties();
+        }
+        this.proInfo.putAll(defaults);
+        return this;
+    }
+
+    /**
      * 自定义指定模块生成名称
      * @since 1.4.0
+     * @return the current builder
      */
     public GeneratorBuilder addModuleNameFormat(@NotNull ModuleEnums moduleType, @NotNull FormatService moduleNameFormatService) {
         CheckUtils.AssertNotNull(moduleType,"addModuleNameFormat 参数 moduleType 不能为空!");
@@ -75,6 +105,7 @@ public class GeneratorBuilder {
     /**
      * 自定义指定模块生成名称 此方法可用来扩展自定义模块
      * @since 1.4.0
+     * @return the current builder
      */
     public GeneratorBuilder addModuleNameFormat(@NotNull String moduleType, @NotNull FormatService moduleNameFormatService) {
         CheckUtils.AssertNotNull(moduleType,"addModuleNameFormat 参数 moduleType 不能为空!");
@@ -88,14 +119,17 @@ public class GeneratorBuilder {
 
     /**
      * 自定义方法生成名称
-     * @param methodType 方法类型 不指定此参数 则自定义全局方法生成格式化
+     * @param methodType 方法类型
+     *       如果自定义全局方法生成格式化 则 传入 MethodEnums.ALL_METHOD
+     *         全局方法名格式化需配合配置  generate.java.method.{methodType}.name-format 使用
      * @param methodNameFormatService 格式化service
      * @since 1.4.0
+     * @return the current builder
      */
-    public GeneratorBuilder addMethodNameFormat(@Nullable MethodEnums methodType,@NotNull FormatService methodNameFormatService) {
+    public GeneratorBuilder addMethodNameFormat(@NotNull MethodEnums methodType,@NotNull FormatService methodNameFormatService) {
+        CheckUtils.AssertNotNull(methodType,"addMethodNameFormat 参数 methodType 不能为空!");
         CheckUtils.AssertNotNull(methodNameFormatService,"addMethodNameFormat 参数 methodNameFormatService 不能为空!");
-        if (methodType == null) {
-            LogUtils.printInfo("未指定 methodType ,将指定全局方法格式化 Service !");
+        if (MethodEnums.ALL_METHOD.equals(methodType)) {
             this.commonMethodFormatService = methodNameFormatService;
         } else {
             if (this.methodNameFormatServiceMap == null){
@@ -118,6 +152,7 @@ public class GeneratorBuilder {
      *
      * @param dataBaseType  数据类型
      * @param javaTypeClass java 类
+     * @return the current builder
      */
     public GeneratorBuilder fieldType2JavaType(@NotNull String dataBaseType, @NotNull Class<?> javaTypeClass) {
         CheckUtils.AssertNotNull(dataBaseType,"fieldType2JavaType 请指定 dataBaseType, 即数据库字段类型.");
@@ -141,6 +176,7 @@ public class GeneratorBuilder {
      *
      * @param dataBaseType  数据类型
      * @param jdbcType      mybatis 配置文件中类型 如 #{id,jdbcType=VARCHAR}
+     * @return the current builder
      */
     public GeneratorBuilder fieldType2JdbcType(@NotNull String dataBaseType, @NotNull JdbcType jdbcType) {
         CheckUtils.AssertNotNull(dataBaseType,"fieldType2JavaType 请指定 dataBaseType, 即数据库字段类型.");
@@ -153,6 +189,7 @@ public class GeneratorBuilder {
     /**
      * 添加自定义 java 模板
      * @param fileInfo java 模板信息
+     * @return the current builder
      */
     public GeneratorBuilder addJavaTemplate(@NotNull JavaModuleInfo fileInfo){
         CheckUtils.AssertNotNull(fileInfo,"添加模板不能为空!");
@@ -167,6 +204,7 @@ public class GeneratorBuilder {
     /**
      * 添加自定义模板
      * @param customizeModuleInfo 自定义模板信息
+     * @return the current builder
      */
     public GeneratorBuilder addCustomizeModuleTemplate(@NotNull CustomizeModuleInfo customizeModuleInfo){
         CheckUtils.AssertNotNull(customizeModuleInfo,"添加模板不能为空!");
@@ -179,15 +217,38 @@ public class GeneratorBuilder {
     }
 
     /**
+     * 可自定义 生成器
+     * @param generateService  生成器 service
+     * @return the current builder
+     */
+    public GeneratorBuilder addGenerateService(@NotNull GenerateService generateService){
+        CheckUtils.AssertNotNull(generateService,"generateService 不能为空!");
+        this.generateService = generateService;
+        return this;
+    }
+
+    public Generator build(){
+        return build("");
+    }
+
+    /**
      * Builds {@link Generator} instances.
      * @param configPath 配置文件路径
-     * @return
+     * @return Generator 生成器
      */
-    public Generator build(@NotNull String configPath) {
-        CheckUtils.AssertNotNull(configPath,"configPath 不能为空!");
+    public Generator build(@Nullable String configPath) {
         try {
-            InputStream resourceAsStream = Resources.getResourceAsStream(configPath);
-            PropertiesUtils.loadProperties(new BufferedReader(new InputStreamReader(resourceAsStream,Charsets.UTF_8)));
+            if (GeneratorStringUtils.isNotBlank(configPath)){
+                InputStream resourceAsStream = Resources.getResourceAsStream(configPath);
+                PropertiesUtils.loadProperties(new BufferedReader(new InputStreamReader(resourceAsStream,Charsets.UTF_8)));
+            }
+            if (this.proInfo != null){
+                PropertiesUtils.proInfo.putAll(proInfo);
+            }
+            CheckUtils.checkDBType();
+            CheckUtils.checkNeedConfig();
+        } catch (IllegalArgumentException ie){
+            LogUtils.printErrInfo(ie.getMessage());
         } catch (Exception e){
             LogUtils.printException("加载资源文件失败! 请检查配置文件路径. ", e);
         }
@@ -198,6 +259,7 @@ public class GeneratorBuilder {
         // 初始化常量
         AbstractDbService.tableRegex = PropertiesUtils.getConfig(ConfigConstants.TABLE_SEPARATOR);
         AbstractDbService.fieldRegex = PropertiesUtils.getConfig(ConfigConstants.FIELD_SEPARATOR);
+        LogUtils.logLevel = PropertiesUtils.getConfig(ConfigConstants.LOG_LEVEL);
 
         FileOutPathInfo fileOutPathInfo = context.getBean("FileOutPathInfo");
         // 需先设置格式化 service
@@ -215,7 +277,30 @@ public class GeneratorBuilder {
                 generator.addCustomizeModuleInfo(customizeModuleInfos.get(i));
             }
         }
+        generator.initGenerateService(generateService);
         return generator;
+    }
+
+    private Map<String, Object> getMapFromKeyValuePairs(String[] properties) {
+        Map<String, Object> map = new HashMap<>();
+        for (String property : properties) {
+            int index = lowestIndexOf(property, ":", "=");
+            String key = (index > 0) ? property.substring(0, index) : property;
+            String value = (index > 0) ? property.substring(index + 1) : "";
+            map.put(key, value);
+        }
+        return map;
+    }
+
+    private int lowestIndexOf(String property, String... candidates) {
+        int index = -1;
+        for (String candidate : candidates) {
+            int candidateIndex = property.indexOf(candidate);
+            if (candidateIndex > 0) {
+                index = (index != -1) ? Math.min(index, candidateIndex) : candidateIndex;
+            }
+        }
+        return index;
     }
 
 }

@@ -30,8 +30,8 @@ generate.table.separator=_
 generate.table.field.separator=_
 # model 类注释 如果数据库对应表无表注释信息 则使用该配置生成注释
 generate.table.default.comment=TODO
-# 是否启用日志 默认开启
-generate.log.enabled=true
+# 日志级别 INFO DEBUG  默认 INFO
+generate.log.level=true
 
 # 生成文件输出公共路径,不配置则默认为 [当前项目路径]
 generate.base.out-put-path=#{user.dir}

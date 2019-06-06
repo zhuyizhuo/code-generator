@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -58,9 +59,11 @@ public class ContextHolder {
         GenericTokenParser parser = new GenericTokenParser("#{", "}", new TokenHandler() {
             @Override
             public String handleToken(String content) {
-                return content;
+                return getConfig(content);
             }
         });
+
+        initProperties(parser);
 
         for (Map.Entry<String,Object> entry : beanMap.entrySet()){
             Field[] declaredFields = entry.getValue().getClass().getDeclaredFields();
@@ -74,36 +77,49 @@ public class ContextHolder {
 
                 field.setAccessible(true);
                 try {
-                    String properties = getConfig(configValue,parser);
-                    field.set(entry.getValue(), properties);
+                    while (configValue.contains("#")){
+                        configValue = parser.parse(configValue);
+                    }
+                    field.set(entry.getValue(), configValue);
                 } catch (IllegalAccessException e) {
                     LogUtils.printException(e);
                 }
-
             }
         }
 
     }
 
-    private String getConfig(String configValue, GenericTokenParser parser) {
-        String key = parser.parse(configValue);
+    private void initProperties(GenericTokenParser parser) {
+        loopProperties(contextConfig, parser);
+        loopProperties(PropertiesUtils.proInfo, parser);
+        LogUtils.printInfo("配置信息:" + PropertiesUtils.proInfo.toString());
+    }
+
+    private void loopProperties(Properties proInfo, GenericTokenParser parser) {
+        Enumeration<?> enumeration = proInfo.propertyNames();
+        while (enumeration.hasMoreElements()){
+            String key = (String)enumeration.nextElement();
+            String property = proInfo.getProperty(key);
+            if (property != null && property.trim().length() > 0){
+                while (property.contains("#")){
+                    property = parser.parse(property);
+                }
+                proInfo.setProperty(key, property);
+            }
+        }
+    }
+
+    private String getConfig(String key) {
         String properties = PropertiesUtils.getProperties(key);
         if (GeneratorStringUtils.isNotBlank(properties)){
-            if (properties.contains("#")){
-                return getConfig(properties,parser);
-            }
             return properties.trim();
         } else {
             String property = contextConfig.getProperty(key);
             if (GeneratorStringUtils.isNotBlank(property)){
-                if (property.contains("#")){
-                    String parse = parser.parse(property);
-                    return System.getProperty(parse);
-                }
+                return property.trim();
             } else {
                 return System.getProperty(key);
             }
-            return property.trim();
         }
     }
 

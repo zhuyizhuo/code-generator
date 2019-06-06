@@ -1,8 +1,6 @@
 package com.github.zhuyizhuo.generator.utils;
 
-import com.alibaba.fastjson.JSON;
-import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
-import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
+import com.github.zhuyizhuo.generator.mybatis.generator.extension.LogService;
 
 /**
  * class: LogUtils <br>
@@ -14,37 +12,45 @@ import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
  */
 public class LogUtils {
 
-    private static final boolean booleanProperties = PropertiesUtils.getBooleanPropertiesDefaultTrue(ConfigConstants.LOG_ENABLED);
+    public static String logLevel;
+    private static final String LEVEL_INFO = "INFO";
+    private static final String LEVEL_DEBUG = "DEBUG";
+
+    private static LogService logService;
+
+    public static void setLogService(LogService logService) {
+        LogUtils.logService = logService;
+    }
 
     public static void printInfo(String info){
-        if (booleanProperties){
+        if (LEVEL_INFO.equalsIgnoreCase(logLevel)){
             System.out.println(info);
         }
     }
 
     public static void printErrInfo(String info){
-        if (booleanProperties){
+        if (LEVEL_INFO.equalsIgnoreCase(logLevel)){
             System.err.println(info);
         }
     }
 
     public static void printException(Exception e){
-        if (booleanProperties){
+        if (LEVEL_INFO.equalsIgnoreCase(logLevel)){
             e.printStackTrace();
         }
     }
 
     public static void printException(String errorMsg, Exception e){
-        if (booleanProperties){
+        if (LEVEL_INFO.equalsIgnoreCase(logLevel)){
             System.err.println(errorMsg);
             e.printStackTrace();
         }
     }
 
-
-    public static void printJsonInfo(String message, Object obj){
-        if (booleanProperties){
-            System.out.println(message + JSON.toJSONString(obj));
+    public static void logGenerateInfo(Object obj){
+        if (LEVEL_INFO.equalsIgnoreCase(logLevel) && logService != null){
+            logService.logGenerateInfo(obj);
         }
     }
+
 }

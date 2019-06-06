@@ -24,7 +24,8 @@ public enum MethodEnums {
     QUERY_BY_PRIMARY_KEY("generate.java.method.query-by-primary-key.","enabled","comment","name-format"),
     /** 查询总数方法 */
     COUNT_BY_WHERE("generate.java.method.count-by-where.","enabled","comment","name-format"),
-
+    /** 所有方法 */
+    ALL_METHOD
     ;
 
     private String propertiesBaseKey;
@@ -34,6 +35,9 @@ public enum MethodEnums {
     private String methodCommentKey;
     /** 默认格式化 */
     private String methodFormatKey;
+
+    MethodEnums() {
+    }
 
     MethodEnums(String propertiesBaseKey, String propertiesEnabledKey, String methodCommentKey, String methodFormatKey) {
         this.propertiesBaseKey = propertiesBaseKey;
