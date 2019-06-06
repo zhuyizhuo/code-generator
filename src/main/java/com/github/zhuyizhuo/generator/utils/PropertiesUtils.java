@@ -1,14 +1,13 @@
 package com.github.zhuyizhuo.generator.utils;
 
-import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
-import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
-import org.apache.ibatis.io.Resources;
+import com.github.zhuyizhuo.generator.mybatis.generator.support.ContextHolder;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
 /**
+ *  资源文件处理工具类
  * @author yizhuo
  * @version 1.0
  * time: 2018/7/29 18:39
@@ -17,32 +16,23 @@ public class PropertiesUtils {
 
     public static final Properties proInfo = new Properties();
 
-    private static final String[] needProperties = {ConfigConstants.URL,ConfigConstants.DB_TYPE,ConfigConstants.DRIVER,ConfigConstants.USERNAME,ConfigConstants.PASSWORD,ConfigConstants.TABLE_SCHEMA};
-
-    public static void loadProperties(InputStream resourceAsStream) throws IOException,IllegalArgumentException {
-        proInfo.load(resourceAsStream);
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < needProperties.length; i++) {
-            if (isBlank(getProperties(needProperties[i]))){
-                sb.append("未配置 " + needProperties[i] + "  \n");
-            }
+    public static void loadProperties(BufferedReader resourceAsStream) {
+        try {
+            proInfo.load(resourceAsStream);
+        } catch (Exception e) {
+            LogUtils.printException("加载配置文件失败!",e);
         }
-        if (sb.length() > 0){
-            LogUtils.printErrInfo(sb.toString());
-            throw new IllegalArgumentException(sb.toString());
-        }
-    }
-
-    private static boolean isBlank(String properties) {
-        if (GeneratorStringUtils.isBlank(properties)) {
-            return true;
-        }
-        return false;
     }
 
     public static String getProperties(String key){
         String property = proInfo.getProperty(key);
         return property == null ? null : property.trim();
+    }
+
+    public static String getConfig(String key){
+        return GeneratorStringUtils.isBlank(PropertiesUtils.getProperties(key))
+                ? ContextHolder.getDefaultConfig(key)
+                : PropertiesUtils.getProperties(key);
     }
 
     /**

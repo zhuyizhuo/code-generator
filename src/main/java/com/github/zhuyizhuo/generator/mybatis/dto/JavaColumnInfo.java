@@ -15,20 +15,10 @@ public class JavaColumnInfo extends ColumnInfo {
 	private String javaColumnName;
 	/** java字段类型 */
 	private String javaDataType;
-	/** java字段类型全称 TODO java.lang 包下的未赋值 */
+	/** java字段类型全称 */
 	private String javaDataTypeFullPath;
 
 	public JavaColumnInfo() {
-	}
-
-	public JavaColumnInfo(JavaColumnInfo javaColumnInfo) {
-		super(javaColumnInfo);
-		if (javaColumnInfo == null){
-			return;
-		}
-		this.javaColumnName = javaColumnInfo.getJavaColumnName();
-		this.javaDataType = javaColumnInfo.getJavaDataType();
-		this.javaDataTypeFullPath = javaColumnInfo.getJavaDataTypeFullPath();
 	}
 
 	public String getJavaColumnName() {
@@ -78,7 +68,7 @@ public class JavaColumnInfo extends ColumnInfo {
 
 	@Override
 	public String toString() {
-		return super.toString() + "\n\t JavaColumnInfo{" +
+		return "JavaColumnInfo{" +
 				"javaColumnName='" + javaColumnName + '\'' +
 				", javaDataType='" + javaDataType + '\'' +
 				", javaDataTypeFullPath='" + javaDataTypeFullPath + '\'' +
