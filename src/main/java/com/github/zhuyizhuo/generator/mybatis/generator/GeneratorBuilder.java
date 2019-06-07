@@ -93,6 +93,8 @@ public class GeneratorBuilder {
 
     /**
      * 自定义指定模块生成名称
+     * @param moduleType 模块类型
+     * @param moduleNameFormatService 模块名格式化 Service
      * @since 1.4.0
      * @return the current builder
      */
@@ -104,6 +106,8 @@ public class GeneratorBuilder {
 
     /**
      * 自定义指定模块生成名称 此方法可用来扩展自定义模块
+     * @param moduleType 模块类型
+     * @param moduleNameFormatService 模块名格式化 Service
      * @since 1.4.0
      * @return the current builder
      */

@@ -19,6 +19,7 @@ public class SqlSessionUtils {
 
     /**
      *  相对路径加载配置文件
+     * @return SqlSession instance
      */
     public static SqlSession getSqlSession() throws RuntimeException {
         try {

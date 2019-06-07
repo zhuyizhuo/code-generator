@@ -11,8 +11,8 @@ public interface LogService {
 
     /**
      *  输出生成信息
-     * @param obj
+     * @param generateMetaData 生成器处理后的生成数据使用的元数据
      */
-    void logGenerateInfo(Object obj);
+    void logGenerateInfo(Object generateMetaData);
 
 }

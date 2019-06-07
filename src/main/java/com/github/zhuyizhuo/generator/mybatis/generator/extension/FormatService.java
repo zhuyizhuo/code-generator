@@ -6,7 +6,7 @@ package com.github.zhuyizhuo.generator.mybatis.generator.extension;
  * time: 2018/8/16 19:29
  *
  * @author yizhuo <br>
- * @Since 1.0
+ * @since 1.0
  * @version 1.4.0
  */
 public interface FormatService {

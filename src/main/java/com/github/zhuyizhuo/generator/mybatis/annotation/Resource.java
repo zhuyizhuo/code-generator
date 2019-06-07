@@ -18,7 +18,8 @@ import java.lang.annotation.Target;
 public @interface Resource {
 
     /**
-     * 标识资源文件名称
+     * 标识资源文件配置
+     * @return 资源文件的配置 key
      */
     String value();
 

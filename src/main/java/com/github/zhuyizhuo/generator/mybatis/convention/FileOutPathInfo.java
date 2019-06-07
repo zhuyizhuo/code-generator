@@ -65,7 +65,7 @@ public class FileOutPathInfo {
             filePackage = PropertiesUtils.getConfig(module.getFilePackageKey());
             outPutPath = PropertiesUtils.getConfig(module.getOutputPathKey());
             if (FileTypeEnums.JAVA.equals(module.getTypeEnums())){
-                outPutFullPathFormat = getOutputFullPathByModuleType(outPutPath, filePackage) + "{0}.java";
+                outPutFullPathFormat = getJavaOutputFullPath(outPutPath, filePackage) + "{0}.java";
             } else if (FileTypeEnums.XML.equals(module.getTypeEnums())){
                 outPutFullPathFormat = getResourcesOutputFullPath(outPutPath) + "{0}.xml";
             }
@@ -85,6 +85,7 @@ public class FileOutPathInfo {
 
     /**
      * 根据路径获取资源文件输出全路径
+     * @param resourcesOutPutPath 资源文件的输出路径
      * @return 资源文件输出全路径
      */
     public String getResourcesOutputFullPath(String resourcesOutPutPath) {
@@ -104,26 +105,28 @@ public class FileOutPathInfo {
     /***
      *  根据文件包名获取文件输出全路径
      *
-     * @param outPutPath
-     * @param fileFullPackage
+     * @param outPutPath java 文件输出路径 例如 /src/main/java
+     * @param classFullPackage java 类的包路径
      * @return java 文件输出全路径
      */
-    public String getOutputFullPathByModuleType(String outPutPath, String fileFullPackage) {
+    public String getJavaOutputFullPath(String outPutPath, String classFullPackage) {
         String outPutFullPath;
         if ("TRUE".equalsIgnoreCase(basePackageEnabled)) {
-            outPutFullPath = baseOutputPath + "/" + outPutPath + "/" + fileFullPackage.replaceAll("\\.", "/");
+            outPutFullPath = baseOutputPath + "/" + outPutPath + "/" + classFullPackage.replaceAll("\\.", "/");
         } else {
-            int index = fileFullPackage.lastIndexOf(".");
+            int index = classFullPackage.lastIndexOf(".");
             if(index != -1){
-                fileFullPackage = fileFullPackage.substring(index + 1);
+                classFullPackage = classFullPackage.substring(index + 1);
             }
-            outPutFullPath = baseOutputPath + "/" + fileFullPackage;
+            outPutFullPath = baseOutputPath + "/" + classFullPackage;
         }
         return outPutFullPath + "/";
     }
 
     /**
      *  初始化类名 及 输出全路径
+     * @param tableName 表名
+     * @param tableNameCamelCase 表名驼峰命名
      */
     public void initFileNamesAndOutPutFullPath(String tableName, String tableNameCamelCase) {
         this.tableName = tableName;
@@ -162,7 +165,7 @@ public class FileOutPathInfo {
             moduleInfo = new ModuleInfo();
             addModuleInfo(fileInfo.getModuleType(), moduleInfo);
         }
-        String outPutFullPathFormat = getOutputFullPathByModuleType(fileInfo.getOutputPath(),
+        String outPutFullPathFormat = getJavaOutputFullPath(fileInfo.getOutputPath(),
                                         fileInfo.getClassPackage()) + "{0}.java";
         moduleInfo.setModuleType(fileInfo.getModuleType());
         moduleInfo.setOutPutFullPathFormatPattern(outPutFullPathFormat);

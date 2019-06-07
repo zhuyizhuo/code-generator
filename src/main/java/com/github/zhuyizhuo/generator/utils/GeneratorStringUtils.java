@@ -85,6 +85,7 @@ public class GeneratorStringUtils {
     /**
      * 表名转java驼峰命名(首字母大写)
      * @param tableName  e.g mybatis_user_info
+     * @param tableRegex 表名的分隔符 例如 _
      * @return MybatisUserInfo
      */
     public static String changeTableName2CamelFirstUpper(String tableName, String tableRegex) {
@@ -100,7 +101,8 @@ public class GeneratorStringUtils {
      * 数据库字段名转java驼峰命名(驼峰处转大写,其他字母小写)  连接符colmRegex可指定  默认为_
      * changeColmName2CamelFirstLower("mybatis_user_info","_") =  "mybatisUserInfo"
      * changeColmName2CamelFirstLower("MYBATIS_USER_INFO","_") =  "mybatisUserInfo"
-     * @param columnName
+     * @param columnName 列名
+     * @param colmRegex 字段的分隔符 例如 _
      * @return java驼峰命名
      */
     public static String changeColmName2CamelFirstLower(String columnName, String colmRegex) {

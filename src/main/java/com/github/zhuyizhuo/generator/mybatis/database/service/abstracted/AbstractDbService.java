@@ -55,19 +55,19 @@ public abstract class AbstractDbService implements DbService {
 
     /**
      * 将表信息处理成 java 信息
-     * @param dbTableInfo
-     * @param tableInfo
+     * @param sourceTableInfo 数据库表信息
+     * @param targetTableInfo 生成器所需的 java 对象
      */
-    protected void setTableInfo(DbTableInfo dbTableInfo, TableInfo tableInfo) {
+    protected void setTableInfo(DbTableInfo sourceTableInfo, TableInfo targetTableInfo) {
 
-        tableInfo.setTableName(dbTableInfo.getTableName());
-        tableInfo.setTableSchema(dbTableInfo.getTableSchema());
-        if (GeneratorStringUtils.isBlank(dbTableInfo.getTableComment())){
-            tableInfo.setTableComment(ClassCommentInfo.tableComment);
+        targetTableInfo.setTableName(sourceTableInfo.getTableName());
+        targetTableInfo.setTableSchema(sourceTableInfo.getTableSchema());
+        if (GeneratorStringUtils.isBlank(sourceTableInfo.getTableComment())){
+            targetTableInfo.setTableComment(ClassCommentInfo.tableComment);
         } else {
-            tableInfo.setTableComment(dbTableInfo.getTableComment());
+            targetTableInfo.setTableComment(sourceTableInfo.getTableComment());
         }
-        List<ColumnInfo> columnLists = dbTableInfo.getColumnLists();
+        List<ColumnInfo> columnLists = sourceTableInfo.getColumnLists();
         JavaColumnInfo javaColumnInfo;
         for (int i = 0; i < columnLists.size(); i++) {
             ColumnInfo columnInfo = columnLists.get(i);
@@ -80,8 +80,8 @@ public abstract class AbstractDbService implements DbService {
             javaColumnInfo.setJavaDataType(getJavaDataType(columnInfo));
             /** 设置类全路径 java.lang包下的类不需要import */
             javaColumnInfo.setJavaDataTypeFullPath(TypeConversion.javaDataTypeFullPathMap.get(javaColumnInfo.getJavaDataType()));
-            tableInfo.addJavaColumnInfo(javaColumnInfo);
-            tableInfo.addImportPackage(javaColumnInfo.getJavaDataTypeFullPath());
+            targetTableInfo.addJavaColumnInfo(javaColumnInfo);
+            targetTableInfo.addImportPackage(javaColumnInfo.getJavaDataTypeFullPath());
         }
     }
 

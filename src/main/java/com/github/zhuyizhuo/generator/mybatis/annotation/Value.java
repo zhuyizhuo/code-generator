@@ -19,6 +19,7 @@ public @interface Value {
 
     /**
      * The actual value expression: e.g. "#{systemProperties.myProp}".
+     * @return 对应 value 的配置 key
      */
     String value();
 
