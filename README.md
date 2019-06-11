@@ -26,7 +26,11 @@
 
 ### 参考文档
 
-- ##### [快速开始](./docs/quickstart.md)
+- [快速开始](./docs/quickstart.md)
+
+### 常见问题
+
+* [常见问题](./docs/faq.md)
 
 ### 参与贡献
 

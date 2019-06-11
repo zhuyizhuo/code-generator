@@ -31,4 +31,3 @@ Exception: java.sql.SQLException: Error setting driver on UnpooledDataSource. Ca
 ```
 db.url=jdbc:mysql://localhost:3306/tableName?useUnicode=true&characterEncoding=utf-8&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
 ```
-

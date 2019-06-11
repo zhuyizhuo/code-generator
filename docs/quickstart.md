@@ -55,7 +55,7 @@ generate.table.field.separator=_
 # model 类注释 如果数据库对应表无表注释信息 则使用该配置生成注释
 generate.table.default.comment=TODO
 # 日志级别 INFO DEBUG  默认 INFO
-generate.log.level=true
+generate.log.level=INFO
 
 # 生成文件输出公共路径,不配置则默认为 [当前项目路径]
 generate.base.out-put-path=#{user.dir}
@@ -136,7 +136,7 @@ generate.java.method.count-by-where.name-format=count{0}ByWhere
 ##################### XML 配置 start ####################
 # XML 名称 默认 驼峰命名
 generate.resources.xml.name-format={0}
-# 生成资源文件输出路径,不配置则默认为 /src/main/resources/mappers, 路径请使用/或\\分隔
+# 生成资源文件输出路径,不配置则默认为 /src/main/resources/xml, 路径请使用/或\\分隔
 generate.resources.xml.out-put-path=/src/main/resources/xml
 # mybatis xml 的 parameterType 别名是否启用
 generate.resources.xml.mybatis.parameter-type.aliases.enabled=false
