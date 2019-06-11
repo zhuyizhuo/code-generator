@@ -7,6 +7,7 @@ import com.github.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
 import java.util.List;
 
 /**
+ *  mysql 数据库 mapper
  * @author yizhuo
  * @version 1.0
  * time: 2018/7/27 20:55
@@ -29,6 +30,7 @@ public interface MysqlDataBaseMapper {
     /**
      * 根据表信息查询主键信息
      * @param schema 查询参数对象
+     * @return 所有的主键信息
      */
     List<ColumnInfo> getPrimaryKeys(DbTableInfo schema);
 }

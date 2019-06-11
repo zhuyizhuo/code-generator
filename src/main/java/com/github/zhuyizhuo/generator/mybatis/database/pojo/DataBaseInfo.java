@@ -3,6 +3,7 @@ package com.github.zhuyizhuo.generator.mybatis.database.pojo;
 import java.util.List;
 
 /**
+ *  表信息
  * @author yizhuo
  * @version 1.0
  * time: 2018/7/29 19:16
@@ -10,6 +11,7 @@ import java.util.List;
 public class DataBaseInfo {
     /** 数据库名称 */
     private String tableSchema;
+    /** 表名 */
     private List<String> tableNames;
 
     public String getTableSchema() {

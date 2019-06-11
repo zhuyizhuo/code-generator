@@ -2,15 +2,16 @@ package com.github.zhuyizhuo.generator.mybatis.vo;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
-import com.github.zhuyizhuo.generator.mybatis.convention.MethodCommentInfo;
-import com.github.zhuyizhuo.generator.mybatis.convention.MethodInfo;
-import com.github.zhuyizhuo.generator.mybatis.convention.StratificationInfo;
+import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
+import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
-import com.github.zhuyizhuo.generator.mybatis.generator.support.mybatis.MybatisXmlDefinition;
+import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
+import com.github.zhuyizhuo.generator.mybatis.dto.MybatisXmlDefinition;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author yizhuo
@@ -18,14 +19,12 @@ import java.util.List;
  * time: 2018/7/29 17:44
  */
 public class GenerateInfo {
-    /** 分层信息 */
-    private StratificationInfo stratificationInfo;
     /** 类注释信息 */
     private ClassCommentInfo classCommentInfo;
-    /** 方法注释信息 */
-    private MethodCommentInfo methodCommentInfo;
+    /** 分层信息 */
+    private Map<String, JavaClassDefinition> javaClassDefinition;
     /** 方法信息 */
-    private MethodInfo methodInfo;
+    private Map<String, MethodDescription> methodDescription;
     /** 表信息 */
     private TableInfo tableInfo;
     /** mybatis xml 定义*/
@@ -33,12 +32,11 @@ public class GenerateInfo {
 
     public GenerateInfo() { }
 
-    public MethodInfo getMethodInfo() {
-        return methodInfo;
-    }
-
-    public void setMethodInfo(MethodInfo methodInfo) {
-        this.methodInfo = methodInfo;
+    public GenerateInfo(ClassCommentInfo classCommentInfo, Map<String, JavaClassDefinition> javaClassDefinition, Map<String, MethodDescription> methodDescription, TableInfo tableInfo) {
+        this.classCommentInfo = classCommentInfo;
+        this.javaClassDefinition = javaClassDefinition;
+        this.methodDescription = methodDescription;
+        this.tableInfo = tableInfo;
     }
 
     public ClassCommentInfo getClassCommentInfo() {
@@ -53,59 +51,47 @@ public class GenerateInfo {
         return tableInfo;
     }
 
-    public void setTableInfo(TableInfo tableInfo) {
-        this.tableInfo = tableInfo;
-    }
-
-    public MethodCommentInfo getMethodCommentInfo() {
-        return methodCommentInfo;
-    }
-
-    public void setMethodCommentInfo(MethodCommentInfo methodCommentInfo) {
-        this.methodCommentInfo = methodCommentInfo;
-    }
-
     public MybatisXmlDefinition getMybatisXmlDefinition() {
         return mybatisXmlDefinition;
     }
 
-    public void init(TableInfo tableInfo) {
-        setTableInfo(tableInfo);
-        this.methodInfo.initMethodName(tableInfo.getTableNameCamelCase());
-    }
-
-    public void setStratificationInfo(StratificationInfo stratificationInfo) {
-        this.stratificationInfo = stratificationInfo;
-    }
-
-    public StratificationInfo getStratificationInfo() {
-        return stratificationInfo;
-    }
-
-    public void initXmlInfo(StratificationInfo stratificationInfo) {
+    public void initXmlInfo() {
         mybatisXmlDefinition = new MybatisXmlDefinition();
+
         boolean useTypeAliases = PropertiesUtils.getBooleanPropertiesDefaultFalse(ConfigConstants.PARAMETER_TYPE_USE_TYPE_ALIASES);
-        if (useTypeAliases){
-            mybatisXmlDefinition.setParameterType(GeneratorStringUtils.firstLower(stratificationInfo.getPojoName()));
-        } else {
-            mybatisXmlDefinition.setParameterType(stratificationInfo.getPojoFullPackage()+"."+stratificationInfo.getPojoName());
-        }
+        JavaClassDefinition pojoDefinition = javaClassDefinition.get(ModuleEnums.POJO.toString());
+        JavaClassDefinition mapperDefinition = javaClassDefinition.get(ModuleEnums.MAPPER.toString());
 
-        mybatisXmlDefinition.setTableName(tableInfo.getTableName());
-        mybatisXmlDefinition.setTableSchema(tableInfo.getTableSchema());
-        mybatisXmlDefinition.setTableNameCamelCase(tableInfo.getTableNameCamelCase());
-        mybatisXmlDefinition.setTableComment(tableInfo.getTableComment());
-        mybatisXmlDefinition.getResultMap().setId(GeneratorStringUtils.firstLower(tableInfo.getTableNameCamelCase())+"ResultMap");
-        mybatisXmlDefinition.getResultMap().setType(mybatisXmlDefinition.getParameterType());
-
-        mybatisXmlDefinition.setNameSpace(stratificationInfo.getDaoFullPackage()+"." +stratificationInfo.getDaoName());
-        mybatisXmlDefinition.addMybatisXmlHeaderLine("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
-        mybatisXmlDefinition.addMybatisXmlHeaderLine("<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">");
+        String className = GeneratorStringUtils.firstLower(pojoDefinition.getClassName());
+        mybatisXmlDefinition.setParameterType(useTypeAliases  ? className
+                                                                : pojoDefinition.getFullPackage()+"."+pojoDefinition.getClassName());
+        mybatisXmlDefinition.setNameSpace(mapperDefinition.getFullPackage()+"." +mapperDefinition.getClassName());
+        mybatisXmlDefinition.setResultMapId(className+"ResultMap");
+        mybatisXmlDefinition.setResultMapType(mybatisXmlDefinition.getParameterType());
 
         List<JavaColumnInfo> columns = tableInfo.getColumnLists();
         for (int i = 0; i < columns.size(); i++) {
             JavaColumnInfo javaColumnInfo = columns.get(i);
             mybatisXmlDefinition.addColumn(javaColumnInfo);
         }
+    }
+
+    public Map<String, MethodDescription> getMethodDescription() {
+        return methodDescription;
+    }
+
+    public Map<String, JavaClassDefinition> getJavaClassDefinition() {
+        return javaClassDefinition;
+    }
+
+    @Override
+    public String toString() {
+        return "GenerateInfo{" +
+                "classCommentInfo=" + classCommentInfo +
+                ", javaClassDefinition=" + javaClassDefinition +
+                ", methodDescription=" + methodDescription +
+                ", tableInfo=" + tableInfo +
+                ", mybatisXmlDefinition=" + mybatisXmlDefinition +
+                '}';
     }
 }

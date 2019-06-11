@@ -1,142 +1,247 @@
 package com.github.zhuyizhuo.generator.mybatis.convention;
 
-import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
-import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
+import com.github.zhuyizhuo.generator.mybatis.annotation.CoventionClass;
+import com.github.zhuyizhuo.generator.mybatis.annotation.Value;
+import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
+import com.github.zhuyizhuo.generator.mybatis.enums.FileTypeEnums;
+import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
+import com.github.zhuyizhuo.generator.mybatis.generator.extension.CustomizeModuleInfo;
+import com.github.zhuyizhuo.generator.mybatis.generator.extension.FormatService;
+import com.github.zhuyizhuo.generator.mybatis.generator.extension.JavaModuleInfo;
+import com.github.zhuyizhuo.generator.mybatis.generator.support.ModuleInfo;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * class: FileOutPathInfo <br>
- * description: 文件输出路径信息 <br>
+ * description: 包路径 及 文件输出路径信息 <br>
  *
  * @author yizhuo <br>
- * @version 1.0
+ * @since  1.0
+ * @version 1.4.0
  */
+@CoventionClass
 public class FileOutPathInfo {
-    /** 基路径 */
-    private String basePath;
-    /** 实体类输出路径 */
-    private String pojoOutPutPath;
-    /** dao输出路径 */
-    private String daoOutPutPath;
-    /** mybatis xml文件输出路径 */
-    private String xmlOutPutPath;
 
-    /** 实体类输出全路径 */
-    private String pojoOutPutFullPath;
-    /** dao输出全路径 */
-    private String daoOutPutFullPath;
-    /** mybatis xml文件输出全路径 */
-    private String xmlOutPutFullPath;
+    @Value("#{generate.base.out-put-path}")
+    private String baseOutputPath;
+    /**  true 则生成完整目录 false 则仅生成目录最后一层 */
+    @Value("#{generate.java.base.package.enabled}")
+    private String basePackageEnabled;
 
-    public FileOutPathInfo() {
+    private String tableName;
+    private String tableNameCamelCase;
+    /**
+     *  类名格式化 Service Map
+     *  ModuleType -> 类名格式化 Service
+     */
+    private Map<String, FormatService> classNameFormatServieMap;
+    /**
+     * moduleTpye ->  ModuleInfo
+     */
+    private Map<String, ModuleInfo> moduleInfoMap;
+    /** 模块信息 */
+    private List<ModuleInfo> modules;
+    /**  moduleType -> java 类定义 Map  */
+    private Map<String,JavaClassDefinition> javaClassDefinitionMap;
 
-    }
-
-    public String getBasePath(){
-        String basePath = "";
-        basePath = PropertiesUtils.getProperties(ConfigConstants.FILE_OUT_PUT_PATH);
-        if (GeneratorStringUtils.isBlank(basePath)){
-            basePath = System.getProperty("user.dir") + "/src/main/java/";
+    /**
+     * 初始化模块信息
+     */
+    public void init() {
+        ModuleEnums[] values = ModuleEnums.values();
+        String outPutFullPathFormat = "";
+        ModuleInfo info;
+        String filePackage;
+        String outPutPath;
+        for (int i = 0; i < values.length; i++) {
+            info = new ModuleInfo();
+            ModuleEnums module = values[i];
+            filePackage = PropertiesUtils.getConfig(module.getFilePackageKey());
+            outPutPath = PropertiesUtils.getConfig(module.getOutputPathKey());
+            if (FileTypeEnums.JAVA.equals(module.getTypeEnums())){
+                outPutFullPathFormat = getJavaOutputFullPath(outPutPath, filePackage) + "{0}.java";
+            } else if (FileTypeEnums.XML.equals(module.getTypeEnums())){
+                outPutFullPathFormat = getResourcesOutputFullPath(outPutPath) + "{0}.xml";
+            }
+            info.setModuleType(module.toString());
+            info.setFileType(module.getTypeEnums());
+            info.setFileFullPackage(filePackage);
+            info.setOutPutFullPathFormatPattern(outPutFullPathFormat);
+            info.setFileNameFormatServie(getFormatService(module));
+            info.setFileNameFormatPattern(PropertiesUtils.getConfig(module.getFileNameFormatKey()));
+            addModuleInfo(module, info);
         }
-        basePath += "/";
-        return basePath;
     }
 
-    public void init(StratificationInfo stratificationInfo) {
-        this.basePath = getBasePath();
+    public void setClassNameFormatServieMap(Map<String, FormatService> classNameFormatServieMap) {
+        this.classNameFormatServieMap = classNameFormatServieMap;
+    }
 
-        if (PropertiesUtils.containsKey(ConfigConstants.XML_OUT_PUT_PATH)){
-            setXmlOutPutPath(PropertiesUtils.getProperties(ConfigConstants.XML_OUT_PUT_PATH));
-        };
-        if (PropertiesUtils.containsKey(ConfigConstants.DAO_OUT_PUT_PATH)){
-            setDaoOutPutPath(PropertiesUtils.getProperties(ConfigConstants.DAO_OUT_PUT_PATH));
-        };
-        if (PropertiesUtils.containsKey(ConfigConstants.POJO_OUT_PUT_PATH)){
-            setPojoOutPutPath(PropertiesUtils.getProperties(ConfigConstants.POJO_OUT_PUT_PATH));
-        };
-
-        if (GeneratorStringUtils.isBlank(pojoOutPutPath)){
-            this.pojoOutPutPath = getJavaFileOutPutFullPath(changePackage2Path(stratificationInfo.getPojoFullPackage()));
+    /**
+     * 根据路径获取资源文件输出全路径
+     * @param resourcesOutPutPath 资源文件的输出路径
+     * @return 资源文件输出全路径
+     */
+    public String getResourcesOutputFullPath(String resourcesOutPutPath) {
+        String outPutFullPath;
+        if ("TRUE".equalsIgnoreCase(basePackageEnabled)) {
+            outPutFullPath = baseOutputPath + "/" + resourcesOutPutPath;
         } else {
-            this.pojoOutPutPath = getJavaFileOutPutFullPath(this.pojoOutPutPath);
+            String tempPath = resourcesOutPutPath.replaceAll("\\\\","/");
+            if (tempPath.lastIndexOf("/") != -1){
+                tempPath = tempPath.substring(tempPath.lastIndexOf("/") + 1);
+            }
+            outPutFullPath = baseOutputPath + "/" + tempPath;
         }
-        if (GeneratorStringUtils.isBlank(daoOutPutPath)){
-            this.daoOutPutPath = getJavaFileOutPutFullPath(changePackage2Path(stratificationInfo.getDaoFullPackage()));
+        return outPutFullPath + "/";
+    }
+
+    /***
+     *  根据文件包名获取文件输出全路径
+     *
+     * @param outPutPath java 文件输出路径 例如 /src/main/java
+     * @param classFullPackage java 类的包路径
+     * @return java 文件输出全路径
+     */
+    public String getJavaOutputFullPath(String outPutPath, String classFullPackage) {
+        String outPutFullPath;
+        if ("TRUE".equalsIgnoreCase(basePackageEnabled)) {
+            outPutFullPath = baseOutputPath + "/" + outPutPath + "/" + classFullPackage.replaceAll("\\.", "/");
         } else {
-            this.daoOutPutPath = getJavaFileOutPutFullPath(this.daoOutPutPath);
+            int index = classFullPackage.lastIndexOf(".");
+            if(index != -1){
+                classFullPackage = classFullPackage.substring(index + 1);
+            }
+            outPutFullPath = baseOutputPath + "/" + classFullPackage;
         }
-        if (GeneratorStringUtils.isBlank(xmlOutPutPath)){
-            this.xmlOutPutPath = getXmlOutPutPath(changePackage2Path(stratificationInfo.getXmlFullPackage()));
-        } else {
-            this.xmlOutPutPath = getXmlOutPutPath(this.xmlOutPutPath);
+        return outPutFullPath + "/";
+    }
+
+    /**
+     *  初始化类名 及 输出全路径
+     * @param tableName 表名
+     * @param tableNameCamelCase 表名驼峰命名
+     */
+    public void initFileNamesAndOutPutFullPath(String tableName, String tableNameCamelCase) {
+        this.tableName = tableName;
+        this.tableNameCamelCase = tableNameCamelCase;
+
+        String fileName = "";
+        this.modules = new ArrayList<>();
+        this.javaClassDefinitionMap = new ConcurrentHashMap<>();
+        for (Map.Entry<String, ModuleInfo> entry : moduleInfoMap.entrySet()) {
+            String moduleType = entry.getKey();
+            ModuleInfo moduleInfo = entry.getValue();
+            FormatService fileNameFormatServie = moduleInfo.getFileNameFormatServie();
+            if (fileNameFormatServie != null) {
+                fileName = fileNameFormatServie.format(tableName);
+            } else {
+                fileName = fileNameFormat(moduleInfo.getFileType(), moduleInfo.getFileNameFormatPattern());
+            }
+
+            if (FileTypeEnums.JAVA.equals(moduleInfo.getFileType())){
+                String fileFullPackage = moduleInfo.getFileFullPackage();
+                this.javaClassDefinitionMap.put(moduleType, new JavaClassDefinition(fileFullPackage, fileName));
+            }
+            // 设置文件输出全路径
+            moduleInfo.setOutPutFullPathByFileName(fileName);
+            this.modules.add(moduleInfo);
         }
     }
 
-    public void formatPath(StratificationInfo stratificationInfo){
-        this.pojoOutPutFullPath = MessageFormat.format(pojoOutPutPath,stratificationInfo.getPojoName());
-        this.daoOutPutFullPath = MessageFormat.format(daoOutPutPath,stratificationInfo.getDaoName());
-        this.xmlOutPutFullPath = MessageFormat.format(xmlOutPutPath,stratificationInfo.getXmlName());
+    /**
+     *  新增 java 模板
+     * @param fileInfo java 模块信息
+     */
+    public void addJavaTemplate(JavaModuleInfo fileInfo) {
+        ModuleInfo moduleInfo = getModuleInfo(fileInfo.getModuleType());
+        if (moduleInfo == null){
+            moduleInfo = new ModuleInfo();
+            addModuleInfo(fileInfo.getModuleType(), moduleInfo);
+        }
+        String outPutFullPathFormat = getJavaOutputFullPath(fileInfo.getOutputPath(),
+                                        fileInfo.getClassPackage()) + "{0}.java";
+        moduleInfo.setModuleType(fileInfo.getModuleType());
+        moduleInfo.setOutPutFullPathFormatPattern(outPutFullPathFormat);
+        // 仅 java 模块需设置包路径
+        moduleInfo.setFileFullPackage(fileInfo.getClassPackage());
+        moduleInfo.setFileNameFormatServie(getFormatService(fileInfo.getModuleType()));
+        moduleInfo.setFileType(FileTypeEnums.JAVA);
+        moduleInfo.setFileNameFormatPattern(fileInfo.getClassNameFormat());
     }
 
-    private String getJavaFileOutPutFullPath(String filePath) {
-        return basePath + filePath + "/{0}.java";
+    /**
+     * 新增自定义模块模板
+     * @param fileInfo 自定义模块信息
+     */
+    public void addCustomizeModule(CustomizeModuleInfo fileInfo) {
+        ModuleInfo moduleInfo = getModuleInfo(fileInfo.getModuleType());
+        if (moduleInfo == null){
+            moduleInfo = new ModuleInfo();
+            addModuleInfo(fileInfo.getModuleType(), moduleInfo);
+        }
+
+        moduleInfo.setModuleType(fileInfo.getModuleType());
+        moduleInfo.setFileNameFormatPattern(fileInfo.getFileNameFormatPattern());
+        moduleInfo.setFileNameFormatServie(getFormatService(fileInfo.getModuleType()));
+        moduleInfo.setOutPutFullPathFormatPattern(fileInfo.getOutPutFullPathFormatPattern());
     }
 
-    private String getXmlOutPutPath(String xmlFilePath) {
-        return basePath + xmlFilePath + "/{0}.xml";
+    /**
+     *  获取所有模块信息
+     * @return 所有模块信息
+     */
+    public List<ModuleInfo> getAllModule(){
+        return this.modules;
     }
 
-    public String changePackage2Path(String packagePath){
-        return packagePath.replaceAll("\\.","/");
+    public Map<String,JavaClassDefinition> getJavaClassDefinitionMap(){
+        return this.javaClassDefinitionMap;
     }
 
-    public String getPojoOutPutPath() {
-        return pojoOutPutPath;
+    public void setBasePackageEnabled(String basePackageEnabled) {
+        this.basePackageEnabled = basePackageEnabled;
     }
 
-    public void setPojoOutPutPath(String pojoOutPutPath) {
-        this.pojoOutPutPath = pojoOutPutPath;
+    private void addModuleInfo(ModuleEnums value, ModuleInfo info) {
+        addModuleInfo(value.toString(), info);
     }
 
-    public String getDaoOutPutPath() {
-        return daoOutPutPath;
+    private void addModuleInfo(String moduleType, ModuleInfo info) {
+        if (this.moduleInfoMap == null){
+            this.moduleInfoMap = new ConcurrentHashMap<>();
+        }
+        this.moduleInfoMap.put(moduleType, info);
     }
 
-    public void setDaoOutPutPath(String daoOutPutPath) {
-        this.daoOutPutPath = daoOutPutPath;
+    private ModuleInfo getModuleInfo(String moduleType) {
+        return this.moduleInfoMap.get(moduleType);
     }
 
-    public String getXmlOutPutPath() {
-        return xmlOutPutPath;
+    /**
+     *  格式化类名
+     */
+    private String fileNameFormat(FileTypeEnums typeEnums,String formatConfig) {
+        if (FileTypeEnums.XML.equals(typeEnums)){
+            return MessageFormat.format(formatConfig, tableName.toLowerCase());
+        }
+        return MessageFormat.format(formatConfig, tableNameCamelCase);
     }
 
-    public void setXmlOutPutPath(String xmlOutPutPath) {
-        this.xmlOutPutPath = xmlOutPutPath;
+    private FormatService getFormatService(ModuleEnums moduleType) {
+        return getFormatService(moduleType.toString());
     }
 
-    public String getPojoOutPutFullPath() {
-        return pojoOutPutFullPath;
-    }
-
-    public void setPojoOutPutFullPath(String pojoOutPutFullPath) {
-        this.pojoOutPutFullPath = pojoOutPutFullPath;
-    }
-
-    public String getDaoOutPutFullPath() {
-        return daoOutPutFullPath;
-    }
-
-    public void setDaoOutPutFullPath(String daoOutPutFullPath) {
-        this.daoOutPutFullPath = daoOutPutFullPath;
-    }
-
-    public String getXmlOutPutFullPath() {
-        return xmlOutPutFullPath;
-    }
-
-    public void setXmlOutPutFullPath(String xmlOutPutFullPath) {
-        this.xmlOutPutFullPath = xmlOutPutFullPath;
+    private FormatService getFormatService(String moduleType) {
+        if (this.classNameFormatServieMap == null){
+            return null;
+        }
+        return classNameFormatServieMap.get(moduleType);
     }
 }

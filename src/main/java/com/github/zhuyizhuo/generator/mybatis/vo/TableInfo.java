@@ -2,6 +2,7 @@ package com.github.zhuyizhuo.generator.mybatis.vo;
 
 import com.github.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
+import com.github.zhuyizhuo.generator.mybatis.enums.DbTypeEnums;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ import java.util.List;
  * @version 1.0
  */
 public class TableInfo {
+    /** 数据库类型 */
+    private DbTypeEnums dbType;
     /** 数据库名称 */
     private String tableSchema;
     /** 表名 */
@@ -37,9 +40,9 @@ public class TableInfo {
     private boolean singlePrimaryKey;
 
     public TableInfo() {
-        importPackages = new LinkedHashSet<String>();
-        columnLists = new ArrayList<JavaColumnInfo>();
-        primaryKeyColumns = new ArrayList<JavaColumnInfo>();
+        importPackages = new LinkedHashSet<>();
+        columnLists = new ArrayList<>();
+        primaryKeyColumns = new ArrayList<>();
         hasPrimaryKey = false;
         singlePrimaryKey = false;
     }
@@ -89,6 +92,9 @@ public class TableInfo {
     }
 
     public void addImportPackage(String importPackage) {
+        if (importPackage == null){
+            return;
+        }
         this.importPackages.add(importPackage);
     }
 
@@ -135,16 +141,27 @@ public class TableInfo {
         this.singlePrimaryKey = singlePrimaryKey;
     }
 
+    public DbTypeEnums getDbType() {
+        return dbType;
+    }
+
+    public void setDbType(DbTypeEnums dbType) {
+        this.dbType = dbType;
+    }
+
     @Override
     public String toString() {
         return "TableInfo{" +
-                "tableSchema='" + tableSchema + '\'' +
+                "dbType=" + dbType +
+                ", tableSchema='" + tableSchema + '\'' +
                 ", tableName='" + tableName + '\'' +
                 ", tableComment='" + tableComment + '\'' +
                 ", tableNameCamelCase='" + tableNameCamelCase + '\'' +
                 ", importPackages=" + importPackages +
                 ", columnLists=" + columnLists +
+                ", primaryKeyColumns=" + primaryKeyColumns +
+                ", hasPrimaryKey=" + hasPrimaryKey +
+                ", singlePrimaryKey=" + singlePrimaryKey +
                 '}';
     }
-
 }

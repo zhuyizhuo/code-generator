@@ -1,8 +1,7 @@
 package com.github.zhuyizhuo.generator.mybatis.convention;
 
-import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
-import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
-import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
+import com.github.zhuyizhuo.generator.mybatis.annotation.CoventionClass;
+import com.github.zhuyizhuo.generator.mybatis.annotation.Value;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,37 +9,25 @@ import java.util.Date;
 /**
  * 类注释
  * @author yizhuo
- * @version 1.0
+ * @since  1.0
+ * @version 1.4.0
  * time: 2018/7/29 16:10
  */
+@CoventionClass
 public class ClassCommentInfo {
     /** 文件创建时版本号 */
-    private String sinceVersion = "";
+    @Value("#{generate.java.comment.since-version}")
+    private String sinceVersion;
+    @Value("#{generate.table.default.comment}")
+    public static String tableComment;
     /** 当前版本号 */
-    private String version = "1.0";
+    @Value("#{generate.java.comment.current-version}")
+    private String version;
     /** 作者 */
-    private String author = "";
+    @Value("#{generate.java.comment.author}")
+    private String author;
     /** 默认生成时间 */
     private String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-
-    public ClassCommentInfo() {
-
-    }
-
-    public void init() {
-        String author = PropertiesUtils.getProperties(ConfigConstants.AUTHOR);
-        if (GeneratorStringUtils.isNotBlank(author)){
-            this.author = author;
-        }
-        String sinceVersion = PropertiesUtils.getProperties(ConfigConstants.SINCE_VERSION);
-        if (GeneratorStringUtils.isNotBlank(sinceVersion)){
-            this.sinceVersion = sinceVersion;
-        }
-        String version = PropertiesUtils.getProperties(ConfigConstants.VERSION);
-        if (GeneratorStringUtils.isNotBlank(version)){
-            this.version = version;
-        }
-    }
 
     public String getVersion() {
         return version;
@@ -72,5 +59,23 @@ public class ClassCommentInfo {
 
     public void setSinceVersion(String sinceVersion) {
         this.sinceVersion = sinceVersion;
+    }
+
+    public String getTableComment() {
+        return tableComment;
+    }
+
+    public void setTableComment(String tableComment) {
+        this.tableComment = tableComment;
+    }
+
+    @Override
+    public String toString() {
+        return "ClassCommentInfo{" +
+                "sinceVersion='" + sinceVersion + '\'' +
+                ", version='" + version + '\'' +
+                ", author='" + author + '\'' +
+                ", createTime='" + createTime + '\'' +
+                '}';
     }
 }

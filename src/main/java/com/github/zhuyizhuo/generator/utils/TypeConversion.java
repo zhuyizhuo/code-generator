@@ -1,8 +1,6 @@
 package com.github.zhuyizhuo.generator.utils;
 
-import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.enums.DbTypeEnums;
-import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 
 import java.util.HashMap;
 import java.util.Map;

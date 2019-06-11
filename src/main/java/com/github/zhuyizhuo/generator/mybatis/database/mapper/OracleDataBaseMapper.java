@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
+ *  oracle 数据库 mapper
  * @author yizhuo
  * @version 1.0
  * time: 2018/7/27 20:55
@@ -30,6 +31,8 @@ public interface OracleDataBaseMapper {
 
     /**
      * 根据表信息查询主键信息
+     * @param schema 查询主键参数对象
+     * @return 所有主键信息
      */
     List<ColumnInfo> getPrimaryKeys(DbTableInfo schema);
 }

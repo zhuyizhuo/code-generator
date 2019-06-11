@@ -1,9 +1,9 @@
-### 1.依赖引入
+### 1. 依赖引入
 
 - [不同构建工具依赖](https://search.maven.org/artifact/com.github.zhuyizhuo/code-generator/1.3.1/jar)
-- 查询最高版本方式:  [Maven中央仓库](https://search.maven.org/search?q=com.github.zhuyizhuo) \| [Maven阿里库](http://maven.aliyun.com/mvn/search)
+- 查询最高版本方式:  [Maven 中央仓库](https://search.maven.org/search?q=com.github.zhuyizhuo) \| [Maven 阿里库](http://maven.aliyun.com/mvn/search)
 
-此处以maven项目为例:首先引入maven依赖:
+此处以 `maven` 项目为例:首先引入 `maven` 依赖:
 
 ```xml
 <dependency>
@@ -13,7 +13,7 @@
 </dependency>
 ```
 
-其次引入对应数据库驱动,以mysql数据库为例：
+其次引入对应数据库驱动,以 `mysql` 数据库为例：
 
 ```xml
 <dependency>
@@ -23,23 +23,133 @@
 </dependency>
 ```
 
-### 2.新增配置文件
+### 2. 新增配置文件 `config.properties`
 
-默认配置如下:
+默认配置信息如下:
 
-- [默认配置(懒人福利)](config.md)
+```properties
+########## 必选配置 start ###########
+# MYSQL 数据库配置
+# db.type=MYSQL
+# db.driver=com.mysql.cj.jdbc.Driver
+# db.url=jdbc:mysql://localhost:3306/test?useUnicode
+# db.table-schema=test
+# db.username=root
+# db.password=root
 
-更多配置参考:
+# ORACLE 数据库配置
+# db.type=ORACLE
+# db.driver=oracle.jdbc.driver.OracleDriver
+# db.url=jdbc:oracle:thin:@192.168.0.1:1521:test
+# db.table-schema=schema
+# db.username=root
+# db.password=root
+########## 必选配置 end ###########
 
-- [配置文件详解](config-v1.2.md)
+# 指定生成的表 多张表用英文逗号隔开,大小写不敏感,不配置则默认为 db.table-schema 下的全部表
+generate.table-names=table1,table2
+# 数据库表名分隔符 例如表名为 SHOP_USER 则分隔符为 _ 不配置默认为 _
+generate.table.separator=_
+# 数据库字段分隔符 例如字段为 ORDER_NO 则分隔符为 _ 不配置默认为 _
+generate.table.field.separator=_
+# model 类注释 如果数据库对应表无表注释信息 则使用该配置生成注释
+generate.table.default.comment=TODO
+# 日志级别 INFO DEBUG  默认 INFO
+generate.log.level=true
 
-### 3.java代码:
+# 生成文件输出公共路径,不配置则默认为 [当前项目路径]
+generate.base.out-put-path=#{user.dir}
+
+############### JAVA 配置 start ############
+# 是否生成各模块完整包目录 默认为 true 配置为 false 则仅生成包名最后一层目录
+# 和 generate.base.out-put-path 配置项一起使用 将文件生成至指定文件夹 可有效减少目录层级
+generate.java.base.package.enabled=true
+
+# MAPPER 包名 如下配置 MAPPER 所在包路径为 mapper
+generate.java.module.mapper.package=mapper
+# MAPPER 名称 默认配置 驼峰命名 + Mapper {0}Mapper
+generate.java.module.mapper.name-format={0}Mapper
+# MAPPER 输出路径 默认为 /
+generate.java.module.mapper.out-put-path=/
+
+# 实体类包名 如下配置 实体类所在包路径为 pojo
+generate.java.module.model.package=pojo
+# 实体名称 默认配置 驼峰命名 {0}
+generate.java.module.model.name-format={0}
+# 实体类输出路径 默认为 /
+generate.java.module.model.out-put-path=/
+
+############## 注释 start ##############
+# 作者 默认  @author ： TODO 
+generate.java.comment.author=TODO
+# 创建版本号 默认 @since : 1.0
+generate.java.comment.since-version=1.0
+# 当前版本号 默认 @version : 1.0
+generate.java.comment.current-version=1.0
+############## 注释 end ################
+
+############### 方法配置 start ###############
+# 新增数据，默认生成该方法  配置为 false 则不生成
+generate.java.method.insert.enabled=true
+# 方法描述
+generate.java.method.insert.comment=\u65b0\u589e\u6570\u636e
+# 方法名格式化
+generate.java.method.insert.name-format=insert{0}
+
+# 批量新增数据，默认生成该方法  配置为 false 则不生成
+generate.java.method.batch-insert.enabled=true
+generate.java.method.batch-insert.comment=\u6279\u91cf\u63d2\u5165\u6570\u636e
+generate.java.method.batch-insert.name-format=batchInsert{0}
+
+# 根据传入参数删除数据，默认生成该方法  配置为 false 则不生成
+generate.java.method.delete-by-where.enabled=true
+generate.java.method.delete-by-where.comment=\u6839\u636e\u4f20\u5165\u53c2\u6570\u5220\u9664\u6570\u636e
+generate.java.method.delete-by-where.name-format=delete{0}ByWhere
+
+# 根据主键删除数据，默认生成该方法 配置为 false 则不生成; 如果表无主键 则不生成此方法
+generate.java.method.delete-by-primary-key.enabled=true
+generate.java.method.delete-by-primary-key.comment=\u6839\u636e\u4e3b\u952e\u5220\u9664\u6570\u636e
+generate.java.method.delete-by-primary-key.name-format=delete{0}ByPrimaryKey
+
+# 根据主键更新数据，默认生成该方法  配置为 false 则不生成; 如果表无主键 则不生成此方法
+generate.java.method.update-by-primary-key.enabled=true
+generate.java.method.update-by-primary-key.comment=\u6839\u636e\u4e3b\u952e\u66f4\u65b0\u6570\u636e
+generate.java.method.update-by-primary-key.name-format=update{0}ByPrimaryKey
+
+# 根据传入参数查询数据列表，默认生成该方法  配置为 false 则不生成
+generate.java.method.query-by-where.enabled=true
+generate.java.method.query-by-where.comment=\u6839\u636e\u4f20\u5165\u53c2\u6570\u67e5\u8be2\u6570\u636e\u5217\u8868
+generate.java.method.query-by-where.name-format=query{0}ListByWhere
+
+# 根据主键查询数据，默认生成该方法  配置为 false 则不生成; 如果表无主键 则不生成此方法
+generate.java.method.query-by-primary-key.enabled=true
+generate.java.method.query-by-primary-key.comment=\u6839\u636e\u4e3b\u952e\u67e5\u8be2\u6570\u636e
+generate.java.method.query-by-primary-key.name-format=query{0}ByPrimaryKey
+
+# 统计符合条件的数据数量，默认生成该方法  配置为 false 则不生成
+generate.java.method.count-by-where.enabled=true
+generate.java.method.count-by-where.comment=\u7edf\u8ba1\u7b26\u5408\u6761\u4ef6\u7684\u6570\u636e\u6570\u91cf
+generate.java.method.count-by-where.name-format=count{0}ByWhere
+############### 方法配置 end ###############
+############### JAVA 配置 end ############
+
+##################### XML 配置 start ####################
+# XML 名称 默认 驼峰命名
+generate.resources.xml.name-format={0}
+# 生成资源文件输出路径,不配置则默认为 /src/main/resources/mappers, 路径请使用/或\\分隔
+generate.resources.xml.out-put-path=/src/main/resources/xml
+# mybatis xml 的 parameterType 别名是否启用
+generate.resources.xml.mybatis.parameter-type.aliases.enabled=false
+##################### XML 配置 end ####################
+```
+
+### 3. java 代码:
 
 ```java
-import org.apache.ibatis.io.Resources;
+package com.github.zhuyizhuo.generator.client;
 
-import com.github.zhuyizhuo.generator.mybatis.BootStrap;
-import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
+import com.github.zhuyizhuo.generator.mybatis.generator.Generator;
+import com.github.zhuyizhuo.generator.mybatis.generator.GeneratorBuilder;
 /**
  * 生成器使用
  */
@@ -47,13 +157,30 @@ public class TestGenerator {
 
 	public static void main(String[] args) throws Exception {
 		/** 此处使用 配置文件的绝对路径或者在项目中的相对路径 
-		 * 本例配置文件路径在maven项目的src/main/resources文件夹下
+		 * 本例配置文件路径在 maven 项目的 src/main/resources 文件夹下
 		 */
-        Generator generator = new GeneratorBuilder()
-            .build(Resources.getResourceAsStream("config.properties"));
+        Generator generator = new GeneratorBuilder().build("config.properties");
 		generator.generate();
 	}
 }
 ```
 
-执行main方法,即可生成代码.
+执行 `main` 方法,即可生成代码. 
+
+### 4. 生成器扩展
+
+```
+1. 支持自定义模板
+2. 支持替换系统模板
+3. 支持新增或修改数据库类型映射至 java 类型
+4. 支持自定义模块名格式化
+5. 支持自定义方法名格式化
+```
+
+### 5. 扩展示例
+
+生成器提供了一个示例项目，你可以运行示例项目来进行实验
+
+| **示例**                                                     | **描述**                           |
+| ------------------------------------------------------------ | ---------------------------------- |
+| [code-generator-samples](https://github.com/zhuyizhuo/code-generator-samples) | 生成器扩展示例，无配置文件生成示例 |
