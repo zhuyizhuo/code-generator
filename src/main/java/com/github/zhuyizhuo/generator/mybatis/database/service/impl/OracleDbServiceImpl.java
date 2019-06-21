@@ -28,6 +28,7 @@ import java.util.List;
  */
 public class OracleDbServiceImpl extends AbstractDbService {
 
+    @Override
     protected List<String> getTables() {
         String includeTableName = PropertiesUtils.getProperties(ConfigConstants.GENERATE_TABLES_NAME);
         if (GeneratorStringUtils.isNotBlank(includeTableName)){

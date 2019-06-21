@@ -99,7 +99,7 @@ public class GeneratorBuilder {
      * @return the current builder
      */
     public GeneratorBuilder addModuleNameFormat(@NotNull ModuleEnums moduleType, @NotNull FormatService moduleNameFormatService) {
-        CheckUtils.AssertNotNull(moduleType,"addModuleNameFormat 参数 moduleType 不能为空!");
+        CheckUtils.assertNotNull(moduleType,"addModuleNameFormat 参数 moduleType 不能为空!");
         this.addModuleNameFormat(moduleType.toString(), moduleNameFormatService);
         return this;
     }
@@ -112,8 +112,8 @@ public class GeneratorBuilder {
      * @return the current builder
      */
     public GeneratorBuilder addModuleNameFormat(@NotNull String moduleType, @NotNull FormatService moduleNameFormatService) {
-        CheckUtils.AssertNotNull(moduleType,"addModuleNameFormat 参数 moduleType 不能为空!");
-        CheckUtils.AssertNotNull(moduleNameFormatService,"addModuleNameFormat 参数 moduleNameFormatService 不能为空!");
+        CheckUtils.assertNotNull(moduleType,"addModuleNameFormat 参数 moduleType 不能为空!");
+        CheckUtils.assertNotNull(moduleNameFormatService,"addModuleNameFormat 参数 moduleNameFormatService 不能为空!");
         if (this.moduleNameFormatServiceMap == null){
             this.moduleNameFormatServiceMap = new HashMap<>();
         }
@@ -131,8 +131,8 @@ public class GeneratorBuilder {
      * @return the current builder
      */
     public GeneratorBuilder addMethodNameFormat(@NotNull MethodEnums methodType,@NotNull FormatService methodNameFormatService) {
-        CheckUtils.AssertNotNull(methodType,"addMethodNameFormat 参数 methodType 不能为空!");
-        CheckUtils.AssertNotNull(methodNameFormatService,"addMethodNameFormat 参数 methodNameFormatService 不能为空!");
+        CheckUtils.assertNotNull(methodType,"addMethodNameFormat 参数 methodType 不能为空!");
+        CheckUtils.assertNotNull(methodNameFormatService,"addMethodNameFormat 参数 methodNameFormatService 不能为空!");
         if (MethodEnums.ALL_METHOD.equals(methodType)) {
             this.commonMethodFormatService = methodNameFormatService;
         } else {
@@ -159,8 +159,8 @@ public class GeneratorBuilder {
      * @return the current builder
      */
     public GeneratorBuilder fieldType2JavaType(@NotNull String dataBaseType, @NotNull Class<?> javaTypeClass) {
-        CheckUtils.AssertNotNull(dataBaseType,"fieldType2JavaType 请指定 dataBaseType, 即数据库字段类型.");
-        CheckUtils.AssertNotNull(javaTypeClass,"fieldType2JavaType 请指定 javaTypeClass, 即 JAVA 字段类型.");
+        CheckUtils.assertNotNull(dataBaseType,"fieldType2JavaType 请指定 dataBaseType, 即数据库字段类型.");
+        CheckUtils.assertNotNull(javaTypeClass,"fieldType2JavaType 请指定 javaTypeClass, 即 JAVA 字段类型.");
 
         if (this.typeMapper == null){
             this.typeMapper = new HashMap<String, Class<?>>();
@@ -183,8 +183,8 @@ public class GeneratorBuilder {
      * @return the current builder
      */
     public GeneratorBuilder fieldType2JdbcType(@NotNull String dataBaseType, @NotNull JdbcType jdbcType) {
-        CheckUtils.AssertNotNull(dataBaseType,"fieldType2JavaType 请指定 dataBaseType, 即数据库字段类型.");
-        CheckUtils.AssertNotNull(dataBaseType,"fieldType2JavaType 请指定 jdbcType, 即 mybatis xml 中 jdbcType.");
+        CheckUtils.assertNotNull(dataBaseType,"fieldType2JavaType 请指定 dataBaseType, 即数据库字段类型.");
+        CheckUtils.assertNotNull(dataBaseType,"fieldType2JavaType 请指定 jdbcType, 即 mybatis xml 中 jdbcType.");
 
         TypeConversion.addType2JdbcType(dataBaseType, jdbcType.toString());
         return this;
@@ -196,7 +196,7 @@ public class GeneratorBuilder {
      * @return the current builder
      */
     public GeneratorBuilder addJavaTemplate(@NotNull JavaModuleInfo fileInfo){
-        CheckUtils.AssertNotNull(fileInfo,"添加模板不能为空!");
+        CheckUtils.assertNotNull(fileInfo,"添加模板不能为空!");
 
         if (this.javaTemplates == null){
             this.javaTemplates = new ArrayList<>();
@@ -211,7 +211,7 @@ public class GeneratorBuilder {
      * @return the current builder
      */
     public GeneratorBuilder addCustomizeModuleTemplate(@NotNull CustomizeModuleInfo customizeModuleInfo){
-        CheckUtils.AssertNotNull(customizeModuleInfo,"添加模板不能为空!");
+        CheckUtils.assertNotNull(customizeModuleInfo,"添加模板不能为空!");
 
         if (this.customizeModuleInfos == null){
             this.customizeModuleInfos = new ArrayList<>();
@@ -226,7 +226,7 @@ public class GeneratorBuilder {
      * @return the current builder
      */
     public GeneratorBuilder addGenerateService(@NotNull GenerateService generateService){
-        CheckUtils.AssertNotNull(generateService,"generateService 不能为空!");
+        CheckUtils.assertNotNull(generateService,"generateService 不能为空!");
         this.generateService = generateService;
         return this;
     }
@@ -265,7 +265,7 @@ public class GeneratorBuilder {
         AbstractDbService.fieldRegex = PropertiesUtils.getConfig(ConfigConstants.FIELD_SEPARATOR);
         LogUtils.logLevel = PropertiesUtils.getConfig(ConfigConstants.LOG_LEVEL);
 
-        FileOutPathInfo fileOutPathInfo = context.getBean("FileOutPathInfo");
+        FileOutPathInfo fileOutPathInfo = ContextHolder.getBean("FileOutPathInfo");
         // 需先设置格式化 service
         fileOutPathInfo.setClassNameFormatServieMap(moduleNameFormatServiceMap);
         fileOutPathInfo.init();

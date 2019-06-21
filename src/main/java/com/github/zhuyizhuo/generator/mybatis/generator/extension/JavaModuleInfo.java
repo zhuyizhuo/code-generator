@@ -28,11 +28,11 @@ public class JavaModuleInfo {
 
     public JavaModuleInfo(@NotNull String moduleType, @NotNull String templatePath,
                           @NotNull String classPackage, @NotNull String outputPath, @NotNull String classNameFormat) {
-        CheckUtils.AssertNotNull(moduleType,"moduleType must not null!");
-        CheckUtils.AssertNotNull(templatePath,"templatePath must not null!");
-        CheckUtils.AssertNotNull(classPackage,"classPackage must not null!");
-        CheckUtils.AssertNotNull(outputPath,"outputPath must not null!");
-        CheckUtils.AssertNotNull(classNameFormat,"classNameFormat must not null!");
+        CheckUtils.assertNotNull(moduleType,"moduleType must not null!");
+        CheckUtils.assertNotNull(templatePath,"templatePath must not null!");
+        CheckUtils.assertNotNull(classPackage,"classPackage must not null!");
+        CheckUtils.assertNotNull(outputPath,"outputPath must not null!");
+        CheckUtils.assertNotNull(classNameFormat,"classNameFormat must not null!");
 
         this.moduleType = moduleType;
         this.templatePath = templatePath;

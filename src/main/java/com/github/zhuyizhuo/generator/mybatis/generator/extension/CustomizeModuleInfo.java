@@ -1,7 +1,5 @@
 package com.github.zhuyizhuo.generator.mybatis.generator.extension;
 
-import com.github.zhuyizhuo.generator.mybatis.annotation.NotNull;
-import com.github.zhuyizhuo.generator.mybatis.enums.FileTypeEnums;
 import com.github.zhuyizhuo.generator.utils.CheckUtils;
 
 /**
@@ -41,10 +39,10 @@ public class CustomizeModuleInfo {
     private String fileNameFormatPattern;
 
     public CustomizeModuleInfo(String moduleType, String templatePath, String outPutFullPathFormatPattern, String fileNameFormatPattern) {
-        CheckUtils.AssertNotNull(moduleType,"moduleType must not null!");
-        CheckUtils.AssertNotNull(templatePath,"templatePath must not null!");
-        CheckUtils.AssertNotNull(outPutFullPathFormatPattern,"outPutFullPathFormatPattern must not null!");
-        CheckUtils.AssertNotNull(fileNameFormatPattern,"fileNameFormatPattern must not null!");
+        CheckUtils.assertNotNull(moduleType,"moduleType must not null!");
+        CheckUtils.assertNotNull(templatePath,"templatePath must not null!");
+        CheckUtils.assertNotNull(outPutFullPathFormatPattern,"outPutFullPathFormatPattern must not null!");
+        CheckUtils.assertNotNull(fileNameFormatPattern,"fileNameFormatPattern must not null!");
 
         this.moduleType = moduleType;
         this.templatePath = templatePath;

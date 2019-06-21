@@ -43,13 +43,13 @@ public class CheckUtils {
         return false;
     }
 
-    public static void AssertNotNull(Object moduleType,String errorMsg) throws IllegalArgumentException {
+    public static void assertNotNull(Object moduleType, String errorMsg) throws IllegalArgumentException {
         if (moduleType == null){
             throw new IllegalArgumentException(errorMsg);
         }
     }
 
-    public static void AssertNotNull(String moduleType,String errorMsg) throws IllegalArgumentException {
+    public static void assertNotNull(String moduleType, String errorMsg) throws IllegalArgumentException {
         if(GeneratorStringUtils.isBlank(moduleType.toString())){
             throw new IllegalArgumentException(errorMsg);
         }

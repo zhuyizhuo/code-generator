@@ -66,7 +66,7 @@ public class ClassCommentInfo {
     }
 
     public void setTableComment(String tableComment) {
-        this.tableComment = tableComment;
+        tableComment = tableComment;
     }
 
     @Override

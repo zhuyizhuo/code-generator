@@ -124,7 +124,7 @@ public class ContextHolder {
     }
 
     private void doRegister() {
-        if (classNames.isEmpty()) return;
+        if (classNames.isEmpty()) {return;}
         try {
             for (int i = 0; i < classNames.size(); i++) {
                 String className = classNames.get(i);
@@ -144,7 +144,7 @@ public class ContextHolder {
         ClassLoader classLoader = this.getClass().getClassLoader();
         InputStream resourceAsStream = classLoader.getResourceAsStream(contextConfigLocation);
         try {
-            this.contextConfig.load(new BufferedReader(new InputStreamReader(resourceAsStream,"UTF-8")));
+            contextConfig.load(new BufferedReader(new InputStreamReader(resourceAsStream,"UTF-8")));
 
             resourceAsStream = classLoader.getResourceAsStream("application.properties");
             Properties contextConfig = new Properties();

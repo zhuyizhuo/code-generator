@@ -46,27 +46,6 @@ public class JavaColumnInfo extends ColumnInfo {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-
-		JavaColumnInfo that = (JavaColumnInfo) o;
-
-		if (javaColumnName != null ? !javaColumnName.equals(that.javaColumnName) : that.javaColumnName != null)
-			return false;
-		if (javaDataType != null ? !javaDataType.equals(that.javaDataType) : that.javaDataType != null) return false;
-		return javaDataTypeFullPath != null ? javaDataTypeFullPath.equals(that.javaDataTypeFullPath) : that.javaDataTypeFullPath == null;
-	}
-
-	@Override
-	public int hashCode() {
-		int result = javaColumnName != null ? javaColumnName.hashCode() : 0;
-		result = 31 * result + (javaDataType != null ? javaDataType.hashCode() : 0);
-		result = 31 * result + (javaDataTypeFullPath != null ? javaDataTypeFullPath.hashCode() : 0);
-		return result;
-	}
-
-	@Override
 	public String toString() {
 		return "JavaColumnInfo{" +
 				"javaColumnName='" + javaColumnName + '\'' +
