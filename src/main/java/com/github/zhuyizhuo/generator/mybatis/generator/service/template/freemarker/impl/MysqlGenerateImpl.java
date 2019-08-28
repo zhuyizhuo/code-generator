@@ -23,11 +23,11 @@ public class MysqlGenerateImpl extends FreemarkerGenerateService {
     private Map<String,String> templatePathMap = new ConcurrentHashMap<>();
 
     public MysqlGenerateImpl() {
-        addTemplatePath(ModuleEnums.XML,true, "/freemarker/template/xml/privatekey_mysql_mybatis_template.ftl");
-        addTemplatePath(ModuleEnums.XML,false, "/freemarker/template/xml/no_privatekey_mysql_mybatis_template.ftl");
+        addTemplatePath(ModuleEnums.XML,true, "/freemarker/template/xml/primary_key_mysql_mybatis_template.ftl");
+        addTemplatePath(ModuleEnums.XML,false, "/freemarker/template/xml/no_primary_key_mysql_mybatis_template.ftl");
 
-        addTemplatePath(ModuleEnums.MAPPER,true, "/freemarker/template/java/privatekey_mysql_mapper_template.ftl");
-        addTemplatePath(ModuleEnums.MAPPER,false, "/freemarker/template/java/no_privatekey_mysql_mapper_template.ftl");
+        addTemplatePath(ModuleEnums.MAPPER,true, "/freemarker/template/java/primary_key_mysql_mapper_template.ftl");
+        addTemplatePath(ModuleEnums.MAPPER,false, "/freemarker/template/java/no_primary_key_mysql_mapper_template.ftl");
 
         addTemplatePath(ModuleEnums.POJO,null, "/freemarker/template/java/javabean.ftl");
     }
