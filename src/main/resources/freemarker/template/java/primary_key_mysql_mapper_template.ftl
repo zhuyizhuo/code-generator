@@ -40,4 +40,8 @@ public interface ${javaClassDefinition.MAPPER.className} {
 
 	<#include "common/countByWhere.ftl"/>
 </#if>
+<#if methodDescription.BATCH_INSERT.enabled>
+
+ <#include "common/batchInsert.ftl"/>
+</#if>
 }

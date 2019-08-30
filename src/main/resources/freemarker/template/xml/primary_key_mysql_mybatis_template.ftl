@@ -33,4 +33,8 @@
 
 <#include "common/count_by_where_xml.ftl"/>
 </#if>
+<#if methodDescription.BATCH_INSERT.enabled>
+
+    <#include "common/mysql_batch_insert_xml.ftl"/>
+</#if>
 </mapper>
