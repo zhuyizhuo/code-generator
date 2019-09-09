@@ -38,11 +38,7 @@ public abstract class AbstractDbService implements DbService {
     }
 
     protected String getTableSchema() {
-        String tableSchema = PropertiesUtils.getProperties(ConfigConstants.TABLE_SCHEMA);
-        if (GeneratorStringUtils.isNotBlank(tableSchema)){
-            tableSchema = tableSchema.toUpperCase();
-        }
-        return tableSchema;
+        return PropertiesUtils.getProperties(ConfigConstants.TABLE_SCHEMA);
     }
 
     protected List<String> getTables() {

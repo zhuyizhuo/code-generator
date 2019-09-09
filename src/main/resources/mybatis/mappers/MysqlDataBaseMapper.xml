@@ -4,9 +4,9 @@
 
     <select id="getTableNameListBySchema" resultType="dbTableInfo" parameterType="dataBaseInfo">
         SELECT
-        upper(TABLE_SCHEMA) as tableSchema,
-        upper(TABLE_NAME) as tableName,
-        upper(TABLE_COMMENT) as tableComment
+        TABLE_SCHEMA as tableSchema,
+        TABLE_NAME as tableName,
+        TABLE_COMMENT as tableComment
          FROM
             INFORMATION_SCHEMA.TABLES
         <where>
@@ -24,9 +24,9 @@
 
     <select id="getColumnListByTableName" resultType="columnInfo" parameterType="dbTableInfo">
         SELECT
-        upper(COLUMN_NAME) columnName,
-        upper(COLUMN_COMMENT) columnComment,
-        upper(DATA_TYPE) dataType
+        COLUMN_NAME columnName,
+        COLUMN_COMMENT columnComment,
+        DATA_TYPE dataType
         FROM
           INFORMATION_SCHEMA.COLUMNS
         <where>
@@ -42,7 +42,7 @@
 
     <select id="getPrimaryKeys" resultType="columnInfo" parameterType="dbTableInfo">
         SELECT
-          upper(COLUMN_NAME) columnName
+          COLUMN_NAME columnName
         FROM
             INFORMATION_SCHEMA.STATISTICS
         WHERE INDEX_NAME = 'PRIMARY'

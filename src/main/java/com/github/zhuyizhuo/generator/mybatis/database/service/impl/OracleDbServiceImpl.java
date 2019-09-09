@@ -29,6 +29,15 @@ import java.util.List;
 public class OracleDbServiceImpl extends AbstractDbService {
 
     @Override
+    protected String getTableSchema() {
+        String tableSchema = super.getTableSchema();
+        if (GeneratorStringUtils.isNotBlank(tableSchema)){
+            return tableSchema.toUpperCase();
+        }
+        return tableSchema;
+    }
+
+    @Override
     protected List<String> getTables() {
         String includeTableName = PropertiesUtils.getProperties(ConfigConstants.GENERATE_TABLES_NAME);
         if (GeneratorStringUtils.isNotBlank(includeTableName)){

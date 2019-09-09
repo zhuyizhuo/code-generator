@@ -121,7 +121,10 @@ public class TypeConversion {
     }
 
     public static String getTypeByMap(Map<String,String> dbTypeMap, String type) {
-        String javaDataType = dbTypeMap.get(type);
+        if (GeneratorStringUtils.isBlank(type)){
+            return "";
+        }
+        String javaDataType = dbTypeMap.get(type.toUpperCase());
         if (GeneratorStringUtils.isNotBlank(javaDataType)){
             return javaDataType;
         }
