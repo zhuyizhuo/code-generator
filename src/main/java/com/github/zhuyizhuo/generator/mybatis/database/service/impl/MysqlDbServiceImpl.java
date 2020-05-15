@@ -63,6 +63,6 @@ public class MysqlDbServiceImpl extends AbstractDbService {
 
     @Override
     protected String getJavaDataType(ColumnInfo columnInfo) {
-        return TypeConversion.getTypeByMap(TypeConversion.mySqlDbType2JavaMap,columnInfo.getDataType());
+        return TypeConversion.getJavaDataTypeByDbType(TypeConversion.mySqlDbType2JavaMap,columnInfo.getDataType());
     }
 }

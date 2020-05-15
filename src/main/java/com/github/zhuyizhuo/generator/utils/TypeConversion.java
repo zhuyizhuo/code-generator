@@ -50,6 +50,7 @@ public class TypeConversion {
     }
 
     private static void initParameterTypeMap() {
+        /** 基本数据类型 */
         parameterTypeMap.put("byte","_byte");
         parameterTypeMap.put("long","_long");
         parameterTypeMap.put("short","_short");
@@ -57,6 +58,7 @@ public class TypeConversion {
         parameterTypeMap.put("double","_double");
         parameterTypeMap.put("float","_float");
         parameterTypeMap.put("boolean","_boolean");
+        /** 对象类型 */
         parameterTypeMap.put("String","string");
         parameterTypeMap.put("Byte","byte");
         parameterTypeMap.put("Long","long");
@@ -74,6 +76,7 @@ public class TypeConversion {
         type2JdbcTypeMap.put("NUMBER","NUMERIC");
         type2JdbcTypeMap.put("TIMESTAMP(6)","TIMESTAMP");
         type2JdbcTypeMap.put("DATETIME","TIMESTAMP");
+        type2JdbcTypeMap.put("VARCHAR","VARCHAR");
         type2JdbcTypeMap.put("VARCHAR2","VARCHAR");
         type2JdbcTypeMap.put("NUMBER","NUMERIC");
         type2JdbcTypeMap.put("DATE","TIMESTAMP");
@@ -120,7 +123,13 @@ public class TypeConversion {
         mySqlDbType2JavaMap.put("YEAR","Integer");
     }
 
-    public static String getTypeByMap(Map<String,String> dbTypeMap, String type) {
+    /**
+     * 根据 type 转大写后去 map 取值, 如果值不存在返回 type
+     * @param dbTypeMap 数据 map
+     * @param type 根据 type 转大写后去 map 取值
+     * @return 根据 type 转大写后去 map 取值, 如果值不存在返回 type
+     */
+    public static String getJavaDataTypeByDbType(Map<String,String> dbTypeMap, String type) {
         if (GeneratorStringUtils.isBlank(type)){
             return "";
         }
@@ -132,11 +141,30 @@ public class TypeConversion {
     }
 
     public static String type2JdbcType(String dbColmType) {
-        String jdbcType = type2JdbcTypeMap.get(dbColmType);
+        if (GeneratorStringUtils.isBlank(dbColmType)){
+            return "";
+        }
+        String jdbcType = type2JdbcTypeMap.get(dbColmType.toUpperCase());
         if (GeneratorStringUtils.isNotBlank(jdbcType)){
             return jdbcType;
         }
         return dbColmType;
+    }
+
+    /**
+     * 根据 java 数据类型 获取 mybatis parameter 类型
+     * @param javaDataType java 数据类型
+     * @return mybatis parameter 类型
+     */
+    public static String getMybatisParameterTypeByJavaDataType(String javaDataType) {
+        if (GeneratorStringUtils.isBlank(javaDataType)){
+            return "";
+        }
+        String mybatisParameterType = parameterTypeMap.get(javaDataType);
+        if (GeneratorStringUtils.isNotBlank(mybatisParameterType)){
+            return mybatisParameterType;
+        }
+        return javaDataType;
     }
 
     public static void addJavaDataTypeFullPath(Class<?> value){
@@ -178,4 +206,5 @@ public class TypeConversion {
             }
         }
     }
+
 }

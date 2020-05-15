@@ -87,7 +87,7 @@ public class MybatisXmlDefinition {
             this.columnName = javaColumnInfo.getColumnName();
             this.primaryKey = javaColumnInfo.isPrimaryKey();
             this.jdbcType = TypeConversion.type2JdbcType(javaColumnInfo.getDataType());
-            this.parameterType = TypeConversion.getTypeByMap(TypeConversion.parameterTypeMap,javaColumnInfo.getJavaDataType());
+            this.parameterType = TypeConversion.getMybatisParameterTypeByJavaDataType(javaColumnInfo.getJavaDataType());
             this.testNotNullExpression = javaColumnName + " != null";
             this.testNotBlankExpression = this.testNotNullExpression;
             if ("STRING".equalsIgnoreCase(javaDataType)){
