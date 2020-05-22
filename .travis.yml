@@ -4,7 +4,7 @@ sudo: false # faster builds
 jdk:
   - oraclejdk12
   - openjdk11
-  - oraclejdk11
+  - oraclejdk8
   - openjdk8
 
 cache:
