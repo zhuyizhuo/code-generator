@@ -1,4 +1,5 @@
-## 简介
+## Code-generator
+[![Build Status](https://travis-ci.com/zhuyizhuo/code-generator.svg?branch=master)](https://travis-ci.com/zhuyizhuo/code-generator)[![maven](https://img.shields.io/maven-central/v/com.github.zhuyizhuo/code-generator.svg)](https://search.maven.org/search?q=g:com.github.zhuyizhuo)[![releases](https://img.shields.io/github/v/release/zhuyizhuo/code-generator.svg)](https://github.com/zhuyizhuo/code-generator/releases)![license](https://img.shields.io/github/license/zhuyizhuo/code-generator.svg)![stars](https://img.shields.io/github/stars/zhuyizhuo/code-generator)
 
 ```
 本项目致力于更简单易用的配置,更轻量快捷的生成代码.
@@ -20,14 +21,9 @@
 
 * JDK 1.8 +
 
-### 最新版本
-
-- [Maven 中央仓库](https://search.maven.org/search?q=com.github.zhuyizhuo)
-- [Maven 阿里库](http://maven.aliyun.com/mvn/search)
-
 ### 参考文档
 
-- [快速开始](./docs/quickstart.md)
+- [中文文档](./docs/quickstart.md)
 
 ### 常见问题
 
@@ -43,10 +39,6 @@
 ### 订阅更新
 
 Star [本项目](https://github.com/zhuyizhuo/code-generator)，获取最新版本更新.
-
-### 许可证
-
-代码生成器在 [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0) 版下发布.
 
 ### 联系作者
 
