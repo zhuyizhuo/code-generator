@@ -1,5 +1,5 @@
 ## Code-generator
-
+[![Github page](https://img.shields.io/badge/Home%20page-blue)](https://zhuyizhuo.github.io/code-generator/)
 [![Build Status](https://travis-ci.com/zhuyizhuo/code-generator.svg?branch=master)](https://travis-ci.com/zhuyizhuo/code-generator)
 [![maven](https://img.shields.io/maven-central/v/com.github.zhuyizhuo/code-generator.svg)](https://search.maven.org/search?q=g:com.github.zhuyizhuo)
 [![releases](https://img.shields.io/github/v/release/zhuyizhuo/code-generator.svg)](https://github.com/zhuyizhuo/code-generator/releases)

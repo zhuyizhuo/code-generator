@@ -1,7 +1,7 @@
 ### 1. 依赖引入
 
-- [不同构建工具依赖](https://search.maven.org/artifact/com.github.zhuyizhuo/code-generator/1.3.1/jar)
-- 查询最高版本方式:  [Maven 中央仓库](https://search.maven.org/search?q=com.github.zhuyizhuo) \| [Maven 阿里库](http://maven.aliyun.com/mvn/search)
+- 最高版本:  [![maven](https://img.shields.io/maven-central/v/com.github.zhuyizhuo/code-generator.svg)](https://search.maven.org/search?q=g:com.github.zhuyizhuo)
+
 
 此处以 `maven` 项目为例:首先引入 `maven` 依赖:
 
