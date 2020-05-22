@@ -1,5 +1,10 @@
 ## Code-generator
-[![Build Status](https://travis-ci.com/zhuyizhuo/code-generator.svg?branch=master)](https://travis-ci.com/zhuyizhuo/code-generator)[![maven](https://img.shields.io/maven-central/v/com.github.zhuyizhuo/code-generator.svg)](https://search.maven.org/search?q=g:com.github.zhuyizhuo)[![releases](https://img.shields.io/github/v/release/zhuyizhuo/code-generator.svg)](https://github.com/zhuyizhuo/code-generator/releases)![license](https://img.shields.io/github/license/zhuyizhuo/code-generator.svg)![stars](https://img.shields.io/github/stars/zhuyizhuo/code-generator)
+
+[![Build Status](https://travis-ci.com/zhuyizhuo/code-generator.svg?branch=master)](https://travis-ci.com/zhuyizhuo/code-generator)
+[![maven](https://img.shields.io/maven-central/v/com.github.zhuyizhuo/code-generator.svg)](https://search.maven.org/search?q=g:com.github.zhuyizhuo)
+[![releases](https://img.shields.io/github/v/release/zhuyizhuo/code-generator.svg)](https://github.com/zhuyizhuo/code-generator/releases)
+![license](https://img.shields.io/github/license/zhuyizhuo/code-generator.svg)
+![stars](https://img.shields.io/github/stars/zhuyizhuo/code-generator)
 
 ```
 本项目致力于更简单易用的配置,更轻量快捷的生成代码.
