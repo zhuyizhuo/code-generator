@@ -4,7 +4,7 @@ sudo: false # faster builds
 jdk:
   - oraclejdk12
   - openjdk11
-  - oraclejdk8
+  - oraclejdk11
   - openjdk8
 
 cache:
@@ -14,4 +14,4 @@ cache:
 install: true
 
 script:
-  - travis_wait 30 ./mvn clean install -DskipTests=true -Dcheckstyle.skip=true -Dmaven.javadoc.skip=true
+  - travis_wait 30 mvn clean install -DskipTests=true -Dcheckstyle.skip=true -Dmaven.javadoc.skip=true
