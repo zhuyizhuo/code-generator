@@ -69,14 +69,14 @@ generate.java.base.package.enabled=true
 generate.java.module.mapper.package=mapper
 # MAPPER 名称 默认配置 驼峰命名 + Mapper {0}Mapper
 generate.java.module.mapper.name-format={0}Mapper
-# MAPPER 输出路径 默认为 /
+# MAPPER 输出目录(不含包路径) 默认为当前项目根路径 /
 generate.java.module.mapper.out-put-path=/
 
-# 实体类包名 如下配置 实体类所在包路径为 pojo
-generate.java.module.model.package=pojo
+# 实体类包名 如下配置 实体类所在包路径为 model
+generate.java.module.model.package=model
 # 实体名称 默认配置 驼峰命名 {0}
 generate.java.module.model.name-format={0}
-# 实体类输出路径 默认为 /
+# 实体类输出目录(不含包路径) 默认为当前项目根路径 /
 generate.java.module.model.out-put-path=/
 
 ############## 注释 start ##############
