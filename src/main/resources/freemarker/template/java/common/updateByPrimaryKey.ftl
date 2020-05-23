@@ -6,4 +6,3 @@
      * @return 更新的数据条数
      */
     int ${methodDescription.UPDATE_BY_PRIMARY_KEY.methodName}(${javaClassDefinition.POJO.className} ${javaClassDefinition.POJO.className?uncap_first});
-
