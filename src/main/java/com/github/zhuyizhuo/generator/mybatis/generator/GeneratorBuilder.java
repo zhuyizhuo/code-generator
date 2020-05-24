@@ -70,7 +70,9 @@ public class GeneratorBuilder {
     }
 
     /**
-     * 设置 properties
+     * 设置 properties 参数, 优先级高于配置文件
+     * 相同参数此处设置的将会覆盖配置文件
+     * 格式 {@code key=value} or {@code key:value}.
      * @param defaultProperties the properties to set.
      * @return the current builder
      */
@@ -79,7 +81,8 @@ public class GeneratorBuilder {
     }
 
     /**
-     * 设置 properties
+     * 设置 properties 参数, 优先级高于配置文件
+     * 相同参数此处设置的将会覆盖配置文件
      * @param defaults  the default properties
      * @return the current builder
      */
