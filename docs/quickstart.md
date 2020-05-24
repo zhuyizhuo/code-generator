@@ -46,6 +46,7 @@
 # db.password=root
 ########## 必选配置 end ###########
 
+
 # 指定生成的表 多张表用英文逗号隔开,大小写不敏感,不配置则默认为 db.table-schema 下的全部表
 generate.table-names=table1,table2
 # 数据库表名分隔符 例如表名为 SHOP_USER 则分隔符为 _ 不配置默认为 _
@@ -67,20 +68,20 @@ generate.java.base.package.enabled=true
 
 # MAPPER 包名 如下配置 MAPPER 所在包路径为 mapper
 generate.java.module.mapper.package=mapper
-# MAPPER 名称 默认配置 驼峰命名 + Mapper {0}Mapper
+# MAPPER 名称 默认配置 {0}Mapper 即表名转为驼峰命名 + Mapper 后缀
 generate.java.module.mapper.name-format={0}Mapper
-# MAPPER 输出目录(不含包路径) 默认为当前项目根路径 /
+# MAPPER 输出路径 默认为 /
 generate.java.module.mapper.out-put-path=/
 
 # 实体类包名 如下配置 实体类所在包路径为 model
 generate.java.module.model.package=model
-# 实体名称 默认配置 驼峰命名 {0}
+# 实体名称 默认配置 {0} 即表名转为驼峰命名
 generate.java.module.model.name-format={0}
-# 实体类输出目录(不含包路径) 默认为当前项目根路径 /
+# 实体类输出路径 默认为 /
 generate.java.module.model.out-put-path=/
 
 ############## 注释 start ##############
-# 作者 默认  @author ： TODO 
+# 作者 默认  @author ： TODO
 generate.java.comment.author=TODO
 # 创建版本号 默认 @since : 1.0
 generate.java.comment.since-version=1.0
