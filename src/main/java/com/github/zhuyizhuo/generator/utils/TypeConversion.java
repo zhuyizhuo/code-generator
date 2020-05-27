@@ -1,9 +1,11 @@
 package com.github.zhuyizhuo.generator.utils;
 
 import com.github.zhuyizhuo.generator.mybatis.enums.DbTypeEnums;
+import org.apache.ibatis.type.JdbcType;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author yizhuo
@@ -27,7 +29,7 @@ public class TypeConversion {
      */
     public static final Map<String,String> javaDataTypeFullPathMap = new HashMap<String,String>();
     /**
-     * key 数据库字段类型
+     * key 数据库字段类型  key 必须大写
      * value mybatis JDBC type
      */
     public static final Map<String,String> type2JdbcTypeMap = new HashMap<String,String>();
@@ -78,8 +80,14 @@ public class TypeConversion {
         type2JdbcTypeMap.put("DATETIME","TIMESTAMP");
         type2JdbcTypeMap.put("VARCHAR","VARCHAR");
         type2JdbcTypeMap.put("VARCHAR2","VARCHAR");
-        type2JdbcTypeMap.put("NUMBER","NUMERIC");
         type2JdbcTypeMap.put("DATE","TIMESTAMP");
+        type2JdbcTypeMap.put("DECIMAL","DECIMAL");
+        type2JdbcTypeMap.put("DOUBLE","DOUBLE");
+        type2JdbcTypeMap.put("FLOAT","FLOAT");
+        type2JdbcTypeMap.put("BIGINT","BIGINT");
+        type2JdbcTypeMap.put("SMALLINT","SMALLINT");
+        type2JdbcTypeMap.put("TINYINT","TINYINT");
+        type2JdbcTypeMap.put("NUMERIC","NUMERIC");
      }
 
     private static void initJavaDataTypeFullPathMap() {
@@ -148,7 +156,11 @@ public class TypeConversion {
         if (GeneratorStringUtils.isNotBlank(jdbcType)){
             return jdbcType;
         }
-        return dbColmType;
+        String errorMessage = "该版本暂未内置["+dbColmType+"]类型和 JdbcType 的映射关系!" +
+                "请使用框架提供扩展方法,自行添加数据库字段类型和 JdbcType 的映射关系 " +
+                "@see com.github.zhuyizhuo.generator.mybatis.generator.GeneratorBuilder.fieldType2JdbcType ;";
+        LogUtils.printErrInfo(errorMessage);
+        throw new UnsupportedOperationException(errorMessage);
     }
 
     /**
@@ -187,8 +199,10 @@ public class TypeConversion {
         oracleDbType2JavaMap.put(key.toUpperCase(), javaType);
     }
 
-    public static void addType2JdbcType(String dataBaseType, String jdbcType) {
-        type2JdbcTypeMap.put(dataBaseType,jdbcType);
+    public static void addType2JdbcType(String dataBaseType, JdbcType jdbcType) {
+        if (!Objects.isNull(dataBaseType)){
+            type2JdbcTypeMap.put(dataBaseType.toUpperCase(), jdbcType.toString());
+        }
     }
 
     public static void init(Map<String,Class<?>> typeMapper) {

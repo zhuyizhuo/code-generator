@@ -189,7 +189,7 @@ public class GeneratorBuilder {
         CheckUtils.assertNotNull(dataBaseType,"fieldType2JavaType 请指定 dataBaseType, 即数据库字段类型.");
         CheckUtils.assertNotNull(dataBaseType,"fieldType2JavaType 请指定 jdbcType, 即 mybatis xml 中 jdbcType.");
 
-        TypeConversion.addType2JdbcType(dataBaseType, jdbcType.toString());
+        TypeConversion.addType2JdbcType(dataBaseType, jdbcType);
         return this;
     }
 
