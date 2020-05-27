@@ -32,7 +32,7 @@
 # MYSQL 数据库配置
 # db.type=MYSQL
 # db.driver=com.mysql.cj.jdbc.Driver
-# db.url=jdbc:mysql://localhost:3306/test?useUnicode
+# db.url=jdbc:mysql://localhost:3306/test?useUnicode=true&serverTimezone=Asia/Shanghai
 # db.table-schema=test
 # db.username=root
 # db.password=root
