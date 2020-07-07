@@ -80,6 +80,6 @@ public class OracleDbServiceImpl extends AbstractDbService {
 
     @Override
     protected String getJavaDataType(ColumnInfo columnInfo) {
-        return TypeConversion.getJavaDataTypeByDbType(TypeConversion.oracleDbType2JavaMap, getDataType(columnInfo.getDataType()));
+        return TypeConversion.getJavaTypeByDBDataType(getDataType(columnInfo.getDataType()));
     }
 }

@@ -57,7 +57,7 @@ public abstract class FreemarkerGenerateService implements TemplateGenerateServi
                 GenerateInfo generateInfo = generateMetaData.getGenerateInfoByTableName(entry.getKey());
                 TableInfo tableInfo = generateInfo.getTableInfo();
                 LogUtils.printInfo(">>>>>>>>>>>>>>>>>" + tableInfo.getTableName() + " start <<<<<<<<<<<<<<<");
-                LogUtils.printInfo(tableInfo.getTableName() + "表共" + tableInfo.getColumnLists().size() + "列");
+                LogUtils.printInfo(tableInfo.getTableName() + " 表共" + tableInfo.getColumnLists().size() + "列");
                 LogUtils.logGenerateInfo(generateInfo);
                 boolean hasPrimaryKey = tableInfo.isHasPrimaryKey();
                 for (int i = 0; i < value.size(); i++) {

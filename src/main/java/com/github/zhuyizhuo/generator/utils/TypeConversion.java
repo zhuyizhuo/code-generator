@@ -1,8 +1,9 @@
 package com.github.zhuyizhuo.generator.utils;
 
-import com.github.zhuyizhuo.generator.mybatis.enums.DbTypeEnums;
 import org.apache.ibatis.type.JdbcType;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -14,25 +15,22 @@ import java.util.Objects;
  */
 public class TypeConversion {
     /**
-     * key mysql 数据库字段类型
-     * value java数据类型
+     * key 数据库字段类型
+     * value java 数据类型
+     * java 类型 import 全路径配置 javaDataTypeFullPathMap
      */
-    public static final Map<String,String> mySqlDbType2JavaMap = new HashMap<String,String>();
-    /**
-     * key oracle 数据库字段类型
-     * value java数据类型
-     */
-    public static final Map<String,String> oracleDbType2JavaMap = new HashMap<String,String>();
+    public static final Map<String,String> dbDataType2JavaType = new HashMap<>();
     /**
      * key java 数据类型
      * value 该类型全路径
+     * 即 import 的 java 类全路径
      */
-    public static final Map<String,String> javaDataTypeFullPathMap = new HashMap<String,String>();
+    public static final Map<String,String> javaDataTypeFullPathMap = new HashMap<>();
     /**
      * key 数据库字段类型  key 必须大写
      * value mybatis JDBC type
      */
-    public static final Map<String,String> type2JdbcTypeMap = new HashMap<String,String>();
+    public static final Map<String,String> type2JdbcTypeMap = new HashMap<>();
     /**
      * key java 数据类型
      * value mybatis内置对应别名
@@ -40,11 +38,7 @@ public class TypeConversion {
     public static final Map<String,String> parameterTypeMap = new HashMap<String,String>();
 
     static{
-        initMysqlType2JavaMap();
-
-        initOracleType2JavaMap();
-
-        initJavaDataTypeFullPathMap();
+        initDBDataType2JavaMap();
 
         initType2JdbcTypeMap();
         
@@ -53,99 +47,98 @@ public class TypeConversion {
 
     private static void initParameterTypeMap() {
         /** 基本数据类型 */
-        parameterTypeMap.put("byte","_byte");
-        parameterTypeMap.put("long","_long");
-        parameterTypeMap.put("short","_short");
-        parameterTypeMap.put("int","_int");
-        parameterTypeMap.put("double","_double");
-        parameterTypeMap.put("float","_float");
-        parameterTypeMap.put("boolean","_boolean");
+        addParameterType("byte","_byte");
+        addParameterType("long","_long");
+        addParameterType("short","_short");
+        addParameterType("int","_int");
+        addParameterType("double","_double");
+        addParameterType("float","_float");
+        addParameterType("boolean","_boolean");
         /** 对象类型 */
-        parameterTypeMap.put("String","string");
-        parameterTypeMap.put("Byte","byte");
-        parameterTypeMap.put("Long","long");
-        parameterTypeMap.put("Short","short");
-        parameterTypeMap.put("Integer","int");
-        parameterTypeMap.put("Double","double");
-        parameterTypeMap.put("Float","float");
-        parameterTypeMap.put("Boolean","boolean");
-        parameterTypeMap.put("Date","date");
-        parameterTypeMap.put("BigDecimal","bigdecimal");
+        addParameterType("String","string");
+        addParameterType("Byte","byte");
+        addParameterType("Long","long");
+        addParameterType("Short","short");
+        addParameterType("Integer","int");
+        addParameterType("Double","double");
+        addParameterType("Float","float");
+        addParameterType("Boolean","boolean");
+        addParameterType("Date","date");
+        addParameterType("BigDecimal","bigdecimal");
     }
 
     private static void initType2JdbcTypeMap() {
-        type2JdbcTypeMap.put("INT","INTEGER");
-        type2JdbcTypeMap.put("NUMBER","NUMERIC");
-        type2JdbcTypeMap.put("TIMESTAMP(6)","TIMESTAMP");
-        type2JdbcTypeMap.put("DATETIME","TIMESTAMP");
-        type2JdbcTypeMap.put("VARCHAR","VARCHAR");
-        type2JdbcTypeMap.put("VARCHAR2","VARCHAR");
-        type2JdbcTypeMap.put("DATE","TIMESTAMP");
-        type2JdbcTypeMap.put("DECIMAL","DECIMAL");
-        type2JdbcTypeMap.put("DOUBLE","DOUBLE");
-        type2JdbcTypeMap.put("FLOAT","FLOAT");
-        type2JdbcTypeMap.put("BIGINT","BIGINT");
-        type2JdbcTypeMap.put("SMALLINT","SMALLINT");
-        type2JdbcTypeMap.put("TINYINT","TINYINT");
-        type2JdbcTypeMap.put("NUMERIC","NUMERIC");
+        addType2JdbcType("INT", JdbcType.INTEGER);
+        addType2JdbcType("NUMBER", JdbcType.NUMERIC);
+        addType2JdbcType("TIMESTAMP(6)", JdbcType.TIMESTAMP);
+        addType2JdbcType("TIMESTAMP", JdbcType.TIMESTAMP);
+        addType2JdbcType("DATETIME", JdbcType.TIMESTAMP);
+        addType2JdbcType("VARCHAR", JdbcType.VARCHAR);
+        addType2JdbcType("VARCHAR2", JdbcType.VARCHAR);
+        addType2JdbcType("DATE", JdbcType.TIMESTAMP);
+        addType2JdbcType("DECIMAL", JdbcType.DECIMAL);
+        addType2JdbcType("DOUBLE", JdbcType.DOUBLE);
+        addType2JdbcType("FLOAT", JdbcType.FLOAT);
+        addType2JdbcType("BIGINT", JdbcType.BIGINT);
+        addType2JdbcType("SMALLINT", JdbcType.SMALLINT);
+        addType2JdbcType("TINYINT", JdbcType.TINYINT);
+        addType2JdbcType("NUMERIC", JdbcType.NUMERIC);
      }
 
-    private static void initJavaDataTypeFullPathMap() {
-        javaDataTypeFullPathMap.put("Date","java.util.Date");
-        javaDataTypeFullPathMap.put("BigDecimal","java.math.BigDecimal");
-    }
-
-    private static void initOracleType2JavaMap() {
-        oracleDbType2JavaMap.put("CHAR","String");
-        oracleDbType2JavaMap.put("NUMBER","Integer");
-        oracleDbType2JavaMap.put("LONG","Long");
-        oracleDbType2JavaMap.put("FLOAT","BigDecimal");
-        oracleDbType2JavaMap.put("VARCHAR2","String");
-        oracleDbType2JavaMap.put("NVARCHAR2","String");
-        oracleDbType2JavaMap.put("CLOB","String");
-        oracleDbType2JavaMap.put("BLOB","String");
-        oracleDbType2JavaMap.put("TIMESTAMP","Date");
-        oracleDbType2JavaMap.put("TIMESTAMP(6)","Date");
-        oracleDbType2JavaMap.put("DATE","Date");
-    }
-
-    private static void initMysqlType2JavaMap() {
-        mySqlDbType2JavaMap.put("INT","Integer");
-        mySqlDbType2JavaMap.put("VARCHAR","String");
-        mySqlDbType2JavaMap.put("TEXT","String");
-        mySqlDbType2JavaMap.put("CHAR","String");
-        mySqlDbType2JavaMap.put("BLOB","String");
-        mySqlDbType2JavaMap.put("LONGTEXT","String");
-        mySqlDbType2JavaMap.put("LONGBLOB","String");
-        mySqlDbType2JavaMap.put("TINYBLOB","String");
-        mySqlDbType2JavaMap.put("TINYTEXT","String");
-        mySqlDbType2JavaMap.put("DECIMAL","BigDecimal");
-        mySqlDbType2JavaMap.put("TINYINT","Integer");
-        mySqlDbType2JavaMap.put("BIGINT","Long");
-        mySqlDbType2JavaMap.put("FLOAT","BigDecimal");
-        mySqlDbType2JavaMap.put("DOUBLE","BigDecimal");
-        mySqlDbType2JavaMap.put("DATE","Date");
-        mySqlDbType2JavaMap.put("TIME","Date");
-        mySqlDbType2JavaMap.put("DATETIME","Date");
-        mySqlDbType2JavaMap.put("TIMESTAMP","Date");
-        mySqlDbType2JavaMap.put("YEAR","Integer");
+    private static void initDBDataType2JavaMap() {
+        addDBDataType2JavaType("CHAR","String");
+        addDBDataType2JavaType("NUMBER","Integer");
+        addDBDataType2JavaType("LONG","Long");
+        addDBDataType2JavaType("VARCHAR2","String");
+        addDBDataType2JavaType("NVARCHAR2","String");
+        addDBDataType2JavaType("CLOB","String");
+        addDBDataType2JavaType("BLOB","String");
+        addDBDataType2JavaType("INT","Integer");
+        addDBDataType2JavaType("VARCHAR","String");
+        addDBDataType2JavaType("TEXT","String");
+        addDBDataType2JavaType("LONGTEXT","String");
+        addDBDataType2JavaType("LONGBLOB","String");
+        addDBDataType2JavaType("TINYBLOB","String");
+        addDBDataType2JavaType("TINYTEXT","String");
+        addDBDataType2JavaType("TINYINT","Integer");
+        addDBDataType2JavaType("BIGINT","Long");
+        /** 生成实体时 需要 import 的引用类型在此设置 */
+        setDBDataType2JavaObjectType("DECIMAL", BigDecimal.class);
+        setDBDataType2JavaObjectType("FLOAT", BigDecimal.class);
+        setDBDataType2JavaObjectType("DOUBLE", BigDecimal.class);
+        setDBDataType2JavaObjectType("DATE",  LocalDateTime.class);
+        setDBDataType2JavaObjectType("TIME", LocalDateTime.class);
+        setDBDataType2JavaObjectType("DATETIME", LocalDateTime.class);
+        setDBDataType2JavaObjectType("YEAR", LocalDateTime.class);
+        setDBDataType2JavaObjectType("FLOAT", BigDecimal.class);
+        setDBDataType2JavaObjectType("TIMESTAMP", LocalDateTime.class);
+        setDBDataType2JavaObjectType("TIMESTAMP(6)", LocalDateTime.class);
     }
 
     /**
-     * 根据 type 转大写后去 map 取值, 如果值不存在返回 type
-     * @param dbTypeMap 数据 map
-     * @param type 根据 type 转大写后去 map 取值
-     * @return 根据 type 转大写后去 map 取值, 如果值不存在返回 type
+     * 生成实体时 需要 import 的引用类型在此设置
+     * @param dbDataType 数据库字段类型
+     * @param clazz java 类型
      */
-    public static String getJavaDataTypeByDbType(Map<String,String> dbTypeMap, String type) {
-        if (GeneratorStringUtils.isBlank(type)){
+    private static void setDBDataType2JavaObjectType(String dbDataType, Class clazz) {
+        addDBDataType2JavaType(dbDataType, clazz.getSimpleName());
+        addJavaDataTypeFullPath(clazz);
+    }
+
+    /**
+     * 根据 dbDataType 转大写后去 map 取值, 如果值不存在返回 dbDataType
+     * @param dbDataType 根据 dbDataType 转大写后去 map 取值
+     * @return 根据 dbDataType 转大写后去 map 取值, 如果值不存在返回 dbDataType
+     */
+    public static String getJavaTypeByDBDataType(String dbDataType) {
+        if (GeneratorStringUtils.isBlank(dbDataType)){
             return "";
         }
-        String javaDataType = dbTypeMap.get(type.toUpperCase());
+        String javaDataType = dbDataType2JavaType.get(dbDataType.toUpperCase());
         if (GeneratorStringUtils.isNotBlank(javaDataType)){
             return javaDataType;
         }
-        return type;
+        return dbDataType;
     }
 
     public static String type2JdbcType(String dbColmType) {
@@ -180,43 +173,47 @@ public class TypeConversion {
     }
 
     public static void addJavaDataTypeFullPath(Class<?> value){
+        String simpleName = value.getSimpleName();
+        if (javaDataTypeFullPathMap.containsKey(simpleName)){
+            return;
+        }
         String name = value.getName();
         if (name.startsWith("java.lang.") && name.split("\\.").length == 3){
             return;
         }
-        javaDataTypeFullPathMap.put(value.getSimpleName(), name);
+        javaDataTypeFullPathMap.put(simpleName, name);
     }
 
-    public static void addParameterType(Class<?> value) {
-        parameterTypeMap.put(value.getSimpleName(), value.getName());
+    public static void addParameterType(Class<?> clazz) {
+        parameterTypeMap.put(clazz.getSimpleName(), clazz.getName());
     }
 
-    public static void addMySqlDbType2Java(String key, String javaType) {
-        mySqlDbType2JavaMap.put(key.toUpperCase(), javaType);
+    public static void addParameterType(String simpleName, String parameterType) {
+        parameterTypeMap.put(simpleName, parameterType);
     }
 
-    public static void addOracleDbType2Java(String key, String javaType) {
-        oracleDbType2JavaMap.put(key.toUpperCase(), javaType);
+    public static void addDBDataType2JavaType(String dbDataType, String javaType) {
+        dbDataType2JavaType.put(dbDataType.toUpperCase(), javaType);
     }
 
     public static void addType2JdbcType(String dataBaseType, JdbcType jdbcType) {
-        if (!Objects.isNull(dataBaseType)){
+        if (Objects.nonNull(dataBaseType)){
             type2JdbcTypeMap.put(dataBaseType.toUpperCase(), jdbcType.toString());
         }
     }
 
+    /**
+     * 初始化
+     * @param typeMapper
+     */
     public static void init(Map<String,Class<?>> typeMapper) {
         if (typeMapper != null && !typeMapper.isEmpty()) {
             String dbType = CheckUtils.checkDBType();
             for (Map.Entry<String, Class<?>> entry : typeMapper.entrySet()) {
-                Class<?> value = entry.getValue();
-                addJavaDataTypeFullPath(value);
-                addParameterType(value);
-                if (DbTypeEnums.MYSQL.toString().equals(dbType)) {
-                    addMySqlDbType2Java(entry.getKey(),value.getSimpleName());
-                } else {
-                    addOracleDbType2Java(entry.getKey(),value.getSimpleName());
-                }
+                Class<?> clazz = entry.getValue();
+                // 设置需要导入的类路径
+                addParameterType(clazz);
+                setDBDataType2JavaObjectType(entry.getKey(), clazz);
             }
         }
     }
