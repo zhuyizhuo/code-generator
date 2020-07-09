@@ -93,6 +93,8 @@ public class Generator {
                 LogUtils.printErrInfo("生成数据异常!Exception:" + e.getMessage());
                 LogUtils.printException(e);
             }
+        } catch (UnsupportedOperationException ue){
+            LogUtils.printErrInfo(ue.getMessage());
         } catch (Exception e){
             Throwable cause = e.getCause();
             if (cause != null && cause.toString().contains("Error setting driver on UnpooledDataSource.")){

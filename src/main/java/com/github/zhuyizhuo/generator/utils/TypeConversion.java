@@ -138,7 +138,10 @@ public class TypeConversion {
         if (GeneratorStringUtils.isNotBlank(javaDataType)){
             return javaDataType;
         }
-        return dbDataType;
+        String errorMessage = "该版本暂未内置数据库["+dbDataType+"]类型和 Java 类型的映射关系!\n" +
+                "请使用本生成器提供的扩展 API,自行添加数据库字段类型和 Java 类型的映射关系。\n " +
+                "@see com.github.zhuyizhuo.generator.mybatis.generator.GeneratorBuilder.fieldType2JavaType ;";
+        throw new UnsupportedOperationException(errorMessage);
     }
 
     public static String type2JdbcType(String dbColmType) {
@@ -149,10 +152,9 @@ public class TypeConversion {
         if (GeneratorStringUtils.isNotBlank(jdbcType)){
             return jdbcType;
         }
-        String errorMessage = "该版本暂未内置["+dbColmType+"]类型和 JdbcType 的映射关系!" +
-                "请使用框架提供扩展方法,自行添加数据库字段类型和 JdbcType 的映射关系 " +
+        String errorMessage = "该版本暂未内置数据库["+dbColmType+"]类型和 Mybatis XML 中 JdbcType 的映射关系!\n" +
+                "请使用本生成器提供的扩展 API,自行添加数据库字段类型和 Mybatis XML 中 JdbcType 的映射关系。\n " +
                 "@see com.github.zhuyizhuo.generator.mybatis.generator.GeneratorBuilder.fieldType2JdbcType ;";
-        LogUtils.printErrInfo(errorMessage);
         throw new UnsupportedOperationException(errorMessage);
     }
 

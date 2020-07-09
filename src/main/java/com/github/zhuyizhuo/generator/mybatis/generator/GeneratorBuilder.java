@@ -153,8 +153,7 @@ public class GeneratorBuilder {
      * 生成器仅收录了常用类型的转换 如果生成时发现数据库类型未转换成对应 java 数据类型
      * 或者转换的 java 数据类型不是自己想要的类型 可使用此方法新增或修改类型转换
      *
-     * 例如数据库类型为 NUMBER 生成器默认映射为 Integer
-     * 如果想映射为 String ,设置如下：
+     * 例如数据库类型为 NUMBER, 如果想映射到实体类中对应类型为 String ,设置如下：
      * new GeneratorBuilder().fieldType2JavaType("NUMBER",String.class);
      *
      * @param dataBaseType  数据类型
@@ -178,9 +177,9 @@ public class GeneratorBuilder {
      * 生成器仅收录了常用类型的转换 如果生成时发现数据库类型未转换成对应 jdbcType 数据类型
      * 或者转换的 jdbcType 数据类型有误 可使用此方法新增或修改类型转换
      *
-     * 例如时间类型 DATE 默认映射为 TIMESTAMP , 如果将 XML 生成类型改为 DATE ,可如下设置
+     * 例如字段 createTime 为时间类型 DATE, 如果将 XML 生成类型改为 DATE ,可如下设置
      * new GeneratorBuilder().fieldType2JavaType("DATE", JdbcType.DATE);
-     *
+     *    即 mybatis xml 中 #{createTime,jdbcType=DATE}
      * @param dataBaseType  数据类型
      * @param jdbcType      mybatis 配置文件中类型 如 #{id,jdbcType=VARCHAR}
      * @return the current builder
