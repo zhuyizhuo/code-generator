@@ -4,7 +4,7 @@
 		<set>
     <#list tableInfo.columnLists as colm>
         <#if colm??>
-            <#if colm_index != 0>
+            <#if (colm_index >= tableInfo.primaryKeyColumns?size)>
 			<if test="${colm.javaColumnName} != null">${colm.columnName} = ${'#{'}${colm.javaColumnName}},</if>
 		    </#if>
 		</#if>
