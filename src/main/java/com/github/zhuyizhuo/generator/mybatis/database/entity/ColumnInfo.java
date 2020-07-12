@@ -1,4 +1,4 @@
-package com.github.zhuyizhuo.generator.mybatis.database.pojo;
+package com.github.zhuyizhuo.generator.mybatis.database.entity;
 
 /**
  * class: MysqlDbInfo <br>

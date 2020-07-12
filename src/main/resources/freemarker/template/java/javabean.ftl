@@ -1,4 +1,4 @@
-package ${javaClassDefinition.POJO.fullPackage};
+package ${javaClassDefinition.MODEL.fullPackage};
 
 <#list tableInfo.importPackages as import>
 	<#if import??>
@@ -15,7 +15,7 @@ import ${import};
  * @since   ${classCommentInfo.sinceVersion} <br/>
  * @version ${classCommentInfo.version} <br/>
  */
-public class ${javaClassDefinition.POJO.className} {
+public class ${javaClassDefinition.MODEL.className} {
 
 <#list tableInfo.columnLists as colm>
 	<#if colm??>

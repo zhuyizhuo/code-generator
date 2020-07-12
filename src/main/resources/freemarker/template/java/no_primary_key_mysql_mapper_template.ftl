@@ -2,7 +2,7 @@ package ${javaClassDefinition.MAPPER.fullPackage};
 
 import java.util.List;
 
-import ${javaClassDefinition.POJO.fullPackage}.${javaClassDefinition.POJO.className};
+import ${javaClassDefinition.MODEL.fullPackage}.${javaClassDefinition.MODEL.className};
 
 /**
  * description : ${tableInfo.tableName} table dao layer interface <br/>

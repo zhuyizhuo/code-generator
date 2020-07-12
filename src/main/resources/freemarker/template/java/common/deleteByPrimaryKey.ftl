@@ -9,9 +9,9 @@
 	/**
      * ${methodDescription.DELETE_BY_PRIMARY_KEY.comment} <br>
 <#list methodDescription.DELETE_BY_PRIMARY_KEY.params as param>
-     * @param ${javaClassDefinition.POJO.className?uncap_first} ${param.comment}  <br>
+     * @param ${javaClassDefinition.MODEL.className?uncap_first} ${param.comment}  <br>
 </#list>
      * @return 删除的数据条数
      */
-    int ${methodDescription.DELETE_BY_PRIMARY_KEY.methodName}(${javaClassDefinition.POJO.className} ${javaClassDefinition.POJO.className?uncap_first});
+    int ${methodDescription.DELETE_BY_PRIMARY_KEY.methodName}(${javaClassDefinition.MODEL.className} ${javaClassDefinition.MODEL.className?uncap_first});
 </#if>

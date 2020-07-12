@@ -59,12 +59,12 @@ public class GenerateInfo {
         mybatisXmlDefinition = new MybatisXmlDefinition();
 
         boolean useTypeAliases = PropertiesUtils.getBooleanPropertiesDefaultFalse(ConfigConstants.PARAMETER_TYPE_USE_TYPE_ALIASES);
-        JavaClassDefinition pojoDefinition = javaClassDefinition.get(ModuleEnums.POJO.toString());
+        JavaClassDefinition modelDefinition = javaClassDefinition.get(ModuleEnums.MODEL.toString());
         JavaClassDefinition mapperDefinition = javaClassDefinition.get(ModuleEnums.MAPPER.toString());
 
-        String className = GeneratorStringUtils.firstLower(pojoDefinition.getClassName());
+        String className = GeneratorStringUtils.firstLower(modelDefinition.getClassName());
         mybatisXmlDefinition.setParameterType(useTypeAliases  ? className
-                                                                : pojoDefinition.getFullPackage()+"."+pojoDefinition.getClassName());
+                                                                : modelDefinition.getFullPackage()+"."+modelDefinition.getClassName());
         mybatisXmlDefinition.setNameSpace(mapperDefinition.getFullPackage()+"." +mapperDefinition.getClassName());
         mybatisXmlDefinition.setResultMapId(className+"ResultMap");
         mybatisXmlDefinition.setResultMapType(mybatisXmlDefinition.getParameterType());

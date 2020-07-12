@@ -1,8 +1,8 @@
 package com.github.zhuyizhuo.generator.mybatis.database.mapper;
 
-import com.github.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
-import com.github.zhuyizhuo.generator.mybatis.database.pojo.DataBaseInfo;
-import com.github.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
+import com.github.zhuyizhuo.generator.mybatis.database.entity.ColumnInfo;
+import com.github.zhuyizhuo.generator.mybatis.database.entity.DataBaseInfo;
+import com.github.zhuyizhuo.generator.mybatis.database.entity.DbTableInfo;
 
 import java.util.List;
 

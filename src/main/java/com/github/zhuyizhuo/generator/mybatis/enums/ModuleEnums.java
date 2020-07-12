@@ -12,7 +12,7 @@ public enum ModuleEnums {
 
     MAPPER(FileTypeEnums.JAVA,"generate.java.module.mapper.","name-format","package","out-put-path","数据库接口"),
 
-    POJO(FileTypeEnums.JAVA,"generate.java.module.model.","name-format","package","out-put-path","数据对象"),
+    MODEL(FileTypeEnums.JAVA,"generate.java.module.model.","name-format","package","out-put-path","数据对象"),
 
     XML(FileTypeEnums.XML,"generate.resources.xml.","name-format","package","out-put-path","mybatis xml 文件"),
     ;

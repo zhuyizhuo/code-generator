@@ -7,7 +7,7 @@
         <result column="TABLE_NAME" property="tableName"/>
         <result column="tableComment" property="tableComment"/>
         <collection property="columnLists" column="COLUMN_NAME"
-                    ofType="com.github.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo"
+                    ofType="com.github.zhuyizhuo.generator.mybatis.database.entity.ColumnInfo"
                     resultMap="columnResultMap"/>
     </resultMap>
 

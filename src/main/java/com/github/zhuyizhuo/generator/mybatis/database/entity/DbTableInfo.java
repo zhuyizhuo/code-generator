@@ -1,11 +1,7 @@
-package com.github.zhuyizhuo.generator.mybatis.database.pojo;
+package com.github.zhuyizhuo.generator.mybatis.database.entity;
 
 import com.google.common.collect.Lists;
-import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
-import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
-import com.github.zhuyizhuo.generator.utils.TypeConversion;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

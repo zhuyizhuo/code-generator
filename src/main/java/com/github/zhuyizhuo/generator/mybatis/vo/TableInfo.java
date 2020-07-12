@@ -1,6 +1,6 @@
 package com.github.zhuyizhuo.generator.mybatis.vo;
 
-import com.github.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
+import com.github.zhuyizhuo.generator.mybatis.database.entity.ColumnInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
 import com.github.zhuyizhuo.generator.mybatis.enums.DbTypeEnums;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;

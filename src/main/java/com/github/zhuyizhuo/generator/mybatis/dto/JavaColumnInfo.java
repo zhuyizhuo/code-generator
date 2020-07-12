@@ -1,6 +1,6 @@
 package com.github.zhuyizhuo.generator.mybatis.dto;
 
-import com.github.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
+import com.github.zhuyizhuo.generator.mybatis.database.entity.ColumnInfo;
 
 /**
  * class: JavaColumnInfo <br>

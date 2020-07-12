@@ -2,9 +2,9 @@ package com.github.zhuyizhuo.generator.mybatis.database.service.abstracted;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
-import com.github.zhuyizhuo.generator.mybatis.database.pojo.ColumnInfo;
-import com.github.zhuyizhuo.generator.mybatis.database.pojo.DataBaseInfo;
-import com.github.zhuyizhuo.generator.mybatis.database.pojo.DbTableInfo;
+import com.github.zhuyizhuo.generator.mybatis.database.entity.ColumnInfo;
+import com.github.zhuyizhuo.generator.mybatis.database.entity.DataBaseInfo;
+import com.github.zhuyizhuo.generator.mybatis.database.entity.DbTableInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.service.DbService;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
