@@ -1,5 +1,4 @@
 ## Code-generator
-[![Github page](https://img.shields.io/badge/Home%20page-blue)](https://zhuyizhuo.github.io/code-generator/)
 [![Build Status](https://travis-ci.com/zhuyizhuo/code-generator.svg?branch=master)](https://travis-ci.com/zhuyizhuo/code-generator)
 [![maven](https://img.shields.io/maven-central/v/com.github.zhuyizhuo/code-generator.svg)](https://search.maven.org/search?q=g:com.github.zhuyizhuo)
 [![releases](https://img.shields.io/github/v/release/zhuyizhuo/code-generator.svg)](https://github.com/zhuyizhuo/code-generator/releases)
@@ -26,20 +25,9 @@
 
 * JDK 1.8 +
 
-### 参考文档
+### 在线文档
 
-- [中文文档](./docs/quickstart.md)
-
-### 常见问题
-
-* [常见问题](./docs/faq.md)
-
-### 参与贡献
-
-1. Fork [本仓库](https://github.com/zhuyizhuo/code-generator)
-2. 新建 Feat_xxx 分支
-3. 提交代码
-4. 新建 Pull Request
+- [在线文档](http://zhuyizhuo.online/code-generator-doc/)
 
 ### 订阅更新
 
