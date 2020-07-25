@@ -7,3 +7,4 @@
 - 升级 guava 20.0 -> 29.0-jre
 - 修复添加类型转换未转大写的问题
 - 默认将数据库日期类型映射为 LocalDateTime
+- 新增可在 SpringBoot 项目中直接使用

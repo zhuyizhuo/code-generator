@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -32,6 +33,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Resource("generate-config.properties")
 public class ContextHolder {
+
+    private final static String resourceFile = "generator.properties";
     /** 系统默认配置信息 */
     private static Properties contextConfig = new Properties();
     /** 生成器配置对象 map */
@@ -144,9 +147,9 @@ public class ContextHolder {
         ClassLoader classLoader = this.getClass().getClassLoader();
         InputStream resourceAsStream = classLoader.getResourceAsStream(contextConfigLocation);
         try {
-            contextConfig.load(new BufferedReader(new InputStreamReader(resourceAsStream,"UTF-8")));
+            contextConfig.load(new BufferedReader(new InputStreamReader(resourceAsStream, StandardCharsets.UTF_8)));
 
-            resourceAsStream = classLoader.getResourceAsStream("application.properties");
+            resourceAsStream = classLoader.getResourceAsStream(resourceFile);
             Properties contextConfig = new Properties();
             contextConfig.load(resourceAsStream);
             String property = contextConfig.getProperty("generate.convention.sourceType");
