@@ -21,7 +21,7 @@
     </properties>
 
     <name>代码生成器</name>
-    <url>https://github.com/zhuyizhuo/code-generator</url>
+    <url>http://zhuyizhuo.online/code-generator-doc/</url>
     <inceptionYear>2017</inceptionYear>
     <licenses>
         <license>
@@ -115,7 +115,7 @@
         <developer>
             <name>ZhuYiZhuo</name>
             <id>yizhuo.zhuyz</id>
-            <email>2361883887@qq.com</email>
+            <email>zhu.yizhuo@163.com</email>
             <roles>
                 <role>Developer</role>
             </roles>
