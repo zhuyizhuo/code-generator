@@ -83,6 +83,7 @@ public class TypeConversion {
         addType2JdbcType("SMALLINT", JdbcType.SMALLINT);
         addType2JdbcType("TINYINT", JdbcType.TINYINT);
         addType2JdbcType("NUMERIC", JdbcType.NUMERIC);
+        addType2JdbcType("TEXT", JdbcType.VARCHAR);
      }
 
     private static void initDBDataType2JavaMap() {
