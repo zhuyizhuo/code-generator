@@ -2,7 +2,7 @@
 	<insert id="${methodDescription.BATCH_INSERT.methodName}" parameterType="java.util.List">
         INSERT All
         <foreach collection="list" item="item">
-            INTO ${tableInfo.tableSchema}.${tableInfo.tableName} (
+            INTO ${tableInfo.tableName} (
             <trim suffixOverrides=",">
 		    <#list mybatisXmlDefinition.columns as colm>
 			<#if colm??>

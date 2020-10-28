@@ -1,6 +1,6 @@
     <!-- ${methodDescription.BATCH_INSERT.comment} -->
 	<insert id="${methodDescription.BATCH_INSERT.methodName}" parameterType="java.util.List">
-        INSERT INTO ${tableInfo.tableSchema}.${tableInfo.tableName} (
+        INSERT INTO ${tableInfo.tableName} (
         <trim suffixOverrides=",">
         <#list mybatisXmlDefinition.columns as colm>
             <#if colm??>
