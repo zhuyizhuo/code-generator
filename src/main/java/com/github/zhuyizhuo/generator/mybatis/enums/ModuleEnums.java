@@ -14,6 +14,10 @@ public enum ModuleEnums {
 
     MODEL(FileTypeEnums.JAVA,"generate.java.module.model.","name-format","package","out-put-path","数据对象"),
 
+    SERVICE(FileTypeEnums.JAVA,"generate.java.module.service.","name-format","package","out-put-path","服务接口"),
+
+    SERVICE_IMPL(FileTypeEnums.JAVA,"generate.java.module.service.impl.","name-format","package","out-put-path","服务实现接口"),
+
     XML(FileTypeEnums.XML,"generate.resources.xml.","name-format","package","out-put-path","mybatis xml 文件"),
     ;
     /** 文件类型 */

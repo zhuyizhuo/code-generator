@@ -1,6 +1,6 @@
 package com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker;
 
-import com.github.zhuyizhuo.generator.mybatis.enums.DbTypeEnums;
+import com.github.zhuyizhuo.generator.mybatis.enums.TemplateTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.template.TemplateGenerateService;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
@@ -19,23 +19,28 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public abstract class FreemarkerGenerateService implements TemplateGenerateService {
     /**
-     *  dbType_moduleTpye_hasPrivateKey -> templatePath
+     *  TemplateType_moduleType_hasPrivateKey -> templatePath
      */
     private Map<String,String> templatePathMap = new ConcurrentHashMap<>();
 
+    protected abstract TemplateTypeEnums getTemplateType();
+
     protected void addTemplatePath(ModuleEnums moduleType, Boolean hasPrivateKey, String templatePath){
         if (hasPrivateKey == null){
-            this.templatePathMap.put(getDbType() + "_" + moduleType + "_true", templatePath);
-            this.templatePathMap.put(getDbType() + "_" + moduleType + "_false", templatePath);
+            addTemplate(moduleType.name(), templatePath);
         } else {
-            this.templatePathMap.put(getDbType() + "_" + moduleType+ "_" + hasPrivateKey,templatePath);
+            this.templatePathMap.put(getTemplateType() + "_" + moduleType+ "_" + hasPrivateKey, templatePath);
         }
+    }
+
+    protected void addTemplatePath(ModuleEnums moduleType, String templatePath) {
+        addTemplate(moduleType.name(), templatePath);
     }
 
     @Override
     public void addTemplate(String moduleType, String templatePath) {
-        this.templatePathMap.put(getDbType() + "_" + moduleType + "_true", templatePath);
-        this.templatePathMap.put(getDbType() + "_" + moduleType + "_false", templatePath);
+        this.templatePathMap.put(getTemplateType() + "_" + moduleType + "_true", templatePath);
+        this.templatePathMap.put(getTemplateType() + "_" + moduleType + "_false", templatePath);
     }
 
     /**
@@ -45,7 +50,7 @@ public abstract class FreemarkerGenerateService implements TemplateGenerateServi
      * @return 模板路径
      */
     protected String getTemplatePath(String moduleType, boolean hasPrivateKey) {
-        return this.templatePathMap.get(getDbType() + "_" + moduleType+"_"+hasPrivateKey);
+        return this.templatePathMap.get(getTemplateType() + "_" + moduleType + "_" + hasPrivateKey);
     }
 
     @Override
@@ -74,7 +79,5 @@ public abstract class FreemarkerGenerateService implements TemplateGenerateServi
             LogUtils.printException(e);
         }
     }
-
-    protected abstract DbTypeEnums getDbType();
 
 }

@@ -1,9 +1,10 @@
 package com.github.zhuyizhuo.generator.mybatis.generator.factory;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
-import com.github.zhuyizhuo.generator.mybatis.enums.DbTypeEnums;
+import com.github.zhuyizhuo.generator.mybatis.enums.TemplateTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.GenerateService;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.impl.MysqlGenerateImpl;
+import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.impl.MysqlMybatisPlusGenerateImpl;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.impl.OracleGenerateImpl;
 import com.github.zhuyizhuo.generator.utils.CheckUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
@@ -24,8 +25,9 @@ public class GenerateServiceFactory {
     private static Map<String,GenerateService> serviceMap = new ConcurrentHashMap<>();
 
     static{
-        serviceMap.put(DbTypeEnums.MYSQL.toString(), new MysqlGenerateImpl());
-        serviceMap.put(DbTypeEnums.ORACLE.toString(), new OracleGenerateImpl());
+        serviceMap.put(TemplateTypeEnums.MYSQL.toString(), new MysqlGenerateImpl());
+        serviceMap.put(TemplateTypeEnums.ORACLE.toString(), new OracleGenerateImpl());
+        serviceMap.put(TemplateTypeEnums.MYBATIS_PLUS.toString(), new MysqlMybatisPlusGenerateImpl());
     }
 
     public static GenerateService getGenerateService() {
