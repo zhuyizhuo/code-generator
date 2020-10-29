@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * 此注解用来标识约定类
  * 如果类中属性没有配置则赋值默认值
  *
- * @author yizhuo <br>
+ * @author zhuo <br>
  * @since 1.4.0
  */
 @Documented

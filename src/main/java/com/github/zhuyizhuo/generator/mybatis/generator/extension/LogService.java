@@ -5,7 +5,7 @@ package com.github.zhuyizhuo.generator.mybatis.generator.extension;
  * description: 扩展日志输出 <br>
  * time: 2019/6/6
  *
- * @author yizhuo <br>
+ * @author zhuo <br>
  */
 public interface LogService {
 

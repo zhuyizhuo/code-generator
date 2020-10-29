@@ -7,7 +7,7 @@ import com.github.zhuyizhuo.generator.mybatis.generator.extension.LogService;
  * description: 日志输出 <br>
  * time: 2018/8/6 11:04
  *
- * @author yizhuo <br>
+ * @author zhuo <br>
  * @version 1.0
  */
 public class LogUtils {

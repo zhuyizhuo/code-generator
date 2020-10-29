@@ -5,7 +5,7 @@ package com.github.zhuyizhuo.generator.mybatis.database.entity;
  * description: 字段实体 <br>
  * time: 2018/7/27 21:43
  *
- * @author yizhuo <br>
+ * @author zhuo <br>
  * @version 1.0
  */
 public class ColumnInfo {

@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * description: 生成器工厂 <br>
  * time: 2019/5/28
  *
- * @author yizhuo <br>
+ * @author zhuo <br>
  * @since 1.4.0
  */
 public class GenerateServiceFactory {

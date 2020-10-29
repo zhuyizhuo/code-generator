@@ -10,7 +10,7 @@ import java.util.List;
  * class: MybatisXmlDefinition <br>
  * description: mybatis 文件定义 <br>
  *
- * @author yizhuo <br>
+ * @author zhuo <br>
  * @since 1.3.2
  */
 public class MybatisXmlDefinition {

@@ -19,7 +19,7 @@ import java.util.List;
  * description: mysql 数据库查询表结构实现 <br>
  * time: 2018/7/30 13:10
  *
- * @author yizhuo <br>
+ * @author zhuo <br>
  * @version 1.0
  */
 public class MysqlDbServiceImpl extends AbstractDbService {

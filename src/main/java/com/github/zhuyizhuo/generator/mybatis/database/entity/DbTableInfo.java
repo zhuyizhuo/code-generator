@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 数据库实体
  * 2018-7-27 21:15:01
- * @author yizhuo
+ * @author zhuo
  * @version 1.0
  */
 public class DbTableInfo {

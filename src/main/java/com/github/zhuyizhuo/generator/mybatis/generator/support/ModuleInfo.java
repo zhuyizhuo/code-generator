@@ -12,7 +12,7 @@ import java.text.MessageFormat;
  * description: 模块信息 <br>
  * time: 2019/5/27
  *
- * @author yizhuo <br>
+ * @author zhuo <br>
  * @since 1.4.0
  */
 public class ModuleInfo {

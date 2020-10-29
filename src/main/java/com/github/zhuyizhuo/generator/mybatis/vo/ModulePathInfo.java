@@ -5,7 +5,7 @@ package com.github.zhuyizhuo.generator.mybatis.vo;
  * description: 模块信息 <br>
  * time: 2019/5/23
  *
- * @author yizhuo <br>
+ * @author zhuo <br>
  * @since 1.4.0
  */
 public class ModulePathInfo {

@@ -5,7 +5,7 @@ package com.github.zhuyizhuo.generator.mybatis.generator.extension;
  * description: 名称格式化 <br>
  * time: 2018/8/16 19:29
  *
- * @author yizhuo <br>
+ * @author zhuo <br>
  * @since 1.0
  * @version 1.4.0
  */

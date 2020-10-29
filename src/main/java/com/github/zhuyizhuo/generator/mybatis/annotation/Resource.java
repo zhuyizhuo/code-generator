@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 /**
  * 此注解用来标识资源文件
  *
- * @author yizhuo <br>
+ * @author zhuo <br>
  * @since 1.4.0
  */
 @Target(ElementType.TYPE)

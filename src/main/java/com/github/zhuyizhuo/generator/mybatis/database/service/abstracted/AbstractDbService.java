@@ -19,7 +19,7 @@ import java.util.List;
  * description: 关系型数据库抽象类 <br>
  * time: 2018/7/30 13:12
  *
- * @author yizhuo <br>
+ * @author zhuo <br>
  * @version 1.0
  */
 public abstract class AbstractDbService implements DbService {

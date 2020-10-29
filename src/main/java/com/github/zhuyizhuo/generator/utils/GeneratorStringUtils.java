@@ -5,7 +5,7 @@ package com.github.zhuyizhuo.generator.utils;
  * description: 字符串工具类 <br>
  * time: 2018/7/27 11:35
  *
- * @author yizhuo <br>
+ * @author zhuo <br>
  * @version 1.0
  */
 public class GeneratorStringUtils {

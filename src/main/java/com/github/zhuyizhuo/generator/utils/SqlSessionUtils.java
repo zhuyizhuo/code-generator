@@ -12,7 +12,7 @@ import java.io.InputStream;
  * description: 获取 SqlSession <br>
  * time: 2018/7/30 12:34
  *
- * @author yizhuo <br>
+ * @author zhuo <br>
  * @version 1.0
  */
 public class SqlSessionUtils {

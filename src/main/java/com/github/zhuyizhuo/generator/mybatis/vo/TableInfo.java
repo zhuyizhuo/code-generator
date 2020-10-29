@@ -14,7 +14,7 @@ import java.util.List;
  * description: 生成模板所用对象 <br>
  * time: 2018/8/3 19:56
  *
- * @author yizhuo <br>
+ * @author zhuo <br>
  * @version 1.0
  */
 public class TableInfo {

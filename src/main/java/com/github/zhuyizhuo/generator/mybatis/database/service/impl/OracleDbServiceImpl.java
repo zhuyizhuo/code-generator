@@ -23,7 +23,7 @@ import java.util.List;
  * description: oracle 数据库查询表结构实现 <br>
  * time: 2018/8/6 12:58
  *
- * @author yizhuo <br>
+ * @author zhuo <br>
  * @version 1.0
  */
 public class OracleDbServiceImpl extends AbstractDbService {

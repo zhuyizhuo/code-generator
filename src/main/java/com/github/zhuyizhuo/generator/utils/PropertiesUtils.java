@@ -8,7 +8,7 @@ import java.util.Properties;
 
 /**
  *  资源文件处理工具类
- * @author yizhuo
+ * @author zhuo
  * @version 1.0
  * time: 2018/7/29 18:39
  */

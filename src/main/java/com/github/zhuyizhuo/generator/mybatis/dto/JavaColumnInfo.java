@@ -7,7 +7,7 @@ import com.github.zhuyizhuo.generator.mybatis.database.entity.ColumnInfo;
  * description: java字段实体 <br>
  * time: 2018/7/29 16:06
  *
- * @author yizhuo <br>
+ * @author zhuo <br>
  * @version 1.0
  */
 public class JavaColumnInfo extends ColumnInfo {

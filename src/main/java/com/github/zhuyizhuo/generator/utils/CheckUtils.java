@@ -9,7 +9,7 @@ import java.util.Properties;
  * description: 校验工具 <br>
  * time: 2018/8/20 13:01
  *
- * @author yizhuo <br>
+ * @author zhuo <br>
  * @since 1.3.0
  */
 public class CheckUtils {

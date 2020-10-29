@@ -7,7 +7,7 @@ import com.github.zhuyizhuo.generator.utils.CheckUtils;
  * description: 自定义模块 <br>
  * time: 2019-5-29
  *
- * @author yizhuo <br>
+ * @author zhuo <br>
  * @since 1.4.0
  */
 public class CustomizeModuleInfo {
