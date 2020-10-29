@@ -8,6 +8,7 @@ import com.github.zhuyizhuo.generator.mybatis.vo.GenerateMetaData;
 import com.github.zhuyizhuo.generator.mybatis.vo.ModulePathInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
 import com.github.zhuyizhuo.generator.utils.Freemarker;
+import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 
 import java.util.List;
@@ -67,13 +68,15 @@ public abstract class FreemarkerGenerateService implements TemplateGenerateServi
                 boolean hasPrimaryKey = tableInfo.isHasPrimaryKey();
                 for (int i = 0; i < value.size(); i++) {
                     ModulePathInfo templateGenerateInfo = value.get(i);
-                    LogUtils.printInfo("文件输出路径:"+templateGenerateInfo.getFileOutputPath());
-                    Freemarker.printFile(getTemplatePath(templateGenerateInfo.getModuleType(),hasPrimaryKey),
-                            templateGenerateInfo.getFileOutputPath(), generateInfo);
+                    String templatePath = getTemplatePath(templateGenerateInfo.getModuleType(), hasPrimaryKey);
+                    if (GeneratorStringUtils.isNotBlank(templatePath)){
+                        Freemarker.printFile(templatePath,
+                                templateGenerateInfo.getFileOutputPath(), generateInfo);
+                        LogUtils.printInfo("文件输出路径:"+templateGenerateInfo.getFileOutputPath());
+                    }
                 }
                 LogUtils.printInfo(">>>>>>>>>>>>>>>>>" + tableInfo.getTableName() + " end <<<<<<<<<<<<<<<<<");
             }
-
         }catch (Exception e){
             LogUtils.printErrInfo("FreemarkerGenerateService.generate error!");
             LogUtils.printException(e);

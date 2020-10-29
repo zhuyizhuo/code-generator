@@ -11,10 +11,10 @@ import ${import};
 </#list>
 
 /**
- * table	: ${tableInfo.tableName} <br/>
- * description : ${tableInfo.tableComment} <br/>
- * time:    ${classCommentInfo.createTime} <br/>
+ * ${tableInfo.tableComment} <br/>
+ *
  * @author  ${classCommentInfo.author} <br/>
+ * @since   ${classCommentInfo.sinceVersion} <br/>
  */
 @TableName("${tableInfo.tableName}")
 public class ${javaClassDefinition.MODEL.className} implements Serializable {

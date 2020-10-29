@@ -18,12 +18,10 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * class: FileOutPathInfo <br>
- * description: 包路径 及 文件输出路径信息 <br>
+ * 包路径及文件输出路径信息 <br>
  *
- * @author yizhuo <br>
+ * @author zhuo <br>
  * @since  1.0
- * @version 1.4.0
  */
 @CoventionClass
 public class FileOutPathInfo {
@@ -42,7 +40,8 @@ public class FileOutPathInfo {
      */
     private Map<String, FormatService> classNameFormatServieMap;
     /**
-     * moduleTpye ->  ModuleInfo
+     * 模块类型 -> 模块的格式化信息
+     * moduleType ->  ModuleInfo
      */
     private Map<String, ModuleInfo> moduleInfoMap;
     /** 模块信息 */

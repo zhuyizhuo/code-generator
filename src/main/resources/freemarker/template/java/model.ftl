@@ -7,13 +7,10 @@ import ${import};
 </#list>
 
 /**
- * database	: ${tableInfo.tableSchema} <br/>
- * table	: ${tableInfo.tableName} <br/>
- * description : ${tableInfo.tableComment} <br/>
- * time:    ${classCommentInfo.createTime} <br/>
+ * ${tableInfo.tableComment} <br/>
+ *
  * @author  ${classCommentInfo.author} <br/>
  * @since   ${classCommentInfo.sinceVersion} <br/>
- * @version ${classCommentInfo.version} <br/>
  */
 public class ${javaClassDefinition.MODEL.className} {
 

@@ -5,7 +5,7 @@ import ${javaClassDefinition.MODEL.fullPackage}.${javaClassDefinition.MODEL.clas
 
 /**
  * ${tableInfo.tableComment} Service
- * time:    ${classCommentInfo.createTime} <br/>
+ *
  * @author  ${classCommentInfo.author} <br/>
  * @since   ${classCommentInfo.sinceVersion} <br/>
  */

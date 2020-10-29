@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * ${tableInfo.tableComment} Mapper
- * time:    ${classCommentInfo.createTime} <br/>
+ *
  * @author  ${classCommentInfo.author} <br/>
  * @since   ${classCommentInfo.sinceVersion} <br/>
  */

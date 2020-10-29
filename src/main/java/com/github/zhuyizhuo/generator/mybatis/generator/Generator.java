@@ -25,12 +25,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *  生成器
- * @author yizhuo
+ * 代码生成器
+ *
+ * @author zhuo
  * @since  1.0
- * create time: 2018/7/29 18:12
- * @version 1.4.0
- * modify time : 2019-5-26 22:17:56
  */
 public class Generator {
     /** 类注释信息 */
@@ -61,6 +59,7 @@ public class Generator {
      * 替换系统默认模板
      * @param moduleType 模块类型
      * @param templatePath 对应的模板路径
+     * @since 1.4.3
      */
     void replaceDefaultTemplate(ModuleTypeEnums moduleType, String templatePath){
         if (generateService instanceof TemplateGenerateService) {
@@ -98,6 +97,7 @@ public class Generator {
      */
     public void generate(){
         try {
+            LogUtils.printInfo("生成器文档地址: http://zhuyizhuo.online/code-generator-doc/");
             DbService dbService = DbServiceFactory.getDbService();
             List<TableInfo> tableColumns = dbService.getTableColumns();
             try {

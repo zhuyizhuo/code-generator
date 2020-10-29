@@ -33,7 +33,7 @@ public class DataBaseInfo {
     @Override
     public String toString() {
         return "{" +
-                "tableSchema='" + tableSchema + '\'' +
+                "tableSchema=[" + tableSchema + ']' +
                 ", tableNames=" + tableNames +
                 '}';
     }

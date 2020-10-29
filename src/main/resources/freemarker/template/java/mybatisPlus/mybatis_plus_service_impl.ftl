@@ -9,7 +9,7 @@ import ${javaClassDefinition.SERVICE.fullPackage}.${javaClassDefinition.SERVICE.
 
 /**
  * ${tableInfo.tableComment} Service 实现类
- * time:    ${classCommentInfo.createTime} <br/>
+ *
  * @author  ${classCommentInfo.author} <br/>
  * @since   ${classCommentInfo.sinceVersion} <br/>
  */

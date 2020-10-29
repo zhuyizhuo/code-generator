@@ -5,11 +5,10 @@ import java.util.List;
 import ${javaClassDefinition.MODEL.fullPackage}.${javaClassDefinition.MODEL.className};
 
 /**
- * description : ${tableInfo.tableName} table dao layer interface <br/>
- * time:    ${classCommentInfo.createTime} <br/>
+ * ${tableInfo.tableComment} dao layer interface <br/>
+ *
  * @author  ${classCommentInfo.author} <br/>
  * @since   ${classCommentInfo.sinceVersion} <br/>
- * @version ${classCommentInfo.version} <br/>
  */
 public interface ${javaClassDefinition.MAPPER.className} {
 <#if methodDescription.INSERT.enabled>
