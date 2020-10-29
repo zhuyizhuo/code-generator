@@ -3,11 +3,9 @@ package com.github.zhuyizhuo.generator.mybatis.generator.service.template;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.GenerateService;
 
 /**
- * class: TemplateGenerateService <br>
- * description: 模板生成 service <br>
- * time: 2019/5/28
+ * 模板生成 service <br>
  *
- * @author yizhuo <br>
+ * @author zhuo <br>
  * @since 1.4.0
  */
 public interface TemplateGenerateService extends GenerateService {

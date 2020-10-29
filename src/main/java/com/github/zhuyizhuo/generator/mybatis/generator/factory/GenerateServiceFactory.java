@@ -4,7 +4,7 @@ import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.enums.TemplateTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.GenerateService;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.impl.MysqlGenerateImpl;
-import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.impl.MysqlMybatisPlusGenerateImpl;
+import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.impl.MybatisPlusGenerateImpl;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.impl.OracleGenerateImpl;
 import com.github.zhuyizhuo.generator.utils.CheckUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
@@ -27,7 +27,7 @@ public class GenerateServiceFactory {
     static{
         serviceMap.put(TemplateTypeEnums.MYSQL.toString(), new MysqlGenerateImpl());
         serviceMap.put(TemplateTypeEnums.ORACLE.toString(), new OracleGenerateImpl());
-        serviceMap.put(TemplateTypeEnums.MYBATIS_PLUS.toString(), new MysqlMybatisPlusGenerateImpl());
+        serviceMap.put(TemplateTypeEnums.MYBATIS_PLUS.toString(), new MybatisPlusGenerateImpl());
     }
 
     public static GenerateService getGenerateService() {

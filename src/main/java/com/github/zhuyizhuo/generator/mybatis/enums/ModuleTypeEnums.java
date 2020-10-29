@@ -1,14 +1,11 @@
 package com.github.zhuyizhuo.generator.mybatis.enums;
 
 /**
- * class: ModuleTypeEnums <br>
- * description: 模块枚举 <br>
- * time: 2019/5/22
- * modify time: 2020-10-29 08:25:15
- * 
+ * 模块类型枚举 <br>
+ * create time: 2020-10-29 08:25:15 <br>
+ *
  * @author zhuo <br>
- * @since 1.4.0
- * @version 1.4.3
+ * @since 1.4.3
  */
 public enum ModuleTypeEnums {
 

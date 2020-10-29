@@ -5,14 +5,10 @@ import com.github.zhuyizhuo.generator.mybatis.enums.TemplateTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.FreemarkerGenerateService;
 
 /**
- * class: MysqlGenerateImpl <br>
- * description: mysql 模板生成 <br>
- * time: 2019/5/28
- * modify time: 2020-10-28 21:36:07
+ * mysql 模板生成 <br>
  *
  * @author zhuo <br>
  * @since 1.4.0
- * @version 1.4.3
  */
 public class MysqlGenerateImpl extends FreemarkerGenerateService {
 

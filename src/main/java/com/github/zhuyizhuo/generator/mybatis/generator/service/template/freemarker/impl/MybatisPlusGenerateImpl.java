@@ -5,16 +5,15 @@ import com.github.zhuyizhuo.generator.mybatis.enums.TemplateTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.FreemarkerGenerateService;
 
 /**
- * class: MysqlMybatisPlusGenerateImpl <br>
- * description: MybatisPlus 模板生成 <br>
- * time: 2020-10-28 21:37:06
+ * MybatisPlus 模板生成 <br>
+ * create time: 2020-10-28 21:37:06
  *
  * @author zhuo <br>
  * @since 1.4.3
  */
-public class MysqlMybatisPlusGenerateImpl extends FreemarkerGenerateService {
+public class MybatisPlusGenerateImpl extends FreemarkerGenerateService {
 
-    public MysqlMybatisPlusGenerateImpl() {
+    public MybatisPlusGenerateImpl() {
         addTemplatePath(ModuleTypeEnums.XML, "/freemarker/template/java/mybatisPlus/mybatis_plus_xml.ftl");
 
         addTemplatePath(ModuleTypeEnums.MAPPER, "/freemarker/template/java/mybatisPlus/mybatis_plus_mapper.ftl");
