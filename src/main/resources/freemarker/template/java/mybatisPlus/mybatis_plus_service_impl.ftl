@@ -14,6 +14,6 @@ import ${javaClassDefinition.SERVICE.fullPackage}.${javaClassDefinition.SERVICE.
  * @since   ${classCommentInfo.sinceVersion} <br/>
  */
 @Service("${javaClassDefinition.MODEL.className?uncap_first}")
-public class ${javaClassDefinition.SERVICE_IMPL.className} extends ServiceImpl<${javaClassDefinition.MAPPER.className}, ${javaClassDefinition.MODEL.className}> implements ${javaClassDefinition.service.className} {
+public class ${javaClassDefinition.SERVICE_IMPL.className} extends ServiceImpl<${javaClassDefinition.MAPPER.className}, ${javaClassDefinition.MODEL.className}> implements ${javaClassDefinition.SERVICE.className} {
 
 }

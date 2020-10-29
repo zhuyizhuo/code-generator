@@ -1,6 +1,6 @@
 package com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.impl;
 
-import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
+import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.enums.TemplateTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.FreemarkerGenerateService;
 
@@ -17,13 +17,13 @@ import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemar
 public class MysqlGenerateImpl extends FreemarkerGenerateService {
 
     public MysqlGenerateImpl() {
-        addTemplatePath(ModuleEnums.XML,true, "/freemarker/template/xml/primary_key_mysql_mybatis_template.ftl");
-        addTemplatePath(ModuleEnums.XML,false, "/freemarker/template/xml/no_primary_key_mysql_mybatis_template.ftl");
+        addTemplatePath(ModuleTypeEnums.XML,true, "/freemarker/template/xml/primary_key_mysql_mybatis_template.ftl");
+        addTemplatePath(ModuleTypeEnums.XML,false, "/freemarker/template/xml/no_primary_key_mysql_mybatis_template.ftl");
 
-        addTemplatePath(ModuleEnums.MAPPER,true, "/freemarker/template/java/primary_key_mysql_mapper_template.ftl");
-        addTemplatePath(ModuleEnums.MAPPER,false, "/freemarker/template/java/no_primary_key_mysql_mapper_template.ftl");
+        addTemplatePath(ModuleTypeEnums.MAPPER,true, "/freemarker/template/java/primary_key_mysql_mapper_template.ftl");
+        addTemplatePath(ModuleTypeEnums.MAPPER,false, "/freemarker/template/java/no_primary_key_mysql_mapper_template.ftl");
 
-        addTemplatePath(ModuleEnums.MODEL, "/freemarker/template/java/model.ftl");
+        addTemplatePath(ModuleTypeEnums.MODEL, "/freemarker/template/java/model.ftl");
     }
 
     @Override

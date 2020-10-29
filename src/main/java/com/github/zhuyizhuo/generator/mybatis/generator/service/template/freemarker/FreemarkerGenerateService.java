@@ -1,7 +1,7 @@
 package com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker;
 
 import com.github.zhuyizhuo.generator.mybatis.enums.TemplateTypeEnums;
-import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
+import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.template.TemplateGenerateService;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateMetaData;
@@ -25,7 +25,7 @@ public abstract class FreemarkerGenerateService implements TemplateGenerateServi
 
     protected abstract TemplateTypeEnums getTemplateType();
 
-    protected void addTemplatePath(ModuleEnums moduleType, Boolean hasPrivateKey, String templatePath){
+    protected void addTemplatePath(ModuleTypeEnums moduleType, Boolean hasPrivateKey, String templatePath){
         if (hasPrivateKey == null){
             addTemplate(moduleType.name(), templatePath);
         } else {
@@ -33,7 +33,7 @@ public abstract class FreemarkerGenerateService implements TemplateGenerateServi
         }
     }
 
-    protected void addTemplatePath(ModuleEnums moduleType, String templatePath) {
+    protected void addTemplatePath(ModuleTypeEnums moduleType, String templatePath) {
         addTemplate(moduleType.name(), templatePath);
     }
 

@@ -1,6 +1,6 @@
 package com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.impl;
 
-import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
+import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.enums.TemplateTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.FreemarkerGenerateService;
 
@@ -15,15 +15,15 @@ import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemar
 public class MysqlMybatisPlusGenerateImpl extends FreemarkerGenerateService {
 
     public MysqlMybatisPlusGenerateImpl() {
-        addTemplatePath(ModuleEnums.XML, "/freemarker/template/java/mybatisPlus/mybatis_plus_xml.ftl");
+        addTemplatePath(ModuleTypeEnums.XML, "/freemarker/template/java/mybatisPlus/mybatis_plus_xml.ftl");
 
-        addTemplatePath(ModuleEnums.MAPPER, "/freemarker/template/java/mybatisPlus/mybatis_plus_mapper.ftl");
+        addTemplatePath(ModuleTypeEnums.MAPPER, "/freemarker/template/java/mybatisPlus/mybatis_plus_mapper.ftl");
 
-        addTemplatePath(ModuleEnums.MODEL, "/freemarker/template/java/mybatisPlus/mybatis_plus_model.ftl");
+        addTemplatePath(ModuleTypeEnums.MODEL, "/freemarker/template/java/mybatisPlus/mybatis_plus_model.ftl");
 
-        addTemplatePath(ModuleEnums.SERVICE, "/freemarker/template/java/mybatisPlus/mybatis_plus_service.ftl");
+        addTemplatePath(ModuleTypeEnums.SERVICE, "/freemarker/template/java/mybatisPlus/mybatis_plus_service.ftl");
 
-        addTemplatePath(ModuleEnums.SERVICE_IMPL, "/freemarker/template/java/mybatisPlus/mybatis_plus_service_impl.ftl");
+        addTemplatePath(ModuleTypeEnums.SERVICE_IMPL, "/freemarker/template/java/mybatisPlus/mybatis_plus_service_impl.ftl");
     }
 
     @Override

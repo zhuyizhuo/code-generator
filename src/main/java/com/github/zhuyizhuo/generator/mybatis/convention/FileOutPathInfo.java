@@ -4,7 +4,7 @@ import com.github.zhuyizhuo.generator.mybatis.annotation.CoventionClass;
 import com.github.zhuyizhuo.generator.mybatis.annotation.Value;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.enums.FileTypeEnums;
-import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
+import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.CustomizeModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.FormatService;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.JavaModuleInfo;
@@ -54,14 +54,14 @@ public class FileOutPathInfo {
      * 初始化模块信息
      */
     public void init() {
-        ModuleEnums[] values = ModuleEnums.values();
+        ModuleTypeEnums[] values = ModuleTypeEnums.values();
         String outPutFullPathFormat = "";
         ModuleInfo info;
         String filePackage;
         String outPutPath;
         for (int i = 0; i < values.length; i++) {
             info = new ModuleInfo();
-            ModuleEnums module = values[i];
+            ModuleTypeEnums module = values[i];
             filePackage = PropertiesUtils.getConfig(module.getFilePackageKey());
             outPutPath = PropertiesUtils.getConfig(module.getOutputPathKey());
             if (FileTypeEnums.JAVA.equals(module.getTypeEnums())){
@@ -209,7 +209,7 @@ public class FileOutPathInfo {
         this.basePackageEnabled = basePackageEnabled;
     }
 
-    private void addModuleInfo(ModuleEnums value, ModuleInfo info) {
+    private void addModuleInfo(ModuleTypeEnums value, ModuleInfo info) {
         addModuleInfo(value.toString(), info);
     }
 
@@ -234,7 +234,7 @@ public class FileOutPathInfo {
         return MessageFormat.format(formatConfig, tableNameCamelCase);
     }
 
-    private FormatService getFormatService(ModuleEnums moduleType) {
+    private FormatService getFormatService(ModuleTypeEnums moduleType) {
         return getFormatService(moduleType.toString());
     }
 

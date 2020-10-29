@@ -6,7 +6,7 @@ import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.service.abstracted.AbstractDbService;
 import com.github.zhuyizhuo.generator.mybatis.enums.MethodEnums;
-import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
+import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.CustomizeModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.FormatService;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.JavaModuleInfo;
@@ -53,9 +53,7 @@ public class GeneratorBuilder {
      * 格式化全部方法 service 优先级低于指定方法格式化 service
      */
     private FormatService commonMethodFormatService;
-    /***
-     *  模块名格式化 Service MAP
-     */
+    /** 模块名格式化 Service MAP */
     private Map<String, FormatService> moduleNameFormatServiceMap;
     /** 扩展 自定义模板 */
     private List<JavaModuleInfo> javaTemplates;
@@ -65,6 +63,8 @@ public class GeneratorBuilder {
     private GenerateService generateService;
     /** 配置信息 */
     private Properties proInfo;
+    /** 模板类型及路径 用以替换系统中已定义的模板 */
+    private Map<ModuleTypeEnums, String> moduleTypeTemplatePathMap;
 
     public GeneratorBuilder() {
     }
@@ -101,7 +101,7 @@ public class GeneratorBuilder {
      * @since 1.4.0
      * @return the current builder
      */
-    public GeneratorBuilder addModuleNameFormat(@NotNull ModuleEnums moduleType, @NotNull FormatService moduleNameFormatService) {
+    public GeneratorBuilder addModuleNameFormat(@NotNull ModuleTypeEnums moduleType, @NotNull FormatService moduleNameFormatService) {
         CheckUtils.assertNotNull(moduleType,"addModuleNameFormat 参数 moduleType 不能为空!");
         this.addModuleNameFormat(moduleType.toString(), moduleNameFormatService);
         return this;
@@ -192,6 +192,23 @@ public class GeneratorBuilder {
         return this;
     }
 
+    /***
+     * 替换指定模块的代码模板  暂只支持 freemarker 模板
+     * @param moduleTypeEnums 模块类型
+     * @param templatePath 对应的 freemarker 模板路径
+     * @since 1.4.3
+     */
+    public GeneratorBuilder replaceDefaultTemplate(ModuleTypeEnums moduleTypeEnums, String templatePath){
+        CheckUtils.assertNotNull(moduleTypeEnums,"模块类型不能为空!");
+        CheckUtils.assertNotNull(templatePath,"模板路径不能为空!");
+
+        if (moduleTypeTemplatePathMap == null){
+            moduleTypeTemplatePathMap = new HashMap<>();
+        }
+        moduleTypeTemplatePathMap.put(moduleTypeEnums, templatePath);
+        return this;
+    }
+
     /**
      * 添加自定义 java 模板
      * @param fileInfo java 模板信息
@@ -273,6 +290,7 @@ public class GeneratorBuilder {
         fileOutPathInfo.init();
 
         Generator generator = new Generator(fileOutPathInfo, new MethodInfo(methodNameFormatServiceMap, commonMethodFormatService));
+        generator.initGenerateService(generateService);
         if (javaTemplates != null && javaTemplates.size() > 0){
             for (int i = 0; i < javaTemplates.size(); i++) {
                 generator.addJavaTemplate(javaTemplates.get(i));
@@ -283,7 +301,11 @@ public class GeneratorBuilder {
                 generator.addCustomizeModuleInfo(customizeModuleInfos.get(i));
             }
         }
-        generator.initGenerateService(generateService);
+        if (moduleTypeTemplatePathMap != null && !moduleTypeTemplatePathMap.isEmpty()){
+            for (Map.Entry<ModuleTypeEnums, String> entry: moduleTypeTemplatePathMap.entrySet()) {
+                generator.replaceDefaultTemplate(entry.getKey(), entry.getValue());
+            }
+        }
         return generator;
     }
 

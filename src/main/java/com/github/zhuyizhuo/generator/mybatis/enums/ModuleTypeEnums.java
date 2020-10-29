@@ -1,14 +1,16 @@
 package com.github.zhuyizhuo.generator.mybatis.enums;
 
 /**
- * class: ModuleEnums <br>
+ * class: ModuleTypeEnums <br>
  * description: 模块枚举 <br>
  * time: 2019/5/22
- *
- * @author yizhuo <br>
+ * modify time: 2020-10-29 08:25:15
+ * 
+ * @author zhuo <br>
  * @since 1.4.0
+ * @version 1.4.3
  */
-public enum ModuleEnums {
+public enum ModuleTypeEnums {
 
     MAPPER(FileTypeEnums.JAVA,"generate.java.module.mapper.","name-format","package","out-put-path","数据库接口"),
 
@@ -32,7 +34,7 @@ public enum ModuleEnums {
     /** 模块描述 */
     private String moduleDescription;
 
-    ModuleEnums(FileTypeEnums typeEnums, String keyPrefix, String fileNameFormatKey, String filePackageKey, String outputPathKey, String moduleDescription) {
+    ModuleTypeEnums(FileTypeEnums typeEnums, String keyPrefix, String fileNameFormatKey, String filePackageKey, String outputPathKey, String moduleDescription) {
         this.typeEnums = typeEnums;
         this.keyPrefix = keyPrefix;
         this.fileNameFormatKey = fileNameFormatKey;

@@ -1,5 +1,6 @@
 
 - 内置 mybatis plus 代码模板支持,支持直接生成 mybatis plus 代码模板
+- 优化 ModuleTypeEnums 定义
 
 # 1.4.4
 - 集成 slf4j 打印日志

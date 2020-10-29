@@ -5,7 +5,7 @@ import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
-import com.github.zhuyizhuo.generator.mybatis.enums.ModuleEnums;
+import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.dto.MybatisXmlDefinition;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
@@ -59,8 +59,8 @@ public class GenerateInfo {
         mybatisXmlDefinition = new MybatisXmlDefinition();
 
         boolean useTypeAliases = PropertiesUtils.getBooleanPropertiesDefaultFalse(ConfigConstants.PARAMETER_TYPE_USE_TYPE_ALIASES);
-        JavaClassDefinition modelDefinition = javaClassDefinition.get(ModuleEnums.MODEL.toString());
-        JavaClassDefinition mapperDefinition = javaClassDefinition.get(ModuleEnums.MAPPER.toString());
+        JavaClassDefinition modelDefinition = javaClassDefinition.get(ModuleTypeEnums.MODEL.toString());
+        JavaClassDefinition mapperDefinition = javaClassDefinition.get(ModuleTypeEnums.MAPPER.toString());
 
         String className = GeneratorStringUtils.firstLower(modelDefinition.getClassName());
         mybatisXmlDefinition.setParameterType(useTypeAliases  ? className

@@ -6,6 +6,7 @@ import com.github.zhuyizhuo.generator.mybatis.database.factory.DbServiceFactory;
 import com.github.zhuyizhuo.generator.mybatis.database.service.DbService;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
 import com.github.zhuyizhuo.generator.mybatis.enums.FileTypeEnums;
+import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.CustomizeModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.JavaModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.factory.GenerateServiceFactory;
@@ -53,6 +54,18 @@ public class Generator {
             this.generateService = GenerateServiceFactory.getGenerateService();
         } else {
             this.generateService = generateService;
+        }
+    }
+
+    /**
+     * 替换系统默认模板
+     * @param moduleType 模块类型
+     * @param templatePath 对应的模板路径
+     */
+    void replaceDefaultTemplate(ModuleTypeEnums moduleType, String templatePath){
+        if (generateService instanceof TemplateGenerateService) {
+            TemplateGenerateService service = (TemplateGenerateService) this.generateService;
+            service.addTemplate(moduleType.name(), templatePath);
         }
     }
 
