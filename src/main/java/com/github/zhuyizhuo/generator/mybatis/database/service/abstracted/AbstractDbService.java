@@ -1,7 +1,6 @@
 package com.github.zhuyizhuo.generator.mybatis.database.service.abstracted;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
-import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.entity.ColumnInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.entity.DataBaseInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.entity.DbTableInfo;
@@ -58,11 +57,7 @@ public abstract class AbstractDbService implements DbService {
 
         targetTableInfo.setTableName(sourceTableInfo.getTableName());
         targetTableInfo.setTableSchema(sourceTableInfo.getTableSchema());
-        if (GeneratorStringUtils.isBlank(sourceTableInfo.getTableComment())){
-            targetTableInfo.setTableComment(ClassCommentInfo.tableComment);
-        } else {
-            targetTableInfo.setTableComment(sourceTableInfo.getTableComment());
-        }
+        targetTableInfo.setTableComment(sourceTableInfo.getTableComment());
         List<ColumnInfo> columnLists = sourceTableInfo.getColumnLists();
         JavaColumnInfo javaColumnInfo;
         for (int i = 0; i < columnLists.size(); i++) {

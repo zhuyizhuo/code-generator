@@ -64,6 +64,9 @@ public class FileOutPathInfo {
             filePackage = PropertiesUtils.getConfig(module.getFilePackageKey());
             outPutPath = PropertiesUtils.getConfig(module.getOutputPathKey());
             if (FileTypeEnums.JAVA.equals(module.getTypeEnums())){
+                if (filePackage.startsWith(".")){
+                    filePackage = filePackage.substring(1);
+                }
                 outPutFullPathFormat = getJavaOutputFullPath(outPutPath, filePackage) + "{0}.java";
             } else if (FileTypeEnums.XML.equals(module.getTypeEnums())){
                 outPutFullPathFormat = getResourcesOutputFullPath(outPutPath) + "{0}.xml";

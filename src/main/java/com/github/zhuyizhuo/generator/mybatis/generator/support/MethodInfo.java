@@ -77,12 +77,4 @@ public class MethodInfo {
         return PropertiesUtils.getBooleanPropertiesDefaultTrue(value.getPropertiesEnabledKey());
     }
 
-    public void setCommonMethodNameFormatService(FormatService commonMethodNameFormatService) {
-        this.commonMethodNameFormatService = commonMethodNameFormatService;
-    }
-
-    public void setMethodNameFormatServiceMap(Map<MethodEnums, FormatService> methodNameFormatServiceMap) {
-        this.methodNameFormatServiceMap = methodNameFormatServiceMap;
-    }
-
 }

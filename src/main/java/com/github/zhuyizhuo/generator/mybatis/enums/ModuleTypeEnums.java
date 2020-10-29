@@ -8,14 +8,19 @@ package com.github.zhuyizhuo.generator.mybatis.enums;
  * @since 1.4.3
  */
 public enum ModuleTypeEnums {
-    /** 数据库接口 */
-    MAPPER(FileTypeEnums.JAVA,"generate.java.module.mapper","数据库接口"),
-    /** 数据对象 */
-    MODEL(FileTypeEnums.JAVA,"generate.java.module.model","数据对象"),
+
+    /** 控制层 */
+    CONTROLLER(FileTypeEnums.JAVA,"generate.java.module.controller","控制层"),
+    /** 视图对象 */
+    VO(FileTypeEnums.JAVA,"generate.java.module.vo","视图对象"),
     /** 服务接口 */
     SERVICE(FileTypeEnums.JAVA,"generate.java.module.service","服务接口"),
     /** 服务接口实现 */
     SERVICE_IMPL(FileTypeEnums.JAVA,"generate.java.module.service.impl","服务接口实现"),
+    /** 数据库接口 */
+    MAPPER(FileTypeEnums.JAVA,"generate.java.module.mapper","数据库接口"),
+    /** 数据对象 */
+    MODEL(FileTypeEnums.JAVA,"generate.java.module.model","数据对象"),
     /** mybatis xml 文件 */
     XML(FileTypeEnums.XML,"generate.resources.xml","mybatis xml 文件"),
     ;

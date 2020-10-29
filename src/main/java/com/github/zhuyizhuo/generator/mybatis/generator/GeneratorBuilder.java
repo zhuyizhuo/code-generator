@@ -268,21 +268,25 @@ public class GeneratorBuilder {
             if (this.proInfo != null){
                 PropertiesUtils.proInfo.putAll(proInfo);
             }
+            ContextHolder context = new ContextHolder();
+            context.init();
+
+            LogUtils.logLevel = PropertiesUtils.getConfig(ConfigConstants.LOG_LEVEL);
+
             CheckUtils.checkDBType();
             CheckUtils.checkNeedConfig();
         } catch (IllegalArgumentException ie){
             LogUtils.printErrInfo(ie.getMessage());
+            return null;
         } catch (Exception e){
             LogUtils.printException("加载资源文件失败! 请检查配置文件路径. ", e);
+            return null;
         }
         TypeConversion.init(typeMapper);
 
-        ContextHolder context = new ContextHolder();
-        context.init();
         // 初始化常量
         AbstractDbService.tableRegex = PropertiesUtils.getConfig(ConfigConstants.TABLE_SEPARATOR);
         AbstractDbService.fieldRegex = PropertiesUtils.getConfig(ConfigConstants.FIELD_SEPARATOR);
-        LogUtils.logLevel = PropertiesUtils.getConfig(ConfigConstants.LOG_LEVEL);
 
         FileOutPathInfo fileOutPathInfo = ContextHolder.getBean("FileOutPathInfo");
         // 需先设置格式化 service

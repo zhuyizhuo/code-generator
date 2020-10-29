@@ -24,11 +24,10 @@ import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * class: ContextHolder <br>
- * description: 配置扫描 自动装配 <br>
+ * 配置扫描 自动装配 <br>
  * time: 2019/5/23
  *
- * @author yizhuo <br>
+ * @author zhuo <br>
  * @since 1.4.0
  */
 @Resource("generate-config.properties")
@@ -103,7 +102,7 @@ public class ContextHolder {
         while (enumeration.hasMoreElements()){
             String key = (String)enumeration.nextElement();
             String property = proInfo.getProperty(key);
-            if (property != null && property.trim().length() > 0){
+            if (property != null && property.length() > 1){
                 while (property.contains("#")){
                     property = parser.parse(property);
                 }
@@ -112,17 +111,39 @@ public class ContextHolder {
         }
     }
 
+    /**
+     * <p>
+     * 按顺序依次获取配置,如果都未获取到 则返回空字符串
+     *
+     * <blockquote><pre>
+     * 优先级：
+     * 1. 先获取用户的 java 配置
+     *  初始化用户配置的时候需要初始化至 PropertiesUtils
+     * 2. 获取配置文件配置
+     * 3. 获取环境变量
+     * 4. 获取系统变量
+     * </pre></blockquote><p>
+     * @param key 配置键
+     * @return 按顺序依次获取配置,如果都未获取到 则返回空字符串
+     */
     private String getConfig(String key) {
         String properties = PropertiesUtils.getProperties(key);
         if (GeneratorStringUtils.isNotBlank(properties)){
             return properties.trim();
         } else {
-            String property = contextConfig.getProperty(key);
-            if (GeneratorStringUtils.isNotBlank(property)){
-                return property.trim();
+            String config = contextConfig.getProperty(key);
+            if (GeneratorStringUtils.isNotBlank(config)){
+                return config.trim();
             } else {
-                return System.getProperty(key);
+                String env = System.getenv(key);
+                if (GeneratorStringUtils.isNotBlank(config)) {
+                    return env;
+                } else {
+                    String property = System.getProperty(key);
+                    return GeneratorStringUtils.isNotBlank(property) ? property : "";
+                }
             }
+
         }
     }
 

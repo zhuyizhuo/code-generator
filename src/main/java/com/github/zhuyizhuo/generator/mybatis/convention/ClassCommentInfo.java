@@ -61,14 +61,6 @@ public class ClassCommentInfo {
         this.sinceVersion = sinceVersion;
     }
 
-    public String getTableComment() {
-        return tableComment;
-    }
-
-    public void setTableComment(String tableComment) {
-        tableComment = tableComment;
-    }
-
     @Override
     public String toString() {
         return "ClassCommentInfo{" +
