@@ -8,18 +8,16 @@ import java.util.Date;
 
 /**
  * 类注释
+ * time: 2018/7/29 16:10
+ *
  * @author zhuo
  * @since  1.0
- * @version 1.4.0
- * time: 2018/7/29 16:10
  */
 @CoventionClass
 public class ClassCommentInfo {
     /** 文件创建时版本号 */
     @Value("#{generate.java.comment.since-version}")
     private String sinceVersion;
-    @Value("#{generate.table.default.comment}")
-    public static String tableComment;
     /** 当前版本号 */
     @Value("#{generate.java.comment.current-version}")
     private String version;

@@ -25,6 +25,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 配置扫描 自动装配 <br>
+ * <blockquote><pre>
+ *     扫描在 generator.properties 中配置的装配类(全路径)，
+ *     如果类上存在 CoventionClass 注解，则会对类中 @Value 标注的属性注入配置文件的对应配置。
+ * </pre></blockquote>
  * time: 2019/5/23
  *
  * @author zhuo <br>
