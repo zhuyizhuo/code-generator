@@ -4,6 +4,8 @@ import com.github.zhuyizhuo.generator.enums.LogLevelEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.LogService;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 
+import java.util.Properties;
+
 /**
  * class: LogUtils <br>
  * description: 日志输出 <br>
@@ -88,6 +90,24 @@ public class LogUtils {
         }
     }
 
+    public static void logProperties(String message, Properties properties) {
+        if (LogLevelEnums.INFO.getLevel() >= getLevel()){
+            System.out.println(message);
+            for (String key : properties.stringPropertyNames()) {
+                System.out.println(key + "=" + properties.getProperty(key));
+            }
+        }
+    }
+
+    public static void debug(String message, Properties properties) {
+        if (LogLevelEnums.DEBUG.getLevel() >= getLevel()){
+            System.out.println(message);
+            for (String key : properties.stringPropertyNames()) {
+                System.out.println(key + "=" + properties.getProperty(key));
+            }
+        }
+    }
+
     /**
      * 获取日志级别
      * @return 当前日志级别
@@ -95,5 +115,6 @@ public class LogUtils {
     private static int getLevel(){
         return logLevel.getLevel();
     }
+
 
 }

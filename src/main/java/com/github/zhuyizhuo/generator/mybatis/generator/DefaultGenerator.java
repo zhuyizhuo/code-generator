@@ -1,13 +1,13 @@
 package com.github.zhuyizhuo.generator.mybatis.generator;
 
-import com.github.zhuyizhuo.generator.constants.BaseConstants;
+import com.github.zhuyizhuo.generator.enums.ErrorTypeEnums;
+import com.github.zhuyizhuo.generator.enums.FileTypeEnums;
+import com.github.zhuyizhuo.generator.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.factory.DbServiceFactory;
 import com.github.zhuyizhuo.generator.mybatis.database.service.DbService;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
-import com.github.zhuyizhuo.generator.enums.FileTypeEnums;
-import com.github.zhuyizhuo.generator.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.CustomizeModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.JavaModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.factory.GenerateServiceFactory;
@@ -20,10 +20,12 @@ import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateMetaData;
 import com.github.zhuyizhuo.generator.mybatis.vo.ModulePathInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
+import com.github.zhuyizhuo.generator.utils.CheckUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * 代码生成器
@@ -100,35 +102,29 @@ public class DefaultGenerator implements Generator{
     public void generate(){
         List<TableInfo> tableColumns;
         try {
-            LogUtils.info("生成器文档地址: " + BaseConstants.DOC_URL);
             DbService dbService = DbServiceFactory.getDbService();
             tableColumns = dbService.getTableColumns();
         } catch (UnsupportedOperationException ue){
+            Properties properties = CheckUtils.checkDatabaseConfig();
             LogUtils.error(ue.getMessage());
+            LogUtils.printException(ue);
+            LogUtils.logProperties("数据库配置信息:", properties);
             return;
         } catch (Exception e){
+            LogUtils.printException(e);
+            Properties properties = CheckUtils.checkDatabaseConfig();
+            LogUtils.logProperties("数据库配置信息:", properties);
             Throwable cause = e.getCause();
-            if (cause != null && cause.toString().contains("Error setting driver on UnpooledDataSource.")){
-                LogUtils.error("请检查是否添加对应数据库驱动依赖!\n" +
-                        "示例: \n" +
-                        "mysql 8.0.20 依赖:  \n" +
-                        "<dependency>\n" +
-                        "  <groupId>mysql</groupId>\n" +
-                        "  <artifactId>mysql-connector-java</artifactId>\n" +
-                        "  <version>8.0.20</version>\n" +
-                        "</dependency> \n" +
-                        "oracle ojdbc14 依赖:  \n" +
-                        "<dependency>\n" +
-                        "  <groupId>com.oracle</groupId>\n" +
-                        "  <artifactId>ojdbc14</artifactId>\n" +
-                        "  <version>10.2.0.4.0</version>\n" +
-                        "</dependency>\n" +
-                        "maven 官方仓库地址: https://search.maven.org/search ");
-                LogUtils.printException(e);
+            if (cause == null) {
+                return;
+            }
+            String error = cause.toString();
+            if (error.contains(ErrorTypeEnums.CHECK_DEPENDENCE.getErrorMsg())) {
+                LogUtils.error(ErrorTypeEnums.CHECK_DEPENDENCE.getMessage());
+            } else if(error.contains(ErrorTypeEnums.CHECK_DATABASE_CONFIG.getErrorMsg())){
+                LogUtils.error(ErrorTypeEnums.CHECK_DATABASE_CONFIG.getMessage());
             } else {
-                LogUtils.error("请检查数据库配置是否正确。\n" +
-                        "文档地址: ");
-                LogUtils.printException(e);
+                LogUtils.error(ErrorTypeEnums.ERROR_DATABASE_CONFIG.getMessage());
             }
             return;
         }

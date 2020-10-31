@@ -26,7 +26,7 @@ public class SqlSessionUtils {
             //配置文件
             String resource = "mybatis/mybatis-config.xml";
             InputStream inputStream = Resources.getResourceAsStream(resource);
-            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, PropertiesUtils.proInfo);
+            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, PropertiesUtils.customConfiguration);
             return sqlSessionFactory.openSession();
         } catch (Exception e){
             throw new RuntimeException("SqlSessionUtils.getSqlSession Exception",e);

@@ -1,7 +1,6 @@
 package com.github.zhuyizhuo.generator.utils;
 
-import com.github.zhuyizhuo.generator.constants.BaseConstants;
-import com.github.zhuyizhuo.generator.mybatis.generator.GeneratorBuilder;
+import com.github.zhuyizhuo.generator.enums.ErrorTypeEnums;
 import org.apache.ibatis.type.JdbcType;
 
 import java.math.BigDecimal;
@@ -76,6 +75,7 @@ public class TypeConversion {
     private static void initType2JdbcTypeMap() {
         addType2JdbcType("INT", JdbcType.INTEGER);
         addType2JdbcType("NUMBER", JdbcType.NUMERIC);
+        addType2JdbcType("BIT", JdbcType.NUMERIC);
         addType2JdbcType("TIMESTAMP(6)", JdbcType.TIMESTAMP);
         addType2JdbcType("TIMESTAMP", JdbcType.TIMESTAMP);
         addType2JdbcType("DATETIME", JdbcType.TIMESTAMP);
@@ -107,6 +107,7 @@ public class TypeConversion {
         setDBDataType2JavaClass("LONGBLOB",String.class);
         setDBDataType2JavaClass("TINYBLOB",String.class);
         setDBDataType2JavaClass("TINYTEXT",String.class);
+        setDBDataType2JavaClass("BIT",Integer.class);
         setDBDataType2JavaClass("TINYINT",Integer.class);
         setDBDataType2JavaClass("BIGINT",Long.class);
         setDBDataType2JavaClass("DECIMAL", BigDecimal.class);
@@ -144,13 +145,7 @@ public class TypeConversion {
         if (GeneratorStringUtils.isNotBlank(javaDataType)){
             return javaDataType;
         }
-        String helpMessage = "该版本暂未内置数据库["+dbDataType+"]类型和 Java 类型的映射关系!\n" +
-                "请使用本生成器提供的扩展 API,自行添加数据库["+dbDataType+"]类型和 Java 类型的映射关系。\n " +
-                "例如 :将 ["+dbDataType+"]类型映射为 String 类型如下 : \n" +
-                "\t new GeneratorBuilder().fieldType2JavaType(\""+dbDataType+"\", String.class).build();\n" +
-                "@see "+ GeneratorBuilder.class.getName() +".fieldType2JavaType ; \n" +
-                "详细扩展参考文档: " + BaseConstants.EXTENSION_DOC_URL_A + "\n";
-        throw new UnsupportedOperationException(helpMessage);
+        throw new UnsupportedOperationException(ErrorTypeEnums.NOT_SUPPORT_DB_DATATYPE.getMessage(dbDataType));
     }
 
     public static String type2JdbcType(String dbColmType) {
@@ -161,13 +156,7 @@ public class TypeConversion {
         if (GeneratorStringUtils.isNotBlank(jdbcType)){
             return jdbcType;
         }
-        String helpMessage = "该版本暂未内置数据库["+dbColmType+"]类型和 Mybatis XML 中 JdbcType 的映射关系!\n" +
-                "请使用本生成器提供的扩展 API,自行添加数据库["+dbColmType+"]类型和和 Mybatis XML 中 JdbcType 的映射关系。\n " +
-                "例如 :将 ["+dbColmType+"]类型映射为 VARCHAR 类型如下 : \n" +
-                "\t new GeneratorBuilder().fieldType2JdbcType(\"bit\", JdbcType.VARCHAR).build();\n " +
-                "@see "+ GeneratorBuilder.class.getName() +".fieldType2JdbcType ;\n" +
-                "详细扩展参考文档: " + BaseConstants.EXTENSION_DOC_URL_B + "\n";;
-        throw new UnsupportedOperationException(helpMessage);
+        throw new UnsupportedOperationException(ErrorTypeEnums.NOT_SUPPORT_DATATYPE_JDBC_TYPE.getMessage(dbColmType));
     }
 
     /**
@@ -223,10 +212,9 @@ public class TypeConversion {
      */
     public static void init(Map<String,Class<?>> typeMapper) {
         if (typeMapper != null && !typeMapper.isEmpty()) {
-            //to check
-            CheckUtils.checkDBType();
             for (Map.Entry<String, Class<?>> entry : typeMapper.entrySet()) {
                 Class<?> clazz = entry.getValue();
+                //todo
                 addParameterType(clazz);
                 setDBDataType2JavaClass(entry.getKey(), clazz);
             }

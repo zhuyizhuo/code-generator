@@ -1,13 +1,15 @@
 package com.github.zhuyizhuo.generator.mybatis.generator;
 
-import com.github.zhuyizhuo.generator.exception.GeneratorException;
 import com.github.zhuyizhuo.generator.annotation.NotNull;
 import com.github.zhuyizhuo.generator.annotation.Nullable;
+import com.github.zhuyizhuo.generator.constants.LinkConstants;
 import com.github.zhuyizhuo.generator.constants.ConfigConstants;
-import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
-import com.github.zhuyizhuo.generator.mybatis.database.service.abstracted.AbstractDbService;
+import com.github.zhuyizhuo.generator.enums.ErrorTypeEnums;
 import com.github.zhuyizhuo.generator.enums.MethodEnums;
 import com.github.zhuyizhuo.generator.enums.ModuleTypeEnums;
+import com.github.zhuyizhuo.generator.exception.GeneratorException;
+import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
+import com.github.zhuyizhuo.generator.mybatis.database.service.abstracted.AbstractDbService;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.CustomizeModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.FormatService;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.JavaModuleInfo;
@@ -270,25 +272,26 @@ public class GeneratorBuilder {
      */
     public Generator build(@Nullable String configPath) {
         try {
+            LogUtils.info("生成器文档地址: " + LinkConstants.DOC_URL);
+
             if (GeneratorStringUtils.isNotBlank(configPath)){
                 InputStream resourceAsStream = Resources.getResourceAsStream(configPath);
                 PropertiesUtils.loadProperties(new BufferedReader(new InputStreamReader(resourceAsStream,Charsets.UTF_8)));
             }
             if (this.proInfo != null){
-                PropertiesUtils.proInfo.putAll(proInfo);
+                PropertiesUtils.customConfiguration.putAll(proInfo);
             }
             ContextHolder context = new ContextHolder();
             context.init();
 
             LogUtils.setLevel(PropertiesUtils.getConfig(ConfigConstants.LOG_LEVEL));
 
-            CheckUtils.checkDBType();
-            CheckUtils.checkNeedConfig();
+            CheckUtils.checkDatabaseConfig();
         } catch (GeneratorException ie){
             LogUtils.error(ie.getMessage());
             return new EmptyGenerator();
         } catch (Exception e){
-            LogUtils.error("加载资源文件失败! 请检查配置文件路径. ");
+            LogUtils.error(ErrorTypeEnums.INIT_CONFIG_ERROR.getMessage());
             LogUtils.printException(e);
             return new EmptyGenerator();
         }

@@ -12,12 +12,12 @@ import java.util.Properties;
  * time: 2018/7/29 18:39
  */
 public class PropertiesUtils {
-
-    public static final Properties proInfo = new Properties();
+    /** 自定义配置 */
+    public static final Properties customConfiguration = new Properties();
 
     public static void loadProperties(BufferedReader resourceAsStream) {
         try {
-            proInfo.load(resourceAsStream);
+            customConfiguration.load(resourceAsStream);
         } catch (Exception e) {
             LogUtils.error("加载配置文件失败!");
             LogUtils.printException(e);
@@ -25,14 +25,12 @@ public class PropertiesUtils {
     }
 
     public static String getProperties(String key){
-        String property = proInfo.getProperty(key);
+        String property = customConfiguration.getProperty(key);
         return property == null ? null : property.trim();
     }
 
     public static String getConfig(String key){
-        return GeneratorStringUtils.isBlank(PropertiesUtils.getProperties(key))
-                ? ContextHolder.getDefaultConfig(key)
-                : PropertiesUtils.getProperties(key);
+        return ContextHolder.getDefaultConfig(key);
     }
 
     /**
@@ -41,7 +39,7 @@ public class PropertiesUtils {
      * @return 存在返回true  不存在返回false
      */
     public static boolean containsKey(String key){
-        return GeneratorStringUtils.isNotBlank(proInfo.getProperty(key));
+        return GeneratorStringUtils.isNotBlank(customConfiguration.getProperty(key));
     }
 
     /**

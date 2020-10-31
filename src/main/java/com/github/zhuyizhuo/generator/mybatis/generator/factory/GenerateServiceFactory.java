@@ -7,8 +7,8 @@ import com.github.zhuyizhuo.generator.mybatis.generator.service.GenerateService;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.impl.MybatisPlusGenerateImpl;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.impl.MysqlGenerateImpl;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.impl.OracleGenerateImpl;
-import com.github.zhuyizhuo.generator.utils.CheckUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
+import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -32,7 +32,7 @@ public class GenerateServiceFactory {
     }
 
     public static GenerateService getGenerateService() {
-        String dbType = CheckUtils.checkDBType();
+        String dbType = PropertiesUtils.getProperties(ConfigConstants.DB_TYPE).toUpperCase();
         GenerateService generateService = serviceMap.get(dbType);
         if (generateService == null){
             String errorMsg =  ConfigConstants.DB_TYPE + "配置类型不支持,所支持类型请参照 "+ DbTypeEnums.class.getName();

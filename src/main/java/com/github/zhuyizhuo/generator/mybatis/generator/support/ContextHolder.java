@@ -98,10 +98,15 @@ public class ContextHolder {
 
     private void initProperties(GenericTokenParser parser) {
         loopProperties(contextConfig, parser);
-        loopProperties(PropertiesUtils.proInfo, parser);
-        LogUtils.debug("配置信息:" + PropertiesUtils.proInfo.toString());
+        loopProperties(PropertiesUtils.customConfiguration, parser);
+        //用户配置将覆盖系统默认同名配置
+        contextConfig.putAll(PropertiesUtils.customConfiguration);
+        LogUtils.debug("配置信息:" , contextConfig);
     }
 
+    /**
+     * 处理带有 #{} 的属性
+     */
     private void loopProperties(Properties proInfo, GenericTokenParser parser) {
         Enumeration<?> enumeration = proInfo.propertyNames();
         while (enumeration.hasMoreElements()){
@@ -124,6 +129,7 @@ public class ContextHolder {
      * 优先级：
      * 1. 先获取用户的 java 配置
      *  初始化用户配置的时候需要初始化至 PropertiesUtils
+     *  在初始化 initProperties 的时候，用户配置将覆盖系统默认同名配置
      * 2. 获取配置文件配置
      * 3. 获取环境变量
      * 4. 获取系统变量
@@ -132,23 +138,17 @@ public class ContextHolder {
      * @return 按顺序依次获取配置,如果都未获取到 则返回空字符串
      */
     private String getConfig(String key) {
-        String properties = PropertiesUtils.getProperties(key);
-        if (GeneratorStringUtils.isNotBlank(properties)){
-            return properties.trim();
+        String config = contextConfig.getProperty(key);
+        if (GeneratorStringUtils.isNotBlank(config)){
+            return config.trim();
         } else {
-            String config = contextConfig.getProperty(key);
-            if (GeneratorStringUtils.isNotBlank(config)){
-                return config.trim();
+            String env = System.getenv(key);
+            if (GeneratorStringUtils.isNotBlank(config)) {
+                return env;
             } else {
-                String env = System.getenv(key);
-                if (GeneratorStringUtils.isNotBlank(config)) {
-                    return env;
-                } else {
-                    String property = System.getProperty(key);
-                    return GeneratorStringUtils.isNotBlank(property) ? property : "";
-                }
+                String property = System.getProperty(key);
+                return GeneratorStringUtils.isNotBlank(property) ? property : "";
             }
-
         }
     }
 

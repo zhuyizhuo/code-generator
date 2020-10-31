@@ -1,13 +1,12 @@
 package com.github.zhuyizhuo.generator.mybatis.database.factory;
 
 import com.github.zhuyizhuo.generator.constants.ConfigConstants;
+import com.github.zhuyizhuo.generator.enums.DbTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.database.service.DbService;
 import com.github.zhuyizhuo.generator.mybatis.database.service.impl.MysqlDbServiceImpl;
 import com.github.zhuyizhuo.generator.mybatis.database.service.impl.OracleDbServiceImpl;
-import com.github.zhuyizhuo.generator.enums.DbTypeEnums;
-import com.github.zhuyizhuo.generator.enums.TemplateTypeEnums;
-import com.github.zhuyizhuo.generator.utils.CheckUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
+import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,12 +24,12 @@ public class DbServiceFactory {
     private static Map<String,DbService> serviceMap = new ConcurrentHashMap<String,DbService>();
 
     static{
-        serviceMap.put(TemplateTypeEnums.MYSQL.toString(), new MysqlDbServiceImpl());
-        serviceMap.put(TemplateTypeEnums.ORACLE.toString(), new OracleDbServiceImpl());
+        serviceMap.put(DbTypeEnums.MYSQL.toString(), new MysqlDbServiceImpl());
+        serviceMap.put(DbTypeEnums.ORACLE.toString(), new OracleDbServiceImpl());
     }
 
     public static DbService getDbService() {
-        String dbType = CheckUtils.checkDBType();
+        String dbType = PropertiesUtils.getProperties(ConfigConstants.DB_TYPE).toUpperCase();
         LogUtils.info("数据库类型:" + dbType);
         DbService dbService = serviceMap.get(dbType);
         if (dbService == null){
