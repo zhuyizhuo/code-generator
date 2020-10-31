@@ -1,7 +1,7 @@
 package com.github.zhuyizhuo.generator.mybatis.convention;
 
-import com.github.zhuyizhuo.generator.mybatis.annotation.CoventionClass;
-import com.github.zhuyizhuo.generator.mybatis.annotation.Value;
+import com.github.zhuyizhuo.generator.annotation.CoventionClass;
+import com.github.zhuyizhuo.generator.annotation.Value;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

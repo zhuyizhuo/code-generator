@@ -1,4 +1,4 @@
-package com.github.zhuyizhuo.generator.mybatis.enums;
+package com.github.zhuyizhuo.generator.enums;
 
 /**
  * 模块类型枚举 <br>

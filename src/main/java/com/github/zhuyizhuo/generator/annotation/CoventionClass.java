@@ -1,4 +1,4 @@
-package com.github.zhuyizhuo.generator.mybatis.annotation;
+package com.github.zhuyizhuo.generator.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

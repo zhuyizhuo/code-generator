@@ -1,7 +1,7 @@
 package com.github.zhuyizhuo.generator.mybatis.generator.support;
 
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
-import com.github.zhuyizhuo.generator.mybatis.enums.MethodEnums;
+import com.github.zhuyizhuo.generator.enums.MethodEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.FormatService;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;

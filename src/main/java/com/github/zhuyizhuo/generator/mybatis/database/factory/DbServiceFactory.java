@@ -1,11 +1,11 @@
 package com.github.zhuyizhuo.generator.mybatis.database.factory;
 
-import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
+import com.github.zhuyizhuo.generator.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.database.service.DbService;
 import com.github.zhuyizhuo.generator.mybatis.database.service.impl.MysqlDbServiceImpl;
 import com.github.zhuyizhuo.generator.mybatis.database.service.impl.OracleDbServiceImpl;
-import com.github.zhuyizhuo.generator.mybatis.enums.DbTypeEnums;
-import com.github.zhuyizhuo.generator.mybatis.enums.TemplateTypeEnums;
+import com.github.zhuyizhuo.generator.enums.DbTypeEnums;
+import com.github.zhuyizhuo.generator.enums.TemplateTypeEnums;
 import com.github.zhuyizhuo.generator.utils.CheckUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 

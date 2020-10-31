@@ -2,7 +2,7 @@ package com.github.zhuyizhuo.generator.mybatis.vo;
 
 import com.github.zhuyizhuo.generator.mybatis.database.entity.ColumnInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
-import com.github.zhuyizhuo.generator.mybatis.enums.TemplateTypeEnums;
+import com.github.zhuyizhuo.generator.enums.TemplateTypeEnums;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 
 import java.util.ArrayList;

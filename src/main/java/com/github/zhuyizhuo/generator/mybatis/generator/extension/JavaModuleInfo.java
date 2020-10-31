@@ -1,6 +1,6 @@
 package com.github.zhuyizhuo.generator.mybatis.generator.extension;
 
-import com.github.zhuyizhuo.generator.mybatis.annotation.NotNull;
+import com.github.zhuyizhuo.generator.annotation.NotNull;
 import com.github.zhuyizhuo.generator.utils.CheckUtils;
 
 /**

@@ -1,6 +1,6 @@
 package com.github.zhuyizhuo.generator.mybatis.generator.support;
 
-import com.github.zhuyizhuo.generator.mybatis.enums.FileTypeEnums;
+import com.github.zhuyizhuo.generator.enums.FileTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.FormatService;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.google.common.base.CharMatcher;

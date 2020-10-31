@@ -1,13 +1,13 @@
 package com.github.zhuyizhuo.generator.mybatis.generator;
 
 import com.github.zhuyizhuo.generator.exception.GeneratorException;
-import com.github.zhuyizhuo.generator.mybatis.annotation.NotNull;
-import com.github.zhuyizhuo.generator.mybatis.annotation.Nullable;
-import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
+import com.github.zhuyizhuo.generator.annotation.NotNull;
+import com.github.zhuyizhuo.generator.annotation.Nullable;
+import com.github.zhuyizhuo.generator.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.service.abstracted.AbstractDbService;
-import com.github.zhuyizhuo.generator.mybatis.enums.MethodEnums;
-import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
+import com.github.zhuyizhuo.generator.enums.MethodEnums;
+import com.github.zhuyizhuo.generator.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.CustomizeModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.FormatService;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.JavaModuleInfo;

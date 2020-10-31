@@ -1,11 +1,11 @@
 package com.github.zhuyizhuo.generator.mybatis.vo;
 
-import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
+import com.github.zhuyizhuo.generator.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
-import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
+import com.github.zhuyizhuo.generator.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.dto.MybatisXmlDefinition;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;

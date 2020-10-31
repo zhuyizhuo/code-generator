@@ -1,6 +1,6 @@
 package com.github.zhuyizhuo.generator.mybatis.database.service.impl;
 
-import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
+import com.github.zhuyizhuo.generator.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.mybatis.database.service.abstracted.AbstractDbService;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;

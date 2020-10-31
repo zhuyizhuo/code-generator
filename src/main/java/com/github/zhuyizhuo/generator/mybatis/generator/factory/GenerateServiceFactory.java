@@ -1,8 +1,8 @@
 package com.github.zhuyizhuo.generator.mybatis.generator.factory;
 
-import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
-import com.github.zhuyizhuo.generator.mybatis.enums.DbTypeEnums;
-import com.github.zhuyizhuo.generator.mybatis.enums.TemplateTypeEnums;
+import com.github.zhuyizhuo.generator.constants.ConfigConstants;
+import com.github.zhuyizhuo.generator.enums.DbTypeEnums;
+import com.github.zhuyizhuo.generator.enums.TemplateTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.GenerateService;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.impl.MybatisPlusGenerateImpl;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.impl.MysqlGenerateImpl;

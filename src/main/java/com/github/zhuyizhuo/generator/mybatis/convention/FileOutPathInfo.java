@@ -1,10 +1,10 @@
 package com.github.zhuyizhuo.generator.mybatis.convention;
 
-import com.github.zhuyizhuo.generator.mybatis.annotation.CoventionClass;
-import com.github.zhuyizhuo.generator.mybatis.annotation.Value;
+import com.github.zhuyizhuo.generator.annotation.CoventionClass;
+import com.github.zhuyizhuo.generator.annotation.Value;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
-import com.github.zhuyizhuo.generator.mybatis.enums.FileTypeEnums;
-import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
+import com.github.zhuyizhuo.generator.enums.FileTypeEnums;
+import com.github.zhuyizhuo.generator.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.CustomizeModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.FormatService;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.JavaModuleInfo;

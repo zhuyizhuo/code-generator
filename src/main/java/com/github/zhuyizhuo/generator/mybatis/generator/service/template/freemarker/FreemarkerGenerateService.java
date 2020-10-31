@@ -1,7 +1,7 @@
 package com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker;
 
-import com.github.zhuyizhuo.generator.mybatis.enums.TemplateTypeEnums;
-import com.github.zhuyizhuo.generator.mybatis.enums.ModuleTypeEnums;
+import com.github.zhuyizhuo.generator.enums.TemplateTypeEnums;
+import com.github.zhuyizhuo.generator.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.template.TemplateGenerateService;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateMetaData;

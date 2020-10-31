@@ -1,8 +1,8 @@
 package com.github.zhuyizhuo.generator.utils;
 
 import com.github.zhuyizhuo.generator.exception.GeneratorException;
-import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
-import com.github.zhuyizhuo.generator.mybatis.enums.DbTypeEnums;
+import com.github.zhuyizhuo.generator.constants.ConfigConstants;
+import com.github.zhuyizhuo.generator.enums.DbTypeEnums;
 
 /**
  * class: CheckUtils <br>

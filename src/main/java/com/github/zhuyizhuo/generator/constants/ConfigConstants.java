@@ -1,4 +1,4 @@
-package com.github.zhuyizhuo.generator.mybatis.constants;
+package com.github.zhuyizhuo.generator.constants;
 
 /**
  * 常量类 <br>

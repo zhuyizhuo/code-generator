@@ -1,8 +1,8 @@
 package com.github.zhuyizhuo.generator.mybatis.generator.support;
 
-import com.github.zhuyizhuo.generator.mybatis.annotation.CoventionClass;
-import com.github.zhuyizhuo.generator.mybatis.annotation.Resource;
-import com.github.zhuyizhuo.generator.mybatis.annotation.Value;
+import com.github.zhuyizhuo.generator.annotation.CoventionClass;
+import com.github.zhuyizhuo.generator.annotation.Resource;
+import com.github.zhuyizhuo.generator.annotation.Value;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
