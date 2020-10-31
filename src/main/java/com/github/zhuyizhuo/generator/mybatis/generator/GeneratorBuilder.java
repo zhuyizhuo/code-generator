@@ -87,7 +87,7 @@ public class GeneratorBuilder {
      * @param defaults  the default properties
      * @return the current builder
      */
-    public GeneratorBuilder properties(Map<String, Object> defaults) {
+    public GeneratorBuilder properties(Map<String, String> defaults) {
         if (this.proInfo == null){
             this.proInfo = new Properties();
         }
@@ -256,7 +256,15 @@ public class GeneratorBuilder {
     }
 
     /**
-     * Builds {@link Generator} instances.
+     * <p>Builds {@link Generator} instances.</p>
+     *
+     * 配置文件使用
+     * <pre><code>
+     *
+     * {@link org.apache.ibatis.io.Resources#getResourceAsStream(java.lang.String)}
+     * </code></pre>
+     * 加载, 配置文件路径需符合 {@link org.apache.ibatis.io.Resources#getResourceAsStream(java.lang.String)} 参数规则
+     *
      * @param configPath 配置文件路径
      * @return Generator 生成器
      */
@@ -314,8 +322,8 @@ public class GeneratorBuilder {
         return generator;
     }
 
-    private Map<String, Object> getMapFromKeyValuePairs(String[] properties) {
-        Map<String, Object> map = new HashMap<>();
+    private Map<String, String> getMapFromKeyValuePairs(String[] properties) {
+        Map<String, String> map = new HashMap<>();
         for (String property : properties) {
             int index = lowestIndexOf(property, ":", "=");
             String key = (index > 0) ? property.substring(0, index) : property;
