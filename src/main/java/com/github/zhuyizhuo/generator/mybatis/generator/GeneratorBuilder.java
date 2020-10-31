@@ -1,5 +1,6 @@
 package com.github.zhuyizhuo.generator.mybatis.generator;
 
+import com.github.zhuyizhuo.generator.exception.GeneratorException;
 import com.github.zhuyizhuo.generator.mybatis.annotation.NotNull;
 import com.github.zhuyizhuo.generator.mybatis.annotation.Nullable;
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
@@ -275,12 +276,12 @@ public class GeneratorBuilder {
 
             CheckUtils.checkDBType();
             CheckUtils.checkNeedConfig();
-        } catch (IllegalArgumentException ie){
+        } catch (GeneratorException ie){
             LogUtils.printErrInfo(ie.getMessage());
-            return null;
+            return new EmptyGenerator();
         } catch (Exception e){
             LogUtils.printException("加载资源文件失败! 请检查配置文件路径. ", e);
-            return null;
+            return new EmptyGenerator();
         }
         TypeConversion.init(typeMapper);
 
@@ -293,7 +294,7 @@ public class GeneratorBuilder {
         fileOutPathInfo.setClassNameFormatServieMap(moduleNameFormatServiceMap);
         fileOutPathInfo.init();
 
-        Generator generator = new Generator(fileOutPathInfo, new MethodInfo(methodNameFormatServiceMap, commonMethodFormatService));
+        DefaultGenerator generator = new DefaultGenerator(fileOutPathInfo, new MethodInfo(methodNameFormatServiceMap, commonMethodFormatService));
         generator.initGenerateService(generateService);
         if (javaTemplates != null && javaTemplates.size() > 0){
             for (int i = 0; i < javaTemplates.size(); i++) {

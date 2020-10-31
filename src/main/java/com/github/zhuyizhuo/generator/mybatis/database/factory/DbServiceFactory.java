@@ -1,10 +1,11 @@
 package com.github.zhuyizhuo.generator.mybatis.database.factory;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
-import com.github.zhuyizhuo.generator.mybatis.enums.TemplateTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.database.service.DbService;
 import com.github.zhuyizhuo.generator.mybatis.database.service.impl.MysqlDbServiceImpl;
 import com.github.zhuyizhuo.generator.mybatis.database.service.impl.OracleDbServiceImpl;
+import com.github.zhuyizhuo.generator.mybatis.enums.DbTypeEnums;
+import com.github.zhuyizhuo.generator.mybatis.enums.TemplateTypeEnums;
 import com.github.zhuyizhuo.generator.utils.CheckUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 
@@ -33,7 +34,7 @@ public class DbServiceFactory {
         LogUtils.printInfo("数据库类型:" + dbType);
         DbService dbService = serviceMap.get(dbType);
         if (dbService == null){
-            String errorMsg =  ConfigConstants.DB_TYPE + "配置类型不支持,所支持类型请参照 DbTypeEnums.java";
+            String errorMsg =  ConfigConstants.DB_TYPE + "配置类型不支持,所支持类型请参照 " + DbTypeEnums.class.getName();
             LogUtils.printErrInfo(errorMsg);
             throw new RuntimeException(errorMsg);
         }

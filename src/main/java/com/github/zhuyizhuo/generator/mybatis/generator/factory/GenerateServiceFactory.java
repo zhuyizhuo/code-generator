@@ -1,10 +1,11 @@
 package com.github.zhuyizhuo.generator.mybatis.generator.factory;
 
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
+import com.github.zhuyizhuo.generator.mybatis.enums.DbTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.enums.TemplateTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.GenerateService;
-import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.impl.MysqlGenerateImpl;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.impl.MybatisPlusGenerateImpl;
+import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.impl.MysqlGenerateImpl;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.impl.OracleGenerateImpl;
 import com.github.zhuyizhuo.generator.utils.CheckUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
@@ -34,7 +35,7 @@ public class GenerateServiceFactory {
         String dbType = CheckUtils.checkDBType();
         GenerateService generateService = serviceMap.get(dbType);
         if (generateService == null){
-            String errorMsg =  ConfigConstants.DB_TYPE + "配置类型不支持,所支持类型请参照 DbTypeEnums.java";
+            String errorMsg =  ConfigConstants.DB_TYPE + "配置类型不支持,所支持类型请参照 "+ DbTypeEnums.class.getName();
             LogUtils.printErrInfo(errorMsg);
             throw new RuntimeException(errorMsg);
         }

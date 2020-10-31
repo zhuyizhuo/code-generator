@@ -35,7 +35,7 @@ public class LogUtils {
     }
 
     public static void printException(Exception e){
-        if (LEVEL_INFO.equalsIgnoreCase(logLevel)){
+        if (LEVEL_DEBUG.equalsIgnoreCase(logLevel)){
             e.printStackTrace();
         }
     }

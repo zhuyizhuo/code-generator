@@ -1,5 +1,6 @@
 package com.github.zhuyizhuo.generator.utils;
 
+import com.github.zhuyizhuo.generator.mybatis.generator.GeneratorBuilder;
 import org.apache.ibatis.type.JdbcType;
 
 import java.math.BigDecimal;
@@ -9,15 +10,19 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
+ * <p>类型转换器</p>
+ *
  * @author zhuo
  * @version 1.0
- * time: 2018/7/29 18:36
+ * @date : 2018/7/29 18:36
  */
 public class TypeConversion {
     /**
      * key 数据库字段类型
      * value java 数据类型
-     * java 类型 import 全路径配置 javaDataTypeFullPathMap
+     * 注意:
+     * 如果 java 数据类型非 java.lang 包下的类,
+     * 则需要在 javaDataTypeFullPathMap 中须有对应的全路径配置
      */
     public static final Map<String,String> dbDataType2JavaType = new HashMap<>();
     /**
@@ -33,7 +38,7 @@ public class TypeConversion {
     public static final Map<String,String> type2JdbcTypeMap = new HashMap<>();
     /**
      * key java 数据类型
-     * value mybatis内置对应别名
+     * value mybatis 内置对应别名
      */
     public static final Map<String,String> parameterTypeMap = new HashMap<String,String>();
 
@@ -87,33 +92,32 @@ public class TypeConversion {
      }
 
     private static void initDBDataType2JavaMap() {
-        addDBDataType2JavaType("CHAR","String");
-        addDBDataType2JavaType("NUMBER","Integer");
-        addDBDataType2JavaType("LONG","Long");
-        addDBDataType2JavaType("VARCHAR2","String");
-        addDBDataType2JavaType("NVARCHAR2","String");
-        addDBDataType2JavaType("CLOB","String");
-        addDBDataType2JavaType("BLOB","String");
-        addDBDataType2JavaType("INT","Integer");
-        addDBDataType2JavaType("VARCHAR","String");
-        addDBDataType2JavaType("TEXT","String");
-        addDBDataType2JavaType("LONGTEXT","String");
-        addDBDataType2JavaType("LONGBLOB","String");
-        addDBDataType2JavaType("TINYBLOB","String");
-        addDBDataType2JavaType("TINYTEXT","String");
-        addDBDataType2JavaType("TINYINT","Integer");
-        addDBDataType2JavaType("BIGINT","Long");
-        /** 生成实体时 需要 import 的引用类型在此设置 */
-        setDBDataType2JavaObjectType("DECIMAL", BigDecimal.class);
-        setDBDataType2JavaObjectType("FLOAT", BigDecimal.class);
-        setDBDataType2JavaObjectType("DOUBLE", BigDecimal.class);
-        setDBDataType2JavaObjectType("DATE",  LocalDateTime.class);
-        setDBDataType2JavaObjectType("TIME", LocalDateTime.class);
-        setDBDataType2JavaObjectType("DATETIME", LocalDateTime.class);
-        setDBDataType2JavaObjectType("YEAR", LocalDateTime.class);
-        setDBDataType2JavaObjectType("FLOAT", BigDecimal.class);
-        setDBDataType2JavaObjectType("TIMESTAMP", LocalDateTime.class);
-        setDBDataType2JavaObjectType("TIMESTAMP(6)", LocalDateTime.class);
+        setDBDataType2JavaClass("CHAR",String.class);
+        setDBDataType2JavaClass("NUMBER",Integer.class);
+        setDBDataType2JavaClass("LONG",Long.class);
+        setDBDataType2JavaClass("VARCHAR2",String.class);
+        setDBDataType2JavaClass("NVARCHAR2",String.class);
+        setDBDataType2JavaClass("CLOB",String.class);
+        setDBDataType2JavaClass("BLOB",String.class);
+        setDBDataType2JavaClass("INT",Integer.class);
+        setDBDataType2JavaClass("VARCHAR",String.class);
+        setDBDataType2JavaClass("TEXT",String.class);
+        setDBDataType2JavaClass("LONGTEXT",String.class);
+        setDBDataType2JavaClass("LONGBLOB",String.class);
+        setDBDataType2JavaClass("TINYBLOB",String.class);
+        setDBDataType2JavaClass("TINYTEXT",String.class);
+        setDBDataType2JavaClass("TINYINT",Integer.class);
+        setDBDataType2JavaClass("BIGINT",Long.class);
+        setDBDataType2JavaClass("DECIMAL", BigDecimal.class);
+        setDBDataType2JavaClass("FLOAT", BigDecimal.class);
+        setDBDataType2JavaClass("DOUBLE", BigDecimal.class);
+        setDBDataType2JavaClass("DATE",  LocalDateTime.class);
+        setDBDataType2JavaClass("TIME", LocalDateTime.class);
+        setDBDataType2JavaClass("DATETIME", LocalDateTime.class);
+        setDBDataType2JavaClass("YEAR", LocalDateTime.class);
+        setDBDataType2JavaClass("FLOAT", BigDecimal.class);
+        setDBDataType2JavaClass("TIMESTAMP", LocalDateTime.class);
+        setDBDataType2JavaClass("TIMESTAMP(6)", LocalDateTime.class);
     }
 
     /**
@@ -121,7 +125,7 @@ public class TypeConversion {
      * @param dbDataType 数据库字段类型
      * @param clazz java 类型
      */
-    private static void setDBDataType2JavaObjectType(String dbDataType, Class clazz) {
+    private static void setDBDataType2JavaClass(String dbDataType, Class clazz) {
         addDBDataType2JavaType(dbDataType, clazz.getSimpleName());
         addJavaDataTypeFullPath(clazz);
     }
@@ -139,10 +143,13 @@ public class TypeConversion {
         if (GeneratorStringUtils.isNotBlank(javaDataType)){
             return javaDataType;
         }
-        String errorMessage = "该版本暂未内置数据库["+dbDataType+"]类型和 Java 类型的映射关系!\n" +
-                "请使用本生成器提供的扩展 API,自行添加数据库字段类型和 Java 类型的映射关系。\n " +
-                "@see com.github.zhuyizhuo.generator.mybatis.generator.GeneratorBuilder.fieldType2JavaType ;";
-        throw new UnsupportedOperationException(errorMessage);
+        String helpMessage = "该版本暂未内置数据库["+dbDataType+"]类型和 Java 类型的映射关系!\n" +
+                "请使用本生成器提供的扩展 API,自行添加数据库["+dbDataType+"]类型和 Java 类型的映射关系。\n " +
+                "例如 :将 ["+dbDataType+"]类型映射为 String 类型如下 : \n" +
+                "\t new GeneratorBuilder().fieldType2JavaType(\""+dbDataType+"\", String.class).build();\n" +
+                "@see "+ GeneratorBuilder.class.getName() +".fieldType2JavaType ; \n" +
+                "详细扩展参考文档: http://zhuyizhuo.online/code-generator-doc/guide/extension.html#新增或修改数据库类型和 Java 类型映射 \n";
+        throw new UnsupportedOperationException(helpMessage);
     }
 
     public static String type2JdbcType(String dbColmType) {
@@ -153,10 +160,13 @@ public class TypeConversion {
         if (GeneratorStringUtils.isNotBlank(jdbcType)){
             return jdbcType;
         }
-        String errorMessage = "该版本暂未内置数据库["+dbColmType+"]类型和 Mybatis XML 中 JdbcType 的映射关系!\n" +
-                "请使用本生成器提供的扩展 API,自行添加数据库字段类型和 Mybatis XML 中 JdbcType 的映射关系。\n " +
-                "@see com.github.zhuyizhuo.generator.mybatis.generator.GeneratorBuilder.fieldType2JdbcType ;";
-        throw new UnsupportedOperationException(errorMessage);
+        String helpMessage = "该版本暂未内置数据库["+dbColmType+"]类型和 Mybatis XML 中 JdbcType 的映射关系!\n" +
+                "请使用本生成器提供的扩展 API,自行添加数据库["+dbColmType+"]类型和和 Mybatis XML 中 JdbcType 的映射关系。\n " +
+                "例如 :将 ["+dbColmType+"]类型映射为 VARCHAR 类型如下 : \n" +
+                "\t new GeneratorBuilder().fieldType2JdbcType(\"bit\", JdbcType.VARCHAR).build();\n " +
+                "@see "+ GeneratorBuilder.class.getName() +".fieldType2JdbcType ;\n" +
+                "详细扩展参考文档: http://zhuyizhuo.online/code-generator-doc/guide/extension.html#新增或修改数据库类型和 Mybatis JdbcType 映射 \n";;
+        throw new UnsupportedOperationException(helpMessage);
     }
 
     /**
@@ -187,6 +197,7 @@ public class TypeConversion {
         javaDataTypeFullPathMap.put(simpleName, name);
     }
 
+    //to check
     public static void addParameterType(Class<?> clazz) {
         parameterTypeMap.put(clazz.getSimpleName(), clazz.getName());
     }
@@ -211,12 +222,12 @@ public class TypeConversion {
      */
     public static void init(Map<String,Class<?>> typeMapper) {
         if (typeMapper != null && !typeMapper.isEmpty()) {
-            String dbType = CheckUtils.checkDBType();
+            //to check
+            CheckUtils.checkDBType();
             for (Map.Entry<String, Class<?>> entry : typeMapper.entrySet()) {
                 Class<?> clazz = entry.getValue();
-                // 设置需要导入的类路径
                 addParameterType(clazz);
-                setDBDataType2JavaObjectType(entry.getKey(), clazz);
+                setDBDataType2JavaClass(entry.getKey(), clazz);
             }
         }
     }

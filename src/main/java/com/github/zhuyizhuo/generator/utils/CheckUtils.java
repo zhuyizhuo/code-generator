@@ -1,8 +1,8 @@
 package com.github.zhuyizhuo.generator.utils;
 
+import com.github.zhuyizhuo.generator.exception.GeneratorException;
 import com.github.zhuyizhuo.generator.mybatis.constants.ConfigConstants;
-
-import java.util.Properties;
+import com.github.zhuyizhuo.generator.mybatis.enums.DbTypeEnums;
 
 /**
  * class: CheckUtils <br>
@@ -13,15 +13,24 @@ import java.util.Properties;
  * @since 1.3.0
  */
 public class CheckUtils {
-    public static final String[] dbConfig = {ConfigConstants.URL,ConfigConstants.DRIVER,ConfigConstants.USERNAME,ConfigConstants.PASSWORD,ConfigConstants.TABLE_SCHEMA};
+    public static final String[] dbConfig = {ConfigConstants.DB_TYPE,ConfigConstants.URL,ConfigConstants.DRIVER,
+            ConfigConstants.USERNAME,ConfigConstants.PASSWORD,ConfigConstants.TABLE_SCHEMA};
 
     public static String checkDBType() {
-        String dbType = PropertiesUtils.getProperties(ConfigConstants.DB_TYPE);
-        if (GeneratorStringUtils.isBlank(dbType)){
-            String errorMsg = "未指定数据库类型:" + ConfigConstants.DB_TYPE + ", 值列表请参照 DbTypeEnums.java";
-            throw new IllegalArgumentException(errorMsg);
+        checkNeedConfig();
+        String dbType = PropertiesUtils.getProperties(ConfigConstants.DB_TYPE).toUpperCase().trim();
+        try {
+            DbTypeEnums.valueOf(dbType);
+        } catch (Exception e){
+            DbTypeEnums[] values = DbTypeEnums.values();
+            StringBuilder errorMsg = new StringBuilder(ConfigConstants.DB_TYPE)
+                                    .append(" 配置有误, 支持配置类型:");
+            for (int i = 0; i < values.length; i++) {
+                errorMsg.append(values[i].name() + " ");
+            }
+            throw new GeneratorException(errorMsg.toString());
         }
-        return dbType.toUpperCase();
+        return dbType;
     }
 
     public static void checkNeedConfig() {
@@ -32,7 +41,7 @@ public class CheckUtils {
             }
         }
         if (errorMsg.length() > 0){
-            throw new IllegalArgumentException(errorMsg.toString());
+            throw new GeneratorException(errorMsg.toString());
         }
     }
 
