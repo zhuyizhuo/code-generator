@@ -1,5 +1,6 @@
 package com.github.zhuyizhuo.generator.utils;
 
+import com.github.zhuyizhuo.generator.constants.BaseConstants;
 import com.github.zhuyizhuo.generator.mybatis.generator.GeneratorBuilder;
 import org.apache.ibatis.type.JdbcType;
 
@@ -148,7 +149,7 @@ public class TypeConversion {
                 "例如 :将 ["+dbDataType+"]类型映射为 String 类型如下 : \n" +
                 "\t new GeneratorBuilder().fieldType2JavaType(\""+dbDataType+"\", String.class).build();\n" +
                 "@see "+ GeneratorBuilder.class.getName() +".fieldType2JavaType ; \n" +
-                "详细扩展参考文档: http://zhuyizhuo.online/code-generator-doc/guide/extension.html#新增或修改数据库类型和 Java 类型映射 \n";
+                "详细扩展参考文档: " + BaseConstants.EXTENSION_DOC_URL_A + "\n";
         throw new UnsupportedOperationException(helpMessage);
     }
 
@@ -165,7 +166,7 @@ public class TypeConversion {
                 "例如 :将 ["+dbColmType+"]类型映射为 VARCHAR 类型如下 : \n" +
                 "\t new GeneratorBuilder().fieldType2JdbcType(\"bit\", JdbcType.VARCHAR).build();\n " +
                 "@see "+ GeneratorBuilder.class.getName() +".fieldType2JdbcType ;\n" +
-                "详细扩展参考文档: http://zhuyizhuo.online/code-generator-doc/guide/extension.html#新增或修改数据库类型和 Mybatis JdbcType 映射 \n";;
+                "详细扩展参考文档: " + BaseConstants.EXTENSION_DOC_URL_B + "\n";;
         throw new UnsupportedOperationException(helpMessage);
     }
 

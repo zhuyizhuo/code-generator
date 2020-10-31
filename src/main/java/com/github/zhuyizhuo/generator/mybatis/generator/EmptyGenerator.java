@@ -1,5 +1,6 @@
 package com.github.zhuyizhuo.generator.mybatis.generator;
 
+import com.github.zhuyizhuo.generator.constants.BaseConstants;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 
 /**
@@ -11,7 +12,6 @@ import com.github.zhuyizhuo.generator.utils.LogUtils;
 public class EmptyGenerator implements Generator {
     @Override
     public void generate() {
-        LogUtils.printInfo("请检查配置是否正确, 文档地址: " +
-                "http://zhuyizhuo.online/code-generator-doc/guide/quickstart.html \n");
+        LogUtils.info("请检查配置是否正确, 文档地址: " + BaseConstants.QUICKSTART_DOC_URL + " \n");
     }
 }

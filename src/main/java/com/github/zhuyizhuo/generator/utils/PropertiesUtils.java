@@ -3,7 +3,6 @@ package com.github.zhuyizhuo.generator.utils;
 import com.github.zhuyizhuo.generator.mybatis.generator.support.ContextHolder;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.Properties;
 
 /**
@@ -20,7 +19,8 @@ public class PropertiesUtils {
         try {
             proInfo.load(resourceAsStream);
         } catch (Exception e) {
-            LogUtils.printException("加载配置文件失败!",e);
+            LogUtils.error("加载配置文件失败!");
+            LogUtils.printException(e);
         }
     }
 
@@ -57,7 +57,7 @@ public class PropertiesUtils {
         try {
             return Boolean.parseBoolean(properties);
         } catch(Exception e) {
-            LogUtils.printErrInfo("配置有误,key="+key+",值应为 true false");
+            LogUtils.error("配置有误,key="+key+",值应为 true false");
         }
         return false;
     }
@@ -75,7 +75,7 @@ public class PropertiesUtils {
         try {
             return Boolean.parseBoolean(properties);
         } catch(Exception e) {
-            LogUtils.printErrInfo("配置有误,key="+key+",值应为 true false");
+            LogUtils.error("配置有误,key="+key+",值应为 true false");
         }
         return true;
     }

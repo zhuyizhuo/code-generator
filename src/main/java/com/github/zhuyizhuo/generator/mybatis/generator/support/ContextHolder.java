@@ -55,7 +55,8 @@ public class ContextHolder {
             //注入
             doAutowired();
         } catch (Exception e){
-            LogUtils.printException("生成器初始化失败!",e);
+            LogUtils.error("生成器初始化失败!");
+            LogUtils.printException(e);
         }
     }
 
@@ -98,7 +99,7 @@ public class ContextHolder {
     private void initProperties(GenericTokenParser parser) {
         loopProperties(contextConfig, parser);
         loopProperties(PropertiesUtils.proInfo, parser);
-        LogUtils.printInfo("配置信息:" + PropertiesUtils.proInfo.toString());
+        LogUtils.debug("配置信息:" + PropertiesUtils.proInfo.toString());
     }
 
     private void loopProperties(Properties proInfo, GenericTokenParser parser) {

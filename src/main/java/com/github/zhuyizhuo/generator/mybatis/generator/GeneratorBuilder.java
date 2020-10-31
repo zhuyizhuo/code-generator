@@ -280,15 +280,16 @@ public class GeneratorBuilder {
             ContextHolder context = new ContextHolder();
             context.init();
 
-            LogUtils.logLevel = PropertiesUtils.getConfig(ConfigConstants.LOG_LEVEL);
+            LogUtils.setLevel(PropertiesUtils.getConfig(ConfigConstants.LOG_LEVEL));
 
             CheckUtils.checkDBType();
             CheckUtils.checkNeedConfig();
         } catch (GeneratorException ie){
-            LogUtils.printErrInfo(ie.getMessage());
+            LogUtils.error(ie.getMessage());
             return new EmptyGenerator();
         } catch (Exception e){
-            LogUtils.printException("加载资源文件失败! 请检查配置文件路径. ", e);
+            LogUtils.error("加载资源文件失败! 请检查配置文件路径. ");
+            LogUtils.printException(e);
             return new EmptyGenerator();
         }
         TypeConversion.init(typeMapper);

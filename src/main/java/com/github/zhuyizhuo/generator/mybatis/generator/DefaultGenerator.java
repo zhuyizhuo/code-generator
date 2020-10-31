@@ -1,5 +1,6 @@
 package com.github.zhuyizhuo.generator.mybatis.generator;
 
+import com.github.zhuyizhuo.generator.constants.BaseConstants;
 import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.factory.DbServiceFactory;
@@ -99,16 +100,16 @@ public class DefaultGenerator implements Generator{
     public void generate(){
         List<TableInfo> tableColumns;
         try {
-            LogUtils.printInfo("生成器文档地址: http://zhuyizhuo.online/code-generator-doc/");
+            LogUtils.info("生成器文档地址: " + BaseConstants.DOC_URL);
             DbService dbService = DbServiceFactory.getDbService();
             tableColumns = dbService.getTableColumns();
         } catch (UnsupportedOperationException ue){
-            LogUtils.printErrInfo(ue.getMessage());
+            LogUtils.error(ue.getMessage());
             return;
         } catch (Exception e){
             Throwable cause = e.getCause();
             if (cause != null && cause.toString().contains("Error setting driver on UnpooledDataSource.")){
-                LogUtils.printErrInfo("请检查是否添加对应数据库驱动依赖!\n" +
+                LogUtils.error("请检查是否添加对应数据库驱动依赖!\n" +
                         "示例: \n" +
                         "mysql 8.0.20 依赖:  \n" +
                         "<dependency>\n" +
@@ -125,7 +126,8 @@ public class DefaultGenerator implements Generator{
                         "maven 官方仓库地址: https://search.maven.org/search ");
                 LogUtils.printException(e);
             } else {
-                LogUtils.printErrInfo("查询数据库结构异常!Exception:" + e.getMessage());
+                LogUtils.error("请检查数据库配置是否正确。\n" +
+                        "文档地址: ");
                 LogUtils.printException(e);
             }
             return;
@@ -133,16 +135,16 @@ public class DefaultGenerator implements Generator{
         try {
             doGenerate(tableColumns);
         } catch (UnsupportedOperationException ue){
-            LogUtils.printErrInfo(ue.getMessage());
+            LogUtils.error(ue.getMessage());
         } catch (Exception e){
-            LogUtils.printErrInfo("生成数据异常!Exception:" + e.getMessage());
+            LogUtils.error("生成数据异常!Exception:" + e.getMessage());
             LogUtils.printException(e);
         }
     }
 
     private void doGenerate(List<TableInfo> dbTableInfoList) {
         if (dbTableInfoList == null || dbTableInfoList.size() == 0){
-            LogUtils.printInfo("不存在需生成的数据.");
+            LogUtils.info("不存在需生成的数据.");
             return;
         }
 

@@ -62,8 +62,8 @@ public abstract class FreemarkerGenerateService implements TemplateGenerateServi
                 List<ModulePathInfo> value = entry.getValue();
                 GenerateInfo generateInfo = generateMetaData.getGenerateInfoByTableName(entry.getKey());
                 TableInfo tableInfo = generateInfo.getTableInfo();
-                LogUtils.printInfo(">>>>>>>>>>>>>>>>>" + tableInfo.getTableName() + " start <<<<<<<<<<<<<<<");
-                LogUtils.printInfo(tableInfo.getTableName() + " 表共" + tableInfo.getColumnLists().size() + "列");
+                LogUtils.info(">>>>>>>>>>>>>>>>>" + tableInfo.getTableName() + " start <<<<<<<<<<<<<<<");
+                LogUtils.info(tableInfo.getTableName() + " 表共" + tableInfo.getColumnLists().size() + "列");
                 LogUtils.logGenerateInfo(generateInfo);
                 boolean hasPrimaryKey = tableInfo.isHasPrimaryKey();
                 for (int i = 0; i < value.size(); i++) {
@@ -72,13 +72,13 @@ public abstract class FreemarkerGenerateService implements TemplateGenerateServi
                     if (GeneratorStringUtils.isNotBlank(templatePath)){
                         Freemarker.printFile(templatePath,
                                 templateGenerateInfo.getFileOutputPath(), generateInfo);
-                        LogUtils.printInfo("文件输出路径:"+templateGenerateInfo.getFileOutputPath());
+                        LogUtils.info("文件输出路径:"+templateGenerateInfo.getFileOutputPath());
                     }
                 }
-                LogUtils.printInfo(">>>>>>>>>>>>>>>>>" + tableInfo.getTableName() + " end <<<<<<<<<<<<<<<<<");
+                LogUtils.info(">>>>>>>>>>>>>>>>>" + tableInfo.getTableName() + " end <<<<<<<<<<<<<<<<<");
             }
         }catch (Exception e){
-            LogUtils.printErrInfo("FreemarkerGenerateService.generate error!");
+            LogUtils.error("FreemarkerGenerateService.generate error!");
             LogUtils.printException(e);
         }
     }

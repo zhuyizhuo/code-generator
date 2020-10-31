@@ -31,11 +31,11 @@ public class DbServiceFactory {
 
     public static DbService getDbService() {
         String dbType = CheckUtils.checkDBType();
-        LogUtils.printInfo("数据库类型:" + dbType);
+        LogUtils.info("数据库类型:" + dbType);
         DbService dbService = serviceMap.get(dbType);
         if (dbService == null){
             String errorMsg =  ConfigConstants.DB_TYPE + "配置类型不支持,所支持类型请参照 " + DbTypeEnums.class.getName();
-            LogUtils.printErrInfo(errorMsg);
+            LogUtils.error(errorMsg);
             throw new RuntimeException(errorMsg);
         }
         return dbService;

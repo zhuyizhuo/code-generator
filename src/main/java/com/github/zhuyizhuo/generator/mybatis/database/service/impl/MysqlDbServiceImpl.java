@@ -30,7 +30,7 @@ public class MysqlDbServiceImpl extends AbstractDbService {
         MysqlDataBaseMapper mapper = sqlSession.getMapper(MysqlDataBaseMapper.class);
         DataBaseInfo dataBaseInfo = getDataBaseInfo();
         List<DbTableInfo> tableList  = mapper.getTableNameListBySchema(dataBaseInfo);
-        LogUtils.printInfo("DataBaseInfo:" + dataBaseInfo +",共查询出" + tableList.size() + "张表.");
+        LogUtils.info("DataBaseInfo:" + dataBaseInfo +",共查询出" + tableList.size() + "张表.");
 
         List<TableInfo> tableColumns = getTableColumns(mapper, tableList);
         sqlSession.close();
