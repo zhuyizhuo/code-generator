@@ -62,7 +62,7 @@ public abstract class FreemarkerGenerateService implements TemplateGenerateServi
                 List<ModulePathInfo> value = entry.getValue();
                 GenerateInfo generateInfo = generateMetaData.getGenerateInfoByTableName(entry.getKey());
                 TableInfo tableInfo = generateInfo.getTableInfo();
-                LogUtils.info(">>>>>>>>>>>>>>>>>" + tableInfo.getTableName() + " start <<<<<<<<<<<<<<<");
+                LogUtils.info(">>>>>>>>>>>>>>>>> generate [" + tableInfo.getTableName() + "] start <<<<<<<<<<<<<<<");
                 LogUtils.info(tableInfo.getTableName() + " 表共" + tableInfo.getColumnLists().size() + "列");
                 LogUtils.logGenerateInfo(generateInfo);
                 boolean hasPrimaryKey = tableInfo.isHasPrimaryKey();
@@ -75,7 +75,7 @@ public abstract class FreemarkerGenerateService implements TemplateGenerateServi
                         LogUtils.info("文件输出路径:"+templateGenerateInfo.getFileOutputPath());
                     }
                 }
-                LogUtils.info(">>>>>>>>>>>>>>>>>" + tableInfo.getTableName() + " end <<<<<<<<<<<<<<<<<");
+                LogUtils.info(">>>>>>>>>>>>>>>>> generate [" + tableInfo.getTableName() + "] end <<<<<<<<<<<<<<<<<");
             }
         }catch (Exception e){
             LogUtils.error("FreemarkerGenerateService.generate error!");
