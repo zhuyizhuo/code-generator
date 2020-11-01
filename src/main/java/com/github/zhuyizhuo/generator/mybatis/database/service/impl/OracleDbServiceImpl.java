@@ -1,21 +1,21 @@
 package com.github.zhuyizhuo.generator.mybatis.database.service.impl;
 
 import com.github.zhuyizhuo.generator.constants.ConfigConstants;
-import com.github.zhuyizhuo.generator.mybatis.database.service.abstracted.AbstractDbService;
-import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
-import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
-import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
-import com.github.zhuyizhuo.generator.utils.TypeConversion;
-import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
-import com.github.zhuyizhuo.generator.mybatis.database.mapper.OracleDataBaseMapper;
 import com.github.zhuyizhuo.generator.mybatis.database.entity.ColumnInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.entity.DataBaseInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.entity.DbTableInfo;
-import com.github.zhuyizhuo.generator.utils.SqlSessionUtils;
+import com.github.zhuyizhuo.generator.mybatis.database.mapper.OracleDataBaseMapper;
+import com.github.zhuyizhuo.generator.mybatis.database.service.abstracted.AbstractDbService;
+import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
+import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
+import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
+import com.github.zhuyizhuo.generator.utils.SqlSessionUtils;
+import com.github.zhuyizhuo.generator.utils.TypeConversion;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -41,7 +41,7 @@ public class OracleDbServiceImpl extends AbstractDbService {
     protected List<String> getTables() {
         String includeTableName = PropertiesUtils.getProperties(ConfigConstants.GENERATE_TABLES_NAME);
         if (GeneratorStringUtils.isNotBlank(includeTableName)){
-            return Splitter.on(",").splitToList(includeTableName.toUpperCase());
+            return Arrays.asList(includeTableName.toUpperCase().split(","));
         }
         return null;
     }
@@ -59,7 +59,7 @@ public class OracleDbServiceImpl extends AbstractDbService {
     }
 
     private List<TableInfo> getTableInfos(OracleDataBaseMapper mapper, List<DbTableInfo> tableList) {
-        List<TableInfo> tableInfos = Lists.newArrayList();
+        List<TableInfo> tableInfos = new ArrayList<>();
         TableInfo tableInfo = null;
         for (int i = 0; i < tableList.size(); i++) {
             DbTableInfo dbTableInfo = tableList.get(i);

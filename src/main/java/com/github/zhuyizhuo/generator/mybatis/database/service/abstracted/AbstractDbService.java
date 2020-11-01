@@ -10,8 +10,8 @@ import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import com.github.zhuyizhuo.generator.utils.TypeConversion;
-import com.google.common.base.Splitter;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -43,7 +43,7 @@ public abstract class AbstractDbService implements DbService {
     protected List<String> getTables() {
         String includeTableName = PropertiesUtils.getProperties(ConfigConstants.GENERATE_TABLES_NAME);
         if (GeneratorStringUtils.isNotBlank(includeTableName)){
-            return Splitter.on(",").splitToList(includeTableName);
+            return Arrays.asList(includeTableName.split(","));
         }
         return null;
     }

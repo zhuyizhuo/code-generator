@@ -1,7 +1,6 @@
 package com.github.zhuyizhuo.generator.mybatis.database.entity;
 
-import com.google.common.collect.Lists;
-
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,7 +17,7 @@ public class DbTableInfo {
 	/** 表注释 */
 	private String tableComment;
 	/** 表字段 */
-	private List<ColumnInfo> columnLists = Lists.newArrayList();
+	private List<ColumnInfo> columnLists = new ArrayList<>();
 
 	public String getTableSchema() {
 		return tableSchema;

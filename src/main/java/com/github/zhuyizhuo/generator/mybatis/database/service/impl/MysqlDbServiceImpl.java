@@ -1,17 +1,17 @@
 package com.github.zhuyizhuo.generator.mybatis.database.service.impl;
 
-import com.github.zhuyizhuo.generator.mybatis.database.mapper.MysqlDataBaseMapper;
 import com.github.zhuyizhuo.generator.mybatis.database.entity.ColumnInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.entity.DataBaseInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.entity.DbTableInfo;
+import com.github.zhuyizhuo.generator.mybatis.database.mapper.MysqlDataBaseMapper;
 import com.github.zhuyizhuo.generator.mybatis.database.service.abstracted.AbstractDbService;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 import com.github.zhuyizhuo.generator.utils.SqlSessionUtils;
 import com.github.zhuyizhuo.generator.utils.TypeConversion;
-import com.google.common.collect.Lists;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,7 +38,7 @@ public class MysqlDbServiceImpl extends AbstractDbService {
     }
 
     private List<TableInfo> getTableColumns(MysqlDataBaseMapper mapper, List<DbTableInfo> tableList) {
-        List<TableInfo> lists = Lists.newArrayList();
+        List<TableInfo> lists = new ArrayList<>();
         TableInfo tableInfo = null;
         for (int i = 0; i < tableList.size(); i++) {
             tableInfo = new TableInfo();

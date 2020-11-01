@@ -2,8 +2,8 @@ package com.github.zhuyizhuo.generator.mybatis.generator;
 
 import com.github.zhuyizhuo.generator.annotation.NotNull;
 import com.github.zhuyizhuo.generator.annotation.Nullable;
-import com.github.zhuyizhuo.generator.constants.LinkConstants;
 import com.github.zhuyizhuo.generator.constants.ConfigConstants;
+import com.github.zhuyizhuo.generator.constants.LinkConstants;
 import com.github.zhuyizhuo.generator.enums.ErrorTypeEnums;
 import com.github.zhuyizhuo.generator.enums.MethodEnums;
 import com.github.zhuyizhuo.generator.enums.ModuleTypeEnums;
@@ -21,13 +21,13 @@ import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import com.github.zhuyizhuo.generator.utils.TypeConversion;
-import com.google.common.base.Charsets;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.type.JdbcType;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -276,7 +276,7 @@ public class GeneratorBuilder {
 
             if (GeneratorStringUtils.isNotBlank(configPath)){
                 InputStream resourceAsStream = Resources.getResourceAsStream(configPath);
-                PropertiesUtils.loadProperties(new BufferedReader(new InputStreamReader(resourceAsStream,Charsets.UTF_8)));
+                PropertiesUtils.loadProperties(new BufferedReader(new InputStreamReader(resourceAsStream, StandardCharsets.UTF_8)));
             }
             if (this.proInfo != null){
                 PropertiesUtils.customConfiguration.putAll(proInfo);

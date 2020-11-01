@@ -3,7 +3,7 @@ package com.github.zhuyizhuo.generator.mybatis.generator.support;
 import com.github.zhuyizhuo.generator.enums.FileTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.FormatService;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
-import com.google.common.base.CharMatcher;
+import com.github.zhuyizhuo.generator.utils.PathUtils;
 
 import java.text.MessageFormat;
 
@@ -86,9 +86,8 @@ public class ModuleInfo {
 
     public String getOutPutFullPath() {
         if (GeneratorStringUtils.isNotBlank(this.outPutFullPath)){
-            String collapsePath = CharMatcher.is('/').collapseFrom(this.outPutFullPath, '/');
-            String realPath = CharMatcher.is('\\').collapseFrom(collapsePath, '/');
-            return realPath;
+            String collapsePath = new PathUtils('/').collapseFrom(this.outPutFullPath, '/');
+            return new PathUtils('\\').collapseFrom(collapsePath, '/');
         }
         return outPutFullPath;
     }
