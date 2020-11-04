@@ -3,7 +3,7 @@
 - 更新 samples 项目及文档
 - @date 注释
 - 如使用自定义模板 可不校验映射 懒加载
-- selectOne 多主键情况 
+- 优化 selectOne 根据条件查询
 
 # 1.4.4
 - 集成 slf4j 打印日志
@@ -11,5 +11,4 @@
 - GeneratorBuilder.addJavaTemplate 方法是否可重命名 见名知意
 - 提供 spring-boot starter 版本
 - 支持 yaml 配置
-- 新增 selectOne 根据条件查询
 - 支持在模板中直接获取配置文件的配置
