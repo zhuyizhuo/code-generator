@@ -29,6 +29,18 @@
 
 - [在线文档](http://zhuyizhuo.online/code-generator-doc/)
 
+### 暂未发布版[1.4.3-SNAPSHOT]使用步骤
+第一步： clone 项目至本地
+```
+git clone https://github.com/zhuyizhuo/code-generator.git
+```
+第二步：进入项目目录执行以下命令，将项目安装至本地
+```
+ mvn clean install
+```
+
+第三步：按照 [在线文档](http://zhuyizhuo.online/code-generator-doc/) 使用即可
+
 ### 订阅更新
 
 Star [本项目](https://github.com/zhuyizhuo/code-generator)，获取最新版本更新.
