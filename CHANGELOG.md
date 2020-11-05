@@ -12,3 +12,4 @@
 - 内置 swagger vo 模板
 - 内置 mybatis plus 代码模板支持,支持直接生成 mybatis plus 代码模板
 - mapper 模板默认方法名简化
+- 需新增模板常量类 统一管理所有模板路径

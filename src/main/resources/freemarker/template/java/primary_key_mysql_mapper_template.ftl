@@ -8,6 +8,7 @@ import ${javaClassDefinition.MODEL.fullPackage}.${javaClassDefinition.MODEL.clas
  * ${tableInfo.tableComment} dao layer interface <br/>
  *
  * @author  ${classCommentInfo.author} <br/>
+ * @date    ${classCommentInfo.createTime} <br/>
  * @since   ${classCommentInfo.sinceVersion} <br/>
  */
 public interface ${javaClassDefinition.MAPPER.className} {

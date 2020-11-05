@@ -11,6 +11,7 @@ import ${javaClassDefinition.SERVICE.fullPackage}.${javaClassDefinition.SERVICE.
  * ${tableInfo.tableComment} Service 实现类
  *
  * @author  ${classCommentInfo.author} <br/>
+ * @date    ${classCommentInfo.createTime} <br/>
  * @since   ${classCommentInfo.sinceVersion} <br/>
  */
 @Service("${javaClassDefinition.SERVICE_IMPL.className?uncap_first}")

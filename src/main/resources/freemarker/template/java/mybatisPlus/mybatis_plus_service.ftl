@@ -7,6 +7,7 @@ import ${javaClassDefinition.MODEL.fullPackage}.${javaClassDefinition.MODEL.clas
  * ${tableInfo.tableComment} Service
  *
  * @author  ${classCommentInfo.author} <br/>
+ * @date    ${classCommentInfo.createTime} <br/>
  * @since   ${classCommentInfo.sinceVersion} <br/>
  */
 public interface ${javaClassDefinition.SERVICE.className} extends IService<${javaClassDefinition.MODEL.className}> {

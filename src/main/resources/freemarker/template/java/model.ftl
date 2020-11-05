@@ -10,6 +10,7 @@ import ${import};
  * ${tableInfo.tableComment} <br/>
  *
  * @author  ${classCommentInfo.author} <br/>
+ * @date    ${classCommentInfo.createTime} <br/>
  * @since   ${classCommentInfo.sinceVersion} <br/>
  */
 public class ${javaClassDefinition.MODEL.className} {

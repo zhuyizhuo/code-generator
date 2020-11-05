@@ -8,6 +8,7 @@ import ${javaClassDefinition.MODEL.fullPackage}.${javaClassDefinition.MODEL.clas
  * ${tableInfo.tableComment} dao layer interface <br/>
  *
  * @author  ${classCommentInfo.author} <br/>
+ * @date    ${classCommentInfo.createTime} <br/>
  * @since   ${classCommentInfo.sinceVersion} <br/>
  */
 public interface ${javaClassDefinition.MAPPER.className} {
@@ -26,5 +27,9 @@ public interface ${javaClassDefinition.MAPPER.className} {
 <#if methodDescription.COUNT_BY_WHERE.enabled>
 
 	<#include "common/countByWhere.ftl"/>
+</#if>
+<#if methodDescription.BATCH_INSERT.enabled>
+
+    <#include "common/batchInsert.ftl"/>
 </#if>
 }
