@@ -1,8 +1,7 @@
 package com.github.zhuyizhuo.generator.utils;
 
 /**
- * class: GeneratorStringUtils <br>
- * description: 字符串工具类 <br>
+ * 字符串工具类 <br>
  * time: 2018/7/27 11:35
  *
  * @author zhuo <br>

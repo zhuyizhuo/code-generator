@@ -36,8 +36,7 @@ import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * class: GeneratorBuilder <br>
- * description: Builds {@link Generator} instances. <br>
+ * Builds {@link Generator} instances. <br>
  *
  * @author zhuo <br>
  * @version 1.2.0

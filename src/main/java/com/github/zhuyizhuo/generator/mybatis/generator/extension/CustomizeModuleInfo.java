@@ -3,8 +3,7 @@ package com.github.zhuyizhuo.generator.mybatis.generator.extension;
 import com.github.zhuyizhuo.generator.utils.CheckUtils;
 
 /**
- * class: CustomizeModuleInfo <br>
- * description: 自定义模块 <br>
+ * 自定义模块 <br>
  * time: 2019-5-29
  *
  * @author zhuo <br>

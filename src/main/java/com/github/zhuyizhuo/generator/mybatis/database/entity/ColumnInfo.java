@@ -1,11 +1,10 @@
 package com.github.zhuyizhuo.generator.mybatis.database.entity;
 
 /**
- * class: MysqlDbInfo <br>
- * description: 字段实体 <br>
- * time: 2018/7/27 21:43
+ * 字段实体 <br>
  *
  * @author zhuo <br>
+ * @date 2018/7/27 21:43 <br>
  * @version 1.0
  */
 public class ColumnInfo {

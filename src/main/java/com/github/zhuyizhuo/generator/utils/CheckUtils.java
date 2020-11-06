@@ -7,8 +7,7 @@ import com.github.zhuyizhuo.generator.enums.DbTypeEnums;
 import java.util.Properties;
 
 /**
- * class: CheckUtils <br>
- * description: 校验工具 <br>
+ * 校验工具 <br>
  * time: 2018/8/20 13:01
  *
  * @author zhuo <br>

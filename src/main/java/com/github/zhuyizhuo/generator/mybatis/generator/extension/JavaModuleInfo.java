@@ -4,8 +4,7 @@ import com.github.zhuyizhuo.generator.annotation.NotNull;
 import com.github.zhuyizhuo.generator.utils.CheckUtils;
 
 /**
- * class: JavaModuleInfo <br>
- * description: 扩展 java 模块信息 <br>
+ * 扩展 java 模块信息 <br>
  * time: 2019/5/27
  *
  * @author zhuo <br>

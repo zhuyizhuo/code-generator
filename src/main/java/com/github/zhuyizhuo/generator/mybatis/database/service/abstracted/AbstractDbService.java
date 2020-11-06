@@ -15,8 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * class: AbstractDbService <br>
- * description: 关系型数据库抽象类 <br>
+ * 关系型数据库抽象类 <br>
  * time: 2018/7/30 13:12
  *
  * @author zhuo <br>

@@ -12,8 +12,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * class: DbServiceFactory <br>
- * description: 数据库service构建工厂 <br>
+ * 数据库service构建工厂 <br>
  * time: 2018/7/30 12:57
  *
  * @author zhuo <br>

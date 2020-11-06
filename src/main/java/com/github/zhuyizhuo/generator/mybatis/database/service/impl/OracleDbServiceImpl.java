@@ -19,8 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * class: OracleDbServiceImpl <br>
- * description: oracle 数据库查询表结构实现 <br>
+ * oracle 数据库查询表结构实现 <br>
  * time: 2018/8/6 12:58
  *
  * @author zhuo <br>

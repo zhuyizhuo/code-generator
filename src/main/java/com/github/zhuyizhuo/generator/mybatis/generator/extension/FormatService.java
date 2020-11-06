@@ -1,8 +1,7 @@
 package com.github.zhuyizhuo.generator.mybatis.generator.extension;
 
 /**
- * class: FormatService <br>
- * description: 名称格式化 <br>
+ * 名称格式化 <br>
  * time: 2018/8/16 19:29
  *
  * @author zhuo <br>

@@ -8,8 +8,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import java.io.InputStream;
 
 /**
- * class: SqlSessionUtils <br>
- * description: 获取 SqlSession <br>
+ * 获取 SqlSession <br>
  * time: 2018/7/30 12:34
  *
  * @author zhuo <br>

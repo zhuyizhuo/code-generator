@@ -15,8 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * class: MysqlDbServiceImpl <br>
- * description: mysql 数据库查询表结构实现 <br>
+ * mysql 数据库查询表结构实现 <br>
  * time: 2018/7/30 13:10
  *
  * @author zhuo <br>

@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * class: MethodDescription <br>
- * description: 方法描述 <br>
+ *  方法描述 <br>
  * time: 2019/5/21
  * @author zhuo <br>
  * @since 1.4.0

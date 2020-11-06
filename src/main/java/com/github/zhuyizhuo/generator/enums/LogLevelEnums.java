@@ -2,6 +2,8 @@ package com.github.zhuyizhuo.generator.enums;
 
 /**
  * 日志级别枚举
+ *
+ * @since 1.5.0
  */
 public enum LogLevelEnums {
     /** 打印堆栈 */

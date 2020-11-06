@@ -10,8 +10,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 /**
- * class: TableInfo <br>
- * description: 生成模板所用对象 <br>
+ * 生成模板所用对象 <br>
  * time: 2018/8/3 19:56
  *
  * @author zhuo <br>

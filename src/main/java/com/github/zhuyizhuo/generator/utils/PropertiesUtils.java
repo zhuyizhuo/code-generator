@@ -6,7 +6,7 @@ import java.io.BufferedReader;
 import java.util.Properties;
 
 /**
- *  资源文件处理工具类
+ * 资源文件处理工具类
  * @author zhuo
  * @version 1.0
  * time: 2018/7/29 18:39

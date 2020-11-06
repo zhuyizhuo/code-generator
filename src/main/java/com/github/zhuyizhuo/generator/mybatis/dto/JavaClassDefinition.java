@@ -1,8 +1,7 @@
 package com.github.zhuyizhuo.generator.mybatis.dto;
 
 /**
- * class: JavaClassDefinition <br>
- * description: java 类定义 <br>
+ *  java 类定义 <br>
  * time: 2019/5/23
  *
  * @author zhuo <br>

@@ -1,14 +1,12 @@
 package com.github.zhuyizhuo.generator.mybatis.dto;
 
-import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
 import com.github.zhuyizhuo.generator.utils.TypeConversion;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * class: MybatisXmlDefinition <br>
- * description: mybatis 文件定义 <br>
+ * mybatis 文件定义 <br>
  *
  * @author zhuo <br>
  * @since 1.3.2

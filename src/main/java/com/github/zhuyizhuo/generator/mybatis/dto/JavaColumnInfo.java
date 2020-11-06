@@ -3,8 +3,7 @@ package com.github.zhuyizhuo.generator.mybatis.dto;
 import com.github.zhuyizhuo.generator.mybatis.database.entity.ColumnInfo;
 
 /**
- * class: JavaColumnInfo <br>
- * description: java字段实体 <br>
+ * java字段实体 <br>
  * time: 2018/7/29 16:06
  *
  * @author zhuo <br>

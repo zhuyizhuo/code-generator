@@ -1,8 +1,7 @@
 package com.github.zhuyizhuo.generator.mybatis.vo;
 
 /**
- * class: ModulePathInfo <br>
- * description: 模块信息 <br>
+ * 模块信息 <br>
  * time: 2019/5/23
  *
  * @author zhuo <br>

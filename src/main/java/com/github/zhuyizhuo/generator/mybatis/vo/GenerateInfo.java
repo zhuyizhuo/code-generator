@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 生成所需元信息
+ *
  * @author zhuo
  * @version 1.0
  * time: 2018/7/29 17:44

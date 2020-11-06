@@ -7,8 +7,7 @@ import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 import java.util.Properties;
 
 /**
- * class: LogUtils <br>
- * description: 日志输出 <br>
+ * 日志输出工具类 <br>
  * time: 2018/8/6 11:04
  *
  * @author zhuo <br>
