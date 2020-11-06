@@ -196,9 +196,10 @@ public class GeneratorBuilder {
 
     /***
      * 替换指定模块的代码模板  暂只支持 freemarker 模板
+     * @since 1.5.0
      * @param moduleTypeEnums 模块类型
      * @param templatePath 对应的 freemarker 模板路径
-     * @since 1.5.0
+     * @return the current builder
      */
     public GeneratorBuilder replaceDefaultTemplate(ModuleTypeEnums moduleTypeEnums, String templatePath){
         CheckUtils.assertNotNull(moduleTypeEnums,"模块类型不能为空!");

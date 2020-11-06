@@ -11,10 +11,9 @@ import java.util.Objects;
 
 /**
  * <p>类型转换器</p>
- *
+ * time : 2018/7/29 18:36
  * @author zhuo
  * @version 1.0
- * @date : 2018/7/29 18:36
  */
 public class TypeConversion {
     /**
@@ -208,13 +207,12 @@ public class TypeConversion {
 
     /**
      * 初始化
-     * @param typeMapper
      */
     public static void init(Map<String,Class<?>> typeMapper) {
         if (typeMapper != null && !typeMapper.isEmpty()) {
             for (Map.Entry<String, Class<?>> entry : typeMapper.entrySet()) {
                 Class<?> clazz = entry.getValue();
-                //todo
+                //to check
                 addParameterType(clazz);
                 setDBDataType2JavaClass(entry.getKey(), clazz);
             }

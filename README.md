@@ -38,8 +38,8 @@ Y 表示次版本号，当增加功能(不影响 API 的兼容性) 或者 API �
 Z 表示修订号，当功能优化或者当做 Bug 修复时(不影响 API 的兼容性)，Z 递增。
 ```
 
-### 暂未发布版[1.5.0-SNAPSHOT]使用步骤
-第一步： clone 项目至本地
+### 未发布版本使用步骤
+第一步：切换至对应分支，clone 项目至本地
 ```
 git clone https://github.com/zhuyizhuo/code-generator.git
 ```
