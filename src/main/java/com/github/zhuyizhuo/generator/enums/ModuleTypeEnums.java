@@ -5,7 +5,7 @@ package com.github.zhuyizhuo.generator.enums;
  * create time: 2020-10-29 08:25:15 <br>
  *
  * @author zhuo <br>
- * @since 1.4.3
+ * @since 1.5.0
  */
 public enum ModuleTypeEnums {
 

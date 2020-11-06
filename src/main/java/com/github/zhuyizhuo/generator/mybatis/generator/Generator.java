@@ -3,7 +3,7 @@ package com.github.zhuyizhuo.generator.mybatis.generator;
 /**
  * 代码生成器接口
  *
- * @since 1.4.3
+ * @since 1.5.0
  */
 public interface Generator {
 

@@ -30,7 +30,7 @@ public class LogUtils {
     /**
      * 设置日志级别
      * @param level 日志级别
-     * @since 1.4.3
+     * @since 1.5.0
      */
     public static void setLevel(String level) {
         try{

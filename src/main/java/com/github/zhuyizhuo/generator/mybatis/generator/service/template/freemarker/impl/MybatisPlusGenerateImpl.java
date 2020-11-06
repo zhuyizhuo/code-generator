@@ -10,7 +10,7 @@ import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemar
  * create time: 2020-10-28 21:37:06
  *
  * @author zhuo <br>
- * @since 1.4.3
+ * @since 1.5.0
  */
 public class MybatisPlusGenerateImpl extends FreemarkerGenerateService {
 

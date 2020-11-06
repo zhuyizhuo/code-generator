@@ -4,7 +4,7 @@ package com.github.zhuyizhuo.generator.constants;
  * 链接配置常量
  *
  * @author zhuo
- * @since 1.4.3
+ * @since 1.5.0
  */
 public class LinkConstants {
     /** issue 地址 */

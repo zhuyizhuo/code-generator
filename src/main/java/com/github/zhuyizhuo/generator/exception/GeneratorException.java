@@ -4,7 +4,7 @@ package com.github.zhuyizhuo.generator.exception;
  * 自定义生成器异常
  *
  * @author zhuo
- * @since 1.4.3
+ * @since 1.5.0
  */
 public class GeneratorException extends RuntimeException{
 

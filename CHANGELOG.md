@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v1.4.3
+## v1.5.0
 - 新增 travis-ci.com 自动检测集成
 - 增加数据库类型和 org.apache.ibatis.type.JdbcType 的映射
 - 改善用户体验/可用性

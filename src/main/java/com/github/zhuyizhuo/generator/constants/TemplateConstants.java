@@ -4,7 +4,7 @@ package com.github.zhuyizhuo.generator.constants;
  * 模板常量类
  *
  * @author zhuo
- * @since 1.4.3
+ * @since 1.5.0
  */
 public class TemplateConstants {
     /**  mybatis plus 相关模板*/

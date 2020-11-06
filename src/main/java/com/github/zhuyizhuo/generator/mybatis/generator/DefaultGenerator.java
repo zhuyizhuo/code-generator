@@ -62,7 +62,7 @@ public class DefaultGenerator implements Generator{
      * 替换系统默认模板
      * @param moduleType 模块类型
      * @param templatePath 对应的模板路径
-     * @since 1.4.3
+     * @since 1.5.0
      */
     void replaceDefaultTemplate(ModuleTypeEnums moduleType, String templatePath){
         if (generateService instanceof TemplateGenerateService) {

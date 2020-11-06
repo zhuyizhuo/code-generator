@@ -29,7 +29,16 @@
 
 - [在线文档](http://zhuyizhuo.online/code-generator-doc/)
 
-### 暂未发布版[1.4.3-SNAPSHOT]使用步骤
+### 版本号说明
+#### 生成器版本号的格式为 X.Y.Z(又称 Major.Minor.Patch)，递增的规则为：
+
+```
+X 表示主版本号，当 API 的兼容性变化时，X 递增，Y 和 Z 同时设置为 0。
+Y 表示次版本号，当增加功能(不影响 API 的兼容性) 或者 API 被标记为 Deprecated 时，Y 递增，同时 Z 设置为 0。
+Z 表示修订号，当功能优化或者当做 Bug 修复时(不影响 API 的兼容性)，Z 递增。
+```
+
+### 暂未发布版[1.5.0-SNAPSHOT]使用步骤
 第一步： clone 项目至本地
 ```
 git clone https://github.com/zhuyizhuo/code-generator.git

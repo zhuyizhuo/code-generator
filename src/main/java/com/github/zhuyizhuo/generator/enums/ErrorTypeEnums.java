@@ -9,7 +9,7 @@ import org.apache.ibatis.parsing.TokenHandler;
  * 错误类型枚举
  *
  * @author zhuo
- * @since 1.4.3
+ * @since 1.5.0
  */
 public enum ErrorTypeEnums {
     /** 初始化配置失败! */
