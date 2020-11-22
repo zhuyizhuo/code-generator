@@ -20,12 +20,10 @@ import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateMetaData;
 import com.github.zhuyizhuo.generator.mybatis.vo.ModulePathInfo;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
-import com.github.zhuyizhuo.generator.utils.CheckUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * 代码生成器
@@ -47,7 +45,6 @@ public class DefaultGenerator implements Generator{
         this.classCommentInfo = ContextHolder.getBean("classCommentInfo");
         this.fileOutPathInfo = fileOutPathInfo;
         this.methodInfo = methodInfo;
-        initGenerateService(null);
     }
 
     void initGenerateService(GenerateService generateService){
@@ -105,15 +102,11 @@ public class DefaultGenerator implements Generator{
             DbService dbService = DbServiceFactory.getDbService();
             tableColumns = dbService.getTableColumns();
         } catch (UnsupportedOperationException ue){
-            Properties properties = CheckUtils.checkDatabaseConfig();
             LogUtils.error(ue.getMessage());
             LogUtils.printException(ue);
-            LogUtils.logProperties("数据库配置信息:", properties);
             return;
         } catch (Exception e){
             LogUtils.printException(e);
-            Properties properties = CheckUtils.checkDatabaseConfig();
-            LogUtils.logProperties("数据库配置信息:", properties);
             Throwable cause = e.getCause();
             if (cause == null) {
                 return;

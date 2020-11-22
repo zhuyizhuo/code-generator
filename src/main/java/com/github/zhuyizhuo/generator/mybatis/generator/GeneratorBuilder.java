@@ -5,29 +5,24 @@ import com.github.zhuyizhuo.generator.annotation.Nullable;
 import com.github.zhuyizhuo.generator.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.constants.LinkConstants;
 import com.github.zhuyizhuo.generator.enums.ErrorTypeEnums;
+import com.github.zhuyizhuo.generator.enums.LogLevelEnums;
 import com.github.zhuyizhuo.generator.enums.MethodEnums;
 import com.github.zhuyizhuo.generator.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.exception.GeneratorException;
 import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
-import com.github.zhuyizhuo.generator.mybatis.database.service.abstracted.AbstractDbService;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.CustomizeModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.FormatService;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.JavaModuleInfo;
+import com.github.zhuyizhuo.generator.mybatis.generator.factory.GenerateServiceFactory;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.GenerateService;
 import com.github.zhuyizhuo.generator.mybatis.generator.support.ContextHolder;
 import com.github.zhuyizhuo.generator.mybatis.generator.support.MethodInfo;
 import com.github.zhuyizhuo.generator.utils.CheckUtils;
-import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import com.github.zhuyizhuo.generator.utils.TypeConversion;
-import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.type.JdbcType;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,7 +53,7 @@ public class GeneratorBuilder {
     /** 模块名格式化 Service MAP */
     private Map<String, FormatService> moduleNameFormatServiceMap;
     /** 扩展 自定义模板 */
-    private List<JavaModuleInfo> javaTemplates;
+    private List<JavaModuleInfo> javaModuleInfos;
     /** 扩展 自定义模板 */
     private List<CustomizeModuleInfo> customizeModuleInfos;
     /** 自定义生成器 */
@@ -167,7 +162,7 @@ public class GeneratorBuilder {
         CheckUtils.assertNotNull(javaTypeClass,"fieldType2JavaType 请指定 javaTypeClass, 即 JAVA 字段类型.");
 
         if (this.typeMapper == null){
-            this.typeMapper = new HashMap<String, Class<?>>();
+            this.typeMapper = new HashMap<>();
         }
         this.typeMapper.put(dataBaseType.toUpperCase(), javaTypeClass);
         return this;
@@ -220,10 +215,10 @@ public class GeneratorBuilder {
     public GeneratorBuilder addJavaTemplate(@NotNull JavaModuleInfo fileInfo){
         CheckUtils.assertNotNull(fileInfo,"添加模板不能为空!");
 
-        if (this.javaTemplates == null){
-            this.javaTemplates = new ArrayList<>();
+        if (this.javaModuleInfos == null){
+            this.javaModuleInfos = new ArrayList<>();
         }
-        this.javaTemplates.add(fileInfo);
+        this.javaModuleInfos.add(fileInfo);
         return this;
     }
 
@@ -272,21 +267,22 @@ public class GeneratorBuilder {
      */
     public Generator build(@Nullable String configPath) {
         try {
+            LogUtils.setLevel(LogLevelEnums.DEBUG);
+
             LogUtils.info("生成器文档地址: " + LinkConstants.DOC_URL);
 
-            if (GeneratorStringUtils.isNotBlank(configPath)){
-                InputStream resourceAsStream = Resources.getResourceAsStream(configPath);
-                PropertiesUtils.loadProperties(new BufferedReader(new InputStreamReader(resourceAsStream, StandardCharsets.UTF_8)));
-            }
+            Properties properties = PropertiesUtils.loadProperties(configPath);
             if (this.proInfo != null){
-                PropertiesUtils.customConfiguration.putAll(proInfo);
+                properties.putAll(proInfo);
             }
-            ContextHolder context = new ContextHolder();
-            context.init();
+            // 校验配置信息
+            CheckUtils.checkDatabaseConfig(properties);
+            // 获取
+            GenerateService generateService = GenerateServiceFactory.getGenerateService();
 
-            LogUtils.setLevel(PropertiesUtils.getConfig(ConfigConstants.LOG_LEVEL));
+            ContextHolder.newInstance(properties);
 
-            CheckUtils.checkDatabaseConfig();
+            LogUtils.setLevel(ContextHolder.getConfig(ConfigConstants.LOG_LEVEL));
         } catch (GeneratorException ie){
             LogUtils.error(ie.getMessage());
             return new EmptyGenerator();
@@ -297,20 +293,16 @@ public class GeneratorBuilder {
         }
         TypeConversion.init(typeMapper);
 
-        // 初始化常量
-        AbstractDbService.tableRegex = PropertiesUtils.getConfig(ConfigConstants.TABLE_SEPARATOR);
-        AbstractDbService.fieldRegex = PropertiesUtils.getConfig(ConfigConstants.FIELD_SEPARATOR);
-
         FileOutPathInfo fileOutPathInfo = ContextHolder.getBean("FileOutPathInfo");
         // 需先设置格式化 service
-        fileOutPathInfo.setClassNameFormatServieMap(moduleNameFormatServiceMap);
+        fileOutPathInfo.setClassNameFormatServiceMap(moduleNameFormatServiceMap);
         fileOutPathInfo.init();
 
         DefaultGenerator generator = new DefaultGenerator(fileOutPathInfo, new MethodInfo(methodNameFormatServiceMap, commonMethodFormatService));
         generator.initGenerateService(generateService);
-        if (javaTemplates != null && javaTemplates.size() > 0){
-            for (int i = 0; i < javaTemplates.size(); i++) {
-                generator.addJavaTemplate(javaTemplates.get(i));
+        if (javaModuleInfos != null && javaModuleInfos.size() > 0){
+            for (int i = 0; i < javaModuleInfos.size(); i++) {
+                generator.addJavaTemplate(javaModuleInfos.get(i));
             }
         }
         if (customizeModuleInfos != null && customizeModuleInfos.size() > 0){

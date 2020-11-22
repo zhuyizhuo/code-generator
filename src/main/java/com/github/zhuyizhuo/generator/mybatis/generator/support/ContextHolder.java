@@ -3,9 +3,9 @@ package com.github.zhuyizhuo.generator.mybatis.generator.support;
 import com.github.zhuyizhuo.generator.annotation.CoventionClass;
 import com.github.zhuyizhuo.generator.annotation.Resource;
 import com.github.zhuyizhuo.generator.annotation.Value;
+import com.github.zhuyizhuo.generator.exception.GeneratorException;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
-import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import org.apache.ibatis.parsing.GenericTokenParser;
 import org.apache.ibatis.parsing.TokenHandler;
 
@@ -42,10 +42,28 @@ public class ContextHolder {
     private static Properties contextConfig = new Properties();
     /** 生成器配置对象 map */
     private static Map<String, Object> beanMap = new ConcurrentHashMap<String, Object>();
+    /** 自定义配置信息 */
+    private Properties customerProperties;
 
     private List<String> classNames = new ArrayList<String>();
 
-    public void init() {
+    private ContextHolder() {}
+
+    private ContextHolder(Properties customerProperties) {
+        this.customerProperties = customerProperties;
+    }
+
+    /**
+     * 获取上下文实例
+     * @param properties
+     */
+    public static ContextHolder newInstance(Properties properties){
+        ContextHolder contextHolder = new ContextHolder(properties);
+        contextHolder.init();
+        return contextHolder;
+    }
+
+    private void init() {
         try {
             Class<? extends ContextHolder> aClass = this.getClass();
             //定位
@@ -55,8 +73,8 @@ public class ContextHolder {
             //注入
             doAutowired();
         } catch (Exception e){
-            LogUtils.error("生成器初始化失败!");
             LogUtils.printException(e);
+            throw new GeneratorException("生成器初始化失败!");
         }
     }
 
@@ -66,7 +84,7 @@ public class ContextHolder {
         GenericTokenParser parser = new GenericTokenParser("#{", "}", new TokenHandler() {
             @Override
             public String handleToken(String content) {
-                return getConfig(content);
+                return handleConfig(content);
             }
         });
 
@@ -98,9 +116,11 @@ public class ContextHolder {
 
     private void initProperties(GenericTokenParser parser) {
         loopProperties(contextConfig, parser);
-        loopProperties(PropertiesUtils.customConfiguration, parser);
-        //用户配置将覆盖系统默认同名配置
-        contextConfig.putAll(PropertiesUtils.customConfiguration);
+        if (customerProperties != null){
+            loopProperties(customerProperties, parser);
+            //用户配置将覆盖系统默认同名配置
+            contextConfig.putAll(customerProperties);
+        }
         LogUtils.debug("配置信息:" , contextConfig);
     }
 
@@ -128,7 +148,6 @@ public class ContextHolder {
      * <blockquote><pre>
      * 优先级：
      * 1. 先获取用户的 java 配置
-     *  初始化用户配置的时候需要初始化至 PropertiesUtils
      * 2. 获取配置文件配置
      * 3. 获取环境变量
      * 4. 获取系统变量
@@ -136,24 +155,24 @@ public class ContextHolder {
      * @param key 配置键
      * @return 按顺序依次获取配置,如果都未获取到 则返回空字符串
      */
-    private String getConfig(String key) {
-        String properties = PropertiesUtils.getProperties(key);
-        if (GeneratorStringUtils.isNotBlank(properties)){
-            return properties.trim();
-        } else {
-            String config = contextConfig.getProperty(key);
-            if (GeneratorStringUtils.isNotBlank(config)){
-                return config.trim();
-            } else {
-                String env = System.getenv(key);
-                if (GeneratorStringUtils.isNotBlank(config)) {
-                    return env;
-                } else {
-                    String property = System.getProperty(key);
-                    return GeneratorStringUtils.isNotBlank(property) ? property : "";
-                }
+    private String handleConfig(String key) {
+        String property;
+        if (customerProperties != null) {
+            property = customerProperties.getProperty(key);
+            if (GeneratorStringUtils.isNotBlank(property)){
+                return property.trim();
             }
         }
+        property = contextConfig.getProperty(key);
+        if (GeneratorStringUtils.isNotBlank(property)){
+            return property.trim();
+        }
+        property = System.getenv(key);
+        if (GeneratorStringUtils.isNotBlank(property)) {
+            return property.trim();
+        }
+        property = System.getProperty(key);
+        return GeneratorStringUtils.isNotBlank(property) ? property.trim() : "";
     }
 
     private void doRegister() {
@@ -165,7 +184,7 @@ public class ContextHolder {
                 Class<?> clazz = Class.forName(className);
                 if (clazz.isAnnotationPresent(CoventionClass.class)){
                     String beanName = GeneratorStringUtils.firstLower(clazz.getSimpleName());
-                    beanMap.put(beanName,clazz.newInstance());
+                    beanMap.put(beanName, clazz.newInstance());
                 }
             }
         } catch (Exception e) {
@@ -202,7 +221,7 @@ public class ContextHolder {
         return (T) beanMap.get(GeneratorStringUtils.firstLower(beanName));
     }
 
-    public static String getDefaultConfig(String key){
+    public static String getConfig(String key){
         return contextConfig.getProperty(key);
     }
 }

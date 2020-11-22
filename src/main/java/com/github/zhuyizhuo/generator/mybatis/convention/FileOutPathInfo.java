@@ -2,12 +2,13 @@ package com.github.zhuyizhuo.generator.mybatis.convention;
 
 import com.github.zhuyizhuo.generator.annotation.CoventionClass;
 import com.github.zhuyizhuo.generator.annotation.Value;
-import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.enums.FileTypeEnums;
 import com.github.zhuyizhuo.generator.enums.ModuleTypeEnums;
+import com.github.zhuyizhuo.generator.mybatis.dto.JavaClassDefinition;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.CustomizeModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.FormatService;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.JavaModuleInfo;
+import com.github.zhuyizhuo.generator.mybatis.generator.support.ContextHolder;
 import com.github.zhuyizhuo.generator.mybatis.generator.support.ModuleInfo;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
@@ -38,7 +39,7 @@ public class FileOutPathInfo {
      *  类名格式化 Service Map
      *  ModuleType -> 类名格式化 Service
      */
-    private Map<String, FormatService> classNameFormatServieMap;
+    private Map<String, FormatService> classNameFormatServiceMap;
     /**
      * 模块类型 -> 模块的格式化信息
      * moduleType ->  ModuleInfo
@@ -59,30 +60,30 @@ public class FileOutPathInfo {
         String filePackage;
         String outPutPath;
         for (int i = 0; i < values.length; i++) {
-            info = new ModuleInfo();
             ModuleTypeEnums module = values[i];
             filePackage = PropertiesUtils.getConfig(module.getFilePackageKey());
             outPutPath = PropertiesUtils.getConfig(module.getOutputPathKey());
-            if (FileTypeEnums.JAVA.equals(module.getTypeEnums())){
+            if (FileTypeEnums.JAVA.equals(module.getFileType())){
                 if (filePackage.startsWith(".")){
                     filePackage = filePackage.substring(1);
                 }
-                outPutFullPathFormat = getJavaOutputFullPath(outPutPath, filePackage) + "{0}.java";
-            } else if (FileTypeEnums.XML.equals(module.getTypeEnums())){
-                outPutFullPathFormat = getResourcesOutputFullPath(outPutPath) + "{0}.xml";
+                outPutFullPathFormat = getJavaOutputFullPath(outPutPath, filePackage);
+            } else if (FileTypeEnums.XML.equals(module.getFileType())){
+                outPutFullPathFormat = getResourcesOutputFullPath(outPutPath);
             }
-            info.setModuleType(module.toString());
-            info.setFileType(module.getTypeEnums());
+            info = new ModuleInfo();
+            info.setModuleType(module.name());
+            info.setFileType(module.getFileType());
             info.setFileFullPackage(filePackage);
             info.setOutPutFullPathFormatPattern(outPutFullPathFormat);
             info.setFileNameFormatServie(getFormatService(module));
-            info.setFileNameFormatPattern(PropertiesUtils.getConfig(module.getFileNameFormatKey()));
+            info.setFileNameFormatPattern(ContextHolder.getConfig(module.getFileNameFormatKey()));
             addModuleInfo(module, info);
         }
     }
 
-    public void setClassNameFormatServieMap(Map<String, FormatService> classNameFormatServieMap) {
-        this.classNameFormatServieMap = classNameFormatServieMap;
+    public void setClassNameFormatServiceMap(Map<String, FormatService> classNameFormatServieMap) {
+        this.classNameFormatServiceMap = classNameFormatServieMap;
     }
 
     /**
@@ -101,7 +102,7 @@ public class FileOutPathInfo {
             }
             outPutFullPath = baseOutputPath + "/" + tempPath;
         }
-        return outPutFullPath + "/";
+        return outPutFullPath + "/{0}.xml";
     }
 
     /***
@@ -122,7 +123,7 @@ public class FileOutPathInfo {
             }
             outPutFullPath = baseOutputPath + "/" + classFullPackage;
         }
-        return outPutFullPath + "/";
+        return outPutFullPath + "/{0}.java";
     }
 
     /**
@@ -168,7 +169,7 @@ public class FileOutPathInfo {
             addModuleInfo(fileInfo.getModuleType(), moduleInfo);
         }
         String outPutFullPathFormat = getJavaOutputFullPath(fileInfo.getOutputPath(),
-                                        fileInfo.getClassPackage()) + "{0}.java";
+                                        fileInfo.getClassPackage());
         moduleInfo.setModuleType(fileInfo.getModuleType());
         moduleInfo.setOutPutFullPathFormatPattern(outPutFullPathFormat);
         // 仅 java 模块需设置包路径
@@ -241,9 +242,6 @@ public class FileOutPathInfo {
     }
 
     private FormatService getFormatService(String moduleType) {
-        if (this.classNameFormatServieMap == null){
-            return null;
-        }
-        return classNameFormatServieMap.get(moduleType);
+        return classNameFormatServiceMap == null ? null : classNameFormatServiceMap.get(moduleType);
     }
 }

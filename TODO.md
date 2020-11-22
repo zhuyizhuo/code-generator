@@ -1,5 +1,8 @@
 
 # 1.5.1
+- 代码优化
+    - 优化 properties 文件加载
+
 - 优化自定义生成器的使用 JavaModuleInfo 增加构造器使用 枚举类型
 - GeneratorBuilder.addJavaTemplate 方法是否可重命名 见名知意
 - 如使用自定义模板 可不校验映射 懒加载

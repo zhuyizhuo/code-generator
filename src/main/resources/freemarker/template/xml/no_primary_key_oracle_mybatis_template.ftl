@@ -23,6 +23,6 @@
 </#if>
 <#if methodDescription.BATCH_INSERT.enabled>
 
-    <#include "common/batch_insert_xml.ftl"/>
+<#include "common/oracle_batch_insert_xml.ftl"/>
 </#if>
 </mapper>

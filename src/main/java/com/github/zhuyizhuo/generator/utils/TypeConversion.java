@@ -39,7 +39,7 @@ public class TypeConversion {
      * key java 数据类型
      * value mybatis 内置对应别名
      */
-    public static final Map<String,String> parameterTypeMap = new HashMap<String,String>();
+    public static final Map<String,String> parameterTypeMap = new HashMap<>();
 
     static{
         initDBDataType2JavaMap();
@@ -186,13 +186,13 @@ public class TypeConversion {
         javaDataTypeFullPathMap.put(simpleName, name);
     }
 
-    //to check
-    public static void addParameterType(Class<?> clazz) {
-        parameterTypeMap.put(clazz.getSimpleName(), clazz.getName());
-    }
-
-    public static void addParameterType(String simpleName, String parameterType) {
-        parameterTypeMap.put(simpleName, parameterType);
+    /**
+     * 配置 java 类型和 mybatis parameterType 映射关系
+     * @param javaDataType java 数据类型
+     * @param parameterType mybatis parameterType
+     */
+    public static void addParameterType(String javaDataType, String parameterType) {
+        parameterTypeMap.put(javaDataType, parameterType);
     }
 
     public static void addDBDataType2JavaType(String dbDataType, String javaType) {
@@ -211,10 +211,11 @@ public class TypeConversion {
     public static void init(Map<String,Class<?>> typeMapper) {
         if (typeMapper != null && !typeMapper.isEmpty()) {
             for (Map.Entry<String, Class<?>> entry : typeMapper.entrySet()) {
+                //java 类型对应 parameterType 的全路径
                 Class<?> clazz = entry.getValue();
-                //to check
-                addParameterType(clazz);
-                setDBDataType2JavaClass(entry.getKey(), clazz);
+                addParameterType(clazz.getSimpleName(), clazz.getName());
+
+                setDBDataType2JavaClass(entry.getKey(), entry.getValue());
             }
         }
     }

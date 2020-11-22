@@ -23,7 +23,7 @@ public class MybatisXmlDefinition {
 
     public MybatisXmlDefinition() {
         resultMap = new ResultMapDefinition();
-        columns = new ArrayList<MybatisColumnDefinition>();
+        columns = new ArrayList<>();
     }
 
     public String getParameterType() {

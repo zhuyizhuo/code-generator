@@ -35,6 +35,6 @@
 </#if>
 <#if methodDescription.BATCH_INSERT.enabled>
 
-    <#include "common/mysql_batch_insert_xml.ftl"/>
+<#include "common/mysql_batch_insert_xml.ftl"/>
 </#if>
 </mapper>

@@ -19,11 +19,11 @@
 </#if>
 <#if methodDescription.UPDATE_BY_PRIMARY_KEY.enabled>
 
-    <#include "common/update_by_primary_key_xml.ftl"/>
+<#include "common/update_by_primary_key_xml.ftl"/>
 </#if>
 <#if methodDescription.QUERY_BY_PRIMARY_KEY.enabled>
 
-    <#include "common/query_by_primary_key_xml.ftl"/>
+<#include "common/query_by_primary_key_xml.ftl"/>
 </#if>
 <#if methodDescription.QUERY_BY_WHERE.enabled>
 
@@ -35,6 +35,6 @@
 </#if>
 <#if methodDescription.BATCH_INSERT.enabled>
 
-    <#include "common/batch_insert_xml.ftl"/>
+<#include "common/oracle_batch_insert_xml.ftl"/>
 </#if>
 </mapper>

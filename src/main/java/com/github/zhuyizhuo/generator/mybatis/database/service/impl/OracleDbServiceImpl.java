@@ -37,7 +37,7 @@ public class OracleDbServiceImpl extends AbstractDbService {
     }
 
     @Override
-    protected List<String> getTables() {
+    protected List<String> getTableNames() {
         String includeTableName = PropertiesUtils.getProperties(ConfigConstants.GENERATE_TABLES_NAME);
         if (GeneratorStringUtils.isNotBlank(includeTableName)){
             return Arrays.asList(includeTableName.toUpperCase().split(","));

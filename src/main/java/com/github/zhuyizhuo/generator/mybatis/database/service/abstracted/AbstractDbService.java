@@ -6,9 +6,9 @@ import com.github.zhuyizhuo.generator.mybatis.database.entity.DataBaseInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.entity.DbTableInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.service.DbService;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
+import com.github.zhuyizhuo.generator.mybatis.generator.support.ContextHolder;
 import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
-import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import com.github.zhuyizhuo.generator.utils.TypeConversion;
 
 import java.util.Arrays;
@@ -23,24 +23,19 @@ import java.util.List;
  */
 public abstract class AbstractDbService implements DbService {
 
-    /** 数据库表名分隔符 */
-    public static String tableRegex = "";
-    /** 字段分隔符 例如 order_no 的分隔符为 _ */
-    public static String fieldRegex = "";
-
     protected DataBaseInfo getDataBaseInfo() {
         DataBaseInfo tableInfo = new DataBaseInfo();
         tableInfo.setTableSchema(getTableSchema());
-        tableInfo.setTableNames(getTables());
+        tableInfo.setTableNames(getTableNames());
         return tableInfo;
     }
 
     protected String getTableSchema() {
-        return PropertiesUtils.getProperties(ConfigConstants.TABLE_SCHEMA);
+        return ContextHolder.getConfig(ConfigConstants.TABLE_SCHEMA);
     }
 
-    protected List<String> getTables() {
-        String includeTableName = PropertiesUtils.getProperties(ConfigConstants.GENERATE_TABLES_NAME);
+    protected List<String> getTableNames() {
+        String includeTableName = ContextHolder.getConfig(ConfigConstants.GENERATE_TABLES_NAME);
         if (GeneratorStringUtils.isNotBlank(includeTableName)){
             return Arrays.asList(includeTableName.split(","));
         }
@@ -66,7 +61,7 @@ public abstract class AbstractDbService implements DbService {
             javaColumnInfo.setColumnName(columnInfo.getColumnName());
             javaColumnInfo.setColumnComment(replaceEnter(columnInfo.getColumnComment()));
             javaColumnInfo.setJavaColumnName(GeneratorStringUtils
-                    .changeColmName2CamelFirstLower(columnInfo.getColumnName(), fieldRegex));
+                    .changeColmName2CamelFirstLower(columnInfo.getColumnName(), ContextHolder.getConfig(ConfigConstants.FIELD_SEPARATOR)));
             javaColumnInfo.setJavaDataType(getJavaDataType(columnInfo));
             /** 设置类全路径 java.lang包下的类不需要import */
             javaColumnInfo.setJavaDataTypeFullPath(TypeConversion.javaDataTypeFullPathMap.get(javaColumnInfo.getJavaDataType()));
@@ -102,6 +97,6 @@ public abstract class AbstractDbService implements DbService {
      * @return 驼峰命名
      */
     protected String changeTableNameCamelCase(String tableName) {
-        return GeneratorStringUtils.changeTableName2CamelFirstUpper(tableName, tableRegex);
+        return GeneratorStringUtils.changeTableName2CamelFirstUpper(tableName, ContextHolder.getConfig(ConfigConstants.TABLE_SEPARATOR));
     }
 }

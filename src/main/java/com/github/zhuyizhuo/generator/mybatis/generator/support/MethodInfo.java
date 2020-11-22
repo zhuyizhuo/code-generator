@@ -31,8 +31,7 @@ public class MethodInfo {
      */
     private FormatService commonMethodNameFormatService;
 
-    public MethodInfo() {
-    }
+    public MethodInfo() {}
 
     public MethodInfo(Map<MethodEnums, FormatService> methodNameFormatServiceMap, FormatService commonMethodNameFormatService) {
         this.methodNameFormatServiceMap = methodNameFormatServiceMap;

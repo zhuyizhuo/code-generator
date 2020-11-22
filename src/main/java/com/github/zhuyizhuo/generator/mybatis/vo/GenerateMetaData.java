@@ -17,10 +17,6 @@ public class GenerateMetaData {
      *  表名对应生成信息
      */
     private Map<String,GenerateInfo> tableGenerateInfoMap = new ConcurrentHashMap<>();
-    /**
-     *  所有表的所有模块集合
-     */
-    private List<ModulePathInfo> allModulePathLists = new ArrayList<>();
 
     public Map<String, List<ModulePathInfo>> getModulePathInfoMap() {
         return modulePathInfoMap;
@@ -37,7 +33,6 @@ public class GenerateMetaData {
             modules.add(modulePathInfo);
             modulePathInfoMap.put(tableName, modules);
         }
-        allModulePathLists.add(modulePathInfo);
     }
 
     public void addGenerateInfo(String tableName, GenerateInfo generateInfo){
@@ -60,7 +55,4 @@ public class GenerateMetaData {
         return tableGenerateInfoMap;
     }
 
-    public int getModulesCount() {
-        return allModulePathLists.size();
-    }
 }

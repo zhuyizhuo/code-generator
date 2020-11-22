@@ -19,11 +19,20 @@ public class LogUtils {
     private static LogService logService;
 
     /**
-     * 设置日志级别
+     * 设置打印日志的 service
      * @param logService 日志级别
      */
     public static void setLogService(LogService logService) {
         LogUtils.logService = logService;
+    }
+
+    /**
+     * 设置日志级别
+     * @param level 日志级别
+     * @since 1.5.1
+     */
+    public static void setLevel(LogLevelEnums level) {
+        LogUtils.logLevel = level;
     }
 
     /**

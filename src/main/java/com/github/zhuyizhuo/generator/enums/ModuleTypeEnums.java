@@ -26,24 +26,27 @@ public enum ModuleTypeEnums {
     ;
 
     /** 文件类型 */
-    private FileTypeEnums typeEnums;
+    private FileTypeEnums fileType;
     /** 配置前缀 */
     private String prefix;
     /** 模块描述 */
     private String description;
 
     ModuleTypeEnums(FileTypeEnums typeEnums, String prefix, String description) {
-        this.typeEnums = typeEnums;
+        this.fileType = typeEnums;
         this.prefix = prefix;
         this.description = description;
     }
 
-    public FileTypeEnums getTypeEnums() {
-        return typeEnums;
+    public FileTypeEnums getFileType() {
+        return fileType;
     }
 
     public String getPrefix() {
         return prefix;
+    }
+    public String getDescription() {
+        return description;
     }
 
     /** 生成文件的文件名格式化配置 */
@@ -65,7 +68,4 @@ public enum ModuleTypeEnums {
         return prefix + outputPath;
     }
 
-    public String getDescription() {
-        return description;
-    }
 }

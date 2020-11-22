@@ -60,7 +60,7 @@ public class GenerateInfo {
     public void initXmlInfo() {
         mybatisXmlDefinition = new MybatisXmlDefinition();
 
-        boolean useTypeAliases = PropertiesUtils.getBooleanPropertiesDefaultFalse(ConfigConstants.PARAMETER_TYPE_USE_TYPE_ALIASES);
+        boolean useTypeAliases = PropertiesUtils.getBooleanConfigDefaultFalse(ConfigConstants.PARAMETER_TYPE_USE_TYPE_ALIASES);
         JavaClassDefinition modelDefinition = javaClassDefinition.get(ModuleTypeEnums.MODEL.toString());
         JavaClassDefinition mapperDefinition = javaClassDefinition.get(ModuleTypeEnums.MAPPER.toString());
 
