@@ -277,8 +277,10 @@ public class GeneratorBuilder {
             }
             // 校验配置信息
             CheckUtils.checkDatabaseConfig(properties);
-            // 获取
-            GenerateService generateService = GenerateServiceFactory.getGenerateService();
+            // 获取生成 service
+            if (generateService == null){
+                generateService = GenerateServiceFactory.getGenerateService();
+            }
 
             ContextHolder.newInstance(properties);
 
@@ -298,8 +300,7 @@ public class GeneratorBuilder {
         fileOutPathInfo.setClassNameFormatServiceMap(moduleNameFormatServiceMap);
         fileOutPathInfo.init();
 
-        DefaultGenerator generator = new DefaultGenerator(fileOutPathInfo, new MethodInfo(methodNameFormatServiceMap, commonMethodFormatService));
-        generator.initGenerateService(generateService);
+        DefaultGenerator generator = new DefaultGenerator(fileOutPathInfo, new MethodInfo(methodNameFormatServiceMap, commonMethodFormatService), generateService);
         if (javaModuleInfos != null && javaModuleInfos.size() > 0){
             for (int i = 0; i < javaModuleInfos.size(); i++) {
                 generator.addJavaTemplate(javaModuleInfos.get(i));

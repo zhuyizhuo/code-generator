@@ -3,14 +3,12 @@ package com.github.zhuyizhuo.generator.mybatis.generator;
 import com.github.zhuyizhuo.generator.enums.ErrorTypeEnums;
 import com.github.zhuyizhuo.generator.enums.FileTypeEnums;
 import com.github.zhuyizhuo.generator.enums.ModuleTypeEnums;
-import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.database.factory.DbServiceFactory;
 import com.github.zhuyizhuo.generator.mybatis.database.service.DbService;
 import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.CustomizeModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.JavaModuleInfo;
-import com.github.zhuyizhuo.generator.mybatis.generator.factory.GenerateServiceFactory;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.GenerateService;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.template.TemplateGenerateService;
 import com.github.zhuyizhuo.generator.mybatis.generator.support.ContextHolder;
@@ -32,8 +30,6 @@ import java.util.Map;
  * @since  1.0
  */
 public class DefaultGenerator implements Generator{
-    /** 类注释信息 */
-    private ClassCommentInfo classCommentInfo;
     /** 输出路径信息 */
     private FileOutPathInfo fileOutPathInfo;
     /** 方法信息 */
@@ -41,18 +37,10 @@ public class DefaultGenerator implements Generator{
     /** 代码生成器接口 */
     private GenerateService generateService;
 
-    DefaultGenerator(FileOutPathInfo fileOutPathInfo, MethodInfo methodInfo) {
-        this.classCommentInfo = ContextHolder.getBean("classCommentInfo");
+    DefaultGenerator(FileOutPathInfo fileOutPathInfo, MethodInfo methodInfo, GenerateService generateService) {
         this.fileOutPathInfo = fileOutPathInfo;
         this.methodInfo = methodInfo;
-    }
-
-    void initGenerateService(GenerateService generateService){
-        if (generateService == null){
-            this.generateService = GenerateServiceFactory.getGenerateService();
-        } else {
-            this.generateService = generateService;
-        }
+        this.generateService = generateService;
     }
 
     /**
@@ -146,9 +134,9 @@ public class DefaultGenerator implements Generator{
             String tableName = tableInfo.getTableName();
             this.fileOutPathInfo.initFileNamesAndOutPutFullPath(tableName, tableInfo.getTableNameCamelCase());
 
-            Map<String, MethodDescription> methodDescriptionMap = this.methodInfo.initMethodName(tableInfo);
+            Map<String, MethodDescription> methodDescriptionMap = this.methodInfo.initMethodName(tableInfo.getTableName());
             // 初始化 方法名
-            generateInfo = new GenerateInfo(this.classCommentInfo,
+            generateInfo = new GenerateInfo(ContextHolder.getBean("classCommentInfo"),
                     this.fileOutPathInfo.getJavaClassDefinitionMap(),
                     methodDescriptionMap, tableInfo);
 

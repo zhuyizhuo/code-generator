@@ -1,9 +1,10 @@
 package com.github.zhuyizhuo.generator.mybatis.generator.support;
 
-import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
+import com.github.zhuyizhuo.generator.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.enums.MethodEnums;
+import com.github.zhuyizhuo.generator.mybatis.dto.MethodDescription;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.FormatService;
-import com.github.zhuyizhuo.generator.mybatis.vo.TableInfo;
+import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
 import java.text.MessageFormat;
@@ -18,14 +19,10 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class MethodInfo {
 
-    /** 表名 */
-    private String tableName;
-    /** 表名驼峰命名 */
-    private String tableNameCamelCase;
     /**
      * method -> methodNameFormatService
      */
-    private Map<MethodEnums,FormatService> methodNameFormatServiceMap;
+    private Map<MethodEnums, FormatService> methodNameFormatServiceMap;
     /**
      * 格式化全部方法名 service
      */
@@ -38,42 +35,36 @@ public class MethodInfo {
         this.commonMethodNameFormatService = commonMethodNameFormatService;
     }
 
-    private String formatMethodName(MethodEnums method){
-        FormatService formatService = null;
-        if (this.methodNameFormatServiceMap != null){
-            formatService = methodNameFormatServiceMap.get(method);
-        }
-        return formatService != null
-                ? formatService.format(tableNameCamelCase)
-                : MessageFormat.format(PropertiesUtils.getConfig(method.getMethodFormatKey()),
-                                this.commonMethodNameFormatService != null
-                                        ? commonMethodNameFormatService.format(tableName)
-                                        :tableNameCamelCase);
-    }
-
-    public Map<String,MethodDescription> initMethodName(TableInfo tableInfo) {
-        this.tableName = tableInfo.getTableName();
-        this.tableNameCamelCase = tableInfo.getTableNameCamelCase();
-
+    public Map<String,MethodDescription> initMethodName(String tableName) {
         Map<String,MethodDescription> methodDescriptionMap = new ConcurrentHashMap<>();
         MethodDescription methodDescription;
-        MethodEnums[] values = MethodEnums.values();
-        for (int i = 0; i < values.length; i++) {
-            if (MethodEnums.ALL_METHOD.equals(values[i])){
+        MethodEnums[] methodEnums = MethodEnums.values();
+        for (MethodEnums method : methodEnums) {
+            if (MethodEnums.ALL_METHOD.equals(method)) {
                 continue;
             }
             methodDescription = new MethodDescription();
-            methodDescription.setEnabled(getPropertiesDefaultTrue(values[i]));
-            methodDescription.setMethodName(formatMethodName(values[i]));
-            methodDescription.setComment(PropertiesUtils.getConfig(values[i].getMethodCommentKey()));
+            methodDescription.setEnabled(PropertiesUtils.getBooleanConfigDefaultTrue(method.getPropertiesEnabledKey()));
+            methodDescription.setMethodName(formatMethodName(method, tableName));
+            methodDescription.setComment(ContextHolder.getConfig(method.getMethodCommentKey()));
             methodDescription.addParams(methodDescription.new ParamDescription(tableName + " 参数对象"));
-            methodDescriptionMap.put(values[i].toString(),methodDescription);
+            methodDescriptionMap.put(method.toString(), methodDescription);
         }
         return methodDescriptionMap;
     }
 
-    private boolean getPropertiesDefaultTrue(MethodEnums value) {
-        return PropertiesUtils.getBooleanPropertiesDefaultTrue(value.getPropertiesEnabledKey());
+    private String formatMethodName(MethodEnums method, String tableName){
+        FormatService formatService = null;
+        if (this.methodNameFormatServiceMap != null){
+            formatService = methodNameFormatServiceMap.get(method);
+        }
+        if (formatService != null){
+            return formatService.format(tableName);
+        }
+        String methodName = this.commonMethodNameFormatService != null ?
+                commonMethodNameFormatService.format(tableName) :
+                GeneratorStringUtils.changeTableName2CamelFirstUpper(tableName, ContextHolder.getConfig(ConfigConstants.TABLE_SEPARATOR));
+        return MessageFormat.format(ContextHolder.getConfig(method.getMethodFormatKey()), methodName);
     }
 
 }

@@ -72,9 +72,8 @@ public class PropertiesUtils {
      * @return 不存在或配置有误 返回 FALSE
      */
     public static boolean getBooleanConfigDefaultFalse(String key){
-        String config = ContextHolder.getConfig(key);
         try {
-            return Boolean.parseBoolean(config);
+            return Boolean.parseBoolean(ContextHolder.getConfig(key));
         } catch(Exception e) {
             LogUtils.info("key:"+key+" 配置有误，有效值为 true 或 false!");
             return false;
@@ -86,16 +85,12 @@ public class PropertiesUtils {
      * @param key 键
      * @return 不存在则 返回TRUE
      */
-    public static boolean getBooleanPropertiesDefaultTrue(String key){
-        String properties = getProperties(key);
-        if (GeneratorStringUtils.isBlank(properties)){
+    public static boolean getBooleanConfigDefaultTrue(String key){
+        try {
+            return Boolean.parseBoolean(ContextHolder.getConfig(key));
+        } catch(Exception e) {
+            LogUtils.info("key:"+key+" 配置有误，有效值为 true 或 false!");
             return true;
         }
-        try {
-            return Boolean.parseBoolean(properties);
-        } catch(Exception e) {
-            LogUtils.error("配置有误,key="+key+",值应为 true false");
-        }
-        return true;
     }
 }

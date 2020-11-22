@@ -212,6 +212,10 @@ public class FileOutPathInfo {
         this.basePackageEnabled = basePackageEnabled;
     }
 
+    public void setBaseOutputPath(String baseOutputPath) {
+        this.baseOutputPath = baseOutputPath;
+    }
+
     private void addModuleInfo(ModuleTypeEnums value, ModuleInfo info) {
         addModuleInfo(value.toString(), info);
     }
