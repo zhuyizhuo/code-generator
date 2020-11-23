@@ -68,7 +68,7 @@ public abstract class FreemarkerGenerateService implements TemplateGenerateServi
                 boolean hasPrimaryKey = tableInfo.isHasPrimaryKey();
                 for (int i = 0; i < value.size(); i++) {
                     ModulePathInfo templateGenerateInfo = value.get(i);
-                    String templatePath = getTemplatePath(templateGenerateInfo.getModuleType(), hasPrimaryKey);
+                    String templatePath = this.getTemplatePath(templateGenerateInfo.getModuleType(), hasPrimaryKey);
                     if (GeneratorStringUtils.isNotBlank(templatePath)){
                         Freemarker.printFile(templatePath,
                                 templateGenerateInfo.getFileOutputPath(), generateInfo);

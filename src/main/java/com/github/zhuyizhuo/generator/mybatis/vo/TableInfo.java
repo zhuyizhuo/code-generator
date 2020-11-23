@@ -2,7 +2,6 @@ package com.github.zhuyizhuo.generator.mybatis.vo;
 
 import com.github.zhuyizhuo.generator.mybatis.database.entity.ColumnInfo;
 import com.github.zhuyizhuo.generator.mybatis.dto.JavaColumnInfo;
-import com.github.zhuyizhuo.generator.enums.TemplateTypeEnums;
 import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 
 import java.util.ArrayList;
@@ -17,8 +16,6 @@ import java.util.List;
  * @version 1.0
  */
 public class TableInfo {
-    /** 数据库类型 */
-    private TemplateTypeEnums dbType;
     /** 数据库名称 */
     private String tableSchema;
     /** 表名 */
@@ -140,19 +137,10 @@ public class TableInfo {
         this.singlePrimaryKey = singlePrimaryKey;
     }
 
-    public TemplateTypeEnums getDbType() {
-        return dbType;
-    }
-
-    public void setDbType(TemplateTypeEnums dbType) {
-        this.dbType = dbType;
-    }
-
     @Override
     public String toString() {
         return "TableInfo{" +
-                "dbType=" + dbType +
-                ", tableSchema='" + tableSchema + '\'' +
+                "  tableSchema='" + tableSchema + '\'' +
                 ", tableName='" + tableName + '\'' +
                 ", tableComment='" + tableComment + '\'' +
                 ", tableNameCamelCase='" + tableNameCamelCase + '\'' +

@@ -8,7 +8,7 @@
     </parent>
     <groupId>com.github.zhuyizhuo</groupId>
     <artifactId>code-generator</artifactId>
-    <version>1.5.0</version>
+    <version>1.5.1-SNAPSHOT</version>
     <name>代码生成器</name>
     <description>轻量级可扩展代码生成器</description>
     <url>http://zhuyizhuo.online/code-generator-doc/</url>

@@ -5,8 +5,8 @@ import com.github.zhuyizhuo.generator.enums.DbTypeEnums;
 import com.github.zhuyizhuo.generator.mybatis.database.service.DbService;
 import com.github.zhuyizhuo.generator.mybatis.database.service.impl.MysqlDbServiceImpl;
 import com.github.zhuyizhuo.generator.mybatis.database.service.impl.OracleDbServiceImpl;
+import com.github.zhuyizhuo.generator.mybatis.generator.support.ContextHolder;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
-import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,7 +28,7 @@ public class DbServiceFactory {
     }
 
     public static DbService getDbService() {
-        String dbType = PropertiesUtils.getProperties(ConfigConstants.DB_TYPE).toUpperCase();
+        String dbType = ContextHolder.getConfig(ConfigConstants.DB_TYPE).toUpperCase();
         LogUtils.info("数据库类型:" + dbType);
         DbService dbService = serviceMap.get(dbType);
         if (dbService == null){
