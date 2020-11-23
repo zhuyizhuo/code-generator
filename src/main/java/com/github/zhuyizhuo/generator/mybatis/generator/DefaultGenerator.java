@@ -89,11 +89,8 @@ public class DefaultGenerator implements Generator{
         try {
             DbService dbService = DbServiceFactory.getDbService();
             tableColumns = dbService.getTableColumns();
-        } catch (UnsupportedOperationException ue){
-            LogUtils.error(ue.getMessage());
-            LogUtils.printException(ue);
-            return;
         } catch (Exception e){
+            LogUtils.error(e.getMessage());
             LogUtils.printException(e);
             Throwable cause = e.getCause();
             if (cause == null) {
