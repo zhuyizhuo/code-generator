@@ -92,6 +92,7 @@ public class TypeConversion {
         addType2JdbcType("TEXT", JdbcType.VARCHAR);
         addType2JdbcType("NCLOB", JdbcType.NCLOB);
         addType2JdbcType("CLOB", JdbcType.CLOB);
+        addType2JdbcType("BLOB", JdbcType.BLOB);
      }
 
     private static void initDBDataType2JavaMap() {

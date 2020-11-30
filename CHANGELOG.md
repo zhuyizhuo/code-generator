@@ -13,3 +13,8 @@
 - 内置 mybatis plus 代码模板支持,支持直接生成 mybatis plus 代码模板
 - mapper 模板默认方法名简化
 - 需新增模板常量类 统一管理所有模板路径
+
+## v1.5.1
+- 代码优化
+- 数据库表无注释情况默认处理为空字符串
+- 内置 oracle 数据库字段类型 NCLOB CLOB BLOB NVARCHAR2 转换
