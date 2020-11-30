@@ -8,7 +8,7 @@ import ${javaClassDefinition.MODEL.fullPackage}.${javaClassDefinition.MODEL.clas
 import ${javaClassDefinition.SERVICE.fullPackage}.${javaClassDefinition.SERVICE.className};
 
 /**
- * ${tableInfo.tableComment} Service 实现类
+ * ${tableInfo.tableComment!} Service 实现类
  *
  * @author  ${classCommentInfo.author} <br/>
  * @date    ${classCommentInfo.createTime} <br/>

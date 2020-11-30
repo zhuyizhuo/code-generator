@@ -277,12 +277,13 @@ public class GeneratorBuilder {
             }
             // 校验配置信息
             CheckUtils.checkDatabaseConfig(properties);
+
+            ContextHolder.newInstance(properties);
+
             // 获取生成 service
             if (generateService == null){
                 generateService = GenerateServiceFactory.getGenerateService();
             }
-
-            ContextHolder.newInstance(properties);
 
             LogUtils.setLevel(ContextHolder.getConfig(ConfigConstants.LOG_LEVEL));
         } catch (GeneratorException ie){

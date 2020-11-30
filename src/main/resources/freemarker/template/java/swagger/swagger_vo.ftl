@@ -11,7 +11,7 @@ import ${import};
 </#list>
 
 /**
- * ${tableInfo.tableComment} <br/>
+ * ${tableInfo.tableComment!} <br/>
  *
  * @author ${classCommentInfo.author} <br/>
  * @date    ${classCommentInfo.createTime} <br/>

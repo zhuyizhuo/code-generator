@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import ${javaClassDefinition.MODEL.fullPackage}.${javaClassDefinition.MODEL.className};
 
 /**
- * ${tableInfo.tableComment} Service
+ * ${tableInfo.tableComment!} Service
  *
  * @author  ${classCommentInfo.author} <br/>
  * @date    ${classCommentInfo.createTime} <br/>
