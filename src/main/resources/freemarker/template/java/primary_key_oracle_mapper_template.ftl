@@ -5,7 +5,7 @@ import java.util.List;
 import ${javaClassDefinition.MODEL.fullPackage}.${javaClassDefinition.MODEL.className};
 
 /**
- * ${tableInfo.tableComment!'${tableInfo.tableName}'} dao layer interface <br/>
+ * ${tableInfo.tableComment!} dao layer interface <br/>
  *
  * @author  ${classCommentInfo.author} <br/>
  * @date    ${classCommentInfo.createTime} <br/>

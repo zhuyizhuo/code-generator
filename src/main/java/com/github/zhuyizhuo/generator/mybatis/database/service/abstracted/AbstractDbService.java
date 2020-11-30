@@ -51,7 +51,7 @@ public abstract class AbstractDbService implements DbService {
 
         targetTableInfo.setTableName(sourceTableInfo.getTableName());
         targetTableInfo.setTableSchema(sourceTableInfo.getTableSchema());
-        targetTableInfo.setTableComment(sourceTableInfo.getTableComment());
+        targetTableInfo.setTableComment(sourceTableInfo.getTableComment() == null ? "" : sourceTableInfo.getTableComment());
         List<ColumnInfo> columnLists = sourceTableInfo.getColumnLists();
         JavaColumnInfo javaColumnInfo;
         for (int i = 0; i < columnLists.size(); i++) {

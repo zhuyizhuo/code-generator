@@ -6,7 +6,7 @@ import ${javaClassDefinition.MODEL.fullPackage}.${javaClassDefinition.MODEL.clas
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * ${tableInfo.tableComment!'${tableInfo.tableName}'} Mapper
+ * ${tableInfo.tableComment!} Mapper
  *
  * @author  ${classCommentInfo.author} <br/>
  * @date    ${classCommentInfo.createTime} <br/>
