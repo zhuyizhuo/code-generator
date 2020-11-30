@@ -80,6 +80,7 @@ public class TypeConversion {
         addType2JdbcType("DATETIME", JdbcType.TIMESTAMP);
         addType2JdbcType("VARCHAR", JdbcType.VARCHAR);
         addType2JdbcType("VARCHAR2", JdbcType.VARCHAR);
+        addType2JdbcType("NVARCHAR2", JdbcType.NVARCHAR);
         addType2JdbcType("DATE", JdbcType.TIMESTAMP);
         addType2JdbcType("DECIMAL", JdbcType.DECIMAL);
         addType2JdbcType("DOUBLE", JdbcType.DOUBLE);
@@ -89,6 +90,8 @@ public class TypeConversion {
         addType2JdbcType("TINYINT", JdbcType.TINYINT);
         addType2JdbcType("NUMERIC", JdbcType.NUMERIC);
         addType2JdbcType("TEXT", JdbcType.VARCHAR);
+        addType2JdbcType("NCLOB", JdbcType.NCLOB);
+        addType2JdbcType("CLOB", JdbcType.CLOB);
      }
 
     private static void initDBDataType2JavaMap() {
@@ -98,6 +101,7 @@ public class TypeConversion {
         setDBDataType2JavaClass("VARCHAR2",String.class);
         setDBDataType2JavaClass("NVARCHAR2",String.class);
         setDBDataType2JavaClass("CLOB",String.class);
+        setDBDataType2JavaClass("NCLOB",String.class);
         setDBDataType2JavaClass("BLOB",String.class);
         setDBDataType2JavaClass("INT",Integer.class);
         setDBDataType2JavaClass("VARCHAR",String.class);
@@ -119,6 +123,7 @@ public class TypeConversion {
         setDBDataType2JavaClass("FLOAT", BigDecimal.class);
         setDBDataType2JavaClass("TIMESTAMP", LocalDateTime.class);
         setDBDataType2JavaClass("TIMESTAMP(6)", LocalDateTime.class);
+
     }
 
     /**
