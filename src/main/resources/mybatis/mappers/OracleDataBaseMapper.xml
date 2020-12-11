@@ -42,7 +42,7 @@
         C.NULLABLE,
         C.DATA_SCALE,
         C.DATA_LENGTH
-        FROM ALL_TABLES        A,
+        FROM ALL_TABLES A,
         USER_COL_COMMENTS U,
         USER_TAB_COLUMNS  C,
         USER_TAB_COMMENTS T
