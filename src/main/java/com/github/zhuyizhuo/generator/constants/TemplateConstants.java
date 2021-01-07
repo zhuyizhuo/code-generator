@@ -8,24 +8,29 @@ package com.github.zhuyizhuo.generator.constants;
  */
 public class TemplateConstants {
     /**  mybatis plus 相关模板*/
-    public static final String MYBATIS_PLUS_XML = "/freemarker/template/java/mybatisPlus/mybatis_plus_xml.ftl";
-    public static final String MYBATIS_PLUS_MAPPER = "/freemarker/template/java/mybatisPlus/mybatis_plus_mapper.ftl";
-    public static final String MYBATIS_PLUS_MODEL = "/freemarker/template/java/mybatisPlus/mybatis_plus_model.ftl";
-    public static final String MYBATIS_PLUS_SERVICE = "/freemarker/template/java/mybatisPlus/mybatis_plus_service.ftl";
-    public static final String MYBATIS_PLUS_SERVICE_IMPL = "/freemarker/template/java/mybatisPlus/mybatis_plus_service_impl.ftl";
+    public static final String XML_MYBATIS_PLUS = "/freemarker/template/java/mybatis_plus/xml_mybatis_plus.ftl";
+    public static final String MAPPER_MYBATIS_PLUS = "/freemarker/template/java/mybatis_plus/mapper_mybatis_plus.ftl";
+    public static final String MODEL_MYBATIS_PLUS = "/freemarker/template/java/mybatis_plus/model_mybatis_plus.ftl";
+    public static final String MODEL_MYBATIS_PLUS_LOMBOK = "/freemarker/template/java/mybatis_plus/model_mybatis_plus_lombok.ftl";
+    public static final String SERVICE_MYBATIS_PLUS = "/freemarker/template/java/mybatis_plus/service_mybatis_plus.ftl";
+    public static final String SERVICE_IMPL_MYBATIS_PLUS = "/freemarker/template/java/mybatis_plus/service_impl_mybatis_plus.ftl";
 
     /** mysql 相关模板 */
-    public static final String MYSQL_XML_HAS_PRIMARY_KEY = "/freemarker/template/xml/primary_key_mysql_mybatis_template.ftl";
-    public static final String MYSQL_XML_NO_PRIMARY_KEY = "/freemarker/template/xml/no_primary_key_mysql_mybatis_template.ftl";
-    public static final String MYSQL_MAPPER_HAS_PRIMARY_KEY = "/freemarker/template/java/primary_key_mysql_mapper_template.ftl";
-    public static final String MYSQL_MAPPER_NO_PRIMARY_KEY = "/freemarker/template/java/no_primary_key_mysql_mapper_template.ftl";
+    public static final String XML_MYSQL_HAS_PRIMARY_KEY = "/freemarker/template/xml/primary_key_mysql_mybatis_template.ftl";
+    public static final String XML_MYSQL_NO_PRIMARY_KEY = "/freemarker/template/xml/no_primary_key_mysql_mybatis_template.ftl";
+    public static final String MAPPER_MYSQL_HAS_PRIMARY_KEY = "/freemarker/template/java/primary_key_mysql_mapper_template.ftl";
+    public static final String MAPPER_MYSQL_NO_PRIMARY_KEY = "/freemarker/template/java/no_primary_key_mysql_mapper_template.ftl";
 
     /** oracle 相关模板 */
-    public static final String ORACLE_XML_HAS_PRIMARY_KEY = "/freemarker/template/xml/primary_key_oracle_mybatis_template.ftl";
-    public static final String ORACLE_XML_NO_PRIMARY_KEY = "/freemarker/template/xml/no_primary_key_oracle_mybatis_template.ftl";
-    public static final String ORACLE_MAPPER_HAS_PRIMARY_KEY = "/freemarker/template/java/primary_key_oracle_mapper_template.ftl";
-    public static final String ORACLE_MAPPER_NO_PRIMARY_KEY = "/freemarker/template/java/no_primary_key_oracle_mapper_template.ftl";
+    public static final String XML_ORACLE_HAS_PRIMARY_KEY = "/freemarker/template/xml/primary_key_oracle_mybatis_template.ftl";
+    public static final String XML_ORACLE_NO_PRIMARY_KEY = "/freemarker/template/xml/no_primary_key_oracle_mybatis_template.ftl";
+    public static final String MAPPER_ORACLE_HAS_PRIMARY_KEY = "/freemarker/template/java/primary_key_oracle_mapper_template.ftl";
+    public static final String MAPPER_ORACLE_NO_PRIMARY_KEY = "/freemarker/template/java/no_primary_key_oracle_mapper_template.ftl";
 
     /** 数据对象 model 模板 */
-    public static final String MODEL = "/freemarker/template/java/model.ftl";
+    public static final String MODEL = "/freemarker/template/java/common/model.ftl";
+    /** 数据对象 lombok model 模板 */
+    public static final String MODEL_LOMBOK = "/freemarker/template/java/common/model_lombok.ftl";
+    /** 数据对象 swagger + lombok VO 模板   */
+    public static final String VO_SWAGGER_LOMBOK = "/freemarker/template/java/common/vo_swagger_lombok.ftl";
 }

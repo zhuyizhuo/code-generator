@@ -109,7 +109,8 @@ public class DefaultGenerator implements Generator{
         try {
             doGenerate(tableColumns);
         } catch (UnsupportedOperationException ue){
-            LogUtils.error(ue.getMessage());
+            LogUtils.error("生成数据异常!UnsupportedOperationException:" + ue.getMessage());
+            LogUtils.printException(ue);
         } catch (Exception e){
             LogUtils.error("生成数据异常!Exception:" + e.getMessage());
             LogUtils.printException(e);

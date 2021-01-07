@@ -3,6 +3,7 @@ package com.github.zhuyizhuo.generator.mybatis.generator.factory;
 import com.github.zhuyizhuo.generator.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.enums.DbTypeEnums;
 import com.github.zhuyizhuo.generator.enums.TemplateTypeEnums;
+import com.github.zhuyizhuo.generator.exception.GeneratorException;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.GenerateService;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.impl.MybatisPlusGenerateImpl;
 import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemarker.impl.MysqlGenerateImpl;
@@ -30,13 +31,13 @@ public class GenerateServiceFactory {
         serviceMap.put(TemplateTypeEnums.MYBATIS_PLUS.toString(), new MybatisPlusGenerateImpl());
     }
 
-    public static GenerateService getGenerateService() {
+    public static GenerateService getGenerateService() throws GeneratorException {
         String dbType = ContextHolder.getConfig(ConfigConstants.DB_TYPE).toUpperCase();
         GenerateService generateService = serviceMap.get(dbType);
         if (generateService == null){
             String errorMsg =  ConfigConstants.DB_TYPE + "配置类型不支持,所支持类型请参照 "+ DbTypeEnums.class.getName();
             LogUtils.error(errorMsg);
-            throw new RuntimeException(errorMsg);
+            throw new GeneratorException(errorMsg);
         }
         return generateService;
     }

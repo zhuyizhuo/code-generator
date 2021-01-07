@@ -41,11 +41,11 @@ public class ContextHolder {
     /** 系统默认配置信息 */
     private static Properties contextConfig = new Properties();
     /** 生成器配置对象 map */
-    private static Map<String, Object> beanMap = new ConcurrentHashMap<String, Object>();
+    private static Map<String, Object> beanMap = new ConcurrentHashMap<>();
     /** 自定义配置信息 */
     private Properties customerProperties;
 
-    private List<String> classNames = new ArrayList<String>();
+    private List<String> classNames = new ArrayList<>();
 
     private ContextHolder() {}
 
@@ -57,13 +57,13 @@ public class ContextHolder {
      * 获取上下文实例
      * @param properties
      */
-    public static ContextHolder newInstance(Properties properties){
+    public static ContextHolder newInstance(Properties properties) throws GeneratorException {
         ContextHolder contextHolder = new ContextHolder(properties);
         contextHolder.init();
         return contextHolder;
     }
 
-    private void init() {
+    private void init() throws GeneratorException {
         try {
             Class<? extends ContextHolder> aClass = this.getClass();
             //定位
@@ -72,13 +72,16 @@ public class ContextHolder {
             doRegister();
             //注入
             doAutowired();
+        } catch (GeneratorException ge) {
+          throw ge;
         } catch (Exception e){
+            LogUtils.error("生成器初始化异常! Exception:" + e.getMessage());
             LogUtils.printException(e);
             throw new GeneratorException("生成器初始化失败!");
         }
     }
 
-    private void doAutowired() {
+    private void doAutowired() throws GeneratorException {
         if (beanMap.isEmpty()){return;}
 
         GenericTokenParser parser = new GenericTokenParser("#{", "}", new TokenHandler() {
@@ -107,7 +110,15 @@ public class ContextHolder {
                     }
                     field.set(entry.getValue(), configValue);
                 } catch (IllegalAccessException e) {
+                    LogUtils.error("解析配置信息异常,entry key:"+entry.getKey() +
+                            ",entry value:" + entry.getValue() +
+                            ",configValue:" + configValue +
+                            ",Exception:" + e.getMessage());
                     LogUtils.printException(e);
+                    throw new GeneratorException("解析配置信息异常,entry key:"+entry.getKey() +
+                            ",entry value:" + entry.getValue() +
+                            ",configValue:" + configValue +
+                            ",Exception:" + e.getMessage());
                 }
             }
         }
@@ -175,7 +186,7 @@ public class ContextHolder {
         return GeneratorStringUtils.isNotBlank(property) ? property.trim() : "";
     }
 
-    private void doRegister() {
+    private void doRegister() throws GeneratorException {
         if (classNames.isEmpty()) {return;}
         try {
             for (int i = 0; i < classNames.size(); i++) {
@@ -188,11 +199,13 @@ public class ContextHolder {
                 }
             }
         } catch (Exception e) {
+            LogUtils.error("doRegister error!Exception:" + e.getMessage());
             LogUtils.printException(e);
+            throw new GeneratorException("doRegister error!Exception:" + e.getMessage());
         }
     }
 
-    private void doLoadConfig(String contextConfigLocation) {
+    private void doLoadConfig(String contextConfigLocation) throws GeneratorException {
         ClassLoader classLoader = this.getClass().getClassLoader();
         InputStream resourceAsStream = classLoader.getResourceAsStream(contextConfigLocation);
         try {
@@ -205,7 +218,9 @@ public class ContextHolder {
             String[] split = property.split(",");
             this.classNames = Arrays.asList(split);
         } catch (IOException e) {
+            LogUtils.error("doLoadConfig error!Exception:" + e.getMessage());
             LogUtils.printException(e);
+            throw new GeneratorException("doLoadConfig error!Exception:" + e.getMessage());
         } finally {
             if (resourceAsStream != null) {
                 try {
@@ -222,6 +237,8 @@ public class ContextHolder {
     }
 
     public static String getConfig(String key){
-        return contextConfig.getProperty(key);
+        String property = contextConfig.getProperty(key);
+        LogUtils.debug("获取配置信息 key:" + key + ",value:" + property);
+        return property == null ? "" : property;
     }
 }

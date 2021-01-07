@@ -23,7 +23,7 @@ public class PropertiesUtils {
      * 加载配置文件
      * @param configPath 配置文件路径
      */
-    public static Properties loadProperties(String configPath) {
+    public static Properties loadProperties(String configPath) throws GeneratorException {
         try {
             if (GeneratorStringUtils.isBlank(configPath)) {
                 return customConfiguration;
@@ -31,7 +31,7 @@ public class PropertiesUtils {
             return loadProperties(new BufferedReader(new InputStreamReader(Resources.getResourceAsStream(configPath), StandardCharsets.UTF_8)));
         } catch (Exception e){
             LogUtils.printException(e);
-            throw new GeneratorException("加载配置文件失败,path:" + configPath);
+            throw new GeneratorException("加载配置文件失败,path:" + configPath+",Exception:" + e.getMessage());
         }
     }
 
@@ -51,19 +51,6 @@ public class PropertiesUtils {
     public static String getProperties(String key){
         String property = customConfiguration.getProperty(key);
         return property == null ? null : property.trim();
-    }
-
-    public static String getConfig(String key){
-        return ContextHolder.getConfig(key);
-    }
-
-    /**
-     * 判断是否包含对应配置
-     * @param key 键
-     * @return 存在返回true  不存在返回false
-     */
-    public static boolean containsKey(String key){
-        return GeneratorStringUtils.isNotBlank(customConfiguration.getProperty(key));
     }
 
     /**

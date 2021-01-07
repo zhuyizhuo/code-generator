@@ -18,3 +18,5 @@
 - 代码优化
 - 数据库表无注释情况默认处理为空字符串
 - 内置 oracle 数据库字段类型 NCLOB CLOB BLOB NVARCHAR2 转换
+- 优化生成类路径配置  支持每个类单独配置生成路径
+- 升级 mybatis 版本为 3.5.6, freemarker 版本为 2.3.30

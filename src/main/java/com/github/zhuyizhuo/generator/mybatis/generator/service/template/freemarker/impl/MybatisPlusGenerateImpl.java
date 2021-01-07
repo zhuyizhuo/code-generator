@@ -15,15 +15,15 @@ import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemar
 public class MybatisPlusGenerateImpl extends FreemarkerGenerateService {
 
     public MybatisPlusGenerateImpl() {
-        addTemplatePath(ModuleTypeEnums.XML, TemplateConstants.MYBATIS_PLUS_XML);
+        addTemplatePath(ModuleTypeEnums.XML, TemplateConstants.XML_MYBATIS_PLUS);
 
-        addTemplatePath(ModuleTypeEnums.MAPPER, TemplateConstants.MYBATIS_PLUS_MAPPER);
+        addTemplatePath(ModuleTypeEnums.MAPPER, TemplateConstants.MAPPER_MYBATIS_PLUS);
 
-        addTemplatePath(ModuleTypeEnums.MODEL, TemplateConstants.MYBATIS_PLUS_MODEL);
+        addTemplatePath(ModuleTypeEnums.MODEL, TemplateConstants.MODEL_MYBATIS_PLUS);
 
-        addTemplatePath(ModuleTypeEnums.SERVICE, TemplateConstants.MYBATIS_PLUS_SERVICE);
+        addTemplatePath(ModuleTypeEnums.SERVICE, TemplateConstants.SERVICE_MYBATIS_PLUS);
 
-        addTemplatePath(ModuleTypeEnums.SERVICE_IMPL, TemplateConstants.MYBATIS_PLUS_SERVICE_IMPL);
+        addTemplatePath(ModuleTypeEnums.SERVICE_IMPL, TemplateConstants.SERVICE_IMPL_MYBATIS_PLUS);
     }
 
     @Override

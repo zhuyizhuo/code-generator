@@ -10,7 +10,6 @@ import com.github.zhuyizhuo.generator.mybatis.generator.extension.FormatService;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.JavaModuleInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.support.ContextHolder;
 import com.github.zhuyizhuo.generator.mybatis.generator.support.ModuleInfo;
-import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -61,13 +60,13 @@ public class FileOutPathInfo {
         String outPutPath;
         for (int i = 0; i < values.length; i++) {
             ModuleTypeEnums module = values[i];
-            filePackage = PropertiesUtils.getConfig(module.getFilePackageKey());
-            outPutPath = PropertiesUtils.getConfig(module.getOutputPathKey());
+            filePackage = ContextHolder.getConfig(module.getFilePackageKey());
+            outPutPath = ContextHolder.getConfig(module.getOutputPathKey());
             if (FileTypeEnums.JAVA.equals(module.getFileType())){
                 if (filePackage.startsWith(".")){
                     filePackage = filePackage.substring(1);
                 }
-                outPutFullPathFormat = getJavaOutputFullPath(outPutPath, filePackage);
+                outPutFullPathFormat = getJavaOutputFullPath(outPutPath);
             } else if (FileTypeEnums.XML.equals(module.getFileType())){
                 outPutFullPathFormat = getResourcesOutputFullPath(outPutPath);
             }
@@ -92,10 +91,8 @@ public class FileOutPathInfo {
      * @return 资源文件输出全路径
      */
     public String getResourcesOutputFullPath(String resourcesOutPutPath) {
-        String outPutFullPath;
-        if ("TRUE".equalsIgnoreCase(basePackageEnabled)) {
-            outPutFullPath = baseOutputPath + "/" + resourcesOutPutPath;
-        } else {
+        String outPutFullPath = resourcesOutPutPath;
+        if (!"TRUE".equalsIgnoreCase(basePackageEnabled)) {
             String tempPath = resourcesOutPutPath.replaceAll("\\\\","/");
             if (tempPath.lastIndexOf("/") != -1){
                 tempPath = tempPath.substring(tempPath.lastIndexOf("/") + 1);
@@ -106,22 +103,27 @@ public class FileOutPathInfo {
     }
 
     /***
-     *  根据文件包名获取文件输出全路径
+     *  将路径中的 . 替换为 / ,将路径处理为正常文件路径
      *
-     * @param outPutPath java 文件输出路径 例如 /src/main/java
-     * @param classFullPackage java 类的包路径
+     * @param outPutPath java 文件输出路径 例如 /xxx/src/main/java/com.github.generator
      * @return java 文件输出全路径
      */
-    public String getJavaOutputFullPath(String outPutPath, String classFullPackage) {
-        String outPutFullPath;
-        if ("TRUE".equalsIgnoreCase(basePackageEnabled)) {
-            outPutFullPath = baseOutputPath + "/" + outPutPath + "/" + classFullPackage.replaceAll("\\.", "/");
-        } else {
-            int index = classFullPackage.lastIndexOf(".");
-            if(index != -1){
-                classFullPackage = classFullPackage.substring(index + 1);
+    public String getJavaOutputFullPath(String outPutPath){
+        String outPutFullPath = outPutPath;
+        int packageStart = outPutFullPath.lastIndexOf(">");
+        if(packageStart != -1){
+            String basePath = outPutFullPath.substring(0, packageStart);
+            String fullPackage = outPutFullPath.substring(packageStart + 1);
+            if (fullPackage.contains(".")){
+                outPutFullPath = basePath + fullPackage.replaceAll("\\.", "/");
             }
-            outPutFullPath = baseOutputPath + "/" + classFullPackage;
+        }
+
+        if (!"TRUE".equalsIgnoreCase(basePackageEnabled)) {
+            if(outPutFullPath.lastIndexOf("/") != -1){
+                outPutFullPath = outPutFullPath.substring(outPutFullPath.lastIndexOf("/") + 1);
+            }
+            outPutFullPath = baseOutputPath + "/" + outPutFullPath;
         }
         return outPutFullPath + "/{0}.java";
     }
@@ -168,8 +170,7 @@ public class FileOutPathInfo {
             moduleInfo = new ModuleInfo();
             addModuleInfo(fileInfo.getModuleType(), moduleInfo);
         }
-        String outPutFullPathFormat = getJavaOutputFullPath(fileInfo.getOutputPath(),
-                                        fileInfo.getClassPackage());
+        String outPutFullPathFormat = getJavaOutputFullPath(fileInfo.getOutputPath());
         moduleInfo.setModuleType(fileInfo.getModuleType());
         moduleInfo.setOutPutFullPathFormatPattern(outPutFullPathFormat);
         // 仅 java 模块需设置包路径

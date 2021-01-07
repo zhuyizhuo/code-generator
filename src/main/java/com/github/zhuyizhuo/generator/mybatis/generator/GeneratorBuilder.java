@@ -5,7 +5,6 @@ import com.github.zhuyizhuo.generator.annotation.Nullable;
 import com.github.zhuyizhuo.generator.constants.ConfigConstants;
 import com.github.zhuyizhuo.generator.constants.LinkConstants;
 import com.github.zhuyizhuo.generator.enums.ErrorTypeEnums;
-import com.github.zhuyizhuo.generator.enums.LogLevelEnums;
 import com.github.zhuyizhuo.generator.enums.MethodEnums;
 import com.github.zhuyizhuo.generator.enums.ModuleTypeEnums;
 import com.github.zhuyizhuo.generator.exception.GeneratorException;
@@ -18,6 +17,7 @@ import com.github.zhuyizhuo.generator.mybatis.generator.service.GenerateService;
 import com.github.zhuyizhuo.generator.mybatis.generator.support.ContextHolder;
 import com.github.zhuyizhuo.generator.mybatis.generator.support.MethodInfo;
 import com.github.zhuyizhuo.generator.utils.CheckUtils;
+import com.github.zhuyizhuo.generator.utils.GeneratorStringUtils;
 import com.github.zhuyizhuo.generator.utils.LogUtils;
 import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 import com.github.zhuyizhuo.generator.utils.TypeConversion;
@@ -267,14 +267,18 @@ public class GeneratorBuilder {
      */
     public Generator build(@Nullable String configPath) {
         try {
-            LogUtils.setLevel(LogLevelEnums.DEBUG);
-
             LogUtils.info("生成器文档地址: " + LinkConstants.DOC_URL);
 
             Properties properties = PropertiesUtils.loadProperties(configPath);
             if (this.proInfo != null){
                 properties.putAll(proInfo);
             }
+            String logLevel = properties.getProperty(ConfigConstants.LOG_LEVEL);
+
+            if(GeneratorStringUtils.isNotBlank(logLevel)){
+                LogUtils.setLevel(logLevel);
+            }
+
             // 校验配置信息
             CheckUtils.checkDatabaseConfig(properties);
 
@@ -284,8 +288,6 @@ public class GeneratorBuilder {
             if (generateService == null){
                 generateService = GenerateServiceFactory.getGenerateService();
             }
-
-            LogUtils.setLevel(ContextHolder.getConfig(ConfigConstants.LOG_LEVEL));
         } catch (GeneratorException ie){
             LogUtils.error(ie.getMessage());
             return new EmptyGenerator();

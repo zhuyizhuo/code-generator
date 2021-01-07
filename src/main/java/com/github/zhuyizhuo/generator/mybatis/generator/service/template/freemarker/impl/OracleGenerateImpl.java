@@ -14,11 +14,11 @@ import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemar
 public class OracleGenerateImpl extends FreemarkerGenerateService {
 
     public OracleGenerateImpl() {
-        addTemplatePath(ModuleTypeEnums.XML,true, TemplateConstants.ORACLE_XML_HAS_PRIMARY_KEY);
-        addTemplatePath(ModuleTypeEnums.XML,false, TemplateConstants.ORACLE_XML_NO_PRIMARY_KEY);
+        addTemplatePath(ModuleTypeEnums.XML,true, TemplateConstants.XML_ORACLE_HAS_PRIMARY_KEY);
+        addTemplatePath(ModuleTypeEnums.XML,false, TemplateConstants.XML_ORACLE_NO_PRIMARY_KEY);
 
-        addTemplatePath(ModuleTypeEnums.MAPPER,true, TemplateConstants.ORACLE_MAPPER_HAS_PRIMARY_KEY);
-        addTemplatePath(ModuleTypeEnums.MAPPER,false, TemplateConstants.ORACLE_MAPPER_NO_PRIMARY_KEY);
+        addTemplatePath(ModuleTypeEnums.MAPPER,true, TemplateConstants.MAPPER_ORACLE_HAS_PRIMARY_KEY);
+        addTemplatePath(ModuleTypeEnums.MAPPER,false, TemplateConstants.MAPPER_ORACLE_NO_PRIMARY_KEY);
 
         addTemplatePath(ModuleTypeEnums.MODEL, TemplateConstants.MODEL);
     }

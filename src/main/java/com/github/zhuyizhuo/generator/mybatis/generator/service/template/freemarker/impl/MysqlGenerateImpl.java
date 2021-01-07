@@ -14,11 +14,11 @@ import com.github.zhuyizhuo.generator.mybatis.generator.service.template.freemar
 public class MysqlGenerateImpl extends FreemarkerGenerateService {
 
     public MysqlGenerateImpl() {
-        addTemplatePath(ModuleTypeEnums.XML,true, TemplateConstants.MYSQL_XML_HAS_PRIMARY_KEY);
-        addTemplatePath(ModuleTypeEnums.XML,false, TemplateConstants.MYSQL_XML_NO_PRIMARY_KEY);
+        addTemplatePath(ModuleTypeEnums.XML,true, TemplateConstants.XML_MYSQL_HAS_PRIMARY_KEY);
+        addTemplatePath(ModuleTypeEnums.XML,false, TemplateConstants.XML_MYSQL_NO_PRIMARY_KEY);
 
-        addTemplatePath(ModuleTypeEnums.MAPPER,true, TemplateConstants.MYSQL_MAPPER_HAS_PRIMARY_KEY);
-        addTemplatePath(ModuleTypeEnums.MAPPER,false, TemplateConstants.MYSQL_MAPPER_NO_PRIMARY_KEY);
+        addTemplatePath(ModuleTypeEnums.MAPPER,true, TemplateConstants.MAPPER_MYSQL_HAS_PRIMARY_KEY);
+        addTemplatePath(ModuleTypeEnums.MAPPER,false, TemplateConstants.MAPPER_MYSQL_NO_PRIMARY_KEY);
 
         addTemplatePath(ModuleTypeEnums.MODEL, TemplateConstants.MODEL);
     }

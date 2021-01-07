@@ -29,7 +29,7 @@ public class CheckUtils {
         }
     }
 
-    public static Properties checkDatabaseConfig(Properties properties) {
+    public static Properties checkDatabaseConfig(Properties properties) throws GeneratorException {
         Properties rtnProperties = new Properties();
         StringBuffer errorMsg = new StringBuffer();
         for (int i = 0; i < dbConfig.length; i++) {
