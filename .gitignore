@@ -45,9 +45,14 @@ local.properties
 .recommenders
 
 
-＃STS（Spring工具套件）
-.springBeans
-/target
+**/target/
+**/.gitignore
+**/out
+**/.classpath
+**/.project
+**/.settings/
+**/bin/
+**/build
 *.iml
 /.idea
 .DS_Store
