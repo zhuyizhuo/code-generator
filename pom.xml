@@ -4,6 +4,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>code-generator</module>
+        <module>code-generator-spring-boot-starter</module>
     </modules>
     <parent>
         <groupId>org.sonatype.oss</groupId>

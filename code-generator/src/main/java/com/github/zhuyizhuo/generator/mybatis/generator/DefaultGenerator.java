@@ -37,7 +37,7 @@ public class DefaultGenerator implements Generator{
     /** 代码生成器接口 */
     private GenerateService generateService;
 
-    DefaultGenerator(FileOutPathInfo fileOutPathInfo, MethodInfo methodInfo, GenerateService generateService) {
+    public DefaultGenerator(FileOutPathInfo fileOutPathInfo, MethodInfo methodInfo, GenerateService generateService) {
         this.fileOutPathInfo = fileOutPathInfo;
         this.methodInfo = methodInfo;
         this.generateService = generateService;
