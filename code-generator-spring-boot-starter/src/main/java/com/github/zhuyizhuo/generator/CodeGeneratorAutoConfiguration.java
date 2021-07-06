@@ -1,6 +1,7 @@
 package com.github.zhuyizhuo.generator;
 
 import com.github.zhuyizhuo.generator.constants.ConfigConstants;
+import com.github.zhuyizhuo.generator.mybatis.convention.ClassCommentInfo;
 import com.github.zhuyizhuo.generator.mybatis.convention.FileOutPathInfo;
 import com.github.zhuyizhuo.generator.mybatis.generator.DefaultGenerator;
 import com.github.zhuyizhuo.generator.mybatis.generator.Generator;
@@ -14,14 +15,11 @@ import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
@@ -42,17 +40,26 @@ public class CodeGeneratorAutoConfiguration {
     @ConditionalOnMissingBean(Generator.class)
     public Generator generatorService() {
         Properties properties = new Properties();
-        properties.put(ConfigConstants.DB_TYPE, codeGeneratorProperties.getType());
-        properties.put(ConfigConstants.DRIVER, codeGeneratorProperties.getDriver());
-        properties.put(ConfigConstants.URL, codeGeneratorProperties.getUrl());
-        properties.put(ConfigConstants.USERNAME, codeGeneratorProperties.getUsername());
-        properties.put(ConfigConstants.PASSWORD, codeGeneratorProperties.getPassword());
-        properties.put(ConfigConstants.TABLE_SCHEMA, codeGeneratorProperties.getTableSchema());
+        Datasource datasource = codeGeneratorProperties.getDatasource();
+        properties.put(ConfigConstants.DB_TYPE, datasource.getType());
+        properties.put(ConfigConstants.DRIVER, datasource.getDriver());
+        properties.put(ConfigConstants.URL, datasource.getUrl());
+        properties.put(ConfigConstants.USERNAME, datasource.getUsername());
+        properties.put(ConfigConstants.PASSWORD, datasource.getPassword());
+        properties.put(ConfigConstants.TABLE_SCHEMA, datasource.getTableSchema());
         PropertiesUtils.customConfiguration.putAll(properties);
         CheckUtils.checkDatabaseConfig(properties);
+
         ContextHolder.newInstance(properties);
+
         GenerateService generateService = GenerateServiceFactory.getGenerateService();
         FileOutPathInfo fileOutPathInfo = ContextHolder.getBean("FileOutPathInfo");
+        ClassCommentInfo classCommentInfo = ContextHolder.getBean("classCommentInfo");
+        Comment comment = codeGeneratorProperties.getComment();
+        classCommentInfo.setVersion(comment.getVersion());
+        classCommentInfo.setAuthor(comment.getAuthor());
+        classCommentInfo.setSinceVersion(comment.getSinceVersion());
+
         // 需先设置格式化 service
         fileOutPathInfo.init();
         DefaultGenerator generator = new DefaultGenerator(fileOutPathInfo, new MethodInfo(), generateService);
