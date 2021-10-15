@@ -1,0 +1,98 @@
+code-generator:
+  datasource:
+    type: MYSQL
+    driver: com.mysql.cj.jdbc.Driver
+    table-schema: zhuo_management
+    url: jdbc:mysql://yizhuo.com:9002/zhuo_management?useUnicode=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: zhuoM3.2
+  comment:
+    since-version: v0.1
+    version: v3.0
+    author: ${user.dir}
+
+  base:
+    java-path: /src/main/java/
+    out-put-path: ${user.dir}
+    package: ''
+  java:
+    base:
+      package:
+        enabled: true
+    comment:
+      author: TODO
+      current-version: 1.0
+      since-version: 1.0
+    method:
+      batch-insert:
+        comment: 批量插入数据
+        enabled: true
+        name-format: insertBatch
+      count-by-where:
+        comment: 统计符合条件的数据数量
+        enabled: true
+        name-format: selectCount
+      delete-by-primary-key:
+        comment: 根据主键删除数据
+        enabled: true
+        name-format: deleteByPrimaryKey
+      delete-by-where:
+        comment: 根据传入参数删除数据
+        enabled: true
+        name-format: delete
+      insert:
+        comment: 新增数据
+        enabled: true
+        name-format: insert
+      query-by-where:
+        comment: 根据传入参数查询数据列表
+        enabled: true
+        name-format: selectList
+      select-one-by-primary-key:
+        comment: 根据主键查询数据
+        enabled: true
+        name-format: selectOne
+      update-by-primary-key:
+        comment: 根据主键更新数据
+        enabled: true
+        name-format: updateByPrimaryKey
+    module:
+      controller:
+        name-format: '{0}Controller'
+        out-put-path: '#{generate.base.out-put-path}/#{generate.base.java-path}>#{generate.java.module.controller.package}'
+        package: '#{generate.base.package}.controller'
+      mapper:
+        name-format: '{0}Mapper'
+        out-put-path: '#{generate.base.out-put-path}/#{generate.base.java-path}>#{generate.java.module.mapper.package}'
+        package: '#{generate.base.package}.mapper'
+      model:
+        name-format: '{0}'
+        out-put-path: '#{generate.base.out-put-path}/#{generate.base.java-path}>#{generate.java.module.model.package}'
+        package: '#{generate.base.package}.model'
+      service:
+        impl:
+          name-format: '{0}ServiceImpl'
+          out-put-path: '#{generate.base.out-put-path}/#{generate.base.java-path}>#{generate.java.module.service.impl.package}'
+          package: '#{generate.base.package}.service.impl'
+        name-format: '{0}Service'
+        out-put-path: '#{generate.base.out-put-path}/#{generate.base.java-path}>#{generate.java.module.service.package}'
+        package: '#{generate.base.package}.service'
+      vo:
+        name-format: '{0}'
+        out-put-path: '#{generate.base.out-put-path}/#{generate.base.java-path}>#{generate.java.module.vo.package}'
+        package: '#{generate.base.package}.vo'
+  log:
+    level: INFO
+  resources:
+    xml:
+      mybatis:
+        parameter-type:
+          aliases:
+            enabled: false
+      name-format: '{0}'
+      out-put-path: '#{generate.base.out-put-path}/src/main/resources/xml'
+  table:
+    field:
+      separator: _
+    separator: _
+

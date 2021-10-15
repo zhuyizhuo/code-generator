@@ -24,7 +24,6 @@ import java.util.Properties;
 
 @Configuration
 @ConditionalOnClass({DefaultGenerator.class})
-//@ConditionalOnSingleCandidate(DataSource.class)
 @EnableConfigurationProperties({CodeGeneratorProperties.class})
 @AutoConfigureAfter({DataSourceAutoConfiguration.class})
 @ConditionalOnProperty(prefix = "code-generator", value = "enabled", matchIfMissing = true)

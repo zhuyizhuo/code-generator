@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>code-generator-samples</artifactId>
+        <groupId>com.github.zhuyizhuo</groupId>
+        <version>1.5.1</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>code-generator-boot-starter-samples</artifactId>
+    <name>code-generator-spring-boot-starter 使用示例</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.20</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zhuyizhuo</groupId>
+            <artifactId>code-generator-spring-boot-starter</artifactId>
+            <version>1.5.1</version>
+        </dependency>
+    </dependencies>
+</project>
