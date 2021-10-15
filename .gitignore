@@ -51,3 +51,4 @@ local.properties
 *.iml
 /.idea
 .DS_Store
+**/target
