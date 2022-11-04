@@ -6,6 +6,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>code-generator-boot-starter-samples</module>
+        <module>samples-v1.5.1</module>
     </modules>
 
     <groupId>com.github.zhuyizhuo</groupId>

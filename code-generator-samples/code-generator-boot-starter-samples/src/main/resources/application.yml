@@ -2,10 +2,10 @@ code-generator:
   datasource:
     type: MYSQL
     driver: com.mysql.cj.jdbc.Driver
-    table-schema: zhuo_management
-    url: jdbc:mysql://yizhuo.com:9002/zhuo_management?useUnicode=true&serverTimezone=Asia/Shanghai
+    table-schema: springboot
+    url: jdbc:mysql://localhost:3306/springboot?useUnicode=true&serverTimezone=Asia/Shanghai
     username: root
-    password: zhuoM3.2
+    password: Zhuo3.2
   comment:
     since-version: v0.1
     version: v3.0
