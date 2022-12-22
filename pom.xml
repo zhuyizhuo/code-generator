@@ -13,10 +13,10 @@
     </parent>
     <groupId>com.github.zhuyizhuo</groupId>
     <artifactId>code-generator-root</artifactId>
-    <version>1.5.1</version>
+    <version>1.6.0-SNAPSHOT</version>
     <name>代码生成器-root</name>
     <description>轻量级可扩展代码生成器</description>
-    <url>http://zhuyizhuo.online/code-generator-doc/</url>
+    <url>http://zhuyizhuo.github.io/code-generator-doc/</url>
     <inceptionYear>2017</inceptionYear>
     <licenses>
         <license>

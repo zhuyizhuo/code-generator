@@ -12,6 +12,7 @@ import com.github.zhuyizhuo.generator.utils.PropertiesUtils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * 生成所需元信息
@@ -31,6 +32,8 @@ public class GenerateInfo {
     private TableInfo tableInfo;
     /** mybatis xml 定义*/
     private MybatisXmlDefinition mybatisXmlDefinition;
+    /** 属性 */
+    private Properties context;
 
     public GenerateInfo() { }
 
@@ -84,6 +87,14 @@ public class GenerateInfo {
 
     public Map<String, JavaClassDefinition> getJavaClassDefinition() {
         return javaClassDefinition;
+    }
+
+    public Properties getContext() {
+        return context;
+    }
+
+    public void setContext(Properties context) {
+        this.context = context;
     }
 
     @Override

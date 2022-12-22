@@ -3,6 +3,8 @@ package com.github.zhuyizhuo.generator.utils;
 import com.github.zhuyizhuo.generator.enums.LogLevelEnums;
 import com.github.zhuyizhuo.generator.mybatis.generator.extension.LogService;
 import com.github.zhuyizhuo.generator.mybatis.vo.GenerateInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 
@@ -17,6 +19,7 @@ public class LogUtils {
 
     private static LogLevelEnums logLevel = LogLevelEnums.INFO;
     private static LogService logService;
+    private static Logger logger = LoggerFactory.getLogger(LogUtils.class);
 
     /**
      * 设置打印日志的 service
@@ -53,9 +56,7 @@ public class LogUtils {
      * @param info 日志内容
      */
     public static void debug(String info){
-        if (LogLevelEnums.DEBUG.getLevel() >= getLevel()){
-            System.out.println(info);
-        }
+        logger.debug(info);
     }
 
     /**
@@ -63,9 +64,7 @@ public class LogUtils {
      * @param info 日志内容
      */
     public static void info(String info){
-        if (LogLevelEnums.INFO.getLevel() >= getLevel()){
-            System.out.println(info);
-        }
+        logger.info(info);
     }
 
     /**
@@ -73,9 +72,7 @@ public class LogUtils {
      * @param errorMsg 错误信息
      */
     public static void error(String errorMsg){
-        if (LogLevelEnums.INFO.getLevel() >= getLevel()){
-            System.err.println(errorMsg);
-        }
+        logger.error(errorMsg);
     }
 
     /**
@@ -83,9 +80,7 @@ public class LogUtils {
      * @param e 异常类
      */
     public static void printException(Exception e){
-        if (LogLevelEnums.DEBUG.getLevel() >= getLevel()){
-            e.printStackTrace();
-        }
+        logger.error("异常:", e);
     }
 
     /**
@@ -99,20 +94,16 @@ public class LogUtils {
     }
 
     public static void logProperties(String message, Properties properties) {
-        if (LogLevelEnums.INFO.getLevel() >= getLevel()){
-            System.out.println(message);
-            for (String key : properties.stringPropertyNames()) {
-                System.out.println(key + "=" + properties.getProperty(key));
-            }
+        logger.info(message);
+        for (String key : properties.stringPropertyNames()) {
+            logger.info(key + "=" + properties.getProperty(key));
         }
     }
 
     public static void debug(String message, Properties properties) {
-        if (LogLevelEnums.DEBUG.getLevel() >= getLevel()){
-            System.out.println(message);
-            for (String key : properties.stringPropertyNames()) {
-                System.out.println(key + "=" + properties.getProperty(key));
-            }
+        logger.debug(message);
+        for (String key : properties.stringPropertyNames()) {
+            logger.debug(key + "=" + properties.getProperty(key));
         }
     }
 

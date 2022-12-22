@@ -241,4 +241,8 @@ public class ContextHolder {
         LogUtils.debug("获取配置信息 key:" + key + ",value:" + property);
         return property == null ? "" : property;
     }
+
+    public static Properties getContext(){
+        return contextConfig;
+    }
 }

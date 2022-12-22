@@ -138,6 +138,7 @@ public class DefaultGenerator implements Generator{
                     this.fileOutPathInfo.getJavaClassDefinitionMap(),
                     methodDescriptionMap, tableInfo);
 
+            generateInfo.setContext(ContextHolder.getContext());
             List<ModuleInfo> allModule = this.fileOutPathInfo.getAllModule();
             for (int j = 0; j < allModule.size(); j++) {
                 ModuleInfo info = allModule.get(j);
