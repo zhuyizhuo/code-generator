@@ -1,4 +1,19 @@
 # CHANGELOG
+## 1.6.0
+- 支持在模板中直接获取配置文件的配置 #{context.自定义属性名}
+- 集成 slf4j 打印日志
+- 修改项目为多模块项目
+- 升级 freemarker 到 2.3.31
+- 发布 spring-boot starter 版本
+- spring-boot starter 版本支持 yaml 配置
+
+## v1.5.1
+- 代码优化
+- 数据库表无注释情况默认处理为空字符串
+- 内置 oracle 数据库字段类型 NCLOB CLOB BLOB NVARCHAR2 转换
+- 优化生成类路径配置  支持每个类单独配置生成路径
+- 升级 mybatis 版本为 3.5.6, freemarker 版本为 2.3.30
+- 新增 lombok 代码模板
 
 ## v1.5.0
 - 新增 travis-ci.com 自动检测集成
@@ -14,10 +29,3 @@
 - mapper 模板默认方法名简化
 - 需新增模板常量类 统一管理所有模板路径
 
-## v1.5.1
-- 代码优化
-- 数据库表无注释情况默认处理为空字符串
-- 内置 oracle 数据库字段类型 NCLOB CLOB BLOB NVARCHAR2 转换
-- 优化生成类路径配置  支持每个类单独配置生成路径
-- 升级 mybatis 版本为 3.5.6, freemarker 版本为 2.3.30
-- 新增 lombok 代码模板
