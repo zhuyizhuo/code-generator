@@ -84,12 +84,7 @@ public class ContextHolder {
     private void doAutowired() throws GeneratorException {
         if (beanMap.isEmpty()){return;}
 
-        GenericTokenParser parser = new GenericTokenParser("#{", "}", new TokenHandler() {
-            @Override
-            public String handleToken(String content) {
-                return handleConfig(content);
-            }
-        });
+        GenericTokenParser parser = new GenericTokenParser("#{", "}", content -> handleConfig(content));
 
         initProperties(parser);
 

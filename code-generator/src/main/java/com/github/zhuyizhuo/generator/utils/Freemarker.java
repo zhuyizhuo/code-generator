@@ -1,8 +1,10 @@
 package com.github.zhuyizhuo.generator.utils;
 
+import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import freemarker.template.TemplateExceptionHandler;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -11,6 +13,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * freemarker 工具类
@@ -18,6 +22,10 @@ import java.util.Locale;
  * @version 1.0
  */
 public class Freemarker {
+    /** 模板缓存 */
+    private static final Map<String, Template> TEMPLATE_CACHE = new ConcurrentHashMap<>();
+    /** 配置缓存 */
+    private static final Map<String, Configuration> CONFIG_CACHE = new ConcurrentHashMap<>();
 
 	/**
 	 * 输出对象到文件
@@ -54,8 +62,10 @@ public class Freemarker {
 			out.close();
 		} catch (TemplateException e) {
 			LogUtils.printException(e);
+            throw new Exception("模板渲染异常: " + e.getMessage(), e);
 		} catch (IOException e) {
 			LogUtils.printException(e);
+            throw new Exception("文件输出异常: " + e.getMessage(), e);
 		}
 	}
 	
@@ -67,17 +77,64 @@ public class Freemarker {
      * @return Template 模板
 	 */
 	public static Template getTemplate(String ftlPath, String ftlName) throws Exception{
-		try {
-			//通过Freemaker的Configuration读取相应的ftl
-			Configuration cfg = new Configuration(Configuration.VERSION_2_3_0);
-			cfg.setEncoding(Locale.CHINA, "utf-8");
-			//设定去哪里读取相应的ftl模板文件
-			cfg.setClassLoaderForTemplateLoading(Freemarker.class.getClassLoader(), ftlPath);
-			//在模板文件目录中找到名称为name的文件
-            return cfg.getTemplate(ftlName);
+        // 构建缓存key
+        String cacheKey = ftlPath + "/" + ftlName;
+        
+        // 检查缓存中是否已存在该模板
+        if (TEMPLATE_CACHE.containsKey(cacheKey)) {
+            return TEMPLATE_CACHE.get(cacheKey);
+        }
+        
+        try {
+            Configuration cfg = getConfiguration(ftlPath);
+            
+            // 加载模板
+            Template template = cfg.getTemplate(ftlName);
+            
+            // 缓存模板
+            TEMPLATE_CACHE.put(cacheKey, template);
+            
+            return template;
 		} catch (IOException e) {
 			LogUtils.printException(e);
+            throw new Exception("加载模板失败: " + ftlPath + "/" + ftlName + ", 异常: " + e.getMessage(), e);
 		}
-		return null;
 	}
+    
+    /**
+     * 获取Freemarker配置，使用缓存避免重复创建
+     * @param ftlPath 模板路径
+     * @return Configuration实例
+     */
+    private static Configuration getConfiguration(String ftlPath) {
+        // 检查配置缓存
+        if (CONFIG_CACHE.containsKey(ftlPath)) {
+            return CONFIG_CACHE.get(ftlPath);
+        }
+        
+        // 创建新的配置
+        Configuration cfg = new Configuration(Configuration.VERSION_2_3_30); // 更新到较新的版本
+        cfg.setEncoding(Locale.CHINA, "utf-8");
+        cfg.setTemplateLoader(new ClassTemplateLoader(Freemarker.class.getClassLoader(), ftlPath));
+        
+        // 配置模板异常处理
+        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+        
+        // 配置模板缓存
+        cfg.setCacheStorage(new freemarker.cache.MruCacheStorage(20, 250));
+        cfg.setTemplateUpdateDelayMilliseconds(3600000); // 1小时的缓存时间
+        
+        // 缓存配置
+        CONFIG_CACHE.put(ftlPath, cfg);
+        
+        return cfg;
+    }
+    
+    /**
+     * 清理模板缓存，用于开发调试
+     */
+    public static void clearCache() {
+        TEMPLATE_CACHE.clear();
+        CONFIG_CACHE.clear();
+    }
 }
