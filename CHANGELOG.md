@@ -1,10 +1,10 @@
 # CHANGELOG
 ## 1.6.0
+- 修改项目为多模块项目
 - 支持在模板中直接获取配置文件的配置 #{context.自定义属性名}
 - 集成 slf4j 打印日志
-- 修改项目为多模块项目
 - 升级 freemarker 到 2.3.31
-- 发布 spring-boot starter 版本
+- 增加 spring-boot starter 版本
 - spring-boot starter 版本支持 yaml 配置
 
 ## v1.5.1

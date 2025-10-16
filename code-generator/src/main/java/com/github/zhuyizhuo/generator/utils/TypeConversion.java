@@ -5,6 +5,7 @@ import org.apache.ibatis.type.JdbcType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -196,10 +197,10 @@ public class TypeConversion {
         setDBDataType2JavaClass("BINARY_DOUBLE",Double.class);
         
         // 日期时间类型
-        setDBDataType2JavaClass("DATE",  LocalDateTime.class);
-        setDBDataType2JavaClass("TIME", LocalDateTime.class);
-        setDBDataType2JavaClass("DATETIME", LocalDateTime.class);
-        setDBDataType2JavaClass("YEAR", LocalDateTime.class);
+        setDBDataType2JavaClass("DATE",  Date.class);
+        setDBDataType2JavaClass("TIME", Date.class);
+        setDBDataType2JavaClass("DATETIME", Date.class);
+        setDBDataType2JavaClass("YEAR", Date.class);
         setDBDataType2JavaClass("TIMESTAMP", LocalDateTime.class);
         setDBDataType2JavaClass("TIMESTAMP(6)", LocalDateTime.class);
         setDBDataType2JavaClass("TIMESTAMP WITH TIME ZONE",LocalDateTime.class);
