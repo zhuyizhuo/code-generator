@@ -69,62 +69,154 @@ public class TypeConversion {
         addParameterType("Boolean","boolean");
         addParameterType("Date","date");
         addParameterType("BigDecimal","bigdecimal");
+        
+        /** 日期时间类型 */
+        addParameterType("LocalDateTime","localDateTime");
+        addParameterType("LocalDate","localDate");
+        addParameterType("LocalTime","localTime");
+        addParameterType("ZonedDateTime","zonedDateTime");
+        addParameterType("OffsetDateTime","offsetDateTime");
+        
+        /** 其他常用类型 */
+        addParameterType("BigInteger","bigInteger");
+        addParameterType("Character","char");
+        addParameterType("char","_char");
+        addParameterType("byte[]","byte[]");
+        addParameterType("Object","object");
     }
 
     private static void initType2JdbcTypeMap() {
+        // 整数类型
         addType2JdbcType("INT", JdbcType.INTEGER);
-        addType2JdbcType("NUMBER", JdbcType.NUMERIC);
+        addType2JdbcType("INTEGER", JdbcType.INTEGER);
         addType2JdbcType("BIT", JdbcType.NUMERIC);
-        addType2JdbcType("TIMESTAMP(6)", JdbcType.TIMESTAMP);
-        addType2JdbcType("TIMESTAMP", JdbcType.TIMESTAMP);
-        addType2JdbcType("DATETIME", JdbcType.TIMESTAMP);
-        addType2JdbcType("VARCHAR", JdbcType.VARCHAR);
-        addType2JdbcType("VARCHAR2", JdbcType.VARCHAR);
-        addType2JdbcType("NVARCHAR2", JdbcType.NVARCHAR);
-        addType2JdbcType("DATE", JdbcType.TIMESTAMP);
+        addType2JdbcType("TINYINT", JdbcType.TINYINT);
+        addType2JdbcType("SMALLINT", JdbcType.SMALLINT);
+        addType2JdbcType("MEDIUMINT", JdbcType.INTEGER);
+        addType2JdbcType("BIGINT", JdbcType.BIGINT);
+        addType2JdbcType("LONG", JdbcType.BIGINT);
+        
+        // 小数类型
+        addType2JdbcType("NUMBER", JdbcType.NUMERIC);
         addType2JdbcType("DECIMAL", JdbcType.DECIMAL);
         addType2JdbcType("DOUBLE", JdbcType.DOUBLE);
         addType2JdbcType("FLOAT", JdbcType.FLOAT);
-        addType2JdbcType("BIGINT", JdbcType.BIGINT);
-        addType2JdbcType("SMALLINT", JdbcType.SMALLINT);
-        addType2JdbcType("TINYINT", JdbcType.TINYINT);
         addType2JdbcType("NUMERIC", JdbcType.NUMERIC);
+        addType2JdbcType("BINARY_FLOAT", JdbcType.FLOAT);
+        addType2JdbcType("BINARY_DOUBLE", JdbcType.DOUBLE);
+        
+        // 日期时间类型
+        addType2JdbcType("TIMESTAMP(6)", JdbcType.TIMESTAMP);
+        addType2JdbcType("TIMESTAMP", JdbcType.TIMESTAMP);
+        addType2JdbcType("TIMESTAMP WITH TIME ZONE", JdbcType.TIMESTAMP_WITH_TIMEZONE);
+        addType2JdbcType("TIMESTAMP WITH LOCAL TIME ZONE", JdbcType.TIMESTAMP_WITH_TIMEZONE);
+        addType2JdbcType("DATETIME", JdbcType.TIMESTAMP);
+        addType2JdbcType("DATE", JdbcType.TIMESTAMP);
+        addType2JdbcType("TIME", JdbcType.TIME);
+        addType2JdbcType("YEAR", JdbcType.INTEGER);
+        addType2JdbcType("INTERVAL YEAR TO MONTH", JdbcType.VARCHAR);
+        addType2JdbcType("INTERVAL DAY TO SECOND", JdbcType.VARCHAR);
+        
+        // 字符串类型
+        addType2JdbcType("VARCHAR", JdbcType.VARCHAR);
+        addType2JdbcType("VARCHAR2", JdbcType.VARCHAR);
+        addType2JdbcType("NVARCHAR2", JdbcType.NVARCHAR);
+        addType2JdbcType("CHAR", JdbcType.CHAR);
+        addType2JdbcType("NCHAR", JdbcType.NCHAR);
+        
+        // 文本类型
         addType2JdbcType("TEXT", JdbcType.VARCHAR);
+        addType2JdbcType("LONGTEXT", JdbcType.LONGVARCHAR);
+        addType2JdbcType("MEDIUMTEXT", JdbcType.LONGVARCHAR);
+        addType2JdbcType("TINYTEXT", JdbcType.VARCHAR);
         addType2JdbcType("NCLOB", JdbcType.NCLOB);
         addType2JdbcType("CLOB", JdbcType.CLOB);
+        addType2JdbcType("LONG", JdbcType.LONGVARCHAR);
+        
+        // 二进制类型
         addType2JdbcType("BLOB", JdbcType.BLOB);
+        addType2JdbcType("LONGBLOB", JdbcType.LONGVARBINARY);
+        addType2JdbcType("MEDIUMBLOB", JdbcType.LONGVARBINARY);
+        addType2JdbcType("TINYBLOB", JdbcType.BLOB);
+        addType2JdbcType("BINARY", JdbcType.BINARY);
+        addType2JdbcType("VARBINARY", JdbcType.VARBINARY);
+        
+        // 其他类型
+        addType2JdbcType("ENUM", JdbcType.VARCHAR);
+        addType2JdbcType("SET", JdbcType.VARCHAR);
+        addType2JdbcType("JSON", JdbcType.VARCHAR);
+        addType2JdbcType("GEOMETRY", JdbcType.VARCHAR);
+        addType2JdbcType("POINT", JdbcType.VARCHAR);
+        addType2JdbcType("LINESTRING", JdbcType.VARCHAR);
+        addType2JdbcType("POLYGON", JdbcType.VARCHAR);
+        addType2JdbcType("ROWID", JdbcType.VARCHAR);
+        addType2JdbcType("UROWID", JdbcType.VARCHAR);
      }
 
     private static void initDBDataType2JavaMap() {
+        // 基础字符串类型
         setDBDataType2JavaClass("CHAR",String.class);
-        setDBDataType2JavaClass("NUMBER",Integer.class);
-        setDBDataType2JavaClass("LONG",Long.class);
+        setDBDataType2JavaClass("VARCHAR",String.class);
         setDBDataType2JavaClass("VARCHAR2",String.class);
         setDBDataType2JavaClass("NVARCHAR2",String.class);
-        setDBDataType2JavaClass("CLOB",String.class);
-        setDBDataType2JavaClass("NCLOB",String.class);
-        setDBDataType2JavaClass("BLOB",String.class);
-        setDBDataType2JavaClass("INT",Integer.class);
-        setDBDataType2JavaClass("VARCHAR",String.class);
+        
+        // 文本类型
         setDBDataType2JavaClass("TEXT",String.class);
         setDBDataType2JavaClass("LONGTEXT",String.class);
-        setDBDataType2JavaClass("LONGBLOB",String.class);
-        setDBDataType2JavaClass("TINYBLOB",String.class);
+        setDBDataType2JavaClass("MEDIUMTEXT",String.class);
         setDBDataType2JavaClass("TINYTEXT",String.class);
+        setDBDataType2JavaClass("CLOB",String.class);
+        setDBDataType2JavaClass("NCLOB",String.class);
+        
+        // 二进制类型
+        setDBDataType2JavaClass("BLOB",String.class);
+        setDBDataType2JavaClass("LONGBLOB",String.class);
+        setDBDataType2JavaClass("MEDIUMBLOB",String.class);
+        setDBDataType2JavaClass("TINYBLOB",String.class);
+        setDBDataType2JavaClass("BINARY",String.class);
+        setDBDataType2JavaClass("VARBINARY",String.class);
+        
+        // 整数类型
+        setDBDataType2JavaClass("INT",Integer.class);
+        setDBDataType2JavaClass("INTEGER",Integer.class);
+        setDBDataType2JavaClass("NUMBER",Integer.class);
         setDBDataType2JavaClass("BIT",Integer.class);
         setDBDataType2JavaClass("TINYINT",Integer.class);
+        setDBDataType2JavaClass("SMALLINT",Integer.class);
+        setDBDataType2JavaClass("MEDIUMINT",Integer.class);
         setDBDataType2JavaClass("BIGINT",Long.class);
+        setDBDataType2JavaClass("LONG",Long.class);
+        
+        // 小数类型
         setDBDataType2JavaClass("DECIMAL", BigDecimal.class);
         setDBDataType2JavaClass("FLOAT", BigDecimal.class);
         setDBDataType2JavaClass("DOUBLE", BigDecimal.class);
+        setDBDataType2JavaClass("NUMERIC",BigDecimal.class);
+        setDBDataType2JavaClass("BINARY_FLOAT",Float.class);
+        setDBDataType2JavaClass("BINARY_DOUBLE",Double.class);
+        
+        // 日期时间类型
         setDBDataType2JavaClass("DATE",  LocalDateTime.class);
         setDBDataType2JavaClass("TIME", LocalDateTime.class);
         setDBDataType2JavaClass("DATETIME", LocalDateTime.class);
         setDBDataType2JavaClass("YEAR", LocalDateTime.class);
-        setDBDataType2JavaClass("FLOAT", BigDecimal.class);
         setDBDataType2JavaClass("TIMESTAMP", LocalDateTime.class);
         setDBDataType2JavaClass("TIMESTAMP(6)", LocalDateTime.class);
-
+        setDBDataType2JavaClass("TIMESTAMP WITH TIME ZONE",LocalDateTime.class);
+        setDBDataType2JavaClass("TIMESTAMP WITH LOCAL TIME ZONE",LocalDateTime.class);
+        setDBDataType2JavaClass("INTERVAL YEAR TO MONTH",String.class);
+        setDBDataType2JavaClass("INTERVAL DAY TO SECOND",String.class);
+        
+        // 其他类型
+        setDBDataType2JavaClass("ENUM",String.class);
+        setDBDataType2JavaClass("SET",String.class);
+        setDBDataType2JavaClass("JSON",String.class);
+        setDBDataType2JavaClass("GEOMETRY",String.class);
+        setDBDataType2JavaClass("POINT",String.class);
+        setDBDataType2JavaClass("LINESTRING",String.class);
+        setDBDataType2JavaClass("POLYGON",String.class);
+        setDBDataType2JavaClass("ROWID",String.class);
+        setDBDataType2JavaClass("UROWID",String.class);
     }
 
     /**
